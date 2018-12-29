@@ -1,0 +1,16 @@
+<settings>
+  <category label="Account">
+    <!--<setting type="lsep" label="Account Login"/>-->
+    <setting id="username" type="text" label="Username/Email" default=""/>
+    <setting id="password" type="text" label="Password" default="" option="hidden"/>
+  </category>
+  <category label="Settings">
+    <setting id="skin" label="Skin" type="select" source="/resources/skins/" mask="/" default="unset"/>
+    <setting id="showchannelname" type="bool" label="Display Channel Name(s)" visible="true" default="true"/>
+    <setting id="parentalock" type="bool" label="Enable Parental-Lock" default="true" visible="false"/>
+    <setting id="parentalcode" type="text" option="hidden" label="Parental Code" default="1234" visible="false"/>
+    <setting id="enablecatchup" type="text" label="Enable CatchupTV" default="unset" visible="false"/>
+    <setting label="Set Parental Code (Default: 1234)" type="action" action="RunScript($CWD/kappa.py)" visible='eq(-2,true)'/>
+    <setting label="Hit Defaults if you forgot Parental Code" type="lsep" visible='eq(-3,true)'/>
+  </category>
+</settings>

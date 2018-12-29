@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<strings>
+  <string id="30000">Flawless</string>
+
+  <string id="30001">General</string>
+  <string id="30002">Please verify your Flawless user credentials</string>
+  <string id="30003">Click to enter your user credentials</string>
+  <string id="30004">All</string>
+  <string id="30005">Search Channels</string>
+  <string id="30006">Search On Demand</string>
+  <string id="30007">Update Coming Soon</string>
+  <string id="30008">Nothing was found matching[CR]%s[CR]Please try a different search</string>
+  <string id="30009">Folder contains no items</string>
+  <string id="30010">Invalid Catchup category</string>
+  <string id="30011">Search %s</string>
+  <string id="30012">Search</string>
+  <string id="30013">Performs a keyword search for channel titles, program titles and program synopses</string>
+  <string id="30014">Performs a keyword search for titles, synopses, genres and cast members</string>
+  <string id="30015">Performs a keyword search in %s for program titles, program synopses and broadcast date</string>
+  <string id="30016">No listings found</string>
+  <string id="30017">Check out the Live NBA Section for all games</string>
+  <string id="30018">%s vs %s</string>
+  <string id="30019">Ookla Speedtest</string>
+  <string id="30020">Fast.com Speedtest by Netflix</string>
+  <string id="30021">Do you also want to download[CR]%s</string>
+  <string id="30022">Do you also want to play[CR]%s</string>
+  <string id="30023">Please set the download location</string>
+  <string id="30024">Unable to download[CR]%s</string>
+  <string id="30025">Failed to play[CR]%s</string>
+  <string id="30026">Delete file</string>
+  <string id="30027">Are you sure you want to delete?</string>
+  <string id="30028">Are you sure you want to setup the IPTV simple PVR?</string>
+  <string id="30029">Are you sure you want to disable the IPTV simple PVR?</string>
+  <string id="30030">Season %d</string>
+  <string id="30031">Specials</string>
+  <string id="30032">Today</string>
+  <string id="30033">Yesterday</string>
+  <string id="30034">Please set the number of latest releases to display</string>
+  <string id="30035">These can be found in your client area by clicking on My[CR]Services, then pick your active sub and click on IPTV Details</string>
+  <string id="30036">Add to favourites</string>
+  <string id="30037">Remove from favourites</string>
+  <string id="30038">Please set the Flawless visual theme</string>
+
+  <!-- Main page -->  
+  <string id="31001">Account Information</string>
+  <string id="31002">FlawlessTV</string>
+  <string id="31003">On Demand Movies</string>
+  <string id="31004">Flawless CatchUp</string>
+  <string id="31005">Football Schedule</string>
+  <string id="31006">UK Sport Listings</string>
+  <string id="31007">Settings</string>
+  <string id="31008">Run Speedtest</string>
+  <string id="31009">Setup IPTV Simple PVR</string>
+  <string id="31010">Launch PVR</string>
+  <string id="31011">Disable PVR</string>
+  <string id="31012">Integrate On-Tapp.TV</string>
+  <string id="31013">On Demand Shows</string>
+  <string id="31014">Latest Releases</string>
+  <string id="31015">Downloads</string>
+  <string id="31016">On Demand Boxsets</string>
+
+  <string id="32001">Refresh FlawlessTV Account Information</string>
+  <string id="32002">Access FlawlessTV Live Streams</string>
+  <string id="32003">Access FlawlessTV On Demand Movies</string>
+  <string id="32004">Access FlawlessTV Catchup Media</string>
+  <string id="32005">View FlawlessTV Football Schedues</string>
+  <string id="32006">View FlawlessTV UK Sport Listings</string>
+  <string id="32007">Configure FlawlessTV Settings</string>
+  <string id="32008">Perform an Internet Speedtest</string>
+  <string id="32009">Configure IPTV PVR </string>
+  <string id="32010">Launch Simple PVR</string>
+  <string id="32011">Disable Simple PVR</string>
+  <string id="32012">Run On-Tapp.TV EPG Integration</string>
+  <string id="32013">Access FlawlessTV On Demand TV Shows</string>
+  <string id="32014">View Latest Releases</string>
+  <string id="32015">View Downloads</string>
+
+  <!-- Live TV -->
+  <string id="32101">[B]CHANNEL[/B]</string>
+  <string id="32102">[B]NOW PLAYING[/B]</string>
+  <string id="32103">[B]NEXT[/B]</string>
+
+  <!-- Settings -->
+  <string id="33001">Username</string>
+  <string id="33002">Password</string>
+  <string id="33003">Theme</string>
+  <string id="33004">Number of Latest Releases to Display</string>
+  <string id="33005">Action on VOD Play</string>
+  <string id="33006">Action on VOD Download</string>
+  <string id="33007">Download Location</string>
+
+  <string id="33501">Play Only</string>
+  <string id="33502">Play and Download</string>
+  <string id="33503">Play and Ask</string>
+  <string id="33504">Download Only</string>
+  <string id="33505">Download and Ask</string>
+  <string id="33506">4</string>
+  <string id="33507">8</string>
+  <string id="33508">12</string>
+  <string id="33509">16</string>
+  <string id="33510">20</string>
+  <string id="33511">24</string>
+  <string id="33512">28</string>
+  <string id="33513">32</string>
+  <string id="33514">36</string>
+  <string id="33515">40</string>
+  <string id="33516">0</string>
+
+   <!-- PVR -->
+  <string id="34001">This process will not run as your account has expired</string>
+  <string id="34002">Please check your account information</string>
+  <string id="34003">RAM: %s</string>
+  <string id="34004">Low Power Device</string>
+  <string id="34005">Your device has been detected as a low end device</string>
+  <string id="34006">We recommend avoiding PVR usage for this reason</string>
+  <string id="34007">We cannnot support low end devices for PVR</string>
+  <string id="34008">OK, Cancel this</string>
+  <string id="34009">I know, proceed</string>
+  <string id="34010">We've copied your logins to the PVR Guide</string>
+  <string id="34011"></string>
+  <string id="34012">You [B]MUST[/B] allow time to load the EPG to avoid issues.</string>
+  <string id="34013">PVR Guide is now disabled</string>
+  <string id="34014"></string>
+  <string id="34015">You may set this up again any time</string>
+
+  <!-- Status page -->
+  <string id="35001">User</string>
+  <string id="35002">Status</string>
+  <string id="35003">Expires</string>
+  <string id="35004">Max connections</string>
+  <string id="35005">Active connections</string>
+  <string id="35006">Never</string>
+
+  <!-- Global -->
+  <string id="36001"></string>
+
+  <string id="36002">Footer text - can also be changed progamatically</string>
+
+  <!-- Browse Dialog -->
+  <string id="37001">Play</string>
+  <string id="37002">Back</string>
+  <string id="37003">Trailer</string>
+  <string id="37004">Download</string>
+
+  <string id="37005">RELEASE DATE:</string>
+  <string id="37006">RATING:</string>
+  <string id="37007">DURATION:</string>
+  <string id="37008">GENRE:</string>
+  <string id="37009">DIRECTOR:</string>
+  <string id="37010">BIT RATE:</string>
+  <string id="37011">VIEWER RATING:</string>
+  <string id="37012">PLOT:</string>
+  <string id="37013">CAST:</string>
+  <string id="37014">h</string>
+  <string id="37015">m</string>
+
+</strings>

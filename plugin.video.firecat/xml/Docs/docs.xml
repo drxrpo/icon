@@ -1,0 +1,171 @@
+<dir>
+<title>[COLOR gold][B]9-11[/B][/COLOR]</title>
+<topdocs>tdcategory/911</topdocs>
+<thumbnail>special://home/addons/plugin.video.firecat/resources/media/icon.png</thumbnail>
+</dir>
+
+<dir>
+<title>[COLOR gold][B]Art and Artists[/B][/COLOR]</title>
+<topdocs>tdcategory/art-artists</topdocs>
+<thumbnail>special://home/addons/plugin.video.firecat/resources/media/icon.png</thumbnail>
+</dir>
+
+<dir>
+<title>[COLOR gold][B]Biography[/B][/COLOR]</title>
+<topdocs>tdcategory/biography</topdocs>
+<thumbnail>special://home/addons/plugin.video.firecat/resources/media/icon.png</thumbnail>
+</dir>
+
+<dir>
+<title>[COLOR gold][B]Comedy[/B][/COLOR]</title>
+<topdocs>tdcategory/comedy</topdocs>
+<thumbnail>special://home/addons/plugin.video.firecat/resources/media/icon.png</thumbnail>
+</dir>
+
+<dir>
+<title>[COLOR gold][B]Conspiracy[/B][/COLOR]</title>
+<topdocs>tdcategory/crime-conspiracy</topdocs>
+<thumbnail>special://home/addons/plugin.video.firecat/resources/media/icon.png</thumbnail>
+</dir>
+
+<dir>
+<title>[COLOR gold][B]Crime[/B][/COLOR]</title>
+<topdocs>tdcategory/crime</topdocs>
+<thumbnail>special://home/addons/plugin.video.firecat/resources/media/icon.png</thumbnail>
+</dir>
+
+<dir>
+<title>[COLOR gold][B]Drugs[/B][/COLOR]</title>
+<topdocs>tdcategory/drugs</topdocs>
+<thumbnail>special://home/addons/plugin.video.firecat/resources/media/icon.png</thumbnail>
+</dir>
+
+<dir>
+<title>[COLOR gold][B]Economics[/B][/COLOR]</title>
+<topdocs>tdcategory/economics</topdocs>
+<thumbnail>special://home/addons/plugin.video.firecat/resources/media/icon.png</thumbnail>
+</dir>
+
+<dir>
+<title>[COLOR gold][B]Environment[/B][/COLOR]</title>
+<topdocs>tdcategory/environment</topdocs>
+<thumbnail>special://home/addons/plugin.video.firecat/resources/media/icon.png</thumbnail>
+</dir>
+
+<dir>
+<title>[COLOR gold][B]Health[/B][/COLOR]</title>
+<topdocs>tdcategory/health</topdocs>
+<thumbnail>special://home/addons/plugin.video.firecat/resources/media/icon.png</thumbnail>
+</dir>
+
+<dir>
+<title>[COLOR gold][B]History[/B][/COLOR]</title>
+<topdocs>tdcategory/history</topdocs>
+<thumbnail>special://home/addons/plugin.video.firecat/resources/media/icon.png</thumbnail>
+</dir>
+
+<dir>
+<title>[COLOR gold][B]Media[/B][/COLOR]</title>
+<topdocs>tdcategory/media</topdocs>
+<thumbnail>special://home/addons/plugin.video.firecat/resources/media/icon.png</thumbnail>
+</dir>
+
+<dir>
+<title>[COLOR gold][B]Military and War[/B][/COLOR]</title>
+<topdocs>tdcategory/military-war</topdocs>
+<thumbnail>special://home/addons/plugin.video.firecat/resources/media/icon.png</thumbnail>
+</dir>
+
+<dir>
+<title>[COLOR gold][B]Mystery[/B][/COLOR]</title>
+<topdocs>tdcategory/mystery</topdocs>
+<thumbnail>special://home/addons/plugin.video.firecat/resources/media/icon.png</thumbnail>
+</dir>
+
+<dir>
+<title>[COLOR gold][B]Nature and Wildlife[/B][/COLOR]</title>
+<topdocs>tdcategory/nature-wildlife</topdocs>
+<thumbnail>special://home/addons/plugin.video.firecat/resources/media/icon.png</thumbnail>
+</dir>
+
+<dir>
+<title>[COLOR gold][B]Performing Arts[/B][/COLOR]</title>
+<topdocs>tdcategory/music-performing-arts</topdocs>
+<thumbnail>special://home/addons/plugin.video.firecat/resources/media/icon.png</thumbnail>
+</dir>
+
+<dir>
+<title>[COLOR gold][B]Philosophy[/B][/COLOR]</title>
+<topdocs>tdcategory/philosophy</topdocs>
+<thumbnail>special://home/addons/plugin.video.firecat/resources/media/icon.png</thumbnail>
+</dir>
+
+<dir>
+<title>[COLOR gold][B]Politics[/B][/COLOR]</title>
+<topdocs>tdcategory/politics</topdocs>
+<thumbnail>special://home/addons/plugin.video.firecat/resources/media/icon.png</thumbnail>
+</dir>
+
+<dir>
+<title>[COLOR gold][B]Psychology[/B][/COLOR]</title>
+<topdocs>tdcategory/psychology</topdocs>
+<thumbnail>special://home/addons/plugin.video.firecat/resources/media/icon.png</thumbnail>
+</dir>
+
+<dir>
+<title>[COLOR gold][B]Religion[/B][/COLOR]</title>
+<topdocs>tdcategory/religion</topdocs>
+<thumbnail>special://home/addons/plugin.video.firecat/resources/media/icon.png</thumbnail>
+</dir>
+
+<dir>
+<title>[COLOR gold][B]Science[/B][/COLOR]</title>
+<topdocs>tdcategory/science-technology</topdocs>
+<thumbnail>special://home/addons/plugin.video.firecat/resources/media/icon.png</thumbnail>
+</dir>
+
+<dir>
+<title>[COLOR gold][B]Sexuality[/B][/COLOR]</title>
+<topdocs>tdcategory/sex</topdocs>
+<thumbnail>special://home/addons/plugin.video.firecat/resources/media/icon.png</thumbnail>
+</dir>
+
+<dir>
+<title>[COLOR gold][B]Society[/B][/COLOR]</title>
+<topdocs>tdcategory/society</topdocs>
+<thumbnail>special://home/addons/plugin.video.firecat/resources/media/icon.png</thumbnail>
+</dir>
+
+<dir>
+<title>[COLOR gold][B]Sports[/B][/COLOR]</title>
+<topdocs>tdcategory/sports</topdocs>
+<thumbnail>special://home/addons/plugin.video.firecat/resources/media/icon.png</thumbnail>
+</dir>
+
+<dir>
+<title>[COLOR gold][B]Technology[/B][/COLOR]</title>
+<topdocs>tdcategory/technology</topdocs>
+<thumbnail>special://home/addons/plugin.video.firecat/resources/media/icon.png</thumbnail>
+</dir>
+		
+<item>
+<title>[COLOR gold][B]Authorize Trakt[/B][/COLOR]</title>
+<trakt>https://api.trakt.tv/sync/collection/shows</trakt>
+<summary>Authorize Trakt</summary>
+</item>
+
+<plugin>
+<name>[COLOR gold][B]AUTHORIZE REAL DEBRID [COLOR white][B](RESOLVE-URL)[/B][/COLOR]</name>
+<link>plugin://script.module.resolveurl/?mode=auth_rd</link>
+<thumbnail>special://home/addons/plugin.video.firecat/resources/media/icon.png</thumbnail>
+<fanart></fanart>
+<summary>AUTHORIZE REAL DEBRID (RESOLVE-URL)</summary>
+</plugin>
+
+<plugin>
+<name>[COLOR gold][B]AUTHORIZE REAL DEBRID [COLOR white][B](URLRESOLVER)[/B][/COLOR]</name>
+<link>plugin://script.module.urlresolver/?mode=auth_rd</link>
+<thumbnail>special://home/addons/plugin.video.firecat/resources/media/icon.png</thumbnail>
+<fanart></fanart>
+<summary>AUTHORIZE REAL DEBRID (URLRESOLVER)</summary>
+</plugin>

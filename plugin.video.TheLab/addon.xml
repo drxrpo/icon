@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<addon id="plugin.video.TheLab" version="1.2.1" name=" The Lab" provider-name="Lockdown">
+	<requires>
+		<import addon="xbmc.python" version="2.19.0" />
+		<import addon="script.TheLab.artwork" />
+		<import addon="script.TheLab.metadata" />
+                <import addon="script.module.resolveurl" version="5.0.06" />
+                <import addon="script.module.metahandler"/>
+                <import addon="script.module.requests"/>
+                <import addon="script.module.beautifulsoup"/>
+                <import addon="script.module.schism.common"/>
+                <import addon="script.module.futures"/>
+                <import addon="script.module.universalscrapers" />
+	</requires>
+	<extension point="xbmc.python.pluginsource" library="TheLab.py">
+		<provides>video</provides>
+	</extension>
+	<extension point="xbmc.service" library="service.py" start="startup" />
+	<extension point="xbmc.addon.metadata">
+		<summary lang="en">TheLab</summary>
+		<description lang="en">Its Alive</description>
+		<disclaimer lang="en">The author does not host or distribute any of the content displayed by this addon. The author does not have any affiliation with the content provider.</disclaimer>
+		<platform>all</platform>
+		<forum></forum>
+		<website></website>
+		<source></source>
+		<assets>
+			<icon>icon.png</icon>
+			<fanart>fanart.jpg</fanart>
+		</assets>
+		<news></news>
+	</extension>
+</addon>

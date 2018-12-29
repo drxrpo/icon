@@ -1,0 +1,153 @@
+<arrakis>
+    <mainmenu>
+        <dir>
+            <title>Messiah</title>
+            <meta>
+                <title>Messiah</title>
+                <summary>Discover what Arrakis (Dune) is about. From the original motion picture, to the story that lead to it, to Sy-Fy's take on the 2 prominent novels.</summary>
+            </meta>
+            <link>file://dune.xml</link>
+            <thumbnail>special://home/addons/plugin.video.arrakis/resources/media/messiah.png</thumbnail>
+        </dir>
+        
+        <dir>
+            <title>24/7 Movies and TV Shows</title>
+            <meta>
+                <title>24/7 Movies and TV Shows</title>
+                <summary>Find streams for Movies, TV Shows, and Channels that are, as the title suggests, 24/7</summary>
+            </meta>
+            <link>file://arconai.xml</link>
+            <thumbnail>special://home/addons/plugin.video.arrakis/resources/media/247.png</thumbnail>
+        </dir>
+
+        <dir>
+            <title>Arrakis TV</title>
+            <meta>
+                <title>Arrakis TV</title>
+                <summary>Live TV in standard and high definition</summary>
+            </meta>
+            <link>file://live/main.xml</link>
+            <thumbnail>special://home/addons/plugin.video.arrakis/resources/media/livetv.png</thumbnail>
+        </dir>
+
+        <dir>
+            <title>Movie Mania</title>
+            <meta>
+                <title>Movie Mania</title>
+                <summary>Themed movie and tv show sections that make use of the Universal Scrapers</summary>
+            </meta>
+            <link>file://moviemania/main.xml</link>
+            <thumbnail>special://home/addons/plugin.video.arrakis/resources/media/movies.png</thumbnail>
+        </dir>
+
+        <dir>
+            <title>Anime and Toons</title>
+            <meta>
+                <title>Anime and Toons</title>
+                <summary>One Click Play section for the Anime and Toon fix you need</summary>
+            </meta>
+            <link>file://anime.xml</link>
+            <thumbnail>special://home/addons/plugin.video.arrakis/resources/media/anime.png</thumbnail>
+        </dir>
+
+        <dir>
+            <title>Documented</title>
+            <meta>
+                <title>Documented</title>
+                <summary>Countless documentaries from multiple sources to keep you informed</summary>
+            </meta>
+            <link>file://documented/main.xml</link>
+            <thumbnail>special://home/addons/plugin.video.arrakis/resources/media/docu.png</thumbnail>
+        </dir>
+
+        <dir>
+            <title>Sports Hub</title>
+            <meta>
+                <title>Sports Hub</title>
+                <summary>Sports addons are always a work in progress, and this is no exception. Archives and Live Feeds will grow and improve over time</summary>
+            </meta>
+            <link>file://sports/main.xml</link>
+            <thumbnail>special://home/addons/plugin.video.arrakis/resources/media/sports.png</thumbnail>
+        </dir>
+
+        <dir>
+            <title>Kids Play Room</title>
+            <meta>
+                <title>Kids Play Room</title>
+                <summary>Curated content just for the kids. From Youtube, to One Click Play, to scraper sections, we aim to source what the young ones will enjoy</summary>
+            </meta>
+            <link>file://kids.xml</link>
+            <thumbnail>special://home/addons/plugin.video.arrakis/resources/media/kids.png</thumbnail>
+        </dir>
+
+        <dir>
+            <title>Live and Loud</title>
+            <meta>
+                <title>Live and Loud</title>
+                <summary>A massive collection of live concerts for bands from around the world</summary>
+            </meta>
+            <link>file://concerts.xml</link>
+            <thumbnail>special://home/addons/plugin.video.arrakis/resources/media/liveandloud.png</thumbnail>
+        </dir>
+
+        <dir>
+            <title>Loud and Proud</title>
+            <meta>
+                <title>Loud and Proud</title>
+                <summary>A massive collection of music that makes use of Universal Scrapers for the sources</summary>
+            </meta>
+            <link>file://musicwtf/main.xml</link>
+            <thumbnail>special://home/addons/plugin.video.arrakis/resources/media/loudandproud.png</thumbnail>
+        </dir>
+
+        <dir>
+            <title>The Spice Room</title>
+            <meta>
+                <title>The Spice Room</title>
+                <summary>This content is only for 18+, and as such is disabled by default. Once enabled, you will need the password to gain access</summary>
+            </meta>
+            <adult>QXJyYWtpUG9ybnxmaWxlOi8vYWR1bHQvbWFpbi54bWw=</adult>
+            <thumbnail>special://home/addons/plugin.video.arrakis/resources/media/spiceroom.png</thumbnail>
+        </dir>
+
+        <dir>
+            <title>Network Nation</title>
+            <meta>
+                <title>Network Nation</title>
+                <summary>Find your tv shows based on the network channel they air on</summary>
+            </meta>
+            <link>file://networks.xml</link>
+            <thumbnail>special://home/addons/plugin.video.arrakis/resources/media/networks.png</thumbnail>
+        </dir>
+
+        <dir>
+            <title>The Voices Within</title>
+            <meta>
+                <title>The Voices Within</title>
+                <summary>Did someone say Podcast?</summary>
+            </meta>
+            <link>file://podcasts/main.xml</link>
+            <thumbnail>special://home/addons/plugin.video.arrakis/resources/media/voices.png</thumbnail>
+        </dir>
+
+        <dir>
+            <title>To Be A Hero</title>
+            <meta>
+                <title>To Be A Hero</title>
+                <summary>Marvel and DC movies and tv shows supported by Universal Scrapers</summary>
+            </meta>
+            <link>file://dasupers.xml</link>
+            <thumbnail>special://home/addons/plugin.video.arrakis/resources/media/hero.png</thumbnail>
+        </dir>
+
+        <dir>
+            <title>Settings</title>
+            <meta>
+                <title>Settings</title>
+                <summary>Arrakis specific settings, scraper settings, pairing, and more</summary>
+            </meta>
+            <link>file://msettings.xml</link>
+            <thumbnail>special://home/addons/plugin.video.arrakis/resources/media/settings.png</thumbnail>
+        </dir>
+    </mainmenu>
+</arrakis>

@@ -1,0 +1,27 @@
+<?xml version="2.0" encoding="UTF-8" standalone="yes"?>
+<addon id="plugin.video.VADER" name="[COLOR red]Vader Streams[/COLOR]" version="4.8.007" provider-name="DarthVader">
+  <requires>
+    <import addon="xbmc.python" version="2.1.0"/>
+	<import addon="script.module.addon.common"/>
+    <import addon="script.module.pyxbmct"  />
+    <import addon="script.module.requests"/>
+    <import addon="script.module.dateutil"/>
+    <import addon="script.tvguide.Vader"/>
+
+  </requires>
+
+  <extension point="xbmc.python.pluginsource"
+            library="init.py">
+        <provides>video</provides>
+  </extension>
+
+  <extension point="xbmc.service" library="service.py" start="login"></extension>
+  <!--<extension point="xbmc.service" library="playMonitor.py" start="login"></extension>-->
+
+
+  <extension point="xbmc.addon.metadata">
+    <summary lang="en">[COLOR red]Vader-Streams[/COLOR]</summary>
+	<description lang="en">Get all your Live Sports n Live TV here</description>
+    <platform>all</platform>
+  </extension>
+</addon>

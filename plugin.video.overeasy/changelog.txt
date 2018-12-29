@@ -1,0 +1,18 @@
+[B]1.0.0[/B]
+- Initial version
+- All Artwork Changed
+- Scrapers Updated
+
+[B]1.0.1[/B]
+-2DDL Fixed so it doesnt show in free sources (Debrid Only)
+
+[B]1.0.2[/B]
+-Alluc Replaced with Pron (Not Porn)
+
+[B]1.0.2[/B]
+-Scrapers Updated
+-Missed Artwork Fix
+
+
+
+

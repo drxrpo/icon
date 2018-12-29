@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<addon id="script.module.sportscentre" 
+         name="StarTec Sports Center" 
+         version="1.0.1"
+         provider-name="Thunder/Echo">
+  <requires>
+    <import addon="xbmc.python" version="2.19.0"/>    
+	<import addon="script.module.httplib2" />
+    <import addon="script.module.simplejson" />
+    <import addon="script.module.liveresolver" version="0.1.50" />
+    <import addon="script.module.urlresolver" version="2.1.0" />
+    <import addon="script.module.startec" version="1.0.0"/>
+    <import addon="script.video.F4mProxy" version="2.8.7" />
+    <import addon="plugin.video.f4mTester" version="2.7.1"/>
+    <import addon="plugin.video.SportsDevil" version="" />
+    <import addon="program.plexus" version="0.1.7" />
+  </requires>
+  <extension point="xbmc.python.pluginsource" library="default.py">
+        <provides>all</provides>
+  </extension> 
+  <extension point="xbmc.addon.metadata">
+    <platform>all</platform>
+    <summary lang="en"></summary>
+    <description lang="en">StarTec Sports Centre is a multi scraping/playlist sports addon that scrapes numerous websites to bring you the most up to date streams every time! Thanks to Echo Coder for permission to use his code</description>
+    <disclaimer lang="en">RaDiX/Sports Zone does not host any of the streams provided within the addon.</disclaimer>
+    <language></language>
+    <platform>all</platform>
+    <license>GNU GENERAL PUBLIC LICENSE. Version 2, June 1991</license>
+    <assets>
+        <icon>icon.png</icon>
+        <fanart>fanart.jpg</fanart>
+    </assets>
+  </extension>
+</addon>

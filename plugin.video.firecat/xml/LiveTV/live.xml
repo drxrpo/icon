@@ -1,0 +1,40 @@
+<dir>
+<title>[COLOR gold][B]Sports Center[/B][/COLOR]</title>
+<sport_stream>games</sport_stream>
+<thumbnail>special://home/addons/plugin.video.firecat/resources/media/icon.png</thumbnail>
+</dir>
+
+<plugin>
+<title>[COLOR gold][B]Sports Channels[/B][/COLOR]</title>
+<link>plugin://script.module.dslive/list_channels/36</link>
+<thumbnail>special://home/addons/plugin.video.firecat/resources/media/icon.png</thumbnail>
+<fanart></fanart>
+</plugin>
+
+<plugin>
+<title>[COLOR gold][B]Uk Tv and Movie Channels[/B][/COLOR]</title>
+<link>plugin://script.module.dslive/list_channels/42</link>
+<thumbnail>special://home/addons/plugin.video.firecat/resources/media/icon.png</thumbnail>
+<fanart></fanart>
+</plugin>
+
+<plugin>
+<title>[COLOR gold][B]USA TV CHANNELS[/B][/COLOR]</title>
+<link>plugin://script.module.dslive/list_channels/41</link>
+<thumbnail>special://home/addons/plugin.video.firecat/resources/media/icon.png</thumbnail>
+<fanart></fanart>
+</plugin>
+
+<plugin>
+<title>[COLOR gold][B]Documentaries[/B][/COLOR]</title>
+<link>plugin://script.module.dslive/list_channels/39</link>
+<thumbnail>special://home/addons/plugin.video.firecat/resources/media/icon.png</thumbnail>
+<fanart></fanart>
+</plugin>
+
+<plugin>
+<title>[COLOR gold][B]Kids[/B][/COLOR]</title>
+<link>plugin://script.module.dslive/list_channels/38</link>
+<thumbnail>special://home/addons/plugin.video.firecat/resources/media/icon.png</thumbnail>
+<fanart></fanart>
+</plugin>

@@ -1,0 +1,31 @@
+<xml>
+  <dir>
+    <title>Movies</title>
+    <link>http://www.onealliancereborn.com/winchesterhilts/tge/movies.xml</link>
+  </dir>
+
+  <dir>
+    <title>TV</title>
+    <link>http://www.onealliancereborn.com/winchesterhilts/tge/tv.xml</link>
+  </dir>
+
+  <dir>
+    <title>Music</title>
+    <link>http://www.onealliancereborn.com/winchesterhilts/tge/music.xml</link>
+  </dir>
+
+  <dir>
+    <title>Podcasts</title>
+    <link>http://www.onealliancereborn.com/winchesterhilts/tge/podcasts.xml</link>
+  </dir>
+
+  <dir>
+    <title>Anime</title>
+    <link>http://www.onealliancereborn.com/winchesterhilts/tge/anime.xml</link>
+  </dir>
+
+  <dir>
+      <title>Search</title>
+      <tmdb>search</tmdb>
+  </dir>
+</xml>

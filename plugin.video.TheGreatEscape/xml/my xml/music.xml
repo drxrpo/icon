@@ -1,0 +1,46 @@
+    <dir>
+  		<title>Artist Chart</title>
+  		<lastfm>chart/artists</lastfm>
+	</dir>
+
+	<dir>
+  		<title>Track Chart</title>
+  		<lastfm>chart/tracks</lastfm>
+	</dir>
+
+	<dir>
+  		<title>Tag Chart</title>
+  		<lastfm>chart/tags</lastfm>
+	</dir>
+
+    <dir>
+    	<title>Search Artist</title>
+    	<lastfm>search/artist</lastfm>
+    </dir>
+
+    <dir>
+    	<title>Search Album</title>
+    	<lastfm>search/album</lastfm>
+    </dir>
+
+    <plugin>
+		<title> Music Channels</title>
+		<link>plugin://script.module.uktvnow/list_channels/3</link>
+		<thumbnail></thumbnail>
+		<fanart></fanart>
+	</plugin>
+
+	<item>
+  		<title>Artists by Genre</title>
+  		<link>http://www.onealliancereborn.com/winchesterhilts/tge/musicgenre_artists.xml</link>
+	</item>
+
+	<item>
+  		<title>Albums by Genre</title>
+  		<link>http://www.onealliancereborn.com/winchesterhilts/tge/musicgenre_albums.xml</link>
+	</item>
+
+	<item>
+  		<title>Tracks by Genre</title>
+  		<link>http://www.onealliancereborn.com/winchesterhilts/tge/musicgenre_tracks.xml</link>
+	</item>

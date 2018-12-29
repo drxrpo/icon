@@ -1,0 +1,33 @@
+<arrakis>
+    <247>
+        <dir>
+            <title>24/7 Movies</title>
+            <meta>
+                <title>24/7 Movies</title>
+                <summary>24/7 Movies Streams</summary>
+            </meta>
+            <arconaitv2>movies</arconaitv2>
+            <thumbnail>special://home/addons/plugin.video.arrakis/resources/media/247.png</thumbnail>
+        </dir>
+
+        <dir>
+            <title>24/7 TV Shows</title>
+            <meta>
+                <title>24/7 TV Shows</title>
+                <summary>24/7 TV Shows Streams</summary>
+            </meta>
+            <arconaitv2>shows</arconaitv2>
+            <thumbnail>special://home/addons/plugin.video.arrakis/resources/media/247.png</thumbnail>
+        </dir>
+
+        <dir>
+            <title>24/7 Channels</title>
+            <meta>
+                <title>24/7 Channels</title>
+                <summary>24/7 Channels Streams</summary>
+            </meta>
+            <arconaitv2>cable</arconaitv2>
+            <thumbnail>special://home/addons/plugin.video.arrakis/resources/media/247.png</thumbnail>
+        </dir>
+    </247>
+</arrakis>

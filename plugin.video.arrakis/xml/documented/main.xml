@@ -1,0 +1,33 @@
+<arrakis>
+    <docmain>
+        <dir>
+            <title>Documentary Heaven</title>
+            <meta>
+                <title>Documentary Heaven</title>
+                <summary>One Click Play section from Documentary Heaven</summary>
+            </meta>
+            <link>file://documented/docuheaven.xml</link>
+            <thumbnail>special://home/addons/plugin.video.arrakis/resources/media/docs/dheaven.png</thumbnail>
+        </dir>
+
+        <dir>
+            <title>Documentary Storm</title>
+            <meta>
+                <title>Documentary Storm</title>
+                <summary>One Click Play section from Documentary Storm</summary>
+            </meta>
+            <link>file://documented/docustorm.xml</link>
+            <thumbnail>special://home/addons/plugin.video.arrakis/resources/media/docs/dstorm.png</thumbnail>
+        </dir>
+
+        <dir>
+            <title>Top Documentaries</title>
+            <meta>
+                <title>Top Documentaries</title>
+                <summary>One Click Play section from Top Documentary Films</summary>
+            </meta>
+            <link>file://documented/topdocs.xml</link>
+            <thumbnail>special://home/addons/plugin.video.arrakis/resources/media/docs/tdf.png</thumbnail>
+        </dir>
+    </docmain>
+</arrakis>

@@ -1,0 +1,62 @@
+<dir>
+  <title>Popular</title>
+  <tmdb>movies/popular</tmdb>
+</dir>
+
+<dir>
+  <title>Now Playing</title>
+  <tmdb>movies/now_playing</tmdb>
+</dir>
+
+<dir>
+  <title>Top Rated</title>
+  <tmdb>movies/top_rated</tmdb>
+</dir>
+ 
+<dir>
+  <title>Movie Genres</title>
+  <link>http://www.onealliancereborn.com/winchesterhilts/tge/genre_movies.xml</link>
+</dir>
+
+<dir>
+  <title>Movie Boxsets and Collections</title>
+  <link>http://www.onealliancereborn.com/winchesterhilts/tge/movie_boxsets.xml</link>
+</dir>
+
+<dir>
+  <title>24/7 Movies</title>
+  <arconaitv2>movies</arconaitv2>
+</dir>
+
+<plugin>
+<title>Movie Channels</title>
+<link>plugin://script.module.livenettv.net/list_channels/9</link>
+<thumbnail></thumbnail>
+<fanart></fanart>
+</plugin>
+
+<dir>
+  <title>Movies by Year</title>
+  <link>http://www.onealliancereborn.com/winchesterhilts/tge/movie-years.xml</link>
+</dir>
+
+<dir>
+  <title>Kids Movies</title>
+  <link>http://www.onealliancereborn.com/winchesterhilts/tge/kids_movie_main.xml</link>
+</dir>
+
+
+<dir>
+  <title>One Click Movies</title>
+  <link>http://www.onealliancereborn.com/winchesterhilts/tge/oneclickmovies.xml</link>
+</dir>
+
+<dir>
+  <title>User Requests</title>
+  <link>http://www.onealliancereborn.com/winchesterhilts/tge/user%20requests.xml</link>
+</dir>
+
+<dir>
+  <title>Search</title>
+  <tmdb>search</tmdb>
+</dir>

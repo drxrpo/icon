@@ -1,0 +1,52 @@
+V3.0
+Changed to Illuminati Repo
+
+v2.8
+Updated to use resolveurl
+
+v2.8
+New Home - Supremacy Repo - Changed Icon & Fanart
+
+v2.7 -
+Moving to a new home
+
+v2.5 -
+Pop Up added for communication with users
+
+v2.4 -
+Server Change
+
+v2.3 -
+Home to Ares
+
+V2.2 -
+Moved News and Updates Section also YT Channel adding enabled
+
+V2.1 -
+Bugs and fixes
+
+V2.0 -
+Image changes
+
+V1.9 -
+Made a tva mistake
+
+V1.8 -
+Fixes
+
+v1.6 - 
+Bugs and Fixes
+
+v1.5 - 
+Changed Icon for News and Updates
+
+v1.4 -
+News and Updates added to addon rather than start up
+
+v1.3 - 
+Added:
+Search Function
+Information Notification Pop-up 
+
+v1.0 - 
+Initial Release

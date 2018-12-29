@@ -1,0 +1,64 @@
+<dir>
+  <title>Kids Movie Boxsets</title>
+  <link>http://www.onealliancereborn.com/winchesterhilts/tge/kids_boxset.xml</link>
+</dir>
+
+<dir>
+  <title>Kids Movies by Year</title>
+  <link>http://www.onealliancereborn.com/winchesterhilts/hl2/movie/movies%20by%20year.xml</link>
+</dir>
+
+<dir>
+  <title>Top 50 Kids Movies</title>
+  <tmdb>list/47634</tmdb>
+</dir>
+
+<dir>
+  <title>Big Movie List</title>
+  <tmdb>genre/movies/16</tmdb>
+</dir>
+
+<dir>
+  <title>Disney</title>
+  <tmdb>company/movies/3475</tmdb>
+</dir/>
+
+<dir>
+  <title>DreamWorks Animation</title>
+  <tmdb>company/movies/521</tmdb>
+</dir>
+
+<dir>
+  <title>Pixar Animation</title>
+  <tmdb>company/movies/3</tmdb>
+</dir>
+
+<dir>
+  <title>Universal Animation Studios</title>
+  <tmdb>company/movies/5556</tmdb>
+</dir>
+
+<dir>
+  <title>Universal Cartoon Studios</title>
+  <tmdb>company/movies/4285</tmdb>
+</dir>
+
+<dir>
+  <title>Walt Disney Animation Studios</title>
+  <tmdb>company/movies/6125</tmdb>
+</dir>
+
+<dir>
+  <title>Walt Disney Production</title>
+  <tmdb>company/movies/3166</tmdb>
+</dir>
+
+<dir>
+  <title>Warner Bros. Animation</title>
+  <tmdb>company/movies/2785</tmdb>
+</dir>
+
+<dir>
+  <title>Wallace & Gromit Movies</title>
+  <tmdb>list/50853</tmdb>
+</dir>

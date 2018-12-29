@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<addon id="script.TheLab.metadata" version="1.0.4" name="TheLab Metadata" provider-name="lockdown">
+	<requires>
+		<import addon="xbmc.python" version="2.19.0"/>
+	</requires>
+	<extension point="xbmc.python.module" library="lib" />
+	<extension point="xbmc.addon.metadata">
+		<summary>Metadata for the TheLab</summary>
+		<description>Metadata for TheLab</description>
+		<platform>all</platform>
+	</extension>
+</addon>

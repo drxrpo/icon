@@ -1,0 +1,97 @@
+<xml>
+
+<dir>
+<title>Sci-fi Movies</title>
+<tmdb>list/80859</tmdb>
+<summary>Sci-fi Movies</summary>
+</dir>
+
+<dir>
+<title>Sci-fi TV Shows</title>
+<tmdb>list/80860</tmdb>
+<summary>Sci-fi TV Shows</summary>
+</dir>
+
+<dir>
+<title>Star Wars Collection</title>
+<tmdb>list/80844</tmdb>
+<summary>Star Wars Collection</summary>
+</dir>
+
+<dir>
+<title>Star Trek Movie Collection</title>
+<tmdb>list/80862</tmdb>
+<summary>Star Trek Movie Collection</summary>
+</dir>
+
+<dir>
+<title>Star Trek Tv Collection</title>
+<tmdb>list/80929</tmdb>
+<summary>Star Trek Movie Collection</summary>
+</dir>
+
+<dir>
+<title>Marvel Movies</title>
+<tmdb>list/80846</tmdb>
+<summary>Marvel Movies</summary>
+</dir>
+
+<dir>
+<title>Marvel TV Shows</title>
+<tmdb>list/80861</tmdb>
+<summary>Marvel TV Shows</summary>
+</dir>
+
+<dir>
+<title>DC Movies</title>
+<tmdb>list/80863</tmdb>
+<summary>DC Movies</summary>
+</dir>
+
+<dir>
+<title>DC TV Shows</title>
+<tmdb>list/80866</tmdb>
+<summary>DC TV Shows</summary>
+</dir>
+
+<dir>
+<title>Animation</title>
+<tmdb>list/80867</tmdb>
+<summary>Animation</summary>
+</dir>
+
+<item>
+<title>pair with sites</title>
+<pairwith>pairlist</pairwith>
+</item>
+
+<plugin>
+<name>[COLOR white][B]AUTHORIZE REAL DEBRID [COLOR white][B](RESOLVE-URL)[/B][/COLOR]</name>
+<link>plugin://script.module.resolveurl/?mode=auth_rd</link>
+<thumbnail>special://home/addons/plugin.video.life/resources/media/icon.png</thumbnail>
+<fanart></fanart>
+<summary>AUTHORIZE REAL DEBRID (RESOLVE-URL)</summary>
+</plugin>
+
+<plugin>
+<name>[COLOR white][B]AUTHORIZE REAL DEBRID [COLOR white][B](URLRESOLVER)[/B][/COLOR]</name>
+<link>plugin://script.module.urlresolver/?mode=auth_rd</link>
+<thumbnail>special://home/addons/plugin.video.life/resources/media/icon.png</thumbnail>
+<fanart></fanart>
+<summary>AUTHORIZE REAL DEBRID (URLRESOLVER)</summary>
+</plugin>
+
+<dir>
+<title>Search</title>
+<tmdb>search</tmdb>
+<animated_thumbnail/>
+<thumbnail/>
+<animated_fanart/>
+<fanart/>
+</dir>
+
+<plugin>
+   <name>Settings</name>
+   <link>plugin://plugin.video.life/?action=openSettings</link>
+   <thumbnail></thumbnail>
+</plugin>

@@ -1,0 +1,93 @@
+<xml>
+
+<dir>
+<title>LOL Movies</title>
+<tmdb>list/79555</tmdb>
+<thumbnail>special://home/addons/plugin.video.lol/resources/media/icon.png</thumbnail>
+<summary>Comedy Movies</summary>
+</dir>
+
+<dir>
+<title>LOL TV Shows</title>
+<tmdb>list/79556</tmdb>
+<thumbnail>special://home/addons/plugin.video.lol/resources/media/icon.png</thumbnail>
+<summary>Comedy TV Shows</summary>
+</dir>
+
+<dir>
+<title>LOL Classic TV</title>
+<tmdb>list/79559</tmdb>
+<thumbnail>special://home/addons/plugin.video.lol/resources/media/icon.png</thumbnail>
+<summary>Classic TV</summary>
+</dir>
+
+<dir>
+<title>LOL Classic Movies</title>
+<tmdb>list/79633</tmdb>
+<thumbnail>special://home/addons/plugin.video.lol/resources/media/icon.png</thumbnail>
+<summary>Classic Movies</summary>
+</dir>
+
+<dir>
+<title>LOL Romantic Comedy</title>
+<tmdb>list/79789</tmdb>
+<thumbnail>special://home/addons/plugin.video.lol/resources/media/icon.png</thumbnail>
+<summary>Romantic Comedies</summary>
+</dir>
+
+<dir>
+<title>LOL Bloopers</title>
+<tmdb>list/79687</tmdb>
+<thumbnail>special://home/addons/plugin.video.lol/resources/media/icon.png</thumbnail>
+<summary>Comedy Bloopers</summary>
+</dir>
+
+<dir>
+<title>LOL Standup</title>
+<tmdb>list/79699</tmdb>
+<thumbnail>special://home/addons/plugin.video.lol/resources/media/icon.png</thumbnail>
+<summary>Comedy Standup</summary>
+</dir>
+
+<dir>
+<title>LOL Animation</title>
+<tmdb>list/79737</tmdb>
+<thumbnail>special://home/addons/plugin.video.lol/resources/media/icon.png</thumbnail>
+<summary>Comedy Animation</summary>
+</dir>
+
+<item>
+<title>[COLOR white][B]Pair With Sites[/B][/COLOR]</title>
+<pairwith>pairlist</pairwith>
+<thumbnail>special://home/addons/plugin.video.lol/resources/media/icon.png</thumbnail>
+<summary>Pair With Sites</summary>
+</item>
+
+<item>
+<title>[COLOR white][B]Authorize Trakt[/B][/COLOR]</title>
+<trakt>https://api.trakt.tv/sync/collection/shows</trakt>
+<thumbnail>special://home/addons/plugin.video.lol/resources/media/icon.png</thumbnail>
+<summary>Authorize Trakt</summary>
+</item>
+
+<plugin>
+<name>[COLOR white][B]AUTHORIZE REAL DEBRID [COLOR white][B](RESOLVE-URL)[/B][/COLOR]</name>
+<link>plugin://script.module.resolveurl/?mode=auth_rd</link>
+<thumbnail>special://home/addons/plugin.video.lol/resources/media/icon.png</thumbnail>
+<fanart>special://home/addons/plugin.video.lol/resources/media/fanart.jpg</fanart>
+<summary>AUTHORIZE REAL DEBRID (RESOLVE-URL)</summary>
+</plugin>
+
+<plugin>
+<name>[COLOR white][B]AUTHORIZE REAL DEBRID [COLOR white][B](URLRESOLVER)[/B][/COLOR]</name>
+<link>plugin://script.module.urlresolver/?mode=auth_rd</link>
+<thumbnail>special://home/addons/plugin.video.lol/resources/media/icon.png</thumbnail>
+<fanart></fanart>
+<summary>AUTHORIZE REAL DEBRID (URLRESOLVER)</summary>
+</plugin>
+
+<plugin>
+<name>[COLOR white][B]Settings[/B][/COLOR]</name>
+<link>plugin://plugin.video.lol/?action=openSettings</link>
+<thumbnail>special://home/addons/plugin.video.lol/resources/media/icon.png</thumbnail>
+</plugin>

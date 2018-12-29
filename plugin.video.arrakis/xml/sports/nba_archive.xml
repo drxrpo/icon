@@ -1,0 +1,13 @@
+<arrakis>
+    <sportsmain>
+        <dir>
+            <title>Full Archive</title>
+            <sportshub>sh_nba/6/1</sportshub>
+        </dir>
+
+        <dir>
+            <title>Playoffs Archive</title>
+            <sportshub>sh_nba/43/1</sportshub>
+        </dir>
+    </sportsmain>
+</arrakis>

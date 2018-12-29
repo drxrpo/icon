@@ -1,0 +1,65 @@
+<dir>
+    <title>50 Latest Releases</title>
+    <wctoon>topfifty/last-50-recent-release</wctoon>
+    <thumbnail>special://home/addons/plugin.video.squadcontrol/resources/media/top50.png</thumbnail>
+</dir>
+
+<dir>
+    <title>Today's Picks</title>
+    <wctoon>main/today</wctoon>
+    <thumbnail>special://home/addons/plugin.video.squadcontrol/resources/media/today.png</thumbnail>
+</dir>
+
+<dir>
+    <title>Most Popular</title>
+    <wctoon>main/popular</wctoon>
+    <thumbnail>special://home/addons/plugin.video.squadcontrol/resources/media/popular.png</thumbnail>
+</dir>
+
+<dir>
+    <title>Genres</title>
+    <wctoon>wcgenre/all</wctoon>
+    <thumbnail>special://home/addons/plugin.video.squadcontrol/resources/media/genres.png</thumbnail>
+</dir>
+
+<dir>
+    <title>Dubbed Anime</title>
+    <wctoon>category/dubbed-anime-list</wctoon>
+    <thumbnail>special://home/addons/plugin.video.squadcontrol/resources/media/dubbed.png</thumbnail>
+</dir>
+
+<dir>
+    <title>Subbed Anime</title>
+    <wctoon>category/subbed-anime-list</wctoon>
+    <thumbnail>special://home/addons/plugin.video.squadcontrol/resources/media/subbed.png</thumbnail>
+</dir>
+
+<dir>
+    <title>Cartoons</title>
+    <wctoon>category/cartoon-list</wctoon>
+    <thumbnail>special://home/addons/plugin.video.squadcontrol/resources/media/cartoons.png</thumbnail>
+</dir>
+
+<dir>
+    <title>Movies</title>
+    <wctoon>category/movie-list</wctoon>
+    <thumbnail>special://home/addons/plugin.video.squadcontrol/resources/media/movies.png</thumbnail>
+</dir>
+
+<dir>
+    <title>Ova Series</title>
+    <wctoon>category/ova-list</wctoon>
+    <thumbnail>special://home/addons/plugin.video.squadcontrol/resources/media/ova.png</thumbnail>
+</dir>
+
+<dir>
+    <title>Search</title>
+    <wctoon>wcsearch</wctoon>
+    <thumbnail>special://home/addons/plugin.video.squadcontrol/resources/media/search.png</thumbnail>
+</dir>
+
+<dir>
+    <title>Settings</title>
+    <link>file://msettings.xml</link>
+    <thumbnail>special://home/addons/plugin.video.squadcontrol/resources/media/settings.png</thumbnail>
+</dir>

@@ -1,0 +1,20 @@
+[B]1.0.1[/B]
+- Initial version
+
+[B]1.0.2[/B]
+- Updated Scrapers
+- Fixed 2DDL (Debrid Only) Appearing in Free Sources
+
+[B]1.0.3[/B]
+- Updated Scrapers
+
+[B]1.0.4[/B]
+- Fixed Networks in TV Shows
+
+[B]1.0.6[/B]
+- Fixed All Rls
+- Added 300mb Movies
+
+[B]1.0.6[/B]
+- Added BestRLS
+- Added Fixed TVRelease and Bob files - Thanks to the Scrapers Group

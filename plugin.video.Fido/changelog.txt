@@ -1,0 +1,15 @@
+V1.8
+New url resolver added
+V1.7
+Fix for 24/7 By Danny Perry
+V1.6
+New url resolver added
+V1.5
+Fix for 24/7 By Danny Perry
+V1.4
+Default.py fix for 24/7
+V1.2
+Encrytion code added by Sanctury
+V1.1
+Initial Release
+Added to new Repo Help from Oblivion  

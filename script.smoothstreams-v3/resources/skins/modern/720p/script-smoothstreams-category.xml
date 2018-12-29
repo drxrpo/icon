@@ -1,0 +1,738 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<window>
+	<defaultcontrol>100</defaultcontrol>
+	<coordinates>
+		<system>1</system>
+		<left>0</left>
+		<top>0</top>
+	</coordinates>
+	<controls>
+
+		<control type="group">
+			<animation type="WindowOpen" reversible="false">
+				<effect type="fade" start="0" end="100" time="250"/>
+			</animation>
+			<animation type="WindowClose" reversible="false">
+				<effect type="fade" start="100" end="0" time="250"/>
+			</animation>
+			<control type="videowindow">
+				<width>100%</width>
+				<height>100%</height>
+			</control>
+			<control type="image">
+				<width>100%</width>
+				<height>100%</height>
+				<texture>bg/overlay.png</texture>
+			</control>
+		</control>
+
+
+		<!-- ========= -->
+		<!-- Top Group -->
+		<!-- ========= -->
+		<control type="group">
+			<animation type="WindowOpen" reversible="false">
+				<effect type="slide" start="0,-35" end="0,0" time="300" tween="quadratic" easing="out"/>
+				<effect type="fade" start="0" end="100" time="250"/>
+			</animation>
+			<animation type="WindowClose" reversible="false">
+				<effect type="slide" start="0,0" end="0,-35" time="300" tween="quadratic" easing="out"/>
+				<effect type="fade" start="100" end="0" time="250"/>
+			</animation>
+			<control type="image">
+				<left>12</left>
+				<top>20</top>
+				<width>96</width>
+				<height>82</height>
+				<texture>$INFO[System.AddonIcon(script.smoothstreams-v3)]</texture>
+			</control>
+			<control type="label">
+				<left>105</left>
+				<top>44</top>
+				<width>620</width>
+				<height>50</height>
+				<font>font14</font>
+				<aligny>center</aligny>
+				<textcolor>FFF36523</textcolor>
+				<shadowcolor>77000000</shadowcolor>
+				<label>[B]$ADDON[script.smoothstreams-v3 32001][/B]</label>
+			</control>
+			<control type="label">
+				<left>20</left>
+				<top>44</top>
+				<width>1240</width>
+				<height>50</height>
+				<font>font14</font>
+				<align>right</align>
+				<aligny>center</aligny>
+				<textcolor>DDFFFFFF</textcolor>
+				<shadowcolor>77000000</shadowcolor>
+				<label>$INFO[System.Date(ddd),,$COMMA ]$INFO[System.Date(mmm),, ]$INFO[System.Date(d),,$COMMA ]$INFO[System.Time]</label> -->
+				<!-- <label>$INFO[System.Date(ddd),,$COMMA ]$INFO[System.Date(mmm)]$INFO[System.Date(d), ]$INFO[System.Date(yyyy),$COMMA ][CR]$INFO[System.Time]</label> -->
+			</control>
+		</control>
+
+		<!-- ========== -->
+		<!-- Main Group -->
+		<!-- ========== -->
+		<control type="group" id="200">
+			<defaultcontrol>201</defaultcontrol>
+			<animation type="WindowOpen" reversible="false">
+				<effect type="slide" start="0,35" end="0,0" time="300" tween="quadratic" easing="out"/>
+				<effect type="fade" start="0" end="100" time="250"/>
+			</animation>
+			<animation type="WindowClose" reversible="false">
+				<effect type="slide" start="0,0" end="0,35" time="300" tween="quadratic" easing="out"/>
+				<effect type="fade" start="100" end="0" time="250"/>
+			</animation>
+
+			<!-- Small Top Labels -->
+			<control type="group">
+				<left>20</left>
+				<top>256</top>
+				<control type="image">
+					<left>0</left>
+					<top>25</top>
+					<width>1240</width>
+					<height>1</height>
+					<texture colordiffuse="FF555555">white.png</texture>
+				</control>
+				<control type="image">
+					<left>172</left>
+					<top>0</top>
+					<width>1</width>
+					<height>20</height>
+					<texture colordiffuse="FF555555">white.png</texture>
+				</control>
+				<control type="image">
+					<left>336</left>
+					<top>0</top>
+					<width>1</width>
+					<height>20</height>
+					<texture colordiffuse="FF555555">white.png</texture>
+				</control>
+			</control>
+			<control type="group">
+				<left>20</left>
+				<top>240</top>
+				<control type="label">
+					<left>10</left>
+					<top>0</top>
+					<width>155</width>
+					<height>50</height>
+					<font>font12</font>
+					<align>center</align>
+					<aligny>center</aligny>
+					<textcolor>99FFFFFF</textcolor>
+					<label>$ADDON[script.smoothstreams-v3 30100]</label>
+				</control>
+				<control type="label">
+					<left>180</left>
+					<top>0</top>
+					<width>155</width>
+					<height>50</height>
+					<font>font12</font>
+					<align>center</align>
+					<aligny>center</aligny>
+					<textcolor>99FFFFFF</textcolor>
+					<label>$ADDON[script.smoothstreams-v3 32003]</label>
+				</control>
+				<control type="label">
+					<left>345</left>
+					<top>0</top>
+					<width>670</width>
+					<height>50</height>
+					<font>font12</font>
+					<aligny>center</aligny>
+					<textcolor>FFF36523</textcolor>
+					<label>$INFO[Window.Property(category), [COLOR=99FFFFFF]$ADDON[script.smoothstreams-v3 30400]:[/COLOR] ]</label>
+				</control>
+
+				<control type="group">
+					<animation type="Conditional" condition="!ControlGroup(100).HasFocus" reversible="false">
+					 <effect type="slide" start="-216,0" end="0,0" time="300" tween="quadratic" easing="out" />
+					</animation>
+					<animation type="Conditional" condition="ControlGroup(100).HasFocus" reversible="false">
+					 <effect type="slide" start="0,0" end="-216,0" time="300" tween="quadratic" easing="out" />
+					</animation>
+					<control type="image">
+						<left>32r</left>
+						<top>19</top>
+						<width>10</width>
+						<height>14</height>
+						<texture colordiffuse="99FFFFFF">right_arrow.png</texture>
+						<animation effect="fade" start="100" end="0" time="200" condition="ControlGroup(100).HasFocus">Conditional</animation>
+					</control>
+					<control type="image">
+						<left>138r</left>
+						<top>19</top>
+						<width>10</width>
+						<height>14</height>
+						<texture flipx="true" colordiffuse="99FFFFFF">right_arrow.png</texture>
+						<animation effect="fade" start="100" end="0" time="200" condition="!ControlGroup(100).HasFocus">Conditional</animation>
+					</control>
+					<control type="label">
+						<left>353r</left>
+						<top>0</top>
+						<width>315</width>
+						<height>50</height>
+						<font>font12</font>
+						<align>right</align>
+						<aligny>center</aligny>
+						<textcolor>99FFFFFF</textcolor>
+						<label>$ADDON[script.smoothstreams-v3 32002]</label>
+						<animation effect="fade" start="100" end="0" time="200" condition="ControlGroup(100).HasFocus">Conditional</animation>
+					</control>
+					<control type="label">
+						<left>121r</left>
+						<top>0</top>
+						<width>315</width>
+						<height>50</height>
+						<font>font12</font>
+						<align>left</align>
+						<aligny>center</aligny>
+						<textcolor>99FFFFFF</textcolor>
+						<label>$ADDON[script.smoothstreams-v3 32004]</label>
+						<animation effect="fade" start="100" end="0" time="200" condition="!ControlGroup(100).HasFocus">Conditional</animation>
+					</control>
+				</control>
+			</control>
+
+			<!-- List Container -->
+			<control type="list" id="201">
+				<animation type="Conditional" condition="!ControlGroup(100).HasFocus" reversible="false">
+				 	<effect type="slide" start="0,0" end="350,0" time="300" tween="quadratic" easing="out" />
+				</animation>
+				<animation type="Conditional" condition="ControlGroup(100).HasFocus" reversible="false">
+				 	<effect type="slide" start="350,0" end="0,0" time="300" tween="quadratic" easing="out" />
+				</animation>
+				<left>-330</left>
+				<top>296</top>
+				<width>1240</width>
+				<height>386</height>
+				<onright>101</onright>
+				<scrolltime tween="sine" easing="out">300</scrolltime>
+				<itemlayout width="1240" height="64">
+					<!-- Left Part -->
+					<control type="image">
+						<left>0</left>
+						<top>2</top>
+						<width>170</width>
+						<height>60</height>
+						<texture border="2">colors/808080.png</texture>
+						<colordiffuse>FF606060</colordiffuse>
+					</control>
+
+					<control type="image">
+						<left>10</left>
+						<top>12</top>
+						<width>150</width>
+						<height>40</height>
+						<texture border="2">channel_logo_bg.png</texture>
+					</control>
+					<control type="image">
+						<left>12</left>
+						<top>14</top>
+						<width>48</width>
+						<height>36</height>
+						<texture>channel_number_bg.png</texture>
+					</control>
+					<control type="label">
+						<left>10</left>
+						<top>12</top>
+						<width>50</width>
+						<height>40</height>
+						<font>font13</font>
+						<align>center</align>
+						<aligny>center</aligny>
+						<textcolor>CCF1F1F1</textcolor>
+						<shadowcolor>77000000</shadowcolor>
+						<label>[B]$INFO[ListItem.Property(channel)][/B]</label>
+					</control>
+						<control type="image">
+						<left>42</left>
+						<top>16</top>
+						<width>135</width>
+						<height>32</height>
+						<aspectratio>keep</aspectratio>
+						<texture fallback="fallback_logo.png">$INFO[ListItem.Icon]</texture>
+					</control>
+-->
+<!--
+						<control type="image">
+							<left>10</left>
+							<top>12</top>
+							<width>50</width>
+							<height>40</height>
+							<texture border="2">channel_logo_bg.png</texture>
+						</control>
+						<control type="label">
+							<left>10</left>
+							<top>12</top>
+							<width>50</width>
+							<height>40</height>
+							<font>font13</font>
+							<align>center</align>
+							<aligny>center</aligny>
+							<textcolor>FF202020</textcolor>
+							<shadowcolor>20FFFFFF</shadowcolor>
+							<label>[B]$INFO[ListItem.Property(channel)][/B]</label>
+						</control>
+						<control type="image">
+							<left>64</left>
+							<top>12</top>
+							<width>97</width>
+							<height>40</height>
+							<texture border="2">channel_logo_bg.png</texture>
+						</control>
+							<control type="image">
+							<left>47</left>
+							<top>17</top>
+							<width>130</width>
+							<height>30</height>
+							<aspectratio>keep</aspectratio>
+							<texture>$INFO[ListItem.Icon]</texture>
+						</control>
+-->
+
+					<!-- Center Part -->
+					<control type="image">
+						<left>174</left>
+						<top>2</top>
+						<width>160</width>
+						<height>60</height>
+						<texture border="2">colors/808080.png</texture>
+						<colordiffuse>FF606060</colordiffuse>
+					</control>
+					<control type="image">
+						<left>338</left>
+						<top>2</top>
+						<width>902</width>
+						<height>60</height>
+						<texture>$INFO[ListItem.Property(color)]</texture>
+						<colordiffuse>FF606060</colordiffuse>
+					</control>
+					<control type="label">
+						<left>174</left>
+						<top>3</top>
+						<width>160</width>
+						<height>60</height>
+						<font>font13</font>
+						<align>center</align>
+						<aligny>center</aligny>
+						<textcolor>white</textcolor>
+						<shadowcolor>77000000</shadowcolor>
+						<label>$INFO[ListItem.Label2]</label>
+					</control>
+					<control type="image">
+						<left>350</left>
+						<top>20</top>
+						<width>40</width>
+						<height>28</height>
+						<texture>$INFO[ListItem.Property(quality)]</texture>
+					</control>
+					<control type="label">
+						<left>400</left>
+						<top>3</top>
+						<width>670</width>
+						<height>60</height>
+						<font>font13</font>
+						<aligny>center</aligny>
+						<textcolor>white</textcolor>
+						<shadowcolor>77000000</shadowcolor>
+						<label>$INFO[ListItem.Label]</label>
+						<animation effect="slide" start="0" end="-50" condition="String.IsEmpty(ListItem.Property(quality))">Conditional</animation>
+					</control>
+
+					<!-- Right Part -->
+					<control type="label">
+						<left>200r</left>
+						<top>3</top>
+						<width>100</width>
+						<height>60</height>
+						<font>font13</font>
+						<align>right</align>
+						<aligny>center</aligny>
+						<textcolor>white</textcolor>
+						<shadowcolor>77000000</shadowcolor>
+						<label>$INFO[ListItem.Property(duration)]</label>
+						<animation effect="slide" start="0" end="40" condition="String.IsEmpty(ListItem.Property(playing))">Conditional</animation>
+					</control>
+					<control type="image">
+						<left>92r</left>
+						<top>17</top>
+						<width>34</width>
+						<height>34</height>
+						<texture colordiffuse="FFD0D0D0">$INFO[ListItem.Property(playing)]</texture>
+						<visible>!String.IsEmpty(ListItem.Property(playing))</visible>
+					</control>
+					<control type="image">
+						<left>52r</left>
+						<top>20</top>
+						<width>42</width>
+						<height>30</height>
+						<texture fallback="flags/all.png">$INFO[ListItem.Property(flag)]</texture>
+					</control>
+
+					<!-- Old Overlay -->
+					<control type="image">
+						<visible>!String.IsEmpty(ListItem.Property(old))</visible>
+						<left>0</left>
+						<top>2</top>
+						<width>1240</width>
+						<height>60</height>
+						<texture>white.png</texture>
+						<colordiffuse>A0000000</colordiffuse>
+					</control>
+				</itemlayout>
+				<focusedlayout width="1240" height="64">
+					<control type="group">
+						<animation type="Focus" reversible="false" condition="Container(201).OnPrevious">
+							<effect type="slide" start="0,35" end="0,0" time="300" tween="back" easing="out"/>
+						</animation>
+						<animation type="Focus" reversible="false" condition="Container(201).OnNext">
+							<effect type="slide" start="0,-35" end="0,0" time="300" tween="back" easing="out"/>
+						</animation>
+						<!-- Left Part -->
+						<control type="image">
+							<left>0</left>
+							<top>2</top>
+							<width>170</width>
+							<height>60</height>
+							<texture border="2">colors/808080.png</texture>
+							<colordiffuse>FFB0B0B0</colordiffuse>
+						</control>
+
+						<control type="image">
+							<left>10</left>
+							<top>12</top>
+							<width>150</width>
+							<height>40</height>
+							<texture border="2">channel_logo_bg.png</texture>
+						</control>
+						<control type="image">
+							<left>12</left>
+							<top>14</top>
+							<width>48</width>
+							<height>36</height>
+							<texture>channel_number_bg.png</texture>
+						</control>
+						<control type="label">
+							<left>10</left>
+							<top>12</top>
+							<width>50</width>
+							<height>40</height>
+							<font>font13</font>
+							<align>center</align>
+							<aligny>center</aligny>
+							<textcolor>CCF1F1F1</textcolor>
+							<shadowcolor>77000000</shadowcolor>
+							<label>[B]$INFO[ListItem.Property(channel)][/B]</label>
+						</control>
+							<control type="image">
+							<left>42</left>
+							<top>16</top>
+							<width>135</width>
+							<height>32</height>
+							<aspectratio>keep</aspectratio>
+							<texture fallback="fallback_logo.png">$INFO[ListItem.Icon]</texture>
+						</control>
+-->
+<!--
+						<control type="image">
+							<left>10</left>
+							<top>12</top>
+							<width>50</width>
+							<height>40</height>
+							<texture border="2">channel_logo_bg.png</texture>
+						</control>
+						<control type="label">
+							<left>10</left>
+							<top>12</top>
+							<width>50</width>
+							<height>40</height>
+							<font>font13</font>
+							<align>center</align>
+							<aligny>center</aligny>
+							<textcolor>FF202020</textcolor>
+							<shadowcolor>20FFFFFF</shadowcolor>
+							<label>[B]$INFO[ListItem.Property(channel)][/B]</label>
+						</control>
+						<control type="image">
+							<left>64</left>
+							<top>12</top>
+							<width>97</width>
+							<height>40</height>
+							<texture border="2">channel_logo_bg.png</texture>
+						</control>
+							<control type="image">
+							<left>47</left>
+							<top>17</top>
+							<width>130</width>
+							<height>30</height>
+							<aspectratio>keep</aspectratio>
+							<texture>$INFO[ListItem.Icon]</texture>
+						</control>
+-->
+						<!-- Center Part -->
+						<control type="image">
+							<left>174</left>
+							<top>2</top>
+							<width>160</width>
+							<height>60</height>
+							<texture border="2">colors/808080.png</texture>
+							<colordiffuse>FFB0B0B0</colordiffuse>
+						</control>
+						<control type="image">
+							<left>338</left>
+							<top>2</top>
+							<width>902</width>
+							<height>60</height>
+							<texture>$INFO[ListItem.Property(color)]</texture>
+							<colordiffuse>FFB0B0B0</colordiffuse>
+						</control>
+						<control type="label">
+							<left>174</left>
+							<top>3</top>
+							<width>160</width>
+							<height>60</height>
+							<font>font13</font>
+							<align>center</align>
+							<aligny>center</aligny>
+							<textcolor>white</textcolor>
+							<shadowcolor>77000000</shadowcolor>
+							<label>$INFO[ListItem.Label2]</label>
+						</control>
+						<control type="image">
+							<left>350</left>
+							<top>20</top>
+							<width>40</width>
+							<height>28</height>
+							<texture>$INFO[ListItem.Property(quality)]</texture>
+						</control>
+						<control type="label">
+							<left>400</left>
+							<top>3</top>
+							<width>670</width>
+							<height>60</height>
+							<font>font13</font>
+							<aligny>center</aligny>
+							<textcolor>white</textcolor>
+							<shadowcolor>77000000</shadowcolor>
+							<label>$INFO[ListItem.Label]</label>
+							<animation effect="slide" start="0" end="-50" condition="String.IsEmpty(ListItem.Property(quality))">Conditional</animation>
+						</control>
+
+						<!-- Right Part -->
+						<control type="label">
+							<left>200r</left>
+							<top>3</top>
+							<width>100</width>
+							<height>60</height>
+							<font>font13</font>
+							<align>right</align>
+							<aligny>center</aligny>
+							<textcolor>white</textcolor>
+							<shadowcolor>77000000</shadowcolor>
+							<label>$INFO[ListItem.Property(duration)]</label>
+							<animation effect="slide" start="0" end="40" condition="String.IsEmpty(ListItem.Property(playing))">Conditional</animation>
+						</control>
+						<control type="image">
+							<left>92r</left>
+							<top>17</top>
+							<width>34</width>
+							<height>34</height>
+							<texture colordiffuse="FFD0D0D0">$INFO[ListItem.Property(playing)]</texture>
+							<visible>!String.IsEmpty(ListItem.Property(playing))</visible>
+						</control>
+						<control type="image">
+							<left>52r</left>
+							<top>20</top>
+							<width>42</width>
+							<height>30</height>
+							<texture fallback="flags/all.png">$INFO[ListItem.Property(flag)]</texture>
+						</control>
+
+						<!-- Old Overlay -->
+						<control type="image">
+						<visible>!String.IsEmpty(ListItem.Property(old))</visible>
+						<left>0</left>
+						<top>2</top>
+						<width>1240</width>
+						<height>60</height>
+						<texture colordiffuse="A1111111">white.png</texture>
+					</control>
+					</control>
+				</focusedlayout>
+			</control>
+
+			<!-- Addon Version -->
+			<control type="label">
+				<left>20</left>
+				<top>670</top>
+				<width>1240</width>
+				<height>50</height>
+				<font>font12</font>
+				<align>right</align>
+				<aligny>center</aligny>
+				<textcolor>40FFFFFF</textcolor>
+				<shadowcolor>77000000</shadowcolor>
+				<label>$INFO[System.AddonVersion(script.smoothstreams-v3),v]</label>
+			</control>
+		</control>
+
+
+		<!-- ========== -->
+		<!-- Categories -->
+		<!-- ========== -->
+		<control type="group" id="100">
+			<defaultcontrol>101</defaultcontrol>
+			<animation type="Conditional" condition="ControlGroup(100).HasFocus" reversible="false" >
+				<effect type="slide" start="0,0" end="-354,0" time="300" tween="quadratic" easing="out" />
+			</animation>
+			<animation type="Conditional" condition="!ControlGroup(100).HasFocus" reversible="false" >
+				<effect type="slide" start="-354,0" end="0,0" time="300" tween="quadratic" easing="out" />
+			</animation>  
+			<animation type="WindowOpen" reversible="false">
+				<effect type="slide" start="0,35" end="0,0" time="300" tween="quadratic" easing="out"/>
+				<effect type="fade" start="0" end="100" time="250"/>
+			</animation>
+			<animation type="WindowClose" reversible="false">
+				<effect type="slide" start="0,0" end="0,35" time="300" tween="quadratic" easing="out"/>
+				<effect type="fade" start="100" end="0" time="250"/>
+			</animation>
+			<control type="list" id="101">
+				<left>1280</left>
+				<top>296</top>
+				<width>335</width>
+				<height>386</height>
+				<onleft>201</onleft>
+				<onright>201</onright>
+				<scrolltime tween="sine" easing="out">300</scrolltime>
+				<itemlayout height="64">
+					<control type="image">
+						<left>0</left>
+						<top>2</top>
+						<width>335</width>
+						<height>60</height>
+						<texture border="2" colordiffuse="FF606060">colors/808080.png</texture>
+					</control>
+					<control type="image">
+						<left>5</left>
+						<top>7</top>
+						<width>20</width>
+						<height>50</height>
+						<texture border="2" colordiffuse="FF606060">$INFO[ListItem.Property(color)]</texture>
+						<visible>!String.IsEqual(ListItem.Label,ALL)</visible>
+					</control>
+					<control type="label">
+						<left>30</left>
+						<top>0</top>
+						<width>260</width>
+						<height>60</height>
+						<font>font13</font>
+						<aligny>center</aligny>
+						<textcolor>white</textcolor>
+						<shadowcolor>77000000</shadowcolor>
+						<label>$INFO[ListItem.Label]</label>
+						<animation effect="slide" start="0" end="-20" condition="String.IsEqual(ListItem.Label,ALL)">Conditional</animation>
+					</control>
+					<control type="image">
+						<left>295</left>
+						<top>16</top>
+						<width>30</width>
+						<height>30</height>
+						<aspectratio>keep</aspectratio>
+						<texture border="1">category_on.png</texture>
+						<visible>String.IsEqual(ListItem.Property(selected),true)</visible>
+					</control>
+					<control type="image">
+						<left>295</left>
+						<top>16</top>
+						<width>30</width>
+						<height>30</height>
+						<aspectratio>keep</aspectratio>
+						<texture border="1">category_off.png</texture>
+						<visible>!String.IsEqual(ListItem.Property(selected),true)</visible>
+					</control>
+				</itemlayout>
+				<focusedlayout height="64">
+					<control type="group">
+						<animation type="Focus" reversible="false" condition="Container(101).OnPrevious">
+							<effect type="slide" start="0,35" end="0,0" time="300" tween="back" easing="out"/>
+						</animation>
+						<animation type="Focus" reversible="false" condition="Container(101).OnNext">
+							<effect type="slide" start="0,-35" end="0,0" time="300" tween="back" easing="out"/>
+						</animation>
+						<control type="image">
+							<left>0</left>
+							<top>2</top>
+							<width>335</width>
+							<height>60</height>
+							<texture border="2" colordiffuse="FFB0B0B0">colors/808080.png</texture>
+						</control>
+						<control type="image">
+							<left>5</left>
+							<top>7</top>
+							<width>20</width>
+							<height>50</height>
+							<texture border="2" colordiffuse="FFB0B0B0">$INFO[ListItem.Property(color)]</texture>
+							<visible>!String.IsEqual(ListItem.Label,ALL)</visible>
+						</control>
+						<control type="label">
+							<left>30</left>
+							<top>0</top>
+							<width>260</width>
+							<height>60</height>
+							<font>font13</font>
+							<aligny>center</aligny>
+							<textcolor>white</textcolor>
+							<shadowcolor>77000000</shadowcolor>
+							<label>$INFO[ListItem.Label]</label>
+							<animation effect="slide" start="0" end="-20" condition="String.IsEqual(ListItem.Label,ALL)">Conditional</animation>
+						</control>
+						<control type="image">
+							<left>295</left>
+							<top>16</top>
+							<width>30</width>
+							<height>30</height>
+							<aspectratio>keep</aspectratio>
+							<texture border="1">category_on.png</texture>
+							<visible>String.IsEqual(ListItem.Property(selected),true)</visible>
+						</control>
+						<control type="image">
+							<left>295</left>
+							<top>16</top>
+							<width>30</width>
+							<height>30</height>
+							<aspectratio>keep</aspectratio>
+							<texture border="1">category_off.png</texture>
+							<visible>!String.IsEqual(ListItem.Property(selected),true)</visible>
+						</control>
+					</control>
+				</focusedlayout>
+			</control>
+		</control>
+
+
+		<control type="image">
+			<animation type="WindowOpen" reversible="false">
+				<effect type="fade" start="0" end="100" time="250"/>
+			</animation>
+			<animation type="WindowClose" reversible="false">
+				<effect type="fade" start="100" end="0" time="250"/>
+			</animation>
+			<animation type="Visible" reversible="false">
+				<effect type="fade" start="0" end="100" time="250"/>
+			</animation>
+			<animation type="Hidden" reversible="false">
+				<effect type="fade" start="100" end="0" time="250"/>
+			</animation>
+			<width>100%</width>
+			<height>100%</height>
+			<texture>colors/FFFFFFFF.png</texture>
+			<colordiffuse>CC000000</colordiffuse>
+			<visible>Window.IsActive(script-smoothstreams-channel_entry.xml) | Window.IsActive(yesnodialog) | Window.IsActive(busydialog) | Window.IsActive(virtualkeyboard) | Window.IsActive(numericinput) | Window.IsActive(favourites) | Window.IsActive(playercontrols) | Window.IsActive(DialogConfirm.xml) | Window.IsActive(DialogNotification.xml) | !String.IsEmpty(Window.Property(covered))</visible>
+		</control>
+	</controls>
+</window>

@@ -1,0 +1,43 @@
+<arrakis>
+    <networks>
+        <dir>
+            <title>Canadian Networks</title>
+            <meta>
+                <title>Canadian Networks</title>
+                <summary>Find shows from your favorite networks in Canada. Uses Universal Scrapers to find sources</summary>
+            </meta>
+            <tvmaze>country/Canada/1</tvmaze>
+            <thumbnail>special://home/addons/plugin.video.arrakis/resources/media/networksub.png</thumbnail>
+        </dir>
+
+        <dir>
+            <title>Ireland's Networks</title>
+            <meta>
+                <title>Ireland's Networks</title>
+                <summary>Find shows from your favorite networks in Ireland. Uses Universal Scrapers to find sources</summary>
+            </meta>
+            <tvmaze>country/Ireland/1</tvmaze>
+            <thumbnail>special://home/addons/plugin.video.arrakis/resources/media/networksub.png</thumbnail>
+        </dir>
+
+        <dir>
+            <title>UK Networks</title>
+            <meta>
+                <title>UK Networks</title>
+                <summary>Find shows from your favorite networks in the UK. Uses Universal Scrapers to find sources</summary>
+            </meta>
+            <tvmaze>country/United Kingdom/1</tvmaze>
+            <thumbnail>special://home/addons/plugin.video.arrakis/resources/media/networksub.png</thumbnail>
+        </dir>
+
+        <dir>
+            <title>Unites States Networks</title>
+            <meta>
+                <title>Unites States Networks</title>
+                <summary>Find shows from your favorite networks in the states. Uses Universal Scrapers to find sources</summary>
+            </meta>
+            <tvmaze>country/United States/1</tvmaze>
+            <thumbnail>special://home/addons/plugin.video.arrakis/resources/media/networksub.png</thumbnail>
+        </dir>
+    </networks>
+</arrakis>

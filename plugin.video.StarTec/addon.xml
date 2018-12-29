@@ -1,0 +1,52 @@
+﻿<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<addon id="plugin.video.StarTec" name="[COLOR yellow]*Star-Tec*[/COLOR]" version="2.0.4" provider-name="*Star-Tec*">
+    <requires>
+        <import addon="xbmc.python" version="2.19.0" />
+        <import addon="script.module.universalscrapers" version="0.5.5" />
+        <import addon="script.module.python.koding.aio" version="0.9.6.6" />
+        <import addon="script.module.beautifulsoup" version="3.2.1" />
+        <import addon="script.module.requests" version="2.9.1" />
+        <import addon="script.module.addon.common" version="2.0.0" />
+        <import addon="script.module.xmltodict" version="0.9.0" />
+        <!--<import addon="script.module.web-pdb" version="1.0"/>-->
+		<import addon="program.plexus" />
+		<import addon="script.module.httplib2" />
+        <import addon="script.module.simplejson" />
+		<import addon="script.module.dateutil" />
+        <import addon="script.module.liveresolver" version="0.1.50" />
+         <import addon="script.module.urlresolver" version="2.1.0" />
+        <import addon="script.video.F4mProxy" version="2.8.7" />
+        <import addon="plugin.video.f4mTester" version="2.7.1"/>
+        <import addon="plugin.video.SportsDevil" version="" />
+		<import addon="script.module.feedparser" version="5.1.3"/>
+		<import addon="script.module.liveresolver" />
+        <import addon="script.module.resolveurl" />
+		<import addon="script.module.sportscentre" />
+		<import addon="script.module.startec" />
+		<import addon="script.module.startec-swiftstreamz" />
+		<import addon="script.module.startec.nettv" version="" />
+		<import addon="script.module.startecmob" version="" />
+    </requires>
+    <extension point="xbmc.python.pluginsource" library="Startec.py">
+        <provides>video</provides>
+    </extension>
+    <extension point="xbmc.service" library="service.py" start="[login|startup]" />
+    <extension point="xbmc.addon.metadata">
+      <summary lang="en">The Star Tec Addon by *Star*-Tec</summary>
+        <description lang="en">The author does not host or distribute any of the content displayed by this addon. The author does not have any affiliation with the content provider.
+		  Addon has Movies Tv shows and lots more.</description>
+        <disclaimer lang="en">The author of this addon do not host any of the content which is found and have no affiliation with any of the content providers. This addon simply searches websites for content. Use at your own risk!</disclaimer>
+        <disclaimer lang="he">מחבר ההרחבה זה אינו מארח את התוכן שיתכן ויימצא ואין לו זיקה לאף אחד מספקי התוכן. הרחבה רק מחפשת תוכן שקיים באתרי אינטרנט. השימוש בהרחבה הוא על אחריותך בלבד!</disclaimer>
+        <platform>all</platform>
+        <website></website>
+        <video_guide></video_guide>
+	  <assets>
+        <icon>icon.png</icon>
+        <fanart>fanart.jpg</fanart>
+        <screenshot>resources/screenshot001.png</screenshot>
+        <screenshot>resources/screenshot002.png</screenshot>
+        <screenshot>resources/screenshot003.png</screenshot>
+	  </assets>
+	<news></news>
+    </extension>
+</addon>

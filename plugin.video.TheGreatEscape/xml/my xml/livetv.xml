@@ -1,0 +1,55 @@
+<plugin>
+<title>UK Channels</title>
+<link>plugin://script.module.swiftstreamz/list_channels/42</link>
+<thumbnail></thumbnail>
+<fanart></fanart>
+</plugin>
+
+<plugin>
+<title>US Channels</title>
+<link>plugin://script.module.swiftstreamz/list_channels/41</link>
+<thumbnail></thumbnail>
+<fanart></fanart>
+</plugin>
+
+<plugin>
+<title>News Channels</title>
+<link>plugin://script.module.livenettv.net/list_channels/3</link>
+<thumbnail></thumbnail>
+<fanart></fanart>
+</plugin>
+
+<plugin>
+<title>Sports Channels</title>
+<link>plugin://script.module.livenettv.net/list_channels/1</link>
+<thumbnail></thumbnail>
+<fanart></fanart>
+</plugin>
+
+<plugin>
+<title>Documentaries Channels</title>
+<link>plugin://script.module.livenettv.net/list_channels/10</link>
+<thumbnail></thumbnail>
+<fanart></fanart>
+</plugin>
+
+<plugin>
+<title>Kids Channels</title>
+<link>plugin://script.module.livenettv.net/list_channels/6</link>
+<thumbnail></thumbnail>
+<fanart></fanart>
+</plugin>
+
+<plugin>
+<title>Food Channels</title>
+<link>plugin://script.module.livenettv.net/list_channels/4</link>
+<thumbnail></thumbnail>
+<fanart></fanart>
+</plugin>
+
+<plugin>
+<title>Religious Channels</title>
+<link>plugin://script.module.livenettv.net/list_channels/7</link>
+<thumbnail></thumbnail>
+<fanart></fanart>
+</plugin>

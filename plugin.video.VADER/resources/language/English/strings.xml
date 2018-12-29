@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<strings>
+    <!-- General -->
+    <string id="33000">Username</string>
+    <string id="33001">Password</string>
+    <string id="33002">Time Zone Offset</string>
+    <string id="33003">IPTVSubs Login</string>
+    <string id="33005">Merge M3U File</string>
+    <string id="33006">M3U Path</string>
+    <string id="32100">Enable debug mode</string>
+    <string id="32101">Get offset -1 hour</string>
+    <string id="32102">Install keyboard.xml file</string>
+    <string id="32103">Install advancedsettings.xml file</string>
+
+    <string id="30010">Amount of time between updates (hours)</string>
+    <string id="30060">Enable Scheduler</string>
+    <string id="30061">Schedule</string>
+    <string id="30062">Hour of Day</string>
+    <string id="30063">Day of Week</string>
+    <string id="30064">Cron Schedule</string>
+    <string id="30065">Sunday</string>
+    <string id="30066">Monday</string>
+    <string id="30067">Tuesday</string>
+    <string id="30068">Wednesday</string>
+    <string id="30069">Thursday</string>
+    <string id="30070">Friday</string>
+    <string id="30071">Saturday</string>
+    <string id="30072">Every Day</string>
+    <string id="30073">Every Week</string>
+    <string id="30074">First Day of Month</string>
+    <string id="30075">Custom Schedule</string>
+    <string id="30079">Just Today</string>
+    <string id="40000">Groups</string>
+    <string id="40001">Live Sports</string>
+    <string id="40002">Live Events</string>
+    <string id="40003">UKTV HD</string>
+    <string id="40004">USTV HD</string>
+    <string id="40005">CANTV HD</string>
+    <string id="40006">Sportsworld HD</string>
+    <string id="40007">Premium Movies</string>
+    <string id="40008">ITALIAN</string>
+    <string id="40010">PERSIAN/KURDISH</string>
+    <string id="40011">POLISH</string>
+    <string id="40012">PORTUGUESE</string>
+    <string id="40013">PUNJABI</string>
+    <string id="40014">SOUTH INDIAN</string>
+    <string id="40015">SPANISH</string>
+    <string id="40016">URDU</string>
+    <string id="40017">VIETNAMESE</string>
+    <string id="40018">CHINESE</string>
+    <string id="40019">EUROPEAN/BALKANS</string>
+    <string id="40020">FILIPINO</string>
+    <string id="50000">Enable Manual MatchCenter Time Offset</string>
+
+    <string id="50001">MatchCenter Time Offset</string>
+    <string id="50002">MatchCenter Backward Display (hrs)</string>
+    <string id="50003">MatchCenter Forward Display (hrs)</string>
+
+    <string id="60001">Auto Select</string>
+    <string id="60002">US East</string>
+    <string id="60003">US West/Far East</string>
+    <string id="60004">EU</string>
+
+
+    <string id="70001">MPEG-TS (Recommended)</string>
+    <string id="70002">HLS</string>
+
+</strings>

@@ -1,0 +1,16 @@
+<advancedsettings>
+
+ <network>
+     <buffermode>1</buffermode>
+     <memorysize>157286400</memorysize>
+     <readfactor>2</readfactor>
+     <cachemembuffersize>157286400</cachemembuffersize>
+     <readbufferfactor>2</readbufferfactor>
+   </network>
+<pvr>
+  <minvideocachelevel>65</minvideocachelevel>
+  <minaudiocachelevel>65</minaudiocachelevel>
+  <cacheindvdplayer>true</cacheindvdplayer>
+</pvr>
+
+</advancedsettings>

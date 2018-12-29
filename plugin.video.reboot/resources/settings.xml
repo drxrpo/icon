@@ -1,0 +1,17 @@
+<settings>
+<category label="General">
+	 <setting label="Please restart addon after changing settings!" type="lsep"/>
+     <setting id="Username" type="text" label="Username" default=""/>
+     <setting id="Password" type="text" option="hidden" label="Password" default=""/>
+	 <setting id="showxxx" type="bool" label="Show Adult Content" default="false"/>
+	 <setting id="parentalock" type="bool" label="Enable Parental-Lock" default="true" visible="false"/>
+	 <setting id="perntalcode" type="text" option="hidden" label="Parental Code" default="1234" visible="false"/>
+	 <setting label="Set Parental Code (Default: 1234)" type="action" action="RunScript($CWD/kappa.py)" visible='eq(-3,true)'/>
+	 <setting label="Hit Defaults if you forgot code" type="lsep" visible='eq(-4,true)'/>
+	 <setting id="extend" type="hidden" default="m3u8" />
+	 <setting id="skin" type="text" label="Skin" default="Default" visible="false"/>
+	 <setting type="sep"/>
+	 <setting id="showmaypro" type="bool" label="Show [COLOR ff4682b4]M[/COLOR][COLOR ffC0C0C0]ayfair [/COLOR][COLOR ff4682b4]G[/COLOR][COLOR ffC0C0C0]uide[/COLOR][COLOR gold] PRO[/COLOR] Shortcut" default="true"/>
+	 <setting id="showmayfree" type="bool" label="Show [COLOR ff0084ff]M[/COLOR][COLOR ghostwhite]-[/COLOR][COLOR yellow]TV Guide Free[/COLOR] Shortcut" default="true"/>
+</category>
+</settings>

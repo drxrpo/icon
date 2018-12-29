@@ -1,0 +1,644 @@
+<window type="window" id="9506">
+    <allowoverlay>yes</allowoverlay>
+    <defaultcontrol always="true">100</defaultcontrol>
+    <controls>
+        <control type="image">
+            <description>Default Background Image</description>
+            <width>1920</width>
+            <height>1080</height>
+            <aspectratio>scale</aspectratio>
+            <texture>../../../../fanart.jpg</texture>
+        </control>
+        <control type="image">
+            <description>Menubar background</description>
+            <width>1920</width>
+            <height>84</height>
+            <aspectratio>stretch</aspectratio>
+            <texture>reloadedtv/menubar.png</texture>
+        </control>
+        <control type="image">
+            <description>Cat menubar background</description>
+            <top>84</top>
+            <width>1920</width>
+            <height>54</height>
+            <aspectratio>stretch</aspectratio>
+            <texture>reloadedtv/catmenubar.png</texture>
+        </control>
+        <control type="image">
+            <description>logo</description>
+            <left>210</left>
+            <width>562</width>
+            <height>84</height>
+            <aspectratio>stretch</aspectratio>
+            <texture>reloadedtv/logoimg.png</texture>
+        </control>
+        <control type="image" id="9969">
+            <description>MOTD</description>
+            <top>200</top>
+            <left>500</left>
+            <width>1122</width>
+            <height>560</height>
+            <!--<aspectratio>scale</aspectratio>-->
+            <texture>reloadedtv/motd.png</texture>
+            <visible>!Container(230).ListItem.Property(isPlayable)</visible>
+        </control>
+        <control type="label" id="9968">
+            <description>MOTD feed</description>
+            <top>225</top>
+            <left>529</left>
+            <width>1070</width>
+            <height>500</height>
+            <label></label>
+            <wrapmultiline>true</wrapmultiline>
+            <font>font14</font>
+            <visible>Control.IsVisible(9969)</visible>
+        </control>
+        <control type="image">
+            <left>0</left>
+            <top>160</top>
+            <width>340</width>
+            <height>420</height>
+            <aspectratio>stretch</aspectratio>
+            <texture>reloadedtv/white_bg.png</texture>
+            <visible>Control.HasFocus(230) + !SubString(Container(230).ListItem.Property(now_chnprogdesc),false)</visible>
+        </control>
+        <control type="label">
+            <left>0</left>
+            <top>174</top>
+            <width>330</width>
+            <height>385</height>
+            <align>center</align>
+            <aligny>center</aligny>
+            <scroll>true</scroll>
+            <info>Container(230).ListItem.Property(now_chnprogdesc)</info>
+            <font>font12</font>
+            <wrapmultiline>true</wrapmultiline>
+            <scrollspeed>50</scrollspeed>
+            <scrollsuffix> - </scrollsuffix>
+            <visible>Control.HasFocus(230) + !SubString(Container(230).ListItem.Property(now_chnprogdesc),false)</visible>
+        </control>
+        <control type="group" id="100">
+              <description>Top row button group</description>
+              <left>210</left>
+              <width>1000</width>
+              <height>45</height>
+              <defaultcontrol>130</defaultcontrol>
+            <control type="button" id="130">
+                  <description>TV Guide button</description>
+                  <left>900</left>
+                  <width>562</width>
+                  <height>84</height>
+                  <ondown>210</ondown>
+                  <onleft>90</onleft>
+                  <onright>90</onright>
+                  <texturefocus>reloadedtv/tvguide_focus.png</texturefocus>
+                  <texturenofocus>reloadedtv/tvguide_bg.png</texturenofocus>
+            </control>
+        </control>
+        <control type="button" id="90">
+            <description>Addon Settings button</description>
+            <left>1810</left>
+            <width>84</width>
+            <height>84</height>
+            <ondown>210</ondown>
+            <onleft>130</onleft>
+            <onright>130</onright>
+            <texturefocus>reloadedtv/settings_focus.png</texturefocus>
+            <texturenofocus>reloadedtv/settings.png</texturenofocus>
+        </control>
+
+        <control type="label" id="99">
+            <description>rss feed</description>
+            <left>2</left>
+            <top>1035</top>
+            <width>1918</width>
+            <height>45</height>
+            <label></label>
+            <scroll>true</scroll>
+            <font>font14</font>
+            <visible>true</visible>
+            <scrollspeed>50</scrollspeed>
+            <scrollsuffix> - </scrollsuffix>
+        </control>
+
+        <control type="list" id="210">
+            <description>Category list container</description>
+            <left>10</left>
+            <top>84</top>
+            <width>1890</width>
+            <height>54</height>
+            <onup>100</onup>
+            <ondown>230</ondown>
+            <viewtype label="list">list</viewtype>
+            <orientation>horizontal</orientation>
+            <itemlayout width="250" height="54">
+                <control type="image">
+                    <width>250</width>
+                    <height>54</height>
+                    <aspectratio>stretch</aspectratio>
+                    <texture>reloadedtv/catmenubar_focus2.png</texture>
+                    <visible>ListItem.Property(clicked)</visible>
+                </control>
+                <control type="label">
+                    <description>Category text</description>
+                    <left>5</left>
+                    <top>4</top>
+                    <width>240</width>
+                    <height>45</height>
+                    <align>center</align>
+                    <aligny>center</aligny>
+                    <scroll>false</scroll>
+                    <info>ListItem.Label</info>
+                    <font>font13</font>
+                    <textcolor>FF333333</textcolor>
+                    <wrapmultiline>false</wrapmultiline>
+                    <scrollspeed>50</scrollspeed>
+                    <scrollsuffix> - </scrollsuffix>
+                </control>
+            </itemlayout>
+            <focusedlayout width="250" height="54">
+                <control type="image">
+                        <width>250</width>
+                        <height>54</height>
+                        <aspectratio>stretch</aspectratio>
+                        <texture>reloadedtv/catmenubar_focus2.png</texture>
+                        <visible>ListItem.Property(clicked)</visible>
+                </control>
+                <control type="image">
+                        <width>250</width>
+                        <height>54</height>
+                        <aspectratio>stretch</aspectratio>
+                        <texture>reloadedtv/catmenubar_focus.png</texture>
+                        <visible>Control.HasFocus(210)</visible>
+                </control>
+                <control type="label">
+                    <description>Category text</description>
+                    <left>5</left>
+                    <top>4</top>
+                    <width>240</width>
+                    <height>45</height>
+                    <align>center</align>
+                    <aligny>center</aligny>
+                    <scroll>true</scroll>
+                    <info>ListItem.Label</info>
+                    <font>font13</font>
+                    <textcolor>FF222222</textcolor>
+                    <wrapmultiline>false</wrapmultiline>
+                    <scrollspeed>50</scrollspeed>
+                    <scrollsuffix> - </scrollsuffix>
+                    <visible>!Control.HasFocus(210)</visible>
+                </control>
+                <control type="label">
+                    <description>Category text</description>
+                    <left>5</left>
+                    <top>4</top>
+                    <width>240</width>
+                    <height>45</height>
+                    <align>center</align>
+                    <aligny>center</aligny>
+                    <scroll>true</scroll>
+                    <info>ListItem.Label</info>
+                    <font>font13</font>
+                    <textcolor>FFFFFFFF</textcolor>
+                    <wrapmultiline>false</wrapmultiline>
+                    <scrollspeed>50</scrollspeed>
+                    <scrollsuffix> - </scrollsuffix>
+                    <visible>Control.HasFocus(210)</visible>
+                </control>
+            </focusedlayout>
+        </control>
+
+        <!--channel list panel-->
+        <control type="panel" id="230">
+            <description>Channel list panel container</description>
+            <left>350</left>
+            <top>160</top>
+            <width>1560</width>
+            <height>840</height>
+            <onup>210</onup>
+            <onleft>69</onleft>
+            <onright>61</onright>
+            <viewtype label="list">wide</viewtype>
+            <orientation>vertical</orientation>
+            <autoscroll>false</autoscroll>
+            <pagecontrol>61</pagecontrol>
+            <itemlayout width="780" height="105">
+                <control type="image">
+                        <left>10</left>
+                        <width>760</width>
+                        <height>105</height>
+                        <texture>reloadedtv/channel_bg.png</texture>
+                        <visible>ListItem.Property(isPlayable)</visible>
+                </control>
+                <control type="image">
+                        <left>10</left>
+                        <width>760</width>
+                        <height>105</height>
+                        <texture>reloadedtv/channel_bg.png</texture>
+                        <colordiffuse>AAFFFFFF</colordiffuse>
+                        <visible>!ListItem.Property(isPlayable)</visible>
+                </control>
+                <!--channel logo-->
+                <control type="image">
+                        <left>25</left>
+                        <top>22</top>
+                        <width>200</width>
+                        <height>62</height>
+                        <info>ListItem.Property(logo)</info>
+                        <visible>ListItem.Property(isPlayable) + !ListItem.Property(isGame) + !ListItem.Property(isVOD)</visible>
+                </control>
+                <!--channel logo-->
+                <control type="image">
+                        <left>25</left>
+                        <top>22</top>
+                        <width>200</width>
+                        <height>62</height>
+                        <info>ListItem.Property(logo)</info>
+                        <colordiffuse>66FFFFFF</colordiffuse>
+                        <visible>!ListItem.Property(isPlayable) + !ListItem.Property(isGame) + !ListItem.Property(isVOD)</visible>
+                </control>
+                <!--vod channel logo-->
+                <control type="image">
+                        <left>25</left>
+                        <top>5</top>
+                        <width>200</width>
+                        <height>95</height>
+                        <info>ListItem.Property(logo)</info>
+                        <visible>ListItem.Property(isPlayable) + !ListItem.Property(isGame) + ListItem.Property(isVOD)</visible>
+                </control>
+                <!--game away logo-->
+                <control type="image">
+                        <left>670</left>
+                        <top>25</top>
+                        <width>82</width>
+                        <height>55</height>
+                        <info>ListItem.Property(away_logo)</info>
+                        <visible>ListItem.Property(isPlayable) + ListItem.Property(isGame)</visible>
+                </control>
+                <!--game home logo-->
+                <control type="image">
+                        <left>30</left>
+                        <top>25</top>
+                        <width>82</width>
+                        <height>55</height>
+                        <info>ListItem.Property(home_logo)</info>
+                        <visible>ListItem.Property(isPlayable) + ListItem.Property(isGame)</visible>
+                </control>
+                <!--channel 1080 logo-->
+                <control type="image">
+                        <left>715</left>
+                        <top>7</top>
+                        <width>37</width>
+                        <height>37</height>
+                        <texture>reloadedtv/1080.png</texture>
+                        <visible>ListItem.Property(is1080)</visible>
+                </control>
+                <!--channel 720 logo-->
+                <control type="image">
+                        <left>710</left>
+                        <top>5</top>
+                        <width>44</width>
+                        <height>44</height>
+                        <texture>reloadedtv/720.png</texture>
+                        <visible>ListItem.Property(is720)</visible>
+                </control>
+                <!--game start time-->
+                <control type="label">
+                    <description>Game Start Time</description>
+                    <left>115</left>
+                    <top>50</top>
+                    <width>550</width>
+                    <visible>ListItem.Property(isPlayable) + ListItem.Property(isGame)</visible>
+                    <align>center</align>
+                    <aligny>top</aligny>
+                    <scroll>true</scroll>
+                    <info>ListItem.Property(game_time)</info>
+                    <font>font12</font>
+                    <textcolor>FF000000</textcolor>
+                    <wrapmultiline>false</wrapmultiline>
+                    <scrollspeed>25</scrollspeed>
+                    <scrollsuffix> - </scrollsuffix>
+                </control>
+                <!--game home score-->
+                <control type="label">
+                    <description>Game Home Score</description>
+                    <left>132</left>
+                    <top>37</top>
+                    <width>550</width>
+                    <visible>ListItem.Property(isPlayable) + ListItem.Property(isGame)</visible>
+                    <!--<align>center</align>-->
+                    <aligny>top</aligny>
+                    <scroll>true</scroll>
+                    <info>ListItem.Property(home_score)</info>
+                    <font>font13</font>
+                    <textcolor>FF000000</textcolor>
+                    <wrapmultiline>false</wrapmultiline>
+                    <scrollspeed>25</scrollspeed>
+                    <scrollsuffix> - </scrollsuffix>
+                </control>
+                <!--game away score-->
+                <control type="label">
+                    <description>Game Away Score</description>
+                    <left>610</left>
+                    <top>37</top>
+                    <width>550</width>
+                    <visible>ListItem.Property(isPlayable) + ListItem.Property(isGame)</visible>
+                    <!--<align>center</align>-->
+                    <aligny>top</aligny>
+                    <scroll>true</scroll>
+                    <info>ListItem.Property(away_score)</info>
+                    <font>font13</font>
+                    <textcolor>FF000000</textcolor>
+                    <wrapmultiline>false</wrapmultiline>
+                    <scrollspeed>25</scrollspeed>
+                    <scrollsuffix> - </scrollsuffix>
+                </control>
+                <!--channel name-->
+                <control type="label">
+                    <description>channel name text</description>
+                    <left>115</left>
+                    <top>2</top>
+                    <width>550</width>
+                    <visible>ListItem.Property(ShowChnName) + !ListItem.Property(isVOD)</visible>
+                    <align>center</align>
+                    <scroll>false</scroll>
+                    <info>ListItem.Label</info>
+                    <font>font12</font>
+                    <textcolor>FF333333</textcolor>
+                    <wrapmultiline>false</wrapmultiline>
+                    <scrollspeed>50</scrollspeed>
+                    <scrollsuffix></scrollsuffix>
+                </control>
+                <!--VOD channel name-->
+                <control type="label">
+                    <description>channel name text</description>
+                    <left>265</left>
+                    <top>2</top>
+                    <width>400</width>
+                    <visible>ListItem.Property(ShowChnName) + ListItem.Property(isVOD)</visible>
+                    <scroll>false</scroll>
+                    <info>ListItem.Label</info>
+                    <font>font12</font>
+                    <textcolor>FF333333</textcolor>
+                    <wrapmultiline>false</wrapmultiline>
+                    <scrollspeed>50</scrollspeed>
+                    <scrollsuffix></scrollsuffix>
+                </control>
+                <!--Now title-->
+                <control type="label">
+                    <description>Now title text</description>
+                    <left>265</left>
+                    <top>36</top>
+                    <width>500</width>
+                    <visible>ListItem.Property(hasNow)</visible>
+                    <scroll>false</scroll>
+                    <info>ListItem.Property(now_progtitle)</info>
+                    <font>font12</font>
+                    <textcolor>FF333333</textcolor>
+                    <wrapmultiline>false</wrapmultiline>
+                    <scrollspeed>25</scrollspeed>
+                    <scrollsuffix> - </scrollsuffix>
+                </control>
+                <!--Next title-->
+                <control type="label">
+                    <description>Next title text</description>
+                    <left>265</left>
+                    <top>70</top>
+                    <width>500</width>
+                    <visible>ListItem.Property(hasNext)</visible>
+                    <scroll>false</scroll>
+                    <info>ListItem.Property(next_progtitle)</info>
+                    <font>font12</font>
+                    <textcolor>FF333333</textcolor>
+                    <wrapmultiline>false</wrapmultiline>
+                    <scrollspeed>0</scrollspeed>
+                    <scrollsuffix> - </scrollsuffix>
+                </control>
+            </itemlayout>
+            <focusedlayout width="780" height="105">
+                <control type="image">
+                        <left>10</left>
+                        <width>760</width>
+                        <height>105</height>
+                        <texture>reloadedtv/channel_focus.png</texture>
+                        <visible>ListItem.Property(isPlayable)</visible>
+                </control>
+                <control type="image">
+                        <left>10</left>
+                        <width>760</width>
+                        <height>105</height>
+                        <texture>reloadedtv/channel_focus.png</texture>
+                        <colordiffuse>CCFFFFFF</colordiffuse>
+                        <visible>!ListItem.Property(isPlayable)</visible>
+                </control>
+                <!--channel logo focused-->
+                <control type="image">
+                        <left>25</left>
+                        <top>22</top>
+                        <width>200</width>
+                        <height>62</height>
+                        <info>ListItem.Property(logo)</info>
+                        <visible>ListItem.Property(isPlayable) + !ListItem.Property(isGame) + !ListItem.Property(isVOD)</visible>
+                </control>
+                <!--channel logo focused-->
+                <control type="image">
+                        <left>25</left>
+                        <top>22</top>
+                        <width>200</width>
+                        <height>62</height>
+                        <info>ListItem.Property(logo)</info>
+                        <colordiffuse>99FFFFFF</colordiffuse>
+                        <visible>!ListItem.Property(isPlayable) + !ListItem.Property(isGame) + !ListItem.Property(isVOD)</visible>
+                </control>
+                <!--vod channel logo focused-->
+                <control type="image">
+                        <left>25</left>
+                        <top>5</top>
+                        <width>200</width>
+                        <height>95</height>
+                        <info>ListItem.Property(logo)</info>
+                        <visible>ListItem.Property(isPlayable) + !ListItem.Property(isGame) + ListItem.Property(isVOD)</visible>
+                </control>
+                <!--game away logo focused-->
+                <control type="image">
+                        <left>670</left>
+                        <top>25</top>
+                        <width>92</width>
+                        <height>62</height>
+                        <info>ListItem.Property(away_logo)</info>
+                        <visible>ListItem.Property(isPlayable) + ListItem.Property(isGame)</visible>
+                </control>
+                <!--game home logo focused-->
+                <control type="image">
+                        <left>30</left>
+                        <top>25</top>
+                        <width>92</width>
+                        <height>62</height>
+                        <info>ListItem.Property(home_logo)</info>
+                        <visible>ListItem.Property(isPlayable) + ListItem.Property(isGame)</visible>
+                </control>
+                <!--channel 1080 logo focused-->
+                <control type="image">
+                        <left>715</left>
+                        <top>7</top>
+                        <width>37</width>
+                        <height>37</height>
+                        <texture>reloadedtv/1080.png</texture>
+                        <visible>ListItem.Property(is1080)</visible>
+                </control>
+                <!--channel 720 logo focused-->
+                <control type="image">
+                        <left>710</left>
+                        <top>5</top>
+                        <width>44</width>
+                        <height>44</height>
+                        <texture>reloadedtv/720.png</texture>
+                        <visible>ListItem.Property(is720)</visible>
+                </control>
+                <!--game start time focused-->
+                <control type="label">
+                    <description>Game Start Time</description>
+                    <left>115</left>
+                    <top>50</top>
+                    <width>550</width>
+                    <visible>ListItem.Property(isPlayable) + ListItem.Property(isGame)</visible>
+                    <align>center</align>
+                    <aligny>top</aligny>
+                    <scroll>true</scroll>
+                    <info>ListItem.Property(game_time)</info>
+                    <font>font13</font>
+                    <textcolor>FF000000</textcolor>
+                    <wrapmultiline>false</wrapmultiline>
+                    <scrollspeed>25</scrollspeed>
+                    <scrollsuffix> - </scrollsuffix>
+                </control>
+                <!--game home score-->
+                <control type="label">
+                    <description>Game Home Score</description>
+                    <left>132</left>
+                    <top>37</top>
+                    <width>550</width>
+                    <visible>ListItem.Property(isPlayable) + ListItem.Property(isGame)</visible>
+                    <!--<align>center</align>-->
+                    <aligny>top</aligny>
+                    <scroll>true</scroll>
+                    <info>ListItem.Property(home_score)</info>
+                    <font>font13</font>
+                    <textcolor>FF000000</textcolor>
+                    <wrapmultiline>false</wrapmultiline>
+                    <scrollspeed>25</scrollspeed>
+                    <scrollsuffix> - </scrollsuffix>
+                </control>
+                <!--game away score-->
+                <control type="label">
+                    <description>Game Away Score</description>
+                    <left>610</left>
+                    <top>37</top>
+                    <width>550</width>
+                    <visible>ListItem.Property(isPlayable) + ListItem.Property(isGame)</visible>
+                    <!--<align>center</align>-->
+                    <aligny>top</aligny>
+                    <scroll>true</scroll>
+                    <info>ListItem.Property(away_score)</info>
+                    <font>font13</font>
+                    <textcolor>FF000000</textcolor>
+                    <wrapmultiline>false</wrapmultiline>
+                    <scrollspeed>25</scrollspeed>
+                    <scrollsuffix> - </scrollsuffix>
+                </control>
+                <!--channel name focused-->
+                <control type="label">
+                    <description>channel name text focused</description>
+                    <left>115</left>
+                    <top>2</top>
+                    <width>550</width>
+                    <visible>ListItem.Property(ShowChnName) + !ListItem.Property(isVOD)</visible>
+                    <align>center</align>
+                    <!--<aligny>top</aligny>-->
+                    <scroll>true</scroll>
+                    <info>ListItem.Label</info>
+                    <font>font13</font>
+                    <textcolor>FF222222</textcolor>
+                    <wrapmultiline>false</wrapmultiline>
+                    <scrollspeed>50</scrollspeed>
+                    <scrollsuffix> - </scrollsuffix>
+                </control>
+                <!--VOD channel name-->
+                <control type="label">
+                    <description>channel name text</description>
+                    <left>265</left>
+                    <top>2</top>
+                    <width>400</width>
+                    <visible>ListItem.Property(ShowChnName) + ListItem.Property(isVOD)</visible>
+                    <scroll>true</scroll>
+                    <info>ListItem.Label</info>
+                    <font>font13</font>
+                    <textcolor>FF333333</textcolor>
+                    <wrapmultiline>false</wrapmultiline>
+                    <scrollspeed>50</scrollspeed>
+                    <scrollsuffix> - </scrollsuffix>
+                </control>
+                <!--Now title focused-->
+                <control type="label">
+                    <description>Now title text focused</description>
+                    <left>265</left>
+                    <top>36</top>
+                    <width>480</width>
+                    <visible>ListItem.Property(hasNow)</visible>
+                    <scroll>true</scroll>
+                    <info>ListItem.Property(now_progtitle)</info>
+                    <font>font12</font>
+                    <textcolor>FF333333</textcolor>
+                    <wrapmultiline>false</wrapmultiline>
+                    <scrollspeed>25</scrollspeed>
+                    <scrollsuffix> - </scrollsuffix>
+                </control>
+                <!--Next title focused-->
+                <control type="label">
+                    <description>Next title text</description>
+                    <left>265</left>
+                    <top>70</top>
+                    <width>480</width>
+                    <visible>ListItem.Property(hasNext)</visible>
+                    <scroll>true</scroll>
+                    <info>ListItem.Property(next_progtitle)</info>
+                    <font>font12</font>
+                    <textcolor>FF333333</textcolor>
+                    <wrapmultiline>false</wrapmultiline>
+                    <scrollspeed>25</scrollspeed>
+                    <scrollsuffix> - </scrollsuffix>
+                </control>
+            </focusedlayout>
+        </control>
+        <control type="videowindow">
+            <left>0</left>
+            <top>680</top>
+            <width>340</width>
+            <height>191</height>
+            <aspectratio>scale</aspectratio>
+            <visible>Player.HasVideo</visible>
+        </control>
+        <control type="scrollbar" id="69">
+            <left>0</left>
+            <top>700</top>
+            <width>1</width>
+            <height>1</height>
+            <visible>Player.HasVideo</visible>
+        </control>
+        <control type="scrollbar" id="61">
+            <left>1901</left>
+            <top>160</top>
+            <width>10</width>
+            <height>840</height>
+            <onup>61</onup>
+            <ondown>61</ondown>
+            <onleft>230</onleft>
+            <onright>230</onright>
+            <texturesliderbackground>-</texturesliderbackground>
+            <texturesliderbar border="1" flipx="true">reloadedtv/sliderbar.png</texturesliderbar>
+            <texturesliderbarfocus border="1" flipx="true">reloadedtv/sliderbar_focus.png</texturesliderbarfocus>
+            <showonepage>false</showonepage>
+            <orientation>vertical</orientation>
+        </control>
+    </controls>
+</window>

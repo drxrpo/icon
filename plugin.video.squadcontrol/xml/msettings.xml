@@ -1,0 +1,25 @@
+<xml>
+    <plugin>
+        <title>SQUAD CONTROL: Customization</title>
+        <mysettings>0/0</mysettings>
+        <thumbnail>special://home/addons/plugin.video.squadcontrol/resources/media/settings.png</thumbnail>
+        <fanart>special://home/addons/plugin.video.squadcontrol/resources/media/settings.jpg</fanart>
+        <info>Open the Settings for the addon on the Customization tab</info>
+    </plugin>
+
+    <plugin>
+        <title>SQUAD CONTROL: General</title>
+        <mysettings>1/0</mysettings>
+        <thumbnail>special://home/addons/plugin.video.squadcontrol/resources/media/settings.png</thumbnail>
+        <fanart>special://home/addons/plugin.video.squadcontrol/resources/media/settings.jpg</fanart>
+        <info>Open the Settings for the addon on the General tab</info>
+    </plugin>
+
+    <plugin>
+        <title>TOOLS: Clear Cache</title>
+        <link>plugin://plugin.video.squadcontrol/?mode=clearCache</link>
+        <thumbnail>special://home/addons/plugin.video.squadcontrol/resources/media/settings.png</thumbnail>
+        <fanart>special://home/addons/plugin.video.squadcontrol/resources/media/settings.jpg</fanart>
+        <info>Clear all the Cache for the addon</info>
+    </plugin>
+</xml>

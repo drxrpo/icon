@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<addon id="repository.lockdown" name="[COLOR white]l[/COLOR][COLOR ff7ec0ee]ock[/COLOR][COLOR white]d[/COLOR][COLOR ff7ec0ee]own[/COLOR]" version="2.1" provider-name="lockdown">
+	<extension point="xbmc.addon.repository" name="Simple Kodi">
+		    <info compressed="false">http://lockdown.in/repo/addons.xml</info>
+		    <checksum>http://lockdown.in/repo/addons.xml.md5</checksum>
+		    <datadir zip="true">http://lockdown.in/repo/files/</datadir>
+	</extension>
+	<extension point="xbmc.addon.metadata">
+		<summary>[COLOR white]l[/COLOR][COLOR ff7ec0ee]ock[/COLOR][COLOR white]d[/COLOR][COLOR ff7ec0ee]own[/COLOR]</summary>
+		<description>[COLOR white]l[/COLOR][COLOR ff7ec0ee]ock[/COLOR][COLOR white]d[/COLOR][COLOR ff7ec0ee]own[/COLOR]</description>
+		<platform>all</platform>
+	</extension>
+</addon>
+

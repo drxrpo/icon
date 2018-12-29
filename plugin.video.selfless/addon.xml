@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+
+<addon id="plugin.video.selfless" name="[B][COLOR pink]Self[COLOR cyan]Less[/COLOR][/B]" version="1.5" provider-name="Altruistic">
+  <requires>
+    <import addon="xbmc.python" version="2.1.0"/>
+    <import addon="script.module.beautifulsoup" version="3.2.1"/>
+    <import addon="script.module.simple.downloader" version="0.9.4"/>
+    <import addon="script.module.beautifulsoup4" />
+    <import addon="script.module.requests" />
+    <import addon="script.module.httplib2" />
+    <import addon="script.module.youtube.dl" optional="true"/>
+    <import addon="plugin.video.youtube" optional="true" />
+    <import addon="script.module.urlresolver" optional="true"/>
+    <import addon="script.module.simplejson" />
+	<import addon="script.module.livestreamer" optional="true"/>
+	<import addon="plugin.video.live.streamspro" version="2.8.1" />
+	<import addon="plugin.video.f4mTester" version="2.7.2" />
+	<import addon="script.video.F4mProxy" version="2.8.7" />
+  </requires>
+  <extension point="xbmc.python.pluginsource" library="default.py">
+    <provides>video</provides>
+  </extension>
+  <extension point="xbmc.addon.metadata">
+    <summary>[COLOR red]Home of internet contents[/COLOR]</summary>
+    <description lang="en">[B][COLOR pink]Self[COLOR cyan]Less[/COLOR][/B] is here to change the [COLOR red]game[/COLOR]</description>
+    <platform>all</platform>
+  </extension>
+</addon>

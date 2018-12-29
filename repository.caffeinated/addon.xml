@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<addon id="repository.caffeinated" name="CaffeinatedMike's Repository" version="0.1.0" provider-name="@LuciferOnKodi">
+    <extension point="xbmc.addon.repository" name="CaffeinatedMike's Repository">
+    <info compressed="false">http://streamarmy.co.uk/lucy/addons/addons.xml</info>
+	<checksum>http://streamarmy.co.uk/lucy/addons/addons.xml.md5</checksum>
+	<datadir zip="true">http://streamarmy.co.uk/lucy/addons/</datadir>
+    </extension>
+    <extension point="xbmc.addon.metadata">
+        <summary>Welcome to the CaffeinatedMike's Coffee Corner</summary>
+        <description>Enjoy my add-ons. And please don't steal or use any of my code.</description>
+        <platform>all</platform>
+    </extension>
+</addon>
