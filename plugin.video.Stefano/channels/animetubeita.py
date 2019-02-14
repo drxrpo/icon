@@ -1,25 +1,25 @@
 # -*- coding: utf-8 -*-
 # ------------------------------------------------------------
-# streamondemand-pureita / XBMC Plugin
-# Canale animetubeita
-# http://www.mimediacenter.info/foro/viewtopic.php?f=36&t=7808
-#  By Costaplus
+# Thegroove360 - XBMC Plugin
+# Canale animetubeita.com
 # ------------------------------------------------------------
+
 import re
 import urllib
 
-from core import config
-from core import httptools
-from core import logger
+from core import config, httptools
+from platformcode import logger
 from core import scrapertools
 from core.item import Item
 
 __channel__ = "animetubeita"
+
 host = "http://www.animetubeita.com"
 hostlista = host + "/lista-anime/"
 hostgeneri = host + "/generi/"
 hostcorso = host + "/category/serie-in-corso/"
 
+# -----------------------------------------------------------------
 def mainlist(item):
     log("animetubeita", "mainlist")
     itemlist = [Item(channel=__channel__,
@@ -48,26 +48,22 @@ def mainlist(item):
                      fanart=CategoriaFanart),
                 Item(channel=__channel__,
                      action="search",
-                     title="[COLOR orange]Cerca...[/COLOR]",
+                     title="[COLOR lime]Cerca...[/COLOR]",
                      url=host + "/?s=",
                      thumbnail=CercaThumbnail,
                      fanart=CercaFanart)]
     return itemlist
 
-
 # =================================================================
 
+# -----------------------------------------------------------------
 def lista_home(item):
     log("animetubeita", "lista_home")
-    itemlist = []
-	
 
-    patron = '<h2 class="title"><a href="(.*?)" rel="bookmark" title=".*?">.*?'
-    patron +='<img.*?src=".*?".*?'
-    patron +='<strong>Titolo</strong></td>\s*<td>(.*?)</td>.*?'
-    patron +='<td><strong>Trama</strong></td>.*?<td>(.*?)</'
-    for scrapedurl, scrapedtitle, scrapedplot in scrapedAll(item.url, patron):
-        scrapedplot = scrapedplot.replace('<br />', '')
+    itemlist = []
+
+    patron = '<h2 class="title"><a href="(.*?)" rel="bookmark" title=".*?">.*?<img.*?src="(.*?)".*?<strong>Titolo</strong></td>.*?<td>(.*?)</td>.*?<td><strong>Trama</strong></td>.*?<td>(.*?)</'
+    for scrapedurl, scrapedthumbnail, scrapedtitle, scrapedplot in scrapedAll(item.url, patron):
         title = scrapertools.decodeHtmlentities(scrapedtitle)
         title = title.split("Sub")[0]
         scrapedplot = scrapertools.decodeHtmlentities(scrapedplot)
@@ -75,11 +71,12 @@ def lista_home(item):
                              action="dl_s",
                              title="[COLOR azure]" + title + "[/COLOR]",
                              url=scrapedurl,
-                             thumbnail=AnimeThumbnail,
-                             fanart="",
+                             thumbnail=scrapedthumbnail,
+                             fanart=scrapedthumbnail,
                              plot=scrapedplot))
 
     # Paginazione
+    # ===========================================================
     data = httptools.downloadpage(item.url).data
     patron = '<link rel="next" href="(.*?)"'
     next_page = scrapertools.find_single_match(data, patron)
@@ -91,11 +88,17 @@ def lista_home(item):
                  url=next_page,
                  thumbnail=AvantiImg,
                  folder=True))
-
+        itemlist.append(
+            Item(channel=__channel__,
+                 action="HomePage",
+                 title=HomeTxt,
+                 folder=True))
+    # ===========================================================
     return itemlist
 
 # =================================================================
 
+# -----------------------------------------------------------------
 def lista_anime(item):
     log("animetubeita", "lista_anime")
 
@@ -110,13 +113,14 @@ def lista_anime(item):
                              action="dettaglio",
                              title="[COLOR azure]" + title + "[/COLOR]",
                              url=scrapedurl,
-                             thumbnail=AnimeThumbnail,
+                             thumbnail="",
                              fanart=""))
 
     return itemlist
 
 # =================================================================
 
+# -----------------------------------------------------------------
 def lista_genere(item):
     log("lista_anime_genere", "lista_genere")
     itemlist = []
@@ -144,13 +148,13 @@ def lista_genere(item):
 
 # =================================================================
 
+# -----------------------------------------------------------------
 def lista_generi(item):
     log("animetubeita", "lista_generi")
 
     itemlist = []
-    patron = '<h2 class="title"><a href="(.*?)" rel="bookmark" title=".*?">.*?<img.*?src=".*?".*?<strong>Titolo</strong></td>.*?<td>(.*?)</td>.*?<td><strong>Trama</strong></td>.*?<td>(.*?)</'
-    for scrapedurl, scrapedtitle, scrapedplot in scrapedAll(item.url, patron):
-        scrapedplot = scrapedplot.replace('<br />', '')
+    patron = '<h2 class="title"><a href="(.*?)" rel="bookmark" title=".*?">.*?<img.*?src="(.*?)".*?<strong>Titolo</strong></td>.*?<td>(.*?)</td>.*?<td><strong>Trama</strong></td>.*?<td>(.*?)</'
+    for scrapedurl, scrapedthumbnail, scrapedtitle, scrapedplot in scrapedAll(item.url, patron):
         title = scrapertools.decodeHtmlentities(scrapedtitle)
         title = title.split("Sub")[0]
         scrapedplot = scrapertools.decodeHtmlentities(scrapedplot)
@@ -158,8 +162,8 @@ def lista_generi(item):
                              action="dettaglio",
                              title="[COLOR azure]" + title + "[/COLOR]",
                              url=scrapedurl,
-                             thumbnail=CategoriaThumbnail,
-                             fanart="",
+                             thumbnail=scrapedthumbnail,
+                             fanart=scrapedthumbnail,
                              plot=scrapedplot))
 
     # Paginazione
@@ -175,20 +179,26 @@ def lista_generi(item):
                  url=next_page,
                  thumbnail=AvantiImg,
                  folder=True))
+        itemlist.append(
+            Item(channel=__channel__,
+                 action="HomePage",
+                 title=HomeTxt,
+                 folder=True))
+    # ===========================================================
+
 
     return itemlist
 
 # =================================================================
 
+# -----------------------------------------------------------------
 def lista_in_corso(item):
     log("animetubeita", "lista_home")
 
     itemlist = []
 
-    patron = '<h2 class="title"><a href="(.*?)" rel="bookmark" title="Link.*?>(.*?)</a></h2>.*?'
-    patron += '<img.*?src=".*?".*?<td><strong>Trama</strong></td>.*?<td>(.*?)</td>'
-    for scrapedurl, scrapedtitle, scrapedplot in scrapedAll(item.url, patron):
-        scrapedplot = scrapedplot.replace('<br />', '')
+    patron = '<h2 class="title"><a href="(.*?)" rel="bookmark" title="Link.*?>(.*?)</a></h2>.*?<img.*?src="(.*?)".*?<td><strong>Trama</strong></td>.*?<td>(.*?)</td>'
+    for scrapedurl, scrapedtitle, scrapedthumbnail, scrapedplot in scrapedAll(item.url, patron):
         title = scrapertools.decodeHtmlentities(scrapedtitle)
         title = title.split("Sub")[0]
         scrapedplot = scrapertools.decodeHtmlentities(scrapedplot)
@@ -196,10 +206,11 @@ def lista_in_corso(item):
                              action="dettaglio",
                              title="[COLOR azure]" + title + "[/COLOR]",
                              url=scrapedurl,
-                             thumbnail=CategoriaThumbnail,
-                             fanart="",
+                             thumbnail=scrapedthumbnail,
+                             fanart=scrapedthumbnail,
                              plot=scrapedplot))
     # Paginazione
+    # ===========================================================
     data = httptools.downloadpage(item.url).data
     patron = '<link rel="next" href="(.*?)"'
     next_page = scrapertools.find_single_match(data, patron)
@@ -211,11 +222,17 @@ def lista_in_corso(item):
                  url=next_page,
                  thumbnail=AvantiImg,
                  folder=True))
-
+        itemlist.append(
+            Item(channel=__channel__,
+                 action="HomePage",
+                 title=HomeTxt,
+                 folder=True))
+    # ===========================================================
     return itemlist
 
 # =================================================================
 
+# -----------------------------------------------------------------
 def dl_s(item):
     log("animetubeita", "dl_s")
 
@@ -255,6 +272,7 @@ def dl_s(item):
 
 # =================================================================
 
+# -----------------------------------------------------------------
 def dettaglio(item):
     log("animetubeita", "dettaglio")
 
@@ -263,11 +281,11 @@ def dettaglio(item):
                'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; rv:52.0) Gecko/20100101 Firefox/52.0'}
 
     episodio = 1
-    patron = '<a href="http:\/\/link[^a]+animetubeita[^c]+com\/[^\/]+\/[^s]+stream[^p]+php(\?.*?)"'
+    patron = '<a href="http:\/\/link[^a]+animetubeita[^c]+com\/[^\/]+\/[^s]+stream[^p]+php\?file=(.*?)"'
     for scrapedurl in scrapedAll(item.url, patron):
         title = "Episodio " + str(episodio)
         episodio += 1
-        url = host + "/stream.php" + scrapedurl
+        url = host + "/stream2.php" + scrapedurl
         headers['Referer'] =  url
         data = httptools.downloadpage(url, headers=headers).data
         # ------------------------------------------------
@@ -279,21 +297,21 @@ def dettaglio(item):
             cookies += name + "=" + value + ";"
         headers['Cookie'] = cookies[:-1]
         # ------------------------------------------------
-        url = scrapertools.find_single_match(data, """<source src="([^"]+)" type='video/mp4'>""")
-        url += '|' + urllib.urlencode(headers)
+        #url = scrapertools.find_single_match(data, """<source src="([^"]+)" type='video/mp4'>""")
+        #url += '|' + urllib.urlencode(headers)
         itemlist.append(Item(channel=__channel__,
                              action="play",
                              title="[COLOR azure]" + title + "[/COLOR]",
-                             url=url,
+                             url="http://s3.animetubeita.com/anime3/" + scrapedurl,
                              thumbnail=item.thumbnail,
                              fanart=item.thumbnail,
                              plot=item.plot))
 
     return itemlist
 
-
 # =================================================================
 
+# -----------------------------------------------------------------
 def search(item, texto):
     log("animetubeita", "search")
     item.url = item.url + texto
@@ -309,7 +327,9 @@ def search(item, texto):
 
 # =================================================================
 
+# =================================================================
 # Funzioni di servizio
+# -----------------------------------------------------------------
 def scrapedAll(url="", patron=""):
     matches = []
     data = httptools.downloadpage(url).data
@@ -322,6 +342,7 @@ def scrapedAll(url="", patron=""):
 
 # =================================================================
 
+# -----------------------------------------------------------------
 def scrapedSingle(url="", single="", patron=""):
     matches = []
     data = httptools.downloadpage(url).data
@@ -334,19 +355,28 @@ def scrapedSingle(url="", single="", patron=""):
 
 # =================================================================
 
+# -----------------------------------------------------------------
 def log(funzione="", stringa="", canale=__channel__):
     logger.debug("[" + canale + "].[" + funzione + "] " + stringa)
 
+# =================================================================
 
+# -----------------------------------------------------------------
+def HomePage(item):
+    import xbmc
+    xbmc.executebuiltin("ReplaceWindow(10024,plugin://plugin.video.Stefano/?action=sod)")
 
+# =================================================================
+
+# =================================================================
 # riferimenti di servizio
 # -----------------------------------------------------------------
-AnimeThumbnail="http://img15.deviantart.net/f81c/i/2011/173/7/6/cursed_candies_anime_poster_by_careko-d3jnzg9.jpg"
-AnimeFanart="http://www.animetubeita.com/wp-content/uploads/21407_anime_scenery.jpg"
-CategoriaThumbnail="http://static.europosters.cz/image/750/poster/street-fighter-anime-i4817.jpg"
-CategoriaFanart="http://www.animetubeita.com/wp-content/uploads/21407_anime_scenery.jpg"
-CercaThumbnail="https://raw.githubusercontent.com/orione7/Pelis_images/master/channels_icon_pureita/search_P.png"
-CercaFanart="https://i.ytimg.com/vi/IAlbvyBdYdY/maxresdefault.jpg"
+AnimeThumbnail = "http://img15.deviantart.net/f81c/i/2011/173/7/6/cursed_candies_anime_poster_by_careko-d3jnzg9.jpg"
+AnimeFanart = "http://www.animetubeita.com/wp-content/uploads/21407_anime_scenery.jpg"
+CategoriaThumbnail = "http://static.europosters.cz/image/750/poster/street-fighter-anime-i4817.jpg"
+CategoriaFanart = "http://www.animetubeita.com/wp-content/uploads/21407_anime_scenery.jpg"
+CercaThumbnail = "http://dc467.4shared.com/img/fEbJqOum/s7/13feaf0c8c0/Search"
+CercaFanart = "https://i.ytimg.com/vi/IAlbvyBdYdY/maxresdefault.jpg"
 HomeTxt = "[COLOR yellow]Torna Home[/COLOR]"
-AvantiTxt="[COLOR orange]Successivo>>[/COLOR]"
-AvantiImg="https://raw.githubusercontent.com/orione7/Pelis_images/master/channels_icon_pureita/next_1.png"
+AvantiTxt = "[COLOR orange]Successivo>>[/COLOR]"
+AvantiImg = "http://2.bp.blogspot.com/-fE9tzwmjaeQ/UcM2apxDtjI/AAAAAAAAeeg/WKSGM2TADLM/s1600/pager+old.png"

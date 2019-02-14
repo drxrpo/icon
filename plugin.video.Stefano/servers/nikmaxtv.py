@@ -5,8 +5,7 @@
 import re
 import urllib
 
-from core import httptools
-from platformcode import logger
+from core import httptools, logger
 
 
 # Prendo l'url del video dal sito

@@ -321,7 +321,7 @@ msgstr ""
 
 msgctxt "#32073"
 msgid "[B]TRAKT[/B] : Authorize"
-msgstr "[B]TRAKT[/B]: Authorise"
+msgstr "[B]TRAKT[/B]: Authorize"
 
 msgctxt "#32074"
 msgid "[B]HELP[/B]"
@@ -577,10 +577,6 @@ msgstr ""
 
 msgctxt "#32373"
 msgid "Force container refresh"
-msgstr ""
-
-msgctxt "#32374"
-msgid "Enable Debug"
 msgstr ""
 
 msgctxt "#32401"
@@ -939,3 +935,18 @@ msgctxt "#32607"
 msgid "[COLOR=blue]Free[/COLOR]"
 msgstr ""
 
+msgctxt "#32608"
+msgid "Auto Syncing Trakt Library"
+msgstr ""
+
+msgctxt "#32631"
+msgid "Boxsets"
+msgstr ""
+
+msgctxt "#32581"
+msgid "4K Movies"
+msgstr ""
+
+msgctxt "#32622"
+msgid "Documentary"
+msgstr "Documentary"				

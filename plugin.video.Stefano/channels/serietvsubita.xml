@@ -1,4 +1,3 @@
-
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <channel>
 	<id>serietvsubita</id>
@@ -9,20 +8,26 @@
 	<language>it</language>
 
 	<fanart></fanart>
-	<thumbnail>https://raw.githubusercontent.com/orione7/Pelis_images/master/bannermenu/serietvsubita.png</thumbnail>
-	<bannermenu>https://raw.githubusercontent.com/orione7/Pelis_images/master/bannermenu/serietvsubita.png</bannermenu>
+	<thumbnail>https://raw.githubusercontent.com/Zanzibar82/images/master/posters/serietvsubita.png</thumbnail>
+	<bannermenu>https://raw.githubusercontent.com/Zanzibar82/images/master/posters/serietvsubita.png</bannermenu>
 
-	<update_url>https://raw.githubusercontent.com/orione7/plugin.video.streamondemand-pureita/master/channels/</update_url>
-	<version>8</version>
-	<date>13/04/2018</date>
-	<changes>Temporary Fix</changes>
+	<update_url>https://raw.githubusercontent.com/stesev1/channels/master/channels/</update_url>
+	<version>5</version>
+	<date>22/06/2016</date>
+	<changes>update</changes>
 
 	<categories>
 		<category>serie</category>
-		<category>top channels</category>
+		<category>vos</category>
+                <category>top channels</category>
 	</categories>
 
 	<settings>
-		<include_in_global_search>false</include_in_global_search>
+		<id>include_in_global_search</id>
+		<type>bool</type>
+		<label>Incluir en busqueda global</label>
+		<default>true</default>
+		<enabled>true</enabled>
+		<visible>true</visible>
 	</settings>
 </channel>

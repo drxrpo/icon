@@ -2,8 +2,7 @@
 # StreamOnDemand Community Edition - Kodi Addon
 # by MrTruth
 
-from core import httptools, scrapertools
-from platformcode import logger
+from core import httptools, scrapertools, logger
 
 
 def get_video_url(page_url, user="", password="", video_password=""):

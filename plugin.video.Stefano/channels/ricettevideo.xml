@@ -8,12 +8,12 @@
     <language>it</language>
 
     <fanart></fanart>
-    <thumbnail>https://raw.githubusercontent.com/orione7/Pelis_images/master/bannermenu/ricettevideo.png</thumbnail>
-    <bannermenu>https://raw.githubusercontent.com/orione7/Pelis_images/master/bannermenu/ricettevideo.png</bannermenu>
+    <thumbnail>http://ricettevideo.net/wp-content/uploads/2013/08/Ricette-Video-Logo.png</thumbnail>
+    <bannermenu>http://ricettevideo.net/wp-content/uploads/2013/08/Ricette-Video-Logo.png</bannermenu>
 
-    <update_url>https://raw.githubusercontent.com/orione7/plugin.video.streamondemand-pureita/master/channels/</update_url>
+    <update_url>https://raw.githubusercontent.com/stesev1/channels/master/channels/</update_url>
     <version>2</version>
-    <date>11/04/2018</date>
+    <date>22/06/2016</date>
     <changes>update</changes>
 
     <categories>
@@ -21,7 +21,6 @@
     </categories>
 
     <settings>
-	    <include_in_global_search>false</include_in_global_search>
         <id>include_in_global_search</id>
         <type>bool</type>
         <label>Includi ricerca globale</label>

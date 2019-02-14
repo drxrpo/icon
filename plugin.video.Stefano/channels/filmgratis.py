@@ -1,15 +1,13 @@
 # -*- coding: utf-8 -*-
 # ------------------------------------------------------------
-# StreamOnDemand-PureITA / XBMC Plugin
-# Canale  Filmgratis
-# http://www.mimediacenter.info/foro/viewtopic.php?f=36&t=7808
-# By MrTruth
+# TheGroove360 - XBMC Plugin
+# Canale  per http://filmgratis.cc/
 # ------------------------------------------------------------
 
 import re
 import urlparse
 
-from core import logger
+from platformcode import logger
 from core import httptools
 from core import servertools
 from core import scrapertools
@@ -18,41 +16,58 @@ from core.tmdb import infoSod
 
 __channel__ = "filmgratis"
 
-host = "https://filmgratis.uno"
+host = "https://www.filmaltadefinizione.net/"
 
 # ----------------------------------------------------------------------------------------------------------------
 def mainlist(item):
     logger.info()
     itemlist = [Item(channel=__channel__,
                      action="peliculas",
-                     title="[COLOR azure]Film [COLOR orange]- Novita[/COLOR]",
+                     title=color("Home", "orange"),
                      url=host,
-                     thumbnail="https://raw.githubusercontent.com/orione7/Pelis_images/master/channels_icon_pureita/popcorn_cinema_P.png"),
+                     thumbnail="http://orig03.deviantart.net/6889/f/2014/079/7/b/movies_and_popcorn_folder_icon_by_matheusgrilo-d7ay4tw.png"),
+                Item(channel=__channel__,
+                     action="annoattuale",
+                     title=color("Film di quest'anno", "azure"),
+                     url=host,
+                     thumbnail="http://orig03.deviantart.net/6889/f/2014/079/7/b/movies_and_popcorn_folder_icon_by_matheusgrilo-d7ay4tw.png"),
                 Item(channel=__channel__,
                      action="categorie",
-                     title="[COLOR azure]Film [COLOR orange]- Categoria[/COLOR]",
+                     title=color("Categorie", "azure"),
                      url=host,
-                     thumbnail="https://raw.githubusercontent.com/orione7/Pelis_images/master/channels_icon_pureita/genres_P.png"),
+                     thumbnail="http://orig03.deviantart.net/6889/f/2014/079/7/b/movies_and_popcorn_folder_icon_by_matheusgrilo-d7ay4tw.png"),
                 Item(channel=__channel__,
                      action="peranno",
-                     title="[COLOR azure]Film [COLOR orange]- per Anno[/COLOR]",
+                     title=color("Per anno", "azure"),
                      url=host,
-                     thumbnail="https://raw.githubusercontent.com/orione7/Pelis_images/master/channels_icon_pureita/movie_year_P.png"),
+                     thumbnail="http://orig03.deviantart.net/6889/f/2014/079/7/b/movies_and_popcorn_folder_icon_by_matheusgrilo-d7ay4tw.png"),
                 Item(channel=__channel__,
                      action="perpaese",
-                     title="[COLOR azure]Film [COLOR orange]- per Paese[/COLOR]",
+                     title=color("Per paese", "azure"),
                      url=host,
-                     thumbnail="https://raw.githubusercontent.com/orione7/Pelis_images/master/channels_icon_pureita/movie_country_P.png"),
+                     thumbnail="http://orig03.deviantart.net/6889/f/2014/079/7/b/movies_and_popcorn_folder_icon_by_matheusgrilo-d7ay4tw.png"),
+                Item(channel=__channel__,
+                     action="peliculas",
+                     title=color("Serie TV", "orange"),
+                     url="%s/telefilm-serie-tv-streaming/" % host,
+                     thumbnail="http://orig03.deviantart.net/6889/f/2014/079/7/b/movies_and_popcorn_folder_icon_by_matheusgrilo-d7ay4tw.png"),
                 Item(channel=__channel__,
                      action="search",
-                     title="[COLOR orange]Cerca Film...[/COLOR]",
+                     title=color("Cerca Film...", "yellow"),
                      extra="movie",
-                     thumbnail="https://raw.githubusercontent.com/orione7/Pelis_images/master/channels_icon_pureita/search_P.png")]
+                     thumbnail="http://orig03.deviantart.net/6889/f/2014/079/7/b/movies_and_popcorn_folder_icon_by_matheusgrilo-d7ay4tw.png"),
+                Item(channel=__channel__,
+                     action="search",
+                     title=color("Cerca Serie TV...", "yellow"),
+                     extra="serie",
+                     thumbnail="http://orig03.deviantart.net/6889/f/2014/079/7/b/movies_and_popcorn_folder_icon_by_matheusgrilo-d7ay4tw.png")
+                ]
 
     return itemlist
 
-# ==============================================================================================================================================================================
+# ================================================================================================================
 
+# ----------------------------------------------------------------------------------------------------------------
 def search(item, texto):
     logger.info("filmgratis.py Search ===> " + texto)
     item.url = "%s/index.php?story=%s&do=search&subaction=search" % (host, texto)
@@ -65,8 +80,9 @@ def search(item, texto):
             logger.error("%s" % line)
         return []
 
-# ==============================================================================================================================================================================
+# ================================================================================================================
 
+# ----------------------------------------------------------------------------------------------------------------
 def newest(categoria):
     logger.info("filmgratis " + categoria)
     itemlist = []
@@ -89,8 +105,9 @@ def newest(categoria):
 
     return itemlist
 
-# ==============================================================================================================================================================================
+# ================================================================================================================
 
+# ----------------------------------------------------------------------------------------------------------------
 def annoattuale(item):
     logger.info()
     itemlist = []
@@ -102,8 +119,9 @@ def annoattuale(item):
     item.url = urlparse.urljoin(host, scrapertools.find_single_match(blocco, patron))
     return peliculas(item)
 
-# ==============================================================================================================================================================================
+# ================================================================================================================
 
+# ----------------------------------------------------------------------------------------------------------------
 def categorie(item):
     logger.info()
     itemlist = []
@@ -121,19 +139,19 @@ def categorie(item):
                  action="peliculas",
                  title=scrapedtitle,
                  url=urlparse.urljoin(host, scrapedurl),
-                 thumbnail="https://raw.githubusercontent.com/orione7/Pelis_images/master/channels_icon_pureita/genre_P.png",
                  folder=True))
 
     return itemlist
 
-# ==============================================================================================================================================================================
+# ================================================================================================================
 
+# ----------------------------------------------------------------------------------------------------------------
 def peranno(item):
     logger.info()
     itemlist = []
 
     data = httptools.downloadpage(item.url).data
-    blocco = scrapertools.get_match(data, r'<div class="sort-menu-title">\s*Anno di pubblicazione:\s*</div>(.*?)<div style="clear: both;"></div>')
+    blocco = scrapertools.get_match(data, r'<div class="sort-menu-title">\s*Anno di pubblicazione:\s*</div>(.*?)</div>')
     patron = r'<a href="([^"]+)">([^<]+)</a>'
     matches = re.compile(patron, re.DOTALL).findall(blocco)
 
@@ -144,13 +162,13 @@ def peranno(item):
                  action="peliculas",
                  title=scrapedtitle,
                  url=urlparse.urljoin(host, scrapedurl),
-                 thumbnail="https://raw.githubusercontent.com/orione7/Pelis_images/master/channels_icon_pureita/movie_year_P.png",
                  folder=True))
 
     return itemlist
 
-# ==============================================================================================================================================================================
+# ================================================================================================================
 
+# ----------------------------------------------------------------------------------------------------------------
 def perpaese(item):
     logger.info()
     itemlist = []
@@ -167,73 +185,70 @@ def perpaese(item):
                  action="peliculas",
                  title=scrapedtitle,
                  url=urlparse.urljoin(host, scrapedurl),
-                 thumbnail="https://raw.githubusercontent.com/orione7/Pelis_images/master/channels_icon_pureita/movie_country_P.png",
                  folder=True))
 
     return itemlist
 
-# ==============================================================================================================================================================================
+# ================================================================================================================
 
+# ----------------------------------------------------------------------------------------------------------------
 def peliculas(item):
     logger.info()
     itemlist = []
 
     data = httptools.downloadpage(item.url).data
-    patron = r'<div class="main-news-image">\s*<a href="([^"]+)"><img src="([^"]+)" alt="([^"]+)".*?/></a>'
+    patron = r'<a href="([^"]+)"><img src="([^"]+)" alt="([^"]+)".*?/></a>'
     matches = re.compile(patron, re.DOTALL).findall(data)
 
     for scrapedurl, scrapedthumbnail, scrapedtitle in matches:
         scrapedtitle = scrapertools.decodeHtmlentities(scrapedtitle)
         year = scrapertools.find_single_match(scrapedtitle, r'\((\d{4})\)')
-        scrapetrailar = " Trailer"
 
-        # 
-        html = httptools.downloadpage(scrapedurl).data
+        # Bypass fake links
+        # html = httptools.downloadpage(scrapedurl).data
 
-        patron = '<div class="video-player-plugin">([\s\S]*)<div class="wrapper-plugin-video">'
-        matches = re.compile(patron, re.DOTALL).findall(html)
-        for url in matches:
-            if "scrolling" in url:
-                scrapedurl = scrapedurl
-            else:
-                scrapedtitle = scrapedtitle + scrapetrailar
+        #patron = '<div class="video-player-plugin">([\s\S]*)<div class="wrapper-plugin-video">'
+        #matches = re.compile(patron, re.DOTALL).findall(html)
+        #for url in matches:
+            #if "scrolling" not in url:
+                #continue
 
-            itemlist.append(infoSod(
-                Item(channel=__channel__,
-                     action="findvideos",
-                     contentType="movie",
-                     title=scrapedtitle,
-                     fulltitle=scrapedtitle,
-                     url=scrapedurl,
-                     extra="movie",
-                     thumbnail=scrapedthumbnail,
-                     folder=True), tipo="movie"))
+        itemlist.append(infoSod(
+            Item(channel=__channel__,
+                action="findvideos",
+                contentType="movie",
+                title=scrapedtitle.replace(year, color("%s" % year, "red")),
+                fulltitle=scrapedtitle,
+                url=scrapedurl,
+                extra="movie",
+                thumbnail=scrapedthumbnail,
+                folder=True), tipo="movie"))
 
     # Pagine
     patronvideos = r'<a href="([^"]+)">>'
-    matches = re.compile(patronvideos, re.DOTALL).findall(data)
+    next_page = scrapertools.find_single_match(data, patronvideos)
 
-    if len(matches) > 0:
-        scrapedurl = urlparse.urljoin(item.url, matches[0])
+    if next_page:
+        scrapedurl = urlparse.urljoin(item.url, next_page)
         itemlist.append(
             Item(channel=__channel__,
                  action="HomePage",
                  title="[COLOR yellow]Torna Home[/COLOR]",
-                 thumbnail="https://raw.githubusercontent.com/orione7/Pelis_images/master/channels_icon_pureita/return_home_P.png",
                  folder=True)),
         itemlist.append(
             Item(channel=__channel__,
                  action="peliculas",
                  title="[COLOR orange]Successivo >>[/COLOR]",
                  url=scrapedurl,
-                 thumbnail="https://raw.githubusercontent.com/orione7/Pelis_images/master/channels_icon_pureita/successivo_P.png",
+                 thumbnail="http://2.bp.blogspot.com/-fE9tzwmjaeQ/UcM2apxDtjI/AAAAAAAAeeg/WKSGM2TADLM/s1600/pager+old.png",
                  extra=item.extra,
                  folder=True))
 
     return itemlist
 
-# ==============================================================================================================================================================================
+# ================================================================================================================
 
+# ----------------------------------------------------------------------------------------------------------------
 def findvideos(item):
     logger.info()
     data = httptools.downloadpage(item.url).data
@@ -242,16 +257,21 @@ def findvideos(item):
 
     for videoitem in itemlist:
         server = re.sub(r'[-\[\]\s]+', '', videoitem.title)
-        videoitem.title = "".join([item.title, '[COLOR orange][B]' + ' ' + server + '[/B][/COLOR]'])
+        videoitem.title = "".join(["[%s] " % color(server.capitalize(), 'orange'), item.title])
         videoitem.fulltitle = item.fulltitle
         videoitem.show = item.show
         videoitem.thumbnail = item.thumbnail
         videoitem.channel = __channel__
     return itemlist
 
-# ==============================================================================================================================================================================
+# ================================================================================================================
+
+# ----------------------------------------------------------------------------------------------------------------
+def color(text, color):
+    return "[COLOR "+color+"]"+text+"[/COLOR]"
     
 def HomePage(item):
     import xbmc
-    xbmc.executebuiltin("ReplaceWindow(10024,plugin://plugin.video.streamondemand-pureita/)")
+    xbmc.executebuiltin("ReplaceWindow(10024,plugin://plugin.video.Stefano/)")
 
+# ================================================================================================================

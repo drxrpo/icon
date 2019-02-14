@@ -6,7 +6,7 @@ addon = xbmcaddon.Addon('plugin.video.Redemption')
 
 ####--Route to text file--######
 '''change Mainbase URL link to the URL of your 1st text file or home text file and encode using encoder If you have a backup of txt on another server put URL in backup will swap servers if a error occurs'''
-MainBase = 'http://redemption.wf/newaddon/home.txt'
+MainBase = 'http://myatom.one/redemption%20addon/home.txt'
 BackUp   = ''
 PopUpNotice = ''
 

@@ -191,7 +191,7 @@ class HLSStreamWorker(SegmentedStreamWorker):
 
         if playlist.is_master:
             raise StreamError("Attempted to play a variant playlist, use "
-                              "'hlsvariant://{0}' instead".format(self.stream.url))
+                              "'hls://{0}' instead".format(self.stream.url))
 
         if playlist.iframes_only:
             raise StreamError("Streams containing I-frames only is not playable")
@@ -293,15 +293,18 @@ class MuxedHLSStream(MuxedStream):
 
     def __init__(self, session, video, audio, force_restart=False, ffmpeg_options=None, **args):
         tracks = [video]
+        maps = ["0:v?", "0:a?"]
         if audio:
             if isinstance(audio, list):
                 tracks.extend(audio)
             else:
                 tracks.append(audio)
+        for i in range(1, len(tracks)):
+            maps.append("{0}:a".format(i))
         substreams = map(lambda url: HLSStream(session, url, force_restart=force_restart, **args), tracks)
         ffmpeg_options = ffmpeg_options or {}
 
-        super(MuxedHLSStream, self).__init__(session, *substreams, format="mpegts", **ffmpeg_options)
+        super(MuxedHLSStream, self).__init__(session, *substreams, format="mpegts", maps=maps, **ffmpeg_options)
 
 
 class HLSStream(HTTPStream):
@@ -312,9 +315,6 @@ class HLSStream(HTTPStream):
     - :attr:`url` The URL to the HLS playlist.
     - :attr:`args` A :class:`dict` containing keyword arguments passed
       to :meth:`requests.request`, such as headers and cookies.
-
-    .. versionchanged:: 1.7.0
-       Added *args* attribute.
 
     """
 

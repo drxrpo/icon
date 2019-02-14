@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 '''
-    Poached Add-on
+    Eggman Add-on
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -19,11 +19,17 @@
 
 
 import urlparse,sys,urllib
+from resources.lib.modules import control
+import xbmcgui
 
 params = dict(urlparse.parse_qsl(sys.argv[2].replace('?','')))
 
 action = params.get('action')
 
+docu_category = params.get('docuCat')
+
+docu_watch = params.get('docuPlay')
+									 
 name = params.get('name')
 
 title = params.get('title')
@@ -67,6 +73,145 @@ if action == None:
     from resources.lib.modules import cache
     cache.cache_version_check()
     navigator.navigator().root()
+
+elif action == "furkNavigator":
+    from resources.lib.indexers import navigator
+    navigator.navigator().furk()
+
+elif action == "furkMetaSearch":
+    from resources.lib.indexers import furk
+    furk.furk().furk_meta_search(url)
+
+elif action == "furkSearch":
+    from resources.lib.indexers import furk
+    furk.furk().search()
+
+elif action == "furkUserFiles":
+    from resources.lib.indexers import furk
+    furk.furk().user_files()
+if action == 'boxsetsNavigator':
+    from resources.lib.indexers import bxsets
+    bxsets.navigator().root()
+    
+elif action == 'actionNavigator':
+    from resources.lib.indexers import bxsets
+    bxsets.navigator().action()
+    
+elif action == 'actionliteNavigator':
+    from resources.lib.indexers import bxsets
+    bxsets.navigator().action(lite=True)
+
+elif action == 'adventureNavigator':
+    from resources.lib.indexers import bxsets
+    bxsets.navigator().adventure()
+    
+elif action == 'adventureliteNavigator':
+    from resources.lib.indexers import bxsets
+    bxsets.navigator().adventure(lite=True)
+    
+elif action == 'animationNavigator':
+    from resources.lib.indexers import bxsets
+    bxsets.navigator().animation()
+    
+elif action == 'animationliteNavigator':
+    from resources.lib.indexers import bxsets
+    bxsets.navigator().animation(lite=True)
+    
+elif action == 'comedyNavigator':
+    from resources.lib.indexers import bxsets
+    bxsets.navigator().comedy()
+    
+elif action == 'comedyliteNavigator':
+    from resources.lib.indexers import bxsets
+    bxsets.navigator().comedy(lite=True)
+    
+elif action == 'crimeNavigator':
+    from resources.lib.indexers import bxsets
+    bxsets.navigator().crime()
+    
+elif action == 'crimeliteNavigator':
+    from resources.lib.indexers import bxsets
+    bxsets.navigator().crime(lite=True)
+    
+elif action == 'dramaNavigator':
+    from resources.lib.indexers import bxsets
+    bxsets.navigator().drama()
+    
+elif action == 'dramaliteNavigator':
+    from resources.lib.indexers import bxsets
+    bxsets.navigator().drama(lite=True)
+    
+elif action == 'familyNavigator':
+    from resources.lib.indexers import bxsets
+    bxsets.navigator().family()
+    
+elif action == 'familyliteNavigator':
+    from resources.lib.indexers import bxsets
+    bxsets.navigator().family(lite=True)
+    
+elif action == 'fantasyNavigator':
+    from resources.lib.indexers import bxsets
+    bxsets.navigator().fantasy()
+    
+elif action == 'fantasyliteNavigator':
+    from resources.lib.indexers import bxsets
+    bxsets.navigator().fantasy(lite=True)
+
+elif action == 'horrorNavigator':
+    from resources.lib.indexers import bxsets
+    bxsets.navigator().horror()
+    
+elif action == 'horrorliteNavigator':
+    from resources.lib.indexers import bxsets
+    bxsets.navigator().horror(lite=True)
+    
+elif action == 'mysteryNavigator':
+    from resources.lib.indexers import bxsets
+    bxsets.navigator().mystery()
+    
+elif action == 'mysteryliteNavigator':
+    from resources.lib.indexers import bxsets
+    bxsets.navigator().mystery(lite=True)
+    
+elif action == 'romanceNavigator':
+    from resources.lib.indexers import bxsets
+    bxsets.navigator().romance()
+    
+elif action == 'romanceliteNavigator':
+    from resources.lib.indexers import bxsets
+    bxsets.navigator().romance(lite=True)
+    
+elif action == 'scifiNavigator':
+    from resources.lib.indexers import bxsets
+    bxsets.navigator().scifi()
+    
+elif action == 'scifiliteNavigator':
+    from resources.lib.indexers import bxsets
+    bxsets.navigator().scifi(lite=True)
+    
+elif action == 'thrillerNavigator':
+    from resources.lib.indexers import bxsets
+    bxsets.navigator().thriller()
+    
+elif action == 'thrillerliteNavigator':
+    from resources.lib.indexers import bxsets
+    bxsets.navigator().thriller(lite=True)
+    
+elif action == 'westernNavigator':
+    from resources.lib.indexers import bxsets
+    bxsets.navigator().western()
+    
+elif action == 'westernliteNavigator':
+    from resources.lib.indexers import bxsets
+    bxsets.navigator().western(lite=True)
+
+elif action == 'movies2':
+    from resources.lib.indexers import movies2
+    movies2.movies().get(url)									 
+
+elif action == "furkSearchNew":
+    from resources.lib.indexers import furk
+    furk.furk().search_new()
 
 elif action == 'movieNavigator':
     from resources.lib.indexers import navigator
@@ -127,7 +272,7 @@ elif action == 'clearCache':
 elif action == 'clearCacheSearch':
     from resources.lib.indexers import navigator
     navigator.navigator().clearCacheSearch()
-
+    
 elif action == 'infoCheck':
     from resources.lib.indexers import navigator
     navigator.navigator().infoCheck('')
@@ -146,7 +291,7 @@ elif action == 'movieWidget':
 
 elif action == 'movieSearch':
     from resources.lib.indexers import movies
-    movies.movies().search()
+    movies.movies().search_new()
 
 elif action == 'movieSearchnew':
     from resources.lib.indexers import movies
@@ -184,6 +329,10 @@ elif action == 'movieUserlists':
     from resources.lib.indexers import movies
     movies.movies().userlists()
 
+elif action == 'channels':
+    from resources.lib.indexers import channels
+    channels.channels().get()
+
 elif action == 'tvshows':
     from resources.lib.indexers import tvshows
     tvshows.tvshows().get(url)
@@ -194,7 +343,7 @@ elif action == 'tvshowPage':
 
 elif action == 'tvSearch':
     from resources.lib.indexers import tvshows
-    tvshows.tvshows().search()
+    tvshows.tvshows().search_new()
 
 elif action == 'tvSearchnew':
     from resources.lib.indexers import tvshows
@@ -203,7 +352,7 @@ elif action == 'tvSearchnew':
 elif action == 'tvSearchterm':
     from resources.lib.indexers import tvshows
     tvshows.tvshows().search_term(name)
-
+    
 elif action == 'tvPerson':
     from resources.lib.indexers import tvshows
     tvshows.tvshows().person()
@@ -304,6 +453,7 @@ elif action == 'smuSettings':
     try: import resolveurl
     except: pass
     resolveurl.display_settings()
+
 elif action == 'download':
     import json
     from resources.lib.modules import sources
@@ -404,3 +554,12 @@ elif action == 'updateLibrary':
 elif action == 'service':
     from resources.lib.modules import libtools
     libtools.libepisodes().service()
+
+elif action == 'docuHeaven':
+    from resources.lib.indexers import docu
+    if not docu_category == None:
+        docu.documentary().docu_list(docu_category)
+    elif not docu_watch == None:
+        docu.documentary().docu_play(docu_watch)
+    else:
+        docu.documentary().root()									 

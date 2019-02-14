@@ -1,10 +1,20 @@
 # -*- coding: utf-8 -*-
-# StreamOnDemand Community Edition - Kodi Addon
-# by DrZ3r0
-# 6-4-2018 Credits: Alfa Kodi add-on
+# ------------------------------------------------------------
+# streamondemand-PureITA / XBMC Plugin
+# Server  openload
+# http://www.mimediacenter.info/foro/viewtopic.php?f=36&t=7808
+# by Alfa-Addon
+# ------------------------------------------------------------
+import xbmc
+import re
+import base64
+import os
 
-from core import config, httptools, scrapertools
-from platformcode import logger
+from core import config
+from core import httptools
+from core import logger
+from core import scrapertools
+from core import jsontools
 
 
 def test_video_exists(page_url):
@@ -18,10 +28,9 @@ def test_video_exists(page_url):
     if 'We’re Sorry!' in data:
         data = httptools.downloadpage(page_url.replace("/embed/", "/f/"), headers=header, cookies=False).data
         if 'We’re Sorry!' in data:
-            return False, "[Openload] Il file non esiste oppure è stato cancellato"
+            return False, "[Openload] Il file non esiste oppure e stato cancellato"
 
     return True, ""
-
 
 def get_video_url(page_url, premium=False, user="", password="", video_password=""):
     logger.info()
@@ -37,14 +46,14 @@ def get_video_url(page_url, premium=False, user="", password="", video_password=
     subtitle = scrapertools.find_single_match(data, '<track kind="captions" src="([^"]+)" srclang="es"')
 
     try:
-        code = scrapertools.find_single_match(data, '<p style="" id="[^"]+">(.*?)</p>')
+        code = scrapertools.find_single_match(data, '<p style="" id="[^"]+">(.*?)</p>' )
         _0x59ce16 = eval(scrapertools.find_single_match(data, '_0x59ce16=([^;]+)').replace('parseInt', 'int'))
         _1x4bfb36 = eval(scrapertools.find_single_match(data, '_1x4bfb36=([^;]+)').replace('parseInt', 'int'))
-        parseInt = eval(scrapertools.find_single_match(data, '_0x30725e,(\(parseInt.*?)\),').replace('parseInt', 'int'))
+        parseInt  = eval(scrapertools.find_single_match(data, '_0x30725e,(\(parseInt.*?)\),').replace('parseInt', 'int'))
         url = decode(code, parseInt, _0x59ce16, _1x4bfb36)
         url = httptools.downloadpage(url, only_headers=True, follow_redirects=False).headers.get('location')
         extension = scrapertools.find_single_match(url, '(\..{,3})\?')
-        itemlist.append([extension, url, 0, subtitle])
+        itemlist.append([extension, url, 0,subtitle])
 
     except Exception:
         logger.info()
@@ -52,7 +61,7 @@ def get_video_url(page_url, premium=False, user="", password="", video_password=
             url = get_link_api(page_url)
             extension = scrapertools.find_single_match(url, '(\..{,3})\?')
             if url:
-                itemlist.append([extension, url, 0, subtitle])
+                itemlist.append([extension, url, 0,subtitle])
     logger.debug(itemlist)
 
     return itemlist
@@ -65,25 +74,25 @@ def decode(code, parseInt, _0x59ce16, _1x4bfb36):
     _0x1bf6e5 = ''
     ke = []
 
-    for i in range(0, len(code[0:9 * 8]), 8):
-        ke.append(int(code[i:i + 8], 16))
+    for i in range(0, len(code[0:9*8]),8):
+        ke.append(int(code[i:i+8],16))
 
     _0x439a49 = 0
     _0x145894 = 0
 
-    while _0x439a49 < len(code[9 * 8:]):
+    while _0x439a49 < len(code[9*8:]):
         _0x5eb93a = 64
         _0x896767 = 0
         _0x1a873b = 0
         _0x3c9d8e = 0
         while True:
-            if _0x439a49 + 1 >= len(code[9 * 8:]):
+            if _0x439a49 + 1 >= len(code[9*8:]):
                 _0x5eb93a = 143;
 
-            _0x3c9d8e = int(code[9 * 8 + _0x439a49:9 * 8 + _0x439a49 + 2], 16)
-            _0x439a49 += 2
+            _0x3c9d8e = int(code[9*8+_0x439a49:9*8+_0x439a49+2], 16)
+            _0x439a49 +=2
 
-            if _0x1a873b < 6 * 5:
+            if _0x1a873b < 6*5:
                 _0x332549 = _0x3c9d8e & 63
                 _0x896767 += _0x332549 << _0x1a873b
             else:
@@ -98,12 +107,13 @@ def decode(code, parseInt, _0x59ce16, _1x4bfb36):
         _0x2de433 = _0x5eb93a * 2 + 127
 
         for i in range(4):
-            _0x3fa834 = chr(((_0x30725e & _0x2de433) >> (9 * 8 / 9) * i) - 1)
+            _0x3fa834 = chr(((_0x30725e & _0x2de433) >> (9*8/ 9)* i) - 1)
             if _0x3fa834 != '$':
                 _0x1bf6e5 += _0x3fa834
-            _0x2de433 = (_0x2de433 << (9 * 8 / 9))
+            _0x2de433 = (_0x2de433 << (9*8/ 9))
 
         _0x145894 += 1
+
 
     url = "https://openload.co/stream/%s?mime=true" % _0x1bf6e5
     return url
@@ -115,27 +125,26 @@ def login():
     _csrf = scrapertools.find_single_match(data, '<input type="hidden" name="_csrf" value="([^"]+)">')
 
     post = {
-        'LoginForm[email]': config.get_setting('user', __file__),
-        'LoginForm[password]': config.get_setting('passowrd', __file__),
-        'LoginForm[rememberMe]': 1,
-        '_csrf': _csrf
-    }
-    data = httptools.downloadpage('https://openload.co/login', post=post).data
+                'LoginForm[email]'      : config.get_setting('user', __file__),
+                'LoginForm[password]'	: config.get_setting('passowrd', __file__),
+                'LoginForm[rememberMe]' : 1,
+                '_csrf'                 : _csrf
+            }
+    data = httptools.downloadpage('https://openload.co/login', post = post).data
 
     if 'Login key has already been sent.' in data:
-        while True:
+        while True :
             if 'Invalid login key.' in data:
-                platformtools.dialog_ok('openload',
-                                        'Il codice introdotto non è valido\controlla la tua email e inserisci il codice corretto')
+                platformtools.dialog_ok('openload', 'El código introducido no es válido\nrevisa tu correo e introduce el código correcto')
 
-            code = platformtools.dialog_input(post.get('LoginForm[loginkey]', ''),
-                                              'Inserisci il codice che è stato inviato a \'%s\'' % 'r_dav'
+            code = platformtools.dialog_input(  post.get('LoginForm[loginkey]', ''),
+                                                'Introduzca el código que ha sido enviado a \'%s\'' % 'r_dav'
                                               )
             if not code:
                 break
             else:
                 post['LoginForm[loginkey]'] = code
-                data = httptools.downloadpage('https://openload.co/login', post=post).data
+                data = httptools.downloadpage('https://openload.co/login', post = post).data
 
                 if 'Welcome back,' in data: break
 
@@ -148,11 +157,12 @@ def get_api_keys():
         login()
         data = httptools.downloadpage('https://openload.co/account').data
         post = {
-            'FTPKey[password]': config.get_setting('password', __file__),
-            '_csrf': scrapertools.find_single_match(data, '<input type="hidden" name="_csrf" value="([^"]+)">')
-        }
+                    'FTPKey[password]'      : config.get_setting('password', __file__),
+                    '_csrf'                 : scrapertools.find_single_match(data, '<input type="hidden" name="_csrf" value="([^"]+)">')
+                }
 
-        data = httptools.downloadpage('https://openload.co/account', post=post).data
+
+        data = httptools.downloadpage('https://openload.co/account', post = post).data
         api_login = scrapertools.find_single_match(data, '<tr><td>ID:</td><td>([^<]+)</td></tr>')
         api_key = scrapertools.find_single_match(data, 'Your FTP Password/API Key is: ([^<]+) </div>')
         config.set_setting('api_login', api_login, __file__)
@@ -168,8 +178,7 @@ def get_link_api(page_url):
 
     file_id = scrapertools.find_single_match(page_url, '(?:embed|f)/([0-9a-zA-Z-_]+)')
 
-    data = httptools.downloadpage(
-        "https://api.openload.co/1/file/dlticket?file=%s&login=%s&key=%s" % (file_id, api_login, api_key)).data
+    data = httptools.downloadpage("https://api.openload.co/1/file/dlticket?file=%s&login=%s&key=%s" % (file_id, api_login, api_key)).data
     data = jsontools.load_json(data)
     # logger.info(data)
     if data["status"] == 200:
@@ -178,3 +187,31 @@ def get_link_api(page_url):
         data = jsontools.load(data)
 
         return data['result']['url'].replace("https", "http")
+
+
+# Encuentra vídeos del servidor en el texto pasado
+def find_videos(text):
+    encontrados = set()
+    devuelve = []
+
+    referer = ""
+    if "|Referer=" in text:
+        referer = "|" + text.split("|Referer=", 1)[1]
+    patronvideos = '(?:openload|oload).*?/(?:embed|f)/([0-9a-zA-Z-_]+)'
+    logger.info("#" + patronvideos + "#")
+
+    matches = re.compile(patronvideos, re.DOTALL).findall(text)
+    for media_id in matches:
+        titulo = "[Openload]"
+        url = 'https://openload.co/embed/%s/%s' % (media_id, referer)
+        if url not in encontrados:
+            logger.info("  url=" + url)
+            devuelve.append([titulo, url, 'openload'])
+            encontrados.add(url)
+        else:
+            logger.info("  url duplicada=" + url)
+
+    return devuelve
+
+
+

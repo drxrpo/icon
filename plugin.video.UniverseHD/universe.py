@@ -11,11 +11,11 @@ from HTMLParser import HTMLParser
 from datetime import datetime , timedelta
 import xml . etree . ElementTree as ET
 if 65 - 65: O0 / iIii1I11I1II1 % OoooooooOO - i1IIi
-o0OO00 = 'plugin.video.UniverseHD'
+o0OO00 = 'plugin.video.universehd'
 oo = Addon ( o0OO00 , sys . argv )
 i1iII1IiiIiI1 = xbmcaddon . Addon ( id = o0OO00 )
 iIiiiI1IiI1I1 = '[COLOR yellow][B]Universe HD[/B][/COLOR]'
-o0OoOoOO00 = os . path . join ( os . path . join ( xbmc . translatePath ( 'special://home' ) , 'addons' ) , 'plugin.video.UniverseHD' )
+o0OoOoOO00 = os . path . join ( os . path . join ( xbmc . translatePath ( 'special://home' ) , 'addons' ) , 'plugin.video.universehd' )
 I11i = xbmc . translatePath ( os . path . join ( 'special://home/addons/' + o0OO00 , 'fanart.jpg' ) )
 O0O = xbmc . translatePath ( os . path . join ( 'special://home/addons/' + o0OO00 , 'fanart.jpg' ) )
 Oo = xbmc . translatePath ( os . path . join ( 'special://home/addons/' + o0OO00 , 'iptvfanart.jpg' ) )

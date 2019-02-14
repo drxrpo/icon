@@ -1,6 +1,6 @@
 # Kodi Media Center language file
-# Addon Name: Xonfluence
-# Addon id: skin.xonfluence
+# Addon Name: Durexonfluence
+# Addon id: skin.durexonfluence
 # Addon Provider: Helly1206
 msgid ""
 msgstr ""
@@ -21,11 +21,11 @@ msgid "Change your"
 msgstr "Alterar"
 
 msgctxt "#31001"
-msgid "GAMES"
+msgid ":"
 msgstr ""
 
 msgctxt "#31002"
-msgid "[B]GAME SETTINGS[/B][CR][CR]Configure rewind support & options ·  Configure keyboard use and number of keyboard players"
+msgid "Enable manual opening of media views slide menu"
 msgstr ""
 
 msgctxt "#31003"
@@ -77,7 +77,11 @@ msgid "Memory used"
 msgstr "Memória usada"
 
 msgctxt "#31015"
-msgid "Minute"
+msgid "Never"
+msgstr ""
+
+msgctxt "#31016"
+msgid "Permanently"
 msgstr ""
 
 msgctxt "#31017"
@@ -616,54 +620,6 @@ msgctxt "#31155"
 msgid "Show global search button on bottom left"
 msgstr ""
 
-msgctxt "#31156"
-msgid ":"
-msgstr ""
-
-msgctxt "#31157"
-msgid "Enable manual opening of media views slide menu"
-msgstr ""
-
-msgctxt "#31158"
-msgid "Never"
-msgstr ""
-
-msgctxt "#31159"
-msgid "Permanently"
-msgstr ""
-
-msgctxt "#31160"
-msgid "Visualisation settings"
-msgstr ""
-
-msgctxt "#31161"
-msgid "Lyrics add-on settings"
-msgstr ""
-
-msgctxt "#31162"
-msgid " pack for "
-msgstr ""
-
-msgctxt "#31163"
-msgid "Update all backgrounds"
-msgstr ""
-
-msgctxt "#31164"
-msgid "Flags"
-msgstr ""
-
-msgctxt "#31165"
-msgid "Don't ask again"
-msgstr ""
-
-msgctxt "#31166"
-msgid "Setup default background"
-msgstr ""
-
-msgctxt "#31167"
-msgid "No backgrounds set, install and setup default backgrounds add-on?"
-msgstr ""
-
 msgctxt "#31188"
 msgid "Random concerts"
 msgstr ""
@@ -981,7 +937,7 @@ msgid "Enable visible horizontal submenu"
 msgstr ""
 
 msgctxt "#31276"
-msgid "Extra artwork options"
+msgid "Extra art work options"
 msgstr ""
 
 msgctxt "#31277"
@@ -1181,7 +1137,7 @@ msgid "Album details"
 msgstr "Detalhes do álbum"
 
 msgctxt "#31332"
-msgid "Alternate fanart"
+msgid "Alternate fanArt"
 msgstr ""
 
 msgctxt "#31333"
@@ -1481,7 +1437,7 @@ msgid "[B]INTERFACE SETTINGS[/B][CR][CR]Configure skin · Configure region · Co
 msgstr "[B]CONFIGURAÇÃO DA INTERFACE[/B][CR][CR]Configurar o visual · Configurar a região · Configurar o controlo · Configurar o protetor de ecrã · Configurar o bloqueio-mestre"
 
 msgctxt "#31437"
-msgid "[B]CONFIGURE SKIN SETTINGS[/B][CR][CR]Setup the Xonfluence skin · Add and remove home menu items · Change skin backgrounds"
+msgid "[B]CONFIGURE SKIN SETTINGS[/B][CR][CR]Setup the Durexonfluence skin · Add and remove home menu items · Change skin backgrounds"
 msgstr ""
 
 msgctxt "#31440"
@@ -1832,22 +1788,6 @@ msgctxt "#31943"
 msgid "Use default confluence favourites window look and feel"
 msgstr ""
 
-msgctxt "#31944"
-msgid "Visible in Master mode only"
-msgstr ""
-
-msgctxt "#31947"
-msgid "Button look and feel"
-msgstr ""
-
-msgctxt "#31948"
-msgid "Button layout look and feel"
-msgstr ""
-
-msgctxt "#31949"
-msgid "OSD look and feel"
-msgstr ""
-
 msgctxt "#31950"
 msgid "WEATHER"
 msgstr "METEOROLOGIA"
@@ -1969,7 +1909,7 @@ msgid "Reload"
 msgstr ""
 
 msgctxt "#31980"
-msgid "Save settings and reload Xonfluence"
+msgid "Save settings and reload Durexonfluence"
 msgstr ""
 
 msgctxt "#31981"

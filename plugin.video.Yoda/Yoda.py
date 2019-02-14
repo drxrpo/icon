@@ -17,8 +17,8 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 '''
 
-
 import urlparse,sys,urllib
+from resources.lib.modules import log_utils
 
 params = dict(urlparse.parse_qsl(sys.argv[2].replace('?','')))
 
@@ -29,6 +29,14 @@ subid = params.get('subid')
 docu_category = params.get('docuCat')
 
 docu_watch = params.get('docuPlay')
+
+podcast_show = params.get('podcastshow')
+
+podcast_cat = params.get('podcastlist')
+
+podcast_cats = params.get('podcastcategories')
+
+podcast_episode = params.get('podcastepisode')
 
 name = params.get('name')
 
@@ -67,12 +75,15 @@ content = params.get('content')
 windowedtrailer = params.get('windowedtrailer')
 windowedtrailer = int(windowedtrailer) if windowedtrailer in ("0","1") else 0
 
-
 if action == None:
     from resources.lib.indexers import navigator
     from resources.lib.modules import cache
     cache.cache_version_check()
     navigator.navigator().root()
+
+elif action == 'newsNavigator':
+    from resources.lib.indexers import navigator
+    navigator.navigator().news()
 
 elif action == 'movieNavigator':
     from resources.lib.indexers import navigator
@@ -130,6 +141,10 @@ elif action == 'clearCache':
     from resources.lib.indexers import navigator
     navigator.navigator().clearCache()
 
+elif action == 'clearCacheSearch':
+    from resources.lib.indexers import navigator
+    navigator.navigator().clearCacheSearch()
+
 elif action == 'clearAllCache':
     from resources.lib.indexers import navigator
     navigator.navigator().clearCacheAll()
@@ -137,11 +152,7 @@ elif action == 'clearAllCache':
 elif action == 'clearMetaCache':
     from resources.lib.indexers import navigator
     navigator.navigator().clearCacheMeta()
-	
-elif action == 'clearCacheSearch':
-    from resources.lib.indexers import navigator
-    navigator.navigator().clearCacheSearch()
-
+    
 elif action == 'infoCheck':
     from resources.lib.indexers import navigator
     navigator.navigator().infoCheck('')
@@ -221,7 +232,7 @@ elif action == 'tvSearchnew':
 elif action == 'tvSearchterm':
     from resources.lib.indexers import tvshows
     tvshows.tvshows().search_term(name)
-
+    
 elif action == 'tvPerson':
     from resources.lib.indexers import tvshows
     tvshows.tvshows().person()
@@ -229,6 +240,20 @@ elif action == 'tvPerson':
 elif action == 'tvGenres':
     from resources.lib.indexers import tvshows
     tvshows.tvshows().genres()
+
+elif action == 'tvReviews':
+    from resources.lib.indexers import youtube
+    if subid == None:
+        youtube.yt_index().root(action)
+    else:
+        youtube.yt_index().get(action, subid)
+
+elif action == 'movieReviews':
+    from resources.lib.indexers import youtube
+    if subid == None:
+        youtube.yt_index().root(action)
+    else:
+        youtube.yt_index().get(action, subid)
 
 elif action == 'tvNetworks':
     from resources.lib.indexers import tvshows
@@ -318,23 +343,21 @@ elif action == 'authTrakt':
     from resources.lib.modules import trakt
     trakt.authTrakt()
 
-elif action == 'smuSettings':
-    try: import resolveurl
-    except: pass
-    resolveurl.display_settings()
-
 elif action == 'urlResolver':
     try: import resolveurl
     except: pass
     resolveurl.display_settings()
-	
+
+elif action == 'urlResolverRDTorrent':
+    from resources.lib.modules import control
+    control.openSettings(query, "script.module.resolveurl")									  
 elif action == 'download':
     import json
     from resources.lib.modules import sources
     from resources.lib.modules import downloader
     try: downloader.download(name, image, sources.sources().sourcesResolve(json.loads(source)[0], True))
     except: pass
-	
+
 elif action == 'docuHeaven':
     from resources.lib.indexers import docu
     if not docu_category == None:
@@ -342,7 +365,8 @@ elif action == 'docuHeaven':
     elif not docu_watch == None:
         docu.documentary().docu_play(docu_watch)
     else:
-        docu.documentary().root()	
+        docu.documentary().root()
+
 
 elif action == 'play':
     from resources.lib.modules import sources

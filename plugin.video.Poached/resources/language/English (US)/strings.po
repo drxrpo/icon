@@ -831,3 +831,11 @@ msgctxt "#32580"
 msgid "Films/TV Movies"
 msgstr ""
 
+msgctxt "#32581"
+msgid "4K Movies"
+msgstr ""
+
+msgctxt "#32631"
+msgid "Boxsets"
+msgstr ""
+

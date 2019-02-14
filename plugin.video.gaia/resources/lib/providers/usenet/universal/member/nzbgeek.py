@@ -103,6 +103,9 @@ class source:
 
 			result = json.loads(client.request(url))
 
+			if isinstance(result['channel']['item'], dict):
+				result['channel']['item'] = [result['channel']['item']]
+
 			for item in result['channel']['item']:
 				jsonName = item['title']
 

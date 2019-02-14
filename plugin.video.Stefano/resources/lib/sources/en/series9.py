@@ -1,17 +1,11 @@
 # -*- coding: UTF-8 -*-
-#######################################################################
- # ----------------------------------------------------------------------------
- # "THE BEER-WARE LICENSE" (Revision 42):
- # @Daddy_Blamo wrote this file.  As long as you retain this notice you
- # can do whatever you want with this stuff. If we meet some day, and you think
- # this stuff is worth it, you can buy me a beer in return. - Muad'Dib
- # ----------------------------------------------------------------------------
-#######################################################################
+'''
+    series9 scraper for Exodus.
+    Nov 9 2018 - Checked
 
-# Addon Name: Placenta
-# Addon id: plugin.video.placenta
-# Addon Provider: Mr.Blamo
-
+    Updated and refactored by someone.
+    Originally created by others.
+'''
 import re,traceback,urllib,urlparse
 
 from resources.lib.modules import cleantitle
@@ -23,8 +17,8 @@ class source:
     def __init__(self):
         self.priority = 1
         self.language = ['en']
-        self.domains = ['seriesonline.io','series9.io']
-        self.base_link = 'https://www2.series9.io/'
+        self.domains = ['seriesonline.io','series9.io','gomovies.pet']
+        self.base_link = 'https://series9.co/'
         self.search_link = '/movie/search/%s'
 
     def matchAlias(self, title, aliases):

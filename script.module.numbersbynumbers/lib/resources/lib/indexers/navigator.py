@@ -45,6 +45,8 @@ class navigator:
         if not control.setting('lists.widget') == '0':
             self.addDirectoryItem(32003, 'mymovieNavigator', 'mymovies.png', 'DefaultVideoPlaylists.png')
             self.addDirectoryItem(32004, 'mytvNavigator', 'mytvshows.png', 'DefaultVideoPlaylists.png')
+            self.addDirectoryItem(32616, 'tvNetworks', 'networks.png', 'DefaultTVShows.png')
+            self.addDirectoryItem(32617, 'boxsetsNavigator', 'boxsets1.png', 'boxsets1.png')
 
         self.addDirectoryItem('[B][COLOR forestgreen]• [/COLOR][/B][COLOR ghostwhite]Documentaries[/COLOR]', 'docuHeaven', 'documentaries.png', 'DefaultMovies.png')
 
@@ -61,6 +63,7 @@ class navigator:
 
 
     def movies(self, lite=False):
+        self.addDirectoryItem(32022, 'movies&url=theaters', 'in-theaters.png', 'DefaultRecentlyAddedMovies.png')
         self.addDirectoryItem(32011, 'movieGenres', 'genres.png', 'DefaultMovies.png')
         self.addDirectoryItem(32012, 'movieYears', 'years.png', 'DefaultMovies.png')
         self.addDirectoryItem(32013, 'moviePersons', 'people.png', 'DefaultMovies.png')
@@ -78,7 +81,6 @@ class navigator:
         self.addDirectoryItem(32019, 'movies&url=views', 'most-voted.png', 'DefaultMovies.png')
         self.addDirectoryItem(32020, 'movies&url=boxoffice', 'box-office.png', 'DefaultMovies.png')
         self.addDirectoryItem(32021, 'movies&url=oscars', 'oscar-winners.png', 'DefaultMovies.png')
-        self.addDirectoryItem(32022, 'movies&url=theaters', 'in-theaters.png', 'DefaultRecentlyAddedMovies.png')
         self.addDirectoryItem(32005, 'movieWidget', 'latest-movies.png', 'DefaultRecentlyAddedMovies.png')
 
         if lite == False:

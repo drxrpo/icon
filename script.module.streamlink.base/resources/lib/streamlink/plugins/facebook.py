@@ -1,13 +1,13 @@
 import re
 
 from streamlink.plugin import Plugin
-from streamlink.plugin.api import http, useragents
+from streamlink.plugin.api import useragents
 from streamlink.stream import DASHStream, HTTPStream
 from streamlink.utils import parse_json
 
 
 class Facebook(Plugin):
-    _url_re = re.compile(r"https?://(?:www\.)?facebook\.com/[^/]+/videos")
+    _url_re = re.compile(r"https?://(?:www\.)?facebook\.com/[^/]+/(posts|videos)")
     _src_re = re.compile(r'''(sd|hd)_src["']?\s*:\s*(?P<quote>["'])(?P<url>.+?)(?P=quote)''')
     _playlist_re = re.compile(r'''video:\[({url:".+?}\])''')
     _plurl_re = re.compile(r'''url:"(.*?)"''')
@@ -17,7 +17,7 @@ class Facebook(Plugin):
         return cls._url_re.match(url)
 
     def _get_streams(self):
-        res = http.get(self.url, headers={"User-Agent": useragents.CHROME})
+        res = self.session.http.get(self.url, headers={"User-Agent": useragents.CHROME})
 
         streams = {}
         vod_urls = set([])
@@ -43,7 +43,6 @@ class Facebook(Plugin):
         match = self._playlist_re.search(res.text)
         playlist = match and match.group(1)
         if playlist:
-            # for url in {url.group(1) for url in self._plurl_re.finditer(playlist)}:
             for url in dict(url.group(1) for url in self._plurl_re.finditer(playlist)):
                 if url not in vod_urls:
                     streams["sd"] = HTTPStream(self.session, url)

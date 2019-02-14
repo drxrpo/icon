@@ -1,6 +1,6 @@
 # Addon Name: Yoda
 # Addon id: plugin.video.Yoda
-# Addon Provider: Yoda
+# Addon Provider: Supremacy
 # Translators:
 # Translators:
 # Translators:
@@ -912,7 +912,7 @@ msgid "Getting genre information from Trakt"
 msgstr ""
 
 msgctxt "#32600"
-msgid "[COLOR yellow]Yoda Is Finding Your Link[/COLOR]"
+msgid "Yoda Shall Find Your Link"
 msgstr ""
 
 msgctxt "#32601"
@@ -995,6 +995,10 @@ msgctxt "#32623"
 msgid "Reviews and Trailers"
 msgstr ""
 
+msgctxt "#32624"
+msgid "P[COLOR red]o[/COLOR]dcast[COLOR red]One[/COLOR]"
+msgstr ""
+
 msgctxt "#32625"
 msgid "Featured Podcasts"
 msgstr ""
@@ -1021,4 +1025,32 @@ msgstr ""
 
 msgctxt "#32631"
 msgid "Documentaries"
+msgstr ""
+
+msgctxt "#32632"
+msgid "Boxsets"
+msgstr ""
+
+msgctxt "#32634"
+msgid "Torrent Source Identifier Color"
+msgstr ""
+
+msgctxt "#32635"
+msgid "Torrent Support (Requires Real-Debrid)"
+msgstr ""
+
+msgctxt "#32636"
+msgid "Enable Torrent Scrapers"
+msgstr ""
+
+msgctxt "#32637"
+msgid "Real-Debrid Torrent Settings"
+msgstr ""
+
+msgctxt "#32638"
+msgid "Minimum Seeders"
+msgstr ""
+
+msgctxt "#32639"
+msgid "Sort By Torrent/Premium"
 msgstr ""

@@ -36,7 +36,7 @@ class source:
 		self.base_link = 'https://torrentapi.org'
 		self.api_link = '/pubapi_v2.php?app_id=%s' % tools.System.name()
 		self.token_link = '&get_token=get_token'
-		self.search_link = '&token=%s&mode=search&search_string=%s&category=%s&sort=seeders&ranked=0&format=json_extended'
+		self.search_link = '&token=%s&mode=search&search_string=%s&category=%s&sort=seeders&ranked=0&format=json_extended&limit=100'
 		self.category_movies = 'movies'
 		self.category_shows = 'tv'
 
@@ -97,7 +97,7 @@ class source:
 				packCount = data['packcount'] if 'packcount' in data else None
 
 				if 'tvshowtitle' in data:
-					if pack: query = '%s %d' % (title, season)
+					if pack: query = '%s S%02d' % (title, season) # Must add S before season, otherwise TorrentAPI throws an error (maybe because the search term is too general).
 					else: query = '%s S%02dE%02d' % (title, season, episode)
 				else:
 					query = '%s %d' % (title, year)

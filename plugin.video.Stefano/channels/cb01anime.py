@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 # ------------------------------------------------------------
-# streamondemand-pureita / XBMC Plugin
+# TheGroove360 / XBMC Plugin
 # Canale cb01anime
-# http://www.mimediacenter.info/foro/viewtopic.php?f=36&t=7808
 # ------------------------------------------------------------
+
 import re
 import urlparse
 
@@ -16,49 +16,49 @@ from core.item import Item
 from core.tmdb import infoSod
 
 __channel__ = "cb01anime"
-host        = "http://www.cineblog01.video/"
+host        = "http://www.cineblog01.pink/anime/"
 headers     = [['Referer', host]]
 
 # ========================================================================================================================================================
 def mainlist(item):
-    logger.info("[cb01anime.py] mainlist")
+    logger.info("[thegroove360.cb01anime] mainlist")
     itemlist = [Item(channel=__channel__,
                      action="peliculas_new",
                      title="[COLOR azure]Anime[COLOR orange] - Novita'[/COLOR]",
-                     url="%s/anime/" % host,
-                     thumbnail="https://raw.githubusercontent.com/orione7/Pelis_images/master/channels_icon_pureita/anime_new_P.png"),
+                     url=host,
+                     thumbnail="https://raw.githubusercontent.com/stesev1/channels/master/images/channels_icon/anime_new_P.png"),
                 Item(channel=__channel__,
                      action="genere",
                      title="[COLOR azure]Anime[COLOR orange] - Categorie[/COLOR]",
-                     url="%s/anime/" % host,
-                     thumbnail="https://raw.githubusercontent.com/orione7/Pelis_images/master/channels_icon_pureita/anime_genre_P.png"),
+                     url=host,
+                     thumbnail="https://raw.githubusercontent.com/stesev1/channels/master/images/channels_icon/anime_genre_P.png"),
                 Item(channel=__channel__,
                      action="year",
                      title="[COLOR azure]Anime[COLOR orange] - Anno[/COLOR]",
-                     url="%s/anime/" % host,
-                     thumbnail="https://raw.githubusercontent.com/orione7/Pelis_images/master/channels_icon_pureita/anime_year_P.png"),
+                     url=host,
+                     thumbnail="https://raw.githubusercontent.com/stesev1/channels/master/images/channels_icon/anime_year_P.png"),
                 Item(channel=__channel__,
                      action="alfabetico",
                      title="[COLOR azure]Anime[COLOR orange] - Lista A-Z[/COLOR]",
-                     url="%s/anime/" % host,
-                     thumbnail="https://raw.githubusercontent.com/orione7/Pelis_images/master/channels_icon_pureita/anime_az_P.png"),
+                     url=host,
+                     thumbnail="https://raw.githubusercontent.com/stesev1/channels/master/images/channels_icon/anime_az_P.png"),
                 Item(channel=__channel__,
                      action="listacompleta",
                      title="[COLOR azure]Anime[COLOR orange] - Lista[/COLOR]",
-                     url="%s/anime/lista-completa-anime-cartoon/" % host,
-                     thumbnail="https://raw.githubusercontent.com/orione7/Pelis_images/master/channels_icon_pureita/anime_lista_P.png"),
+                     url="%s/lista-completa-anime-cartoon/" % host,
+                     thumbnail="https://raw.githubusercontent.com/stesev1/channels/master/images/channels_icon/anime_lista_P.png"),
                 Item(channel=__channel__,
                      action="search",
                      title="[COLOR yellow]Cerca ...[/COLOR]",
                      extra="anime",
-                     thumbnail="https://raw.githubusercontent.com/orione7/Pelis_images/master/channels_icon_pureita/search_P.png")]
+                     thumbnail="https://raw.githubusercontent.com/stesev1/channels/master/images/channels_icon/search_P.png")]
 
     return itemlist
 
 # ========================================================================================================================================================
 
 def peliculas_new(item):
-    logger.info("[streamondemand-pureita cb01anime] peliculas_new")
+    logger.info("[thegroove360.cb01anime] peliculas_new")
     itemlist = []
 
     # Descarga la pagina 
@@ -104,7 +104,7 @@ def peliculas_new(item):
                  action="peliculas_new",
                  title="[COLOR orange]Successivi >>[/COLOR]",
                  url=scrapedurl,
-                 thumbnail="https://raw.githubusercontent.com/orione7/Pelis_images/master/channels_icon_pureita/next_1.png",
+                 thumbnail="https://raw.githubusercontent.com/stesev1/channels/master/images/channels_icon/next_1.png",
                  extra=item.extra,
                  folder=True))
 
@@ -113,7 +113,7 @@ def peliculas_new(item):
 # ========================================================================================================================================================
 
 def genere(item):
-    logger.info("[cb01anime.py] genere")
+    logger.info("[thegroove360.cb01anime] genere")
     itemlist = []
 
     data = httptools.downloadpage(item.url, headers=headers).data
@@ -136,7 +136,7 @@ def genere(item):
                  show=scrapedtitle,
                  title="[COLOR azure]" + scrapedtitle + "[/COLOR]",
                  url=scrapedurl,
-                 thumbnail="https://raw.githubusercontent.com/orione7/Pelis_images/master/channels_icon_pureita/anime_genre_P.png",
+                 thumbnail="https://raw.githubusercontent.com/stesev1/channels/master/images/channels_icon/anime_genre_P.png",
                  folder=True))
 
     return itemlist
@@ -144,7 +144,7 @@ def genere(item):
 # ========================================================================================================================================================
 
 def year(item):
-    logger.info("[cb01anime.py] genere")
+    logger.info("[thegroove360.cb01anime] genere")
     itemlist = []
 
     data = httptools.downloadpage(item.url, headers=headers).data
@@ -169,7 +169,7 @@ def year(item):
                  show=scrapedtitle,
                  title="[COLOR azure]" + scrapedtitle + "[/COLOR]",
                  url=scrapedurl,
-                 thumbnail="https://raw.githubusercontent.com/orione7/Pelis_images/master/channels_icon_pureita/anime_year_P.png",
+                 thumbnail="https://raw.githubusercontent.com/stesev1/channels/master/images/channels_icon/anime_year_P.png",
                  folder=True))
 
     return itemlist
@@ -177,7 +177,7 @@ def year(item):
 # ========================================================================================================================================================
 
 def alfabetico(item):
-    logger.info("[cb01anime.py] listacompleta")
+    logger.info("[thegroove360.cb01anime] listacompleta")
     itemlist = []
 
     data = httptools.downloadpage(item.url, headers=headers).data
@@ -197,7 +197,7 @@ def alfabetico(item):
                  action="peliculas_new",
                  title=scrapedtitle,
                  url=scrapedurl,
-                 thumbnail="https://raw.githubusercontent.com/orione7/Pelis_images/master/channels_icon_pureita/a-z_cartoons_P.png",
+                 thumbnail="https://raw.githubusercontent.com/stesev1/channels/master/images/channels_icon/a-z_cartoons_P.png",
                  plot="Indice [[COLOR orange]" + scrapedtitle + "[/COLOR]]",
                  folder=True))
 
@@ -206,7 +206,7 @@ def alfabetico(item):
 # ========================================================================================================================================================
 
 def listacompleta(item):
-    logger.info("[cb01anime.py] listacompleta")
+    logger.info("[thegroove360.cb01anime] listacompleta")
     itemlist = []
 
     data = scrapertools.anti_cloudflare(item.url, headers)
@@ -228,7 +228,7 @@ def listacompleta(item):
                  show=scrapedtitle,
                  title=scrapedtitle,
                  url=scrapedurl,
-                 thumbnail="https://raw.githubusercontent.com/orione7/Pelis_images/master/channels_icon_pureita/anime_lista_P.png",
+                 thumbnail="https://raw.githubusercontent.com/stesev1/channels/master/images/channels_icon/anime_lista_P.png",
                  folder=True))
 
     return itemlist
@@ -236,16 +236,16 @@ def listacompleta(item):
 # ========================================================================================================================================================
 
 def search(item, texto):
-    logger.info("[cb01anime.py] " + item.url + " search " + texto)
+    logger.info("[thegroove360.cb01anime] " + item.url + " search " + texto)
 
-    item.url = host + "/anime/?s=" + texto
+    item.url = host + "?s=" + texto
 
     return peliculas_new(item)
 
 # ========================================================================================================================================================
 
 def episodios(item):
-    logger.info("[cb01anime.py] episodios")
+    logger.info("[thegroove360.cb01anime] episodios")
 
     itemlist = []
 
@@ -307,7 +307,7 @@ def episodios(item):
 # ========================================================================================================================================================
 
 def findvideos(item):
-    logger.info("[cb01anime.py] findvideos")
+    logger.info("[thegroove360.cb01anime] findvideos")
 
     itemlist = []
 
@@ -333,7 +333,7 @@ def findvideos(item):
 # ========================================================================================================================================================
 
 def play(item):
-    logger.info("[cb01anime.py] play")
+    logger.info("[thegroove360.cb01anime] play")
 
     if '/goto/' in item.url:
         item.url = item.url.split('/goto/')[-1].decode('base64')

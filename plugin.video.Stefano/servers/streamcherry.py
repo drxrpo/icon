@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-# StreamOnDemand Community Edition - Kodi Addon
 # --------------------------------------------------------
 # Conector para streamcherry
 # --------------------------------------------------------
@@ -7,8 +6,7 @@
 
 import re
 
-from core import httptools, scrapertools
-from platformcode import logger
+from core import httptools, logger, scrapertools
 
 
 def test_video_exists(page_url):

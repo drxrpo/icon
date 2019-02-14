@@ -1,388 +1,56 @@
 # -*- coding: utf-8 -*-
 # ------------------------------------------------------------
-# streamondemand.- XBMC Plugin
-# Canale per solo-streaming.com
-# http://blog.tvalacarta.info/plugin-xbmc/streamondemand.
+# TheGroove360 / XBMC Plugin
+# Canale 
 # ------------------------------------------------------------
-import json
-import urllib
-from unicodedata import normalize
 
-from core import config
-from core import logger
-from core import scrapertools
+import re
+
+from core import config, httptools, scrapertools, servertools
 from core.item import Item
 from core.tmdb import infoSod
-from servers import servertools
+from platformcode import logger
+from servers.decrypters import link4me
 
 __channel__ = "solostreaming"
-__category__ = "S"
-__type__ = "generic"
-__title__ = "solostreaming"
-__language__ = "IT"
-
-DEBUG = config.get_setting("debug")
 
 host = "http://solo-streaming.com"
-result_per_page = 25
+host_2 = "http://serietv.solo-streaming.com/elenco/serietv/"
 
-
-def isGeneric():
-    return True
+PERPAGE = 10
 
 
 def mainlist(item):
-    logger.info("streamondemand.solostreaming mainlist")
+    logger.info("Stefano.channels.solostreaming mainlist")
+
     itemlist = [Item(channel=__channel__,
-                     title="[B][COLOR royalblue][SERIE TV][/COLOR][/B] [B][COLOR deepskyblue]ULTIMI EPISODI AGGIORNATI[/COLOR][/B]",
-                     action="updateserietv",
-                     url="%s/sod/api.php?get=serietv&type=elenco&order=multi&days=30&start=0&end=%d" % (
-                         host, result_per_page),
-                     extra="serietv",
-                     thumbnail="http://solo-streaming.com/images/sod/serietv1_225x330.jpg"),
+                     action="lista_serie",
+                     title="[COLOR azure]Novità[/COLOR]",
+                     url=host,
+                     thumbnail="http://orig03.deviantart.net/6889/f/2014/079/7/b/movies_and_popcorn_folder_icon_by_matheusgrilo-d7ay4tw.png",
+                     folder=True),
                 Item(channel=__channel__,
-                     title="[B][COLOR royalblue][SERIE TV][/COLOR][/B] [B][COLOR deepskyblue]AGGIORNAMENTI MENSILI[/COLOR][/B]",
-                     action="dailyupdateserietv",
-                     url="%s/sod/api.php?get=serietv&type=elenco&order=multi&days=30" % host,
-                     extra="serietv",
-                     thumbnail="http://solo-streaming.com/images/sod/serietv2_225x330.jpg"),
+                     action="elenco",
+                     title="[COLOR azure]Elenco SerieTV[/COLOR]",
+                     url=host_2,
+                     thumbnail="http://orig03.deviantart.net/6889/f/2014/079/7/b/movies_and_popcorn_folder_icon_by_matheusgrilo-d7ay4tw.png",
+                     folder=True),
                 Item(channel=__channel__,
-                     title="[B][COLOR royalblue][SERIE TV][/COLOR][/B] [B][COLOR deepskyblue]ELENCO COMPLETO SERIE TV[/COLOR][/B]",
-                     action="elencoserie",
-                     extra="serietv",
-                     thumbnail="http://solo-streaming.com/images/sod/serietv3_225x330.jpg"),
-                Item(channel=__channel__,
-                     title="[B][COLOR royalblue][SERIE TV][/COLOR][/B] [B][COLOR deepskyblue]CERCA...[/COLOR][/B]",
                      action="search",
                      extra="serie",
-                     thumbnail="http://solo-streaming.com/images/sod/serietv4_225x330.jpg"),
-                Item(channel=__channel__,
-                     title="[B][COLOR springgreen][ANIME][/COLOR][/B] [B][COLOR deepskyblue]ULTIMI EPISODI AGGIORNATI[/COLOR][/B]",
-                     action="updateserietv",
-                     url="%s/sod/api.php?get=anime&type=elenco&order=multi&days=30&start=0&end=%d" % (
-                         host, result_per_page),
-                     extra="anime",
-                     thumbnail="http://solo-streaming.com/images/sod/anime1_225x330.jpg"),
-                Item(channel=__channel__,
-                     title="[B][COLOR springgreen][ANIME][/COLOR][/B] [B][COLOR deepskyblue]AGGIORNAMENTI MENSILI[/COLOR][/B]",
-                     action="dailyupdateserietv",
-                     url="%s/sod/api.php?get=anime&type=elenco&order=multi&days=30" % host,
-                     extra="anime",
-                     thumbnail="http://solo-streaming.com/images/sod/anime2_225x330.jpg"),
-                Item(channel=__channel__,
-                     title="[B][COLOR springgreen][ANIME][/COLOR][/B] [B][COLOR deepskyblue]ELENCO COMPLETO ANIME[/COLOR][/B]",
-                     action="elencoserie",
-                     extra="anime",
-                     thumbnail="http://solo-streaming.com/images/sod/anime3_225x330.jpg"),
-                Item(channel=__channel__,
-                     title="[B][COLOR springgreen][ANIME][/COLOR][/B] [B][COLOR deepskyblue]CERCA...[/COLOR][/B]",
-                     action="search",
-                     extra="anime",
-                     thumbnail="http://solo-streaming.com/images/sod/anime4_225x330.jpg")
-                ]
-
+                     title="[COLOR yellow]Cerca...[/COLOR]",
+                     thumbnail="http://dc467.4shared.com/img/fEbJqOum/s7/13feaf0c8c0/Search",
+                     folder=True)]
     return itemlist
-
-
-def elencoserie(item):
-    alphabet = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u',
-                'v', 'w', 'x', 'y', 'z']
-
-    apielenco = "%s/sod/api.php?get=%s&type=elenco&order=alphabetic&letter=%s&start=0&end=%d"
-    itemlist = []
-    for letter in alphabet:
-        frm_title = "[B][COLOR deepskyblue]%s[/COLOR][/B]" % letter.upper()
-        itemlist.append(
-            Item(channel=__channel__,
-                 action="elencoserieletter",
-                 title=frm_title,
-                 url=apielenco % (host, item.extra, letter, result_per_page),
-                 thumbnail=item.thumbnail,
-                 fulltitle=frm_title,
-                 extra=item.extra,
-                 show=frm_title))
-
-    return itemlist
-
-
-def elencoserieletter(item):
-    itemlist = []
-
-    # Descarga la pagina
-    data = cache_jsonpage(item.url)
-
-    for singledata in data['results']:
-
-        if item.extra == 'serietv':
-            serie = scrapertools.decodeHtmlentities(normalize_unicode(singledata['serieNome'])).strip()
-        else:
-            serie = scrapertools.decodeHtmlentities(normalize_unicode(singledata['serie'])).strip()
-
-        scrapedplot = ""
-        frm_title = "[B][COLOR deepskyblue]%s[/COLOR][/B]" % serie
-        itemlist.append(infoSod(
-            Item(channel=__channel__,
-                 action="episodios",
-                 fulltitle=serie,
-                 show=serie,
-                 title=frm_title,
-                 url=singledata['uri'] + '||' + item.extra,
-                 thumbnail=singledata['fileName'],
-                 plot=scrapedplot,
-                 folder=True), tipo='tv'))
-
-    itemlist.append(
-        Item(channel=__channel__,
-             action="HomePage",
-             title="[COLOR yellow]Torna Home[/COLOR]",
-             thumbnail="https://raw.githubusercontent.com/orione7/Pelis_images/master/channels_icon_pureita/return_home_P.png",
-             folder=True))
-
-    if len(data['results']) == result_per_page:
-        end = int(scrapertools.find_single_match(item.url, r"&end=(\d+)"))
-        next_page = item.url.split('&start=')[0] + "&start=%d&end=%d" % (end, end + result_per_page)
-
-        itemlist.append(
-            Item(channel=__channel__,
-                 action="elencoserieletter",
-                 title="[COLOR orange]Successivo>>[/COLOR]",
-                 url=next_page,
-                 extra=item.extra,
-                 thumbnail="https://raw.githubusercontent.com/orione7/Pelis_images/master/channels_icon_pureita/successivo_P.png"))
-
-    return itemlist
-
-
-def cache_jsonpage(url):
-    return json.loads(scrapertools.cache_page(url))
-
-
-def dailyupdateserietv(item):
-    logger.info("streamondemand.solostreaming dailyupdateserietv")
-
-    itemlist = []
-
-    # Descarga la pagina
-    data = cache_jsonpage(item.url)
-
-    dailyupdate = {}
-    for singledata in data['results']:
-        key = singledata['created']
-        if key not in dailyupdate:
-            dailyupdate[key] = []
-        dailyupdate[key].append(singledata)
-
-    for key in sorted(dailyupdate, reverse=True):
-        scrapedplot = ""
-
-        value = dailyupdate[key]
-
-        extra = json.dumps(value)
-
-        frm_title = "[B][COLOR deepskyblue]%s-%s-%s[/COLOR][/B] [COLOR white](%d serie aggiornate)[/COLOR]" % (
-            key[8:], key[5:7], key[:4], len(value))
-
-        itemlist.append(
-            Item(channel=__channel__,
-                 action="showupdateserietv",
-                 fulltitle=frm_title,
-                 show=frm_title,
-                 title=frm_title,
-                 url=item.extra,
-                 thumbnail="",
-                 extra=extra,
-                 plot=scrapedplot,
-                 folder=True))
-
-    return itemlist
-
-
-def showupdateserietv(item):
-    logger.info("streamondemand.solostreaming showupdateserietv")
-
-    extra = json.loads(item.extra)
-
-    itemlist = []
-
-    for singledata in extra:
-        scrapedplot = ""
-
-        type = normalize_unicode(singledata['type'])
-        uri = normalize_unicode(singledata['uri'])
-
-        if item.url == 'serietv':
-            ep_num = normalize_unicode(singledata['ep_num'])
-            serie = scrapertools.decodeHtmlentities(normalize_unicode(singledata['serieNome'])).strip()
-            titolo = scrapertools.decodeHtmlentities(normalize_unicode(singledata['ep_title'])).strip()
-
-            apisingle = host + "/sod/api.php?get=serietv&type=episodi&uri=" + uri + "&ep_num=" + ep_num + "&sub=" + urllib.quote_plus(
-                type)
-
-            fulltitle = serie + ' | ' + ep_num + ' ' + titolo
-            frm_title = "[COLOR white](%s)[/COLOR] [B][COLOR royalblue]%s[/COLOR][/B] [B][COLOR deepskyblue]- %s %s[/COLOR][/B]" % (
-                type.upper(), serie, ep_num, titolo)
-        else:
-            e_num = normalize_unicode(singledata['e_num'])
-            s_num = normalize_unicode(singledata['s_num'])
-            serie = scrapertools.decodeHtmlentities(normalize_unicode(singledata['serie'])).strip()
-
-            apisingle = host + "/sod/api.php?get=anime&type=episodi&uri=" + uri + "&e_num=" + e_num + "&s_num=" + s_num + "&sub=" + urllib.quote_plus(
-                type)
-
-            fulltitle = serie + ' | ' + s_num + 'x' + e_num
-            frm_title = "[COLOR white](%s)[/COLOR] [B][COLOR royalblue]%s[/COLOR][/B] [B][COLOR deepskyblue]- %sx%s[/COLOR][/B]" % (
-                type.upper(), serie, s_num, e_num)
-
-        itemlist.append(infoSod(
-            Item(channel=__channel__,
-                 action="findvid_serie",
-                 fulltitle=fulltitle,
-                 show=serie,
-                 title=frm_title,
-                 url=apisingle,
-                 thumbnail=singledata['fileName']), tipo='tv'))
-
-    itemlist.append(
-        Item(channel=__channel__,
-             action="HomePage",
-             title="[COLOR yellow]Torna Home[/COLOR]"))
-
-    return itemlist
-
-
-def updateserietv(item):
-    logger.info("streamondemand.solostreaming update serietv")
-
-    itemlist = []
-
-    # Descarga la pagina
-    data = cache_jsonpage(item.url)
-
-    for singledata in data['results']:
-
-        type = normalize_unicode(singledata['type'])
-        uri = normalize_unicode(singledata['uri'])
-        if item.extra == 'serietv':
-            ep_num = normalize_unicode(singledata['ep_num'])
-            serie = scrapertools.decodeHtmlentities(normalize_unicode(singledata['serieNome'])).strip()
-            titolo = scrapertools.decodeHtmlentities(normalize_unicode(singledata['ep_title'])).strip()
-
-            apisingle = host + "/sod/api.php?get=serietv&type=episodi&uri=" + uri + "&ep_num=" + ep_num + "&sub=" + urllib.quote_plus(
-                type)
-
-            fulltitle = serie + ' | ' + ep_num + ' ' + titolo
-            frm_title = "[COLOR white](%s)[/COLOR] [B][COLOR royalblue]%s[/COLOR][/B] [B][COLOR deepskyblue]- %s %s[/COLOR][/B]" % (
-                type.upper(), serie, ep_num, titolo)
-        else:
-            e_num = normalize_unicode(singledata['e_num'])
-            s_num = normalize_unicode(singledata['s_num'])
-            serie = scrapertools.decodeHtmlentities(normalize_unicode(singledata['serie'])).strip()
-
-            apisingle = host + "/sod/api.php?get=anime&type=episodi&uri=" + uri + "&e_num=" + e_num + "&s_num=" + s_num + "&sub=" + urllib.quote_plus(
-                type)
-
-            fulltitle = serie + ' | ' + s_num + 'x' + e_num
-            frm_title = "[COLOR white](%s)[/COLOR] [B][COLOR royalblue]%s[/COLOR][/B] [B][COLOR deepskyblue]- %sx%s[/COLOR][/B]" % (
-                type.upper(), serie, s_num, e_num)
-
-        itemlist.append(infoSod(
-            Item(channel=__channel__,
-                 action="findvid_serie",
-                 fulltitle=fulltitle,
-                 show=serie,
-                 title=frm_title,
-                 url=apisingle,
-                 thumbnail=singledata['fileName']), tipo='tv'))
-
-    itemlist.append(
-        Item(channel=__channel__,
-             action="HomePage",
-             title="[COLOR yellow]Torna Home[/COLOR]",
-             thumbnail="https://raw.githubusercontent.com/orione7/Pelis_images/master/channels_icon_pureita/return_home_P.png",
-             folder=True))
-
-    if len(data['results']) == result_per_page:
-        end = int(scrapertools.find_single_match(item.url, r"&end=(\d+)"))
-        next_page = item.url.split('&start=')[0] + "&start=%d&end=%d" % (end, end + result_per_page)
-
-        itemlist.append(
-            Item(channel=__channel__,
-                 action="updateserietv",
-                 title="[COLOR orange]Successivo>>[/COLOR]",
-                 url=next_page,
-                 extra=item.extra,
-                 thumbnail="https://raw.githubusercontent.com/orione7/Pelis_images/master/channels_icon_pureita/successivo_P.png"))
-
-    return itemlist
-
-
-def serietv(item):
-    logger.info("streamondemand.solostreaming serietv")
-
-    itemlist = []
-
-    # Descarga la pagina
-    data = cache_jsonpage(item.url)
-
-    for singledata in data['results']:
-        if item.extra == 'serietv':
-            serie = scrapertools.decodeHtmlentities(normalize_unicode(singledata['serieNome'])).strip()
-        else:
-            serie = scrapertools.decodeHtmlentities(normalize_unicode(singledata['serie'])).strip()
-
-        frm_title = "[B][COLOR deepskyblue]%s[/COLOR][/B]" % serie
-        scrapedplot = ""
-        itemlist.append(infoSod(
-            Item(channel=__channel__,
-                 action="episodios",
-                 fulltitle=serie,
-                 show=serie,
-                 title=frm_title,
-                 url=singledata['uri'] + '||' + item.extra,
-                 thumbnail=singledata['fileName'],
-                 plot=scrapedplot,
-                 folder=True), tipo='tv'))
-
-    itemlist.append(
-        Item(channel=__channel__,
-             action="HomePage",
-             title="[COLOR yellow]Torna Home[/COLOR]",
-             thumbnail="https://raw.githubusercontent.com/orione7/Pelis_images/master/channels_icon_pureita/return_home_P.png",
-             folder=True))
-
-    if len(data['results']) == result_per_page:
-        end = int(scrapertools.find_single_match(item.url, r"&end=(\d+)"))
-        next_page = item.url.split('&start=')[0] + "&start=%d&end=%d" % (end, end + result_per_page)
-
-        itemlist.append(
-            Item(channel=__channel__,
-                 action="serietv",
-                 title="[COLOR orange]Successivo>>[/COLOR]",
-                 url=next_page,
-                 extra=item.extra,
-                 thumbnail="https://raw.githubusercontent.com/orione7/Pelis_images/master/channels_icon_pureita/successivo_P.png"))
-
-    return itemlist
-
-
-def HomePage(item):
-    import xbmc
-    xbmc.executebuiltin("ReplaceWindow(10024,plugin://plugin.video.streamondemand-pureita-master)")
 
 
 def search(item, texto):
-    logger.info("[solostreaming.py] " + item.url + " search " + texto)
-
-    if item.extra == 'serie':
-        item.url = "%s/sod/api.php?get=serietv&type=data&serie=%s&start=0&end=%d" % (host, texto, result_per_page)
-        item.extra = 'serietv'
-    else:
-        item.url = "%s/sod/api.php?get=anime&type=data&serie=%s&start=0&end=%d" % (host, texto, result_per_page)
-        item.extra = 'anime'
+    logger.info("Stefano.channels.solostreaming search")
+    item.url = host + "/search/" + texto
 
     try:
-        return serietv(item)
-    # Se captura la excepción, para no interrumpir al buscador global si un canal falla
+        return serie_src(item)
+    # Stop search in case of fault
     except:
         import sys
         for line in sys.exc_info():
@@ -390,73 +58,83 @@ def search(item, texto):
         return []
 
 
-def episodios(item):
-    logger.info("[solostreaming.py] episodios")
-
+# Newest ----------------------------------------------------------------------
+def newest(categoria):
+    logger.info("Stefano.channels.solostreaming newest" + categoria)
     itemlist = []
+    item = Item()
+    try:
+        if categoria == "series":
+            item.url = host
+            item.action = "lista_serie_newest"
+            itemlist = lista_serie_newest(item)
 
-    # Descarga la página
-    hosturi = "%s/sod/api.php?get=%s&type=episodi&uri=%s" % (host, item.url.split('||')[1], item.url.split('||')[0])
-    data = cache_jsonpage(hosturi)
+            if itemlist[-1].action == "lista_serie_newest":
+                itemlist.pop()
 
-    for singledata in data:
-        type = normalize_unicode(singledata['type'])
-        if item.extra == 'serietv':
-            titolo = scrapertools.decodeHtmlentities(normalize_unicode(singledata['ep_title'])).strip()
-            ep_num = normalize_unicode(singledata['ep_num'])
-
-            frm_title = "[COLOR white](%s) [B][COLOR deepskyblue]- %s %s[/COLOR][/B]" % (type.upper(), ep_num, titolo)
-        else:
-            e_num = normalize_unicode(singledata['e_num'])
-            s_num = normalize_unicode(singledata['s_num'])
-
-            frm_title = "[COLOR white](%s) [B][COLOR deepskyblue]- %sx%s[/COLOR][/B]" % (type.upper(), s_num, e_num)
-
-        links = ' '.join(singledata['links'])
-
-        itemlist.append(
-            Item(channel=__channel__,
-                 action="findvid_serie",
-                 title=frm_title,
-                 url=item.url,
-                 thumbnail=item.thumbnail,
-                 extra=links,
-                 fulltitle=item.fulltitle,
-                 show=item.show))
-
-    if config.get_library_support() and len(itemlist) != 0:
-        itemlist.append(
-            Item(channel=__channel__,
-                 title=item.title,
-                 url=item.url,
-                 action="add_serie_to_library",
-                 extra="episodios",
-                 show=item.show))
-        itemlist.append(
-            Item(channel=item.channel,
-                 title="Scarica tutti gli episodi della serie",
-                 url=item.url,
-                 action="download_all_episodes",
-                 extra="episodios",
-                 show=item.show))
+    # Continua la ricerca in caso di errore 
+    except:
+        import sys
+        for line in sys.exc_info():
+            logger.error("{0}".format(line))
+        return []
 
     return itemlist
 
 
-def findvid_serie(item):
-    logger.info("[solostreaming.py] findvideos")
+def lista_serie_newest(item):
+    logger.info("Stefano.channels.solostreaming lista_serie_newest")
+    itemlist = []
 
-    # Descarga la página
-    if item.extra != "":
-        data = item.extra
-    else:
-        data = cache_jsonpage(item.url)
-        data = ' '.join(data[0]['links'])
+    data = httptools.downloadpage(item.url).data
+    blocco = scrapertools.find_single_match(data, r'<ul class="recent-update"[^>]+>(.*?)</ul>')
 
-    itemlist = servertools.find_video_items(data=data)
+    patron = '<h2[^>]+>\s*<a class="post-data" title="(.*?)" data="(.*?)" href="([^"]+)" style[^>]+>'
+    matches = re.compile(patron, re.DOTALL).findall(blocco)
+
+    for scrapedtitle, scrapedtitle_2, scrapedurl in matches:
+        scrapedurl += "/episodi/"
+        scrapedtitle = scrapertools.decodeHtmlentities(scrapedtitle).strip()
+        scrapedtitle_2 = re.sub(r'\s+', ' ', scrapertools.decodeHtmlentities(scrapedtitle_2)).strip()
+        complete_title = '%s %s' % (scrapedtitle, scrapedtitle_2)
+
+        patron_extra = r'<br>.*?%s[^<]+(.*?)<br>' % scrapertools.find_single_match(scrapedtitle_2, r'(\d+x\d+)')
+
+        itemlist.append(infoSod(
+            Item(channel=__channel__,
+                 action="findvideos_single_ep",
+                 fulltitle=scrapedtitle,
+                 show=scrapedtitle,
+                 extra=patron_extra,
+                 contentSerieName=complete_title,
+                 title=complete_title,
+                 url=scrapedurl,
+                 folder=True), tipo='tv'))
+
+    return itemlist
+
+
+def findvideos_single_ep(item):
+    logger.info("Stefano.channels.solostreaming findvideos_single_ep")
+
+    # Download Pagina
+    data = httptools.downloadpage(item.url).data
+
+    # Estraggo l'episodio
+    data = scrapertools.find_single_match(data, item.extra)
+
+    matches = re.compile(r'href="([^"]+)"', re.DOTALL).findall(data)
+    urls = ''
+    for url in matches:
+        if 'link4' in url:
+            urls += link4me.get_long_url(url, item.url)
+        else:
+            urls += url
+    itemlist = servertools.find_video_items(data=urls)
 
     for videoitem in itemlist:
-        videoitem.title = item.title + videoitem.title
+        server = re.sub(r'[-\[\]\s]+', '', videoitem.title).capitalize()
+        videoitem.title = " ".join(["[[COLOR orange]%s[/COLOR]]" % server, item.title])
         videoitem.fulltitle = item.fulltitle
         videoitem.thumbnail = item.thumbnail
         videoitem.show = item.show
@@ -466,7 +144,237 @@ def findvid_serie(item):
     return itemlist
 
 
-def normalize_unicode(string, encoding='utf-8'):
-    if string is None: string = ''
-    return normalize('NFKD', string if isinstance(string, unicode) else unicode(string, encoding, 'ignore')).encode(
-        encoding, 'ignore')
+# =============================================================================
+
+def serie_src(item):
+    logger.info("Stefano.channels.solostreaming src")
+    itemlist = []
+
+    p = 1
+    if '{}' in item.url:
+        item.url, p = item.url.split('{}')
+        p = int(p)
+
+    data = httptools.downloadpage(item.url).data
+
+    patron = '<h1 class="serie-title"><a[\s\S]*href="([^"]+)">(.*?)<\/a><\/h1>'
+    matches = re.compile(patron, re.DOTALL).findall(data)
+
+    for i, (scrapedurl, scrapedtitle) in enumerate(matches):
+        if (p - 1) * PERPAGE > i: continue
+        if i >= p * PERPAGE: break
+        scrapedplot = ""
+        scrapedthumbnail = ""
+        scrapedtitle = scrapertools.decodeHtmlentities(scrapedtitle)
+        scrapedtitle = scrapedtitle.replace("streaming", "")
+        scrapedurl = scrapedurl + "/episodi/"
+        itemlist.append(infoSod(
+            Item(channel=__channel__,
+                 action="episodios",
+                 fulltitle=scrapedtitle,
+                 show=scrapedtitle,
+                 title="[COLOR azure]" + scrapedtitle + "[/COLOR]",
+                 url=scrapedurl,
+                 thumbnail=scrapedthumbnail,
+                 plot=scrapedplot,
+                 folder=True), tipo='tv'))
+
+    # Per page
+    if len(matches) >= p * PERPAGE:
+        scrapedurl = item.url + '{}' + str(p + 1)
+        itemlist.append(
+            Item(channel=__channel__,
+                 extra=item.extra,
+                 action="serie_src",
+                 title="[COLOR orange]Successivo >>[/COLOR]",
+                 url=scrapedurl,
+                 thumbnail="http://2.bp.blogspot.com/-fE9tzwmjaeQ/UcM2apxDtjI/AAAAAAAAeeg/WKSGM2TADLM/s1600/pager+old.png",
+                 folder=True))
+
+    return itemlist
+
+
+def elenco(item):
+    logger.info("Stefano.channels.solostreaming elenco")
+    itemlist = []
+
+    p = 1
+    if '{}' in item.url:
+        item.url, p = item.url.split('{}')
+        p = int(p)
+
+    data = httptools.downloadpage(item.url).data
+    bloque = scrapertools.get_match(data, '<div id="content">(.*?)</div>')
+
+    patron = '<a href="([^"]+)" title=[^>]+>(.*?)</a><br>'
+    matches = re.compile(patron, re.DOTALL).findall(bloque)
+
+    for i, (scrapedurl, scrapedtitle) in enumerate(matches):
+        if (p - 1) * PERPAGE > i: continue
+        if i >= p * PERPAGE: break
+        scrapedplot = ""
+        scrapedthumbnail = ""
+        scrapedtitle = scrapertools.decodeHtmlentities(scrapedtitle)
+        scrapedtitle = scrapedtitle.replace("streaming", "")
+        scrapedurl = scrapedurl + "/episodi/"
+        itemlist.append(infoSod(
+            Item(channel=__channel__,
+                 action="episodios",
+                 fulltitle=scrapedtitle,
+                 show=scrapedtitle,
+                 title="[COLOR azure]" + scrapedtitle + "[/COLOR]",
+                 url=scrapedurl,
+                 thumbnail=scrapedthumbnail,
+                 plot=scrapedplot,
+                 folder=True), tipo='tv'))
+
+    # Per page
+    if len(matches) >= p * PERPAGE:
+        scrapedurl = item.url + '{}' + str(p + 1)
+        itemlist.append(
+            Item(channel=__channel__,
+                 extra=item.extra,
+                 action="elenco",
+                 title="[COLOR orange]Successivo >>[/COLOR]",
+                 url=scrapedurl,
+                 thumbnail="http://2.bp.blogspot.com/-fE9tzwmjaeQ/UcM2apxDtjI/AAAAAAAAeeg/WKSGM2TADLM/s1600/pager+old.png",
+                 folder=True))
+
+    return itemlist
+
+
+def lista_serie(item):
+    logger.info("Stefano.channels.solostreaming lista_serie")
+    itemlist = []
+
+    p = 1
+    if '{}' in item.url:
+        item.url, p = item.url.split('{}')
+        p = int(p)
+
+    data = httptools.downloadpage(item.url).data
+
+    patron = '<div class="update"[^>]+>\s*<a class="post-data" title="(.*?)" data="(.*?)" href="([^"]+)">'
+    matches = re.compile(patron, re.DOTALL).findall(data)
+
+    for i, (scrapedtitle_1, scrapedtitle_2, scrapedurl) in enumerate(matches):
+        if (p - 1) * PERPAGE > i: continue
+        if i >= p * PERPAGE: break
+        scrapedplot = ""
+        scrapedthumbnail = ""
+        scrapedurl = scrapedurl + "/episodi/"
+        scrapedtitle = scrapedtitle_1
+        scrapedtitle_2 = scrapedtitle_2.replace("  ", " ")
+        itemlist.append(infoSod(
+            Item(channel=__channel__,
+                 action="episodios_new",
+                 fulltitle=scrapedtitle,
+                 show=scrapedtitle,
+                 title="[COLOR azure]" + scrapedtitle + "[/COLOR]" + " " + scrapedtitle_2,
+                 url=scrapedurl,
+                 thumbnail=scrapedthumbnail,
+                 plot=scrapedplot,
+                 folder=True), tipo='tv'))
+
+    # Per page
+    if len(matches) >= p * PERPAGE:
+        scrapedurl = item.url + '{}' + str(p + 1)
+        itemlist.append(
+            Item(channel=__channel__,
+                 extra=item.extra,
+                 action="lista_serie",
+                 title="[COLOR orange]Successivo >>[/COLOR]",
+                 url=scrapedurl,
+                 thumbnail="http://2.bp.blogspot.com/-fE9tzwmjaeQ/UcM2apxDtjI/AAAAAAAAeeg/WKSGM2TADLM/s1600/pager+old.png",
+                 folder=True))
+
+    return itemlist
+
+
+def episodios(item):
+    logger.info("Stefano.channels.solostreaming episodios")
+
+    itemlist = []
+
+    data = httptools.downloadpage(item.url).data
+
+    patron = r'<span class="stagione-icon su-spoiler-icon"></span>([^<]+?)</div>(.*?)<br>\s*</div>\s*</div>\s*<br>'
+    matches = re.compile(patron, re.DOTALL).findall(data)
+
+    for season, data in matches:
+        subs = ' [SUB ITA]' if 'SUB' in season else ' [ITA]'
+        for epi in data.split('<br>'):
+            title = re.compile('title="([^"]+?)" h', re.DOTALL).findall(epi)[0]
+            title += subs
+            itemlist.append(
+                Item(channel=__channel__,
+                     action="findvideos",
+                     contentType="episode",
+                     title=title,
+                     url=item.url,
+                     extra=epi,
+                     fulltitle=title + ' - ' + item.show,
+                     show=item.show,
+                     thumbnail=item.thumbnail))
+
+    if config.get_library_support() and len(itemlist) != 0:
+        itemlist.append(
+            Item(channel=__channel__,
+                 title="Aggiungi alla libreria",
+                 url=item.url,
+                 action="add_serie_to_library",
+                 extra="episodios",
+                 show=item.show))
+
+    return itemlist
+
+
+def episodios_new(item):
+    logger.info("Stefano.channels.solostreaming episodios")
+
+    itemlist = []
+
+    data = httptools.downloadpage(item.url).data
+
+    patron = r'<span class="stagione-icon su-spoiler-icon"></span>([^<]+?)</div>(.*?)<br>\s*</div>\s*</div>\s*<br>'
+    matches = re.compile(patron, re.DOTALL).findall(data)
+
+    for season, data in matches:
+        subs = ' [SUB ITA]' if 'SUB' in season else ' [ITA]'
+        for epi in data.split('<br>'):
+            title = re.compile('title="([^"]+?)" h', re.DOTALL).findall(epi)[0]
+            title += subs
+            itemlist.append(
+                Item(channel=__channel__,
+                     action="findvideos",
+                     contentType="episode",
+                     title=title,
+                     url=item.url,
+                     extra=epi,
+                     fulltitle=title + ' - ' + item.show,
+                     show=item.show,
+                     thumbnail=item.thumbnail))
+
+    return list(reversed(itemlist))
+
+
+def findvideos(item):
+    logger.info("Stefano.channels.solostreaming findvideos")
+
+    data = item.extra
+    links = set()
+
+    for link in re.compile('href="([^"]+?)">', re.DOTALL).findall(data):
+        if 'link4.me' not in link: continue
+        links.add(link4me.get_long_url(link, item.url))
+
+    itemlist = servertools.find_video_items(data=str(links) + data)
+    for videoitem in itemlist:
+        videoitem.title = item.title + videoitem.title
+        videoitem.fulltitle = item.fulltitle
+        videoitem.thumbnail = item.thumbnail
+        videoitem.show = item.show
+        videoitem.plot = item.plot
+        videoitem.channel = __channel__
+
+    return itemlist

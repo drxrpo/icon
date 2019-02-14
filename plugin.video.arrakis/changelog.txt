@@ -1,9 +1,0 @@
-v0.0.2
-    - Loud and Proud Music Section Added
-    - Kids Tube section expanded, with many thanks to d. twigwood
-    - Added Jen Team Live Sports Airtable
-    - Added Highlights section to Sports Hub
-    - Updates to Plugins for imdb, hesgoal, and sports stream by TonyH
-
-v0.0.1
-    - Initial Release

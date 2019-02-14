@@ -1,13 +1,13 @@
 # -*- coding: utf-8 -*-
 # ------------------------------------------------------------
-# streamondemand-PureITA - XBMC Plugin
-# Canale  altadefinizioneclub
-# http://www.mimediacenter.info/foro/viewtopic.php?f=36&t=7808
+# Thegroove360 - XBMC Plugin
+# Canale altadefinizione.pink
 # ------------------------------------------------------------
+
+import base64
 import re
 import urlparse
 
-from core import config
 from core import httptools
 from core import logger
 from core import scrapertools
@@ -16,105 +16,74 @@ from core.item import Item
 from core.tmdb import infoSod
 
 __channel__ = "altadefinizioneclub"
-host = "http://altadefinizione.bid"
-headers     = [['Referer', host]]
+__category__ = "F,S,A"
+__type__ = "generic"
+__title__ = "AltaDefinizione"
+__language__ = "IT"
 
+host = "https://altadefinizione.pink"
+
+headers = [
+    ['User-Agent', 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:44.0) Gecko/20100101 Firefox/44.0'],
+    ['Accept', 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8'],
+    ['Accept-Encoding', 'gzip, deflate'],
+    ['Referer', host],
+    ['Cache-Control', 'max-age=0']
+]
+
+
+def isGeneric():
+    return True
+
+# ==============================================================================================================================================
 
 def mainlist(item):
-    logger.info("streamondemand-pureita altadefinizioneclub mainlist")
-    itemlist = [Item(channel=__channel__,
-                     title="[COLOR azure]Film[COLOR orange] - Prime visioni[/COLOR]",
-                     action="peliculas",
-                     url="%s/prime-visioni/" % host,
-                     extra="movie",
-                     thumbnail="https://raw.githubusercontent.com/orione7/Pelis_images/master/channels_icon_pureita/popcorn_cinema_P.png"),
-               Item(channel=__channel__,
-                     title="[COLOR azure]Film[COLOR orange] - Ultimi Inseririti[/COLOR]",
-                     action="peliculas",
-                     url="%s/genere/film/" % host,
-                     thumbnail="https://raw.githubusercontent.com/orione7/Pelis_images/master/channels_icon_pureita/movies_P.png"),
-               Item(channel=__channel__,
-                     title="[COLOR azure]Film[COLOR orange] - HD[/COLOR]",
-                     action="peliculas",
-                     url=host + "/?s=[HD]",
-                     thumbnail="https://raw.githubusercontent.com/orione7/Pelis_images/master/channels_icon_pureita/hd_movies_P.png"),
-               Item(channel=__channel__,
-                     title="[COLOR azure]Film[COLOR orange] - Categoria[/COLOR]",
-                     action="categorias",
-                     url=host,
-                     thumbnail="https://raw.githubusercontent.com/orione7/Pelis_images/master/channels_icon_pureita/genres_P.png"),
-                Item(channel=__channel__,
-                     title="[COLOR yellow]Cerca Film...[/COLOR]",
-                     action="search",
-                     extra="movie",
-                     thumbnail="https://raw.githubusercontent.com/orione7/Pelis_images/master/channels_icon_pureita/search_P.png"),
-               Item(channel=__channel__,
-                     title="[COLOR azure]Serie TV - [COLOR orange]Nuove[/COLOR]",
-                     action="peliculas_tv",
-                     url=host+"/genere/serie-tv/",
-                     extra="serie",
-                     thumbnail="https://raw.githubusercontent.com/orione7/Pelis_images/master/channels_icon_pureita/tv_series_P.png"),
-               Item(channel=__channel__,
-                     title="[COLOR azure]Serie TV - [COLOR orange]Aggiornate[/COLOR]",
-                     action="peliculas_tv_new",
-                     url=host+"/aggiornamenti-serie-tv/",
-                     extra="serie",
-                     thumbnail="https://raw.githubusercontent.com/orione7/Pelis_images/master/channels_icon_pureita/new_tvshows_P.png"),
-               Item(channel=__channel__,
-                     title="[COLOR azure]Serie TV - [COLOR orange]Ultimi Episodi[/COLOR]",
-                     action="peliculas_ep",
-                     url=host+"/aggiornamenti-serie-tv/",
-                     extra="serie",
-                     thumbnail="https://raw.githubusercontent.com/orione7/Pelis_images/master/channels_icon_pureita/new_tvshows_P.png"),
-                Item(channel=__channel__,
-                     title="[COLOR yellow]Cerca Serie TV...[/COLOR]",
-                     action="search",
-                     extra="serie",
-                     thumbnail="https://raw.githubusercontent.com/orione7/Pelis_images/master/channels_icon_pureita/search_P.png")]
+    logger.info("[thegroove360.altadefinizioneclub] mainlist")
+
+    itemlist = [
+        Item(channel=__channel__,
+             title="[COLOR azure]Film - [COLOR orange]Al Cinema[/COLOR]",
+             action="cinema",
+             url=host + "/al-cinema/",
+             thumbnail="https://raw.githubusercontent.com/stesev1/channels/master/images/channels_icon/popcorn_serie_P.png"),
+		Item(channel=__channel__,
+             title="[COLOR azure]Film - [COLOR orange]Novita'[/COLOR]",
+             action="fichas",
+             url=host + "/nuove-uscite/",
+             thumbnail="https://raw.githubusercontent.com/stesev1/channels/master/images/channels_icon/movie_new_P.png"),
+        Item(channel=__channel__,
+             title="[COLOR azure]Film - [COLOR orange]Per Genere[/COLOR]",
+             action="genere",
+             url=host,
+             thumbnail="https://raw.githubusercontent.com/stesev1/channels/master/images/channels_icon/genres_P.png"),
+        Item(channel=__channel__,
+             title="[COLOR azure]Film - [COLOR orange]Per Anno[/COLOR]",
+             action="anno",
+             url=host,
+             thumbnail="https://raw.githubusercontent.com/stesev1/channels/master/images/channels_icon/movie_year_P.png"),
+        Item(channel=__channel__,
+             title="[COLOR azure]Film - [COLOR orange]Sottotitolati[/COLOR]",
+             action="fichas",
+             url=host + "/sub-ita/",
+             thumbnail="https://raw.githubusercontent.com/stesev1/channels/master/images/channels_icon/movie_sub_P.png"),
+        Item(channel=__channel__,
+             title="[COLOR orange]Cerca...[/COLOR]",
+             action="search",
+             extra="movie",
+             thumbnail="https://raw.githubusercontent.com/stesev1/channels/master/images/channels_icon/search_P.png")]
 
     return itemlist
 
-# ==============================================================================================================================================================================
-
-def categorias(item):
-    logger.info("streamondemand-pureita altadefinizioneclub categorias")
-    itemlist = []
-
-    data = httptools.downloadpage(item.url).data
-
-    # Narrow search by selecting only the combo
-    patron = '<li><a href="[^"]+">ULTIME SERIE TV</a></li>(.*?)</ul>'
-    bloque = scrapertools.get_match(data, patron)
-
-    # The categories are the options for the combo  
-    patron = '<li><a href="([^"]+)">(.*?)</a></li>'
-    matches = re.compile(patron, re.DOTALL).findall(bloque)
-
-    for scrapedurl, scrapedtitle in matches:
-        scrapedurl = urlparse.urljoin(item.url, scrapedurl)
-        scrapedthumbnail = ""
-        scrapedplot = ""
-        itemlist.append(
-            Item(channel=__channel__,
-                 action="peliculas",
-                 title="[COLOR azure]" + scrapedtitle + "[/COLOR]",
-                 url=scrapedurl,
-                 thumbnail="https://raw.githubusercontent.com/orione7/Pelis_images/master/channels_icon_pureita/genre_P.png",
-                 extra=item.extra,
-                 plot=scrapedplot))
-
-    return itemlist
-
-# ==============================================================================================================================================================================
+# ==============================================================================================================================================
 
 def search(item, texto):
-    logger.info("streamondemand-pureita altadefinizioneclub " + item.url + " search " + texto)
+    logger.info("[thegroove360.altadefinizioneclub] " + item.url + " search " + texto)
+
     item.url = host + "/?s=" + texto
+
     try:
-        if item.extra == "movie":
-            return peliculas(item)
-        if item.extra == "serie":
-            return peliculas_tv(item)
+        return fichas(item)
+
     # Se captura la excepción, para no interrumpir al buscador global si un canal falla
     except:
         import sys
@@ -122,260 +91,280 @@ def search(item, texto):
             logger.error("%s" % line)
         return []
 
-# ==============================================================================================================================================================================
-	
-def peliculas(item):
-    logger.info("streamondemand-pureita altadefinizioneclub peliculas")
+# ==============================================================================================================================================
+
+def genere(item):
+    logger.info("[thegroove360.altadefinizioneclub] genere")
     itemlist = []
 
-    # Descarga la pagina 
-    data = httptools.downloadpage(item.url).data
+    data = scrapertools.anti_cloudflare(item.url, headers)
 
-    # Extrae las entradas (carpetas)
-    patron = '<a href="([^"]+)" data-thumbnail="([^"]+)"><div>\s*' \
-	         '<div class="title">([^>]+)</div>\s*[^>]+>([^<]+)</div>'
+    patron = '<ul class="listSubCat" id="Film">(.*?)</ul>'
+    data = scrapertools.find_single_match(data, patron)
+
+    patron = '<li><a href="(.*?)">(.*?)</a></li>'
+    matches = re.compile(patron, re.DOTALL).findall(data)
+    scrapertools.printMatches(matches)
+
+    for scrapedurl, scrapedtitle in matches:
+        itemlist.append(
+            Item(channel=__channel__,
+                 action="fichas",
+                 title=scrapedtitle,
+                 url=scrapedurl,
+                 thumbnail="https://raw.githubusercontent.com/stesev1/channels/master/images/channels_icon/genre_P.png",
+                 folder=True))
+
+    return itemlist
+
+# ==============================================================================================================================================
+
+def anno(item):
+    logger.info("[thegroove360.altadefinizioneclub] genere")
+    itemlist = []
+
+    data = scrapertools.anti_cloudflare(item.url, headers)
+
+    patron = '<ul class="listSubCat" id="Anno">(.*?)</div>'
+    data = scrapertools.find_single_match(data, patron)
+
+    patron = '<li><a href="([^"]+)">([^<]+)</a></li>'
+    matches = re.compile(patron, re.DOTALL).findall(data)
+    scrapertools.printMatches(matches)
+
+    for scrapedurl, scrapedtitle in matches:
+        itemlist.append(
+            Item(channel=__channel__,
+                 action="fichas",
+                 title=scrapedtitle,
+                 url=scrapedurl,
+                 thumbnail="https://raw.githubusercontent.com/stesev1/channels/master/images/channels_icon/movie_year_P.png",
+                 folder=True))
+
+    return itemlist
+
+# ==============================================================================================================================================
+
+def cinema(item):
+    logger.info("[thegroove360.altadefinizioneclub] fichas")
+
+    itemlist = []
+
+    # Descarga la pagina
+    data = scrapertools.anti_cloudflare(item.url, headers)
+    # fix - calidad
+    data = re.sub(
+        r'<div class="wrapperImage".*[^<]+<a',
+        '<div class="wrapperImage"><fix>SD</fix><a',
+        data
+    )
+    # fix - IMDB
+    data = re.sub(
+        r'<h5> </div>',
+        '<fix>IMDB: 0.0</fix>',
+        data
+    )
+
+    if "/?s=" in item.url:
+        patron = '<div class="col-lg-3 col-md-3 col-xs-3">.*?'
+        patron += 'href="([^"]+)".*?'
+        patron += '<div class="wrapperImage"[^<]+'
+        patron += '<[^>]+>([^<]+)<.*?'
+        patron += 'src="([^"]+)".*?'
+        patron += 'class="titleFilm">([^<]+)<.*?'
+        patron += 'IMDB: ([^<]+)<'
+    else:
+        patron = '<div class="wrapperImage"[^<]+\s*[^>]+>([^<]+).*?\s*<a href="([^"]+)">'
+        patron += '<img width=".*?" height=".*?" src="([^"]+)" class="attachment-loc-film size-loc-film wp-post-image" alt="[^>]+"\s*/>'
+        patron += '</a>\s*<div class="info">\s*<h2 class="titleFilm"><a href[^>]+>([^<]+)</a></h2>\s*[^>]+>[^>]+>\s*IMDB: ([^<]+)<'
+
     matches = re.compile(patron, re.DOTALL).findall(data)
 
-    for scrapedurl, scrapedthumbnail, scrapedtitle, rating in matches:
-        if "test yb " in scrapedtitle or "test by" in scrapedtitle:
-		   continue
-        rating = "[" + rating + "]"
-        if "HD" in rating: 
-         rating=""
-        scrapedplot = ""
+    for scraped_1, scraped_2, scrapedthumbnail, scrapedtitle, scrapedpuntuacion in matches:
+
+        scrapedurl = scraped_2
+        scrapedcalidad = scraped_1
+        if "/?s=" in item.url:
+            scrapedurl = scraped_1
+            scrapedcalidad = scraped_2
+
+        title = scrapertools.decodeHtmlentities(scrapedtitle)
+        title += " (" + scrapedcalidad + ") (" + scrapedpuntuacion + ")"
+
+        # ------------------------------------------------
+        scrapedthumbnail = httptools.get_url_headers(scrapedthumbnail)
+        # ------------------------------------------------
+
         itemlist.append(infoSod(
             Item(channel=__channel__,
                  action="findvideos",
                  contentType="movie",
-                 fulltitle=scrapedtitle,
-                 show=scrapedtitle,
-                 title="[COLOR azure]" + scrapedtitle + "[COLOR yellow] " + rating + "[/COLOR]",
+                 title="[COLOR azure]" + title + "[/COLOR]",
                  url=scrapedurl,
                  thumbnail=scrapedthumbnail,
-                 plot=scrapedplot,
-                 extra=item.extra,
-                 folder=True), tipo='movie'))
+                 fulltitle=title,
+                 show=title), tipo='movie'))
 
-    # Extrae el paginador
-    patronvideos = '</li>\s*<li><a href="([^>]+)" >Pagina successiva &raquo;</a></li>'
-    matches = re.compile(patronvideos, re.DOTALL).findall(data)
-
-    if len(matches) > 0:
-        scrapedurl = urlparse.urljoin(item.url, matches[0])
+    # Paginación
+    next_page = scrapertools.find_single_match(data, '<a class="next page-numbers" href="([^"]+)">')
+    if next_page != "":
         itemlist.append(
             Item(channel=__channel__,
-                 action="peliculas",
+                 action="fichas",
                  title="[COLOR orange]Successivo >>[/COLOR]",
-                 url=scrapedurl,
-                 thumbnail="https://raw.githubusercontent.com/orione7/Pelis_images/master/channels_icon_pureita/next_1.png",
-                 extra=item.extra,
-                 folder=True))
+                 url=next_page,
+                 thumbnail="https://raw.githubusercontent.com/stesev1/channels/master/images/channels_icon/next_1.png"))
 
     return itemlist
+	
+# ==============================================================================================================================================
 
-# ==============================================================================================================================================================================
+def fichas(item):
+    logger.info("[thegroove360.altadefinizioneclub] fichas")
 
-def peliculas_tv(item):
-    logger.info("streamondemand-pureita altadefinizioneclub peliculas_tv")
     itemlist = []
 
-    # Descarga la pagina 
-    data = httptools.downloadpage(item.url).data
+    # Descarga la pagina
+    data = scrapertools.anti_cloudflare(item.url, headers)
+    # fix - calidad
+    data = re.sub(
+        r'<div class="wrapperImage"[^<]+<a',
+        '<div class="wrapperImage"><fix>SD</fix><a',
+        data
+    )
+    # fix - IMDB
+    data = re.sub(
+        r'<h5> </div>',
+        '<fix>IMDB: 0.0</fix>',
+        data
+    )
 
-    # Extrae las entradas (carpetas)
-    patron = '<a href="([^"]+)" data-thumbnail="([^"]+)"><div>\s*<div class="title">([^<]+)</div>'
+    if "/?s=" in item.url:
+        patron = '<div class="col-lg-3 col-md-3 col-xs-3">.*?'
+        patron += 'href="([^"]+)".*?'
+        patron += '<div class="wrapperImage"[^<]+'
+        patron += '<[^>]+>([^<]+)<.*?'
+        patron += 'src="([^"]+)".*?'
+        patron += 'class="titleFilm">([^<]+)<.*?'
+        patron += 'IMDB: ([^<]+)<'
+    else:
+        patron = '<div class="wrapperImage"[^<]+\s*[^>]+>([^<]+).*?\s*<a href="([^"]+)">'
+        patron += '<img width=".*?" height=".*?" src="([^"]+)" class="attachment-loc-film size-loc-film wp-post-image" alt="[^>]+"\s*/>'
+        patron += '</a>\s*<div class="info">\s*<h2 class="titleFilm"><a href[^>]+>([^<]+)</a></h2>\s*[^>]+>[^>]+>\s*IMDB: ([^<]+)<'
+
     matches = re.compile(patron, re.DOTALL).findall(data)
 
-    for scrapedurl, scrapedthumbnail, scrapedtitle in matches:
-        scrapedplot = ""
+    for scraped_1, scraped_2, scrapedthumbnail, scrapedtitle, scrapedpuntuacion in matches:
+
+        scrapedurl = scraped_2
+        scrapedcalidad = scraped_1
+        if "/?s=" in item.url:
+            scrapedurl = scraped_1
+            scrapedcalidad = scraped_2
+
+        title = scrapertools.decodeHtmlentities(scrapedtitle)
+        title += " (" + scrapedcalidad + ") (" + scrapedpuntuacion + ")"
+
+        # ------------------------------------------------
+        scrapedthumbnail = httptools.get_url_headers(scrapedthumbnail)
+        # ------------------------------------------------
+
         itemlist.append(infoSod(
             Item(channel=__channel__,
-                 action="episodios",
-                 fulltitle=scrapedtitle,
-                 show=scrapedtitle,
-                 title="[COLOR azure]" + scrapedtitle + "[/COLOR]",
+                 action="findvideos",
+                 contentType="movie",
+                 title="[COLOR azure]" + title + "[/COLOR]",
                  url=scrapedurl,
                  thumbnail=scrapedthumbnail,
-                 plot=scrapedplot,
-                 extra=item.extra,
-                 folder=True), tipo='tv'))
+                 fulltitle=title,
+                 show=title), tipo='movie'))
 
-    # Extrae el paginador 
-    patronvideos = '</li>\s*<li><a href="([^>]+)" >Pagina successiva &raquo;</a></li>'
-    matches = re.compile(patronvideos, re.DOTALL).findall(data)
-
-    if len(matches) > 0:
-        scrapedurl = urlparse.urljoin(item.url, matches[0])
+    # Paginación
+    next_page = scrapertools.find_single_match(data, '<a class="next page-numbers" href="([^"]+)">')
+    if next_page != "":
         itemlist.append(
             Item(channel=__channel__,
-                 action="peliculas_tv",
+                 action="fichas",
                  title="[COLOR orange]Successivo >>[/COLOR]",
-                 url=scrapedurl,
-                 thumbnail="https://raw.githubusercontent.com/orione7/Pelis_images/master/channels_icon_pureita/next_1.png",
-                 extra=item.extra,
-                 folder=True))
+                 url=next_page,
+                 thumbnail="https://raw.githubusercontent.com/stesev1/channels/master/images/channels_icon/next_1.png"))
 
     return itemlist
 
-# ==============================================================================================================================================================================
-	
-def peliculas_tv_new(item):
-    logger.info("streamondemand-pureita altadefinizioneclub peliculas_tv_new")
-    itemlist = []
-    PERPAGE = 14
-
-    p = 1
-    if '{}' in item.url:
-        item.url, p = item.url.split('{}')
-        p = int(p)
-	
-    # Descarga la pagina
-    data = httptools.downloadpage(item.url, headers=headers).data
-
-    # Extrae las entradas (carpetas)
-    patron = '<a href="([^"]+)"\s*data-thumbnail="([^<]+)"><div>\s*<div class="title">([^>]+)</div>'
-    matches = re.compile(patron).findall(data)
-
-    for i, (scrapedurl, scrapedthumbnail, scrapedtitle) in enumerate(matches):
-        if (p - 1) * PERPAGE > i: continue
-        if i >= p * PERPAGE: break
-        scrapedplot = ""
-        itemlist.append(infoSod(
-            Item(channel=__channel__,
-                 action="episodios",
-                 extra=item.extra,
-                 title="[COLOR azure]" + scrapedtitle + "[/COLOR]",
-                 url=scrapedurl,
-                 thumbnail=scrapedthumbnail,
-                 fulltitle=scrapedtitle,
-                 show=scrapedtitle,
-                 plot=scrapedplot,
-                 folder=True), tipo='tv'))
-				 
-    if len(matches) >= p * PERPAGE:
-        scrapedurl = item.url + '{}' + str(p + 1)
-        itemlist.append(
-            Item(channel=__channel__,
-                 extra=item.extra,
-                 action="peliculas_tv_new",
-                 title="[COLOR orange]Successivi >>[/COLOR]",
-                 url=scrapedurl,
-                 thumbnail="https://raw.githubusercontent.com/orione7/Pelis_images/master/channels_icon_pureita/next_1.png",
-                 folder=True))
-
-    return itemlist
-	
-# ==============================================================================================================================================================================
+# ==============================================================================================================================================
 
 def findvideos(item):
-    logger.info("streamondemand-pureita altadefinizioneclub findvideos")
-	
-    # Descarga la pagina 
-    data = item.url if item.extra == 'serie' else httptools.downloadpage(item.url).data
+    logger.info("[thegroove360.altadefinizioneclub] findvideos")
 
-    itemlist = servertools.find_video_items(data=data)
-
-    for videoitem in itemlist:
-        videoitem.title = "".join([item.title, '[COLOR orange][B]' + videoitem.title + '[/B][/COLOR]'])
-        videoitem.fulltitle = item.fulltitle
-        videoitem.thumbnail = item.thumbnail
-        videoitem.show = item.show
-        videoitem.plot = item.plot
-        videoitem.channel = __channel__
-
-    return itemlist
-
-# ==============================================================================================================================================================================
-
-def peliculas_ep(item):
-    logger.info("streamondemand-pureita altadefinizioneclub peliculas_tv")
     itemlist = []
 
-    # Descarga la pagina 
-    data = httptools.downloadpage(item.url).data
+    # Descarga la página
+    data = scrapertools.anti_cloudflare(item.url, headers).replace('\n', '')
+    patron = r'<iframe width=".+?" height=".+?" src="([^"]+)"></iframe>'
+    url = scrapertools.find_single_match(data, patron).replace("?alta", "")
+    url = url.replace("&download=1", "")
 
-    # Extrae las entradas (carpetas)
-    patron = '<li><a href="([^"]+)">([^<]+)<small>([^<]+)</small>\s*(.*?)</a>'
-    matches = re.compile(patron, re.DOTALL).findall(data)
+    if 'hdpass' in url:
+        data = scrapertools.cache_page(url, headers=headers)
 
-    for scrapedurl, scrapedtitle, scrapedep, scrapedepi in matches:
-        scrapedurl = urlparse.urljoin(host, scrapedurl)
-        scrapedepi = scrapedepi.replace("/", "")
-        scrapedepi = scrapedepi.replace("<small>", "")
-        scrapepisodes = " [COLOR orange]" + scrapedep + "  " + scrapedepi + "[/COLOR]"
-        scrapedplot = ""
-        scrapedthumbnail = ""
-        itemlist.append(infoSod(
-            Item(channel=__channel__,
-                 action="episodios",
-                 fulltitle=scrapedtitle,
-                 show=scrapedtitle,
-                 title="[COLOR azure]" + scrapedtitle + "[/COLOR]" + scrapepisodes,
-                 url=scrapedurl,
-                 thumbnail=scrapedthumbnail,
-                 plot=scrapedplot,
-                 extra=item.extra,
-                 folder=True), tipo='tv'))
-				 
-    return itemlist
+        start = data.find('<div class="row mobileRes">')
+        end = data.find('<div id="playerFront">', start)
+        data = data[start:end]
 
-# ==============================================================================================================================================================================
-	
-def episodios(item):
-    def load_episodios(html, item, itemlist, lang_title):
-        patron = '((?:.*?<a\s*href="[^"]+"[^>]+>[^<]+<\/a>)+)'
-        matches = re.compile(patron).findall(html)
+        patron_res = '<div class="row mobileRes">(.*?)</div>'
+        patron_mir = '<div class="row mobileMirrs">(.*?)</div>'
+        patron_media = r'<input type="hidden" name="urlEmbed" data-mirror="([^"]+)" id="urlEmbed" value="([^"]+)" />'
 
-        for data in matches:
-            scrapedtitle = data.split('<a ')[0]
-            scrapedtitle = re.sub(r'<[^>]*>', '', scrapedtitle).strip()
-            if scrapedtitle != 'Categorie':
-                scrapedtitle = scrapedtitle.replace('&#215;', 'x')
-                scrapedtitle = scrapedtitle.replace(";", "")
-                itemlist.append(
-                    Item(channel=__channel__,
-                         action="findvideos",
-                         contentType="episode",
-                         title="[COLOR azure]%s[/COLOR]" % (scrapedtitle + " (" + lang_title + ")"),
-                         url=data,
-                         thumbnail=item.thumbnail,
-                         extra=item.extra,
-                         plot=item.plot,
-                         fulltitle=scrapedtitle + " (" + lang_title + ")" + ' - ' + item.show,
-                         show=item.show))
+        res = scrapertools.find_single_match(data, patron_res)
 
-    logger.info("streamondemand-pureita altadefinizioneclub episodios")
-    itemlist = []
+        urls = []
+        for res_url, res_video in scrapertools.find_multiple_matches(res, '<option.*?value="([^"]+?)">([^<]+?)</option>'):
 
-    # Descarga la pagina 
-    data = httptools.downloadpage(item.url).data
-    data = scrapertools.decodeHtmlentities(data)
+            data = scrapertools.cache_page(urlparse.urljoin(url, res_url), headers=headers).replace('\n', '')
 
-    lang_titles = []
-    starts = []
-    patron = r"Stagione.*?ITA"
-    matches = re.compile(patron, re.IGNORECASE).finditer(data)
-    for match in matches:
-        season_title = match.group()
-        if season_title != '':
-            lang_titles.append('SUB ITA' if 'SUB' in season_title.upper() else 'ITA')
-            starts.append(match.end())
+            mir = scrapertools.find_single_match(data, patron_mir)
 
-    i = 1
-    len_lang_titles = len(lang_titles)
+            for mir_url in scrapertools.find_multiple_matches(mir, '<option.*?value="([^"]+?)">[^<]+?</value>'):
 
-    while i <= len_lang_titles:
-        inizio = starts[i - 1]
-        fine = starts[i] if i < len_lang_titles else -1
+                data = scrapertools.cache_page(urlparse.urljoin(url, mir_url), headers=headers).replace('\n', '')
 
-        html = data[inizio:fine]
-        lang_title = lang_titles[i - 1]
+                for media_label, media_url in re.compile(patron_media).findall(data):
+                    urls.append(url_decode(media_url))
 
-        load_episodios(html, item, itemlist, lang_title)
-
-        i += 1
-
+        itemlist = servertools.find_video_items(data='\n'.join(urls))
+        for videoitem in itemlist:
+            videoitem.title = item.title + videoitem.title
+            videoitem.fulltitle = item.fulltitle
+            videoitem.thumbnail = item.thumbnail
+            videoitem.show = item.show
+            videoitem.plot = item.plot
+            videoitem.channel = __channel__
 
     return itemlist
 
-	
+# -----------------------------------------------
+# -----------------------------------------------
+
+def url_decode(url_enc):
+    lenght = len(url_enc)
+    if lenght % 2 == 0:
+        len2 = lenght / 2
+        first = url_enc[0:len2]
+        last = url_enc[len2:lenght]
+        url_enc = last + first
+        reverse = url_enc[::-1]
+        return base64.b64decode(reverse)
+
+    last_car = url_enc[lenght - 1]
+    url_enc[lenght - 1] = ' '
+    url_enc = url_enc.strip()
+    len1 = len(url_enc)
+    len2 = len1 / 2
+    first = url_enc[0:len2]
+    last = url_enc[len2:len1]
+    url_enc = last + first
+    reverse = url_enc[::-1]
+    reverse = reverse + last_car
+    return base64.b64decode(reverse)
+
+# ==============================================================================================================================================

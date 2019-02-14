@@ -1,6 +1,6 @@
 # Kodi Media Center language file
-# Addon Name: Xonfluence
-# Addon id: skin.xonfluence
+# Addon Name: Durexonfluence
+# Addon id: skin.durexonfluence
 # Addon Provider: Helly1206
 msgid ""
 msgstr ""
@@ -21,12 +21,12 @@ msgid "Change your"
 msgstr "Määritä"
 
 msgctxt "#31001"
-msgid "GAMES"
-msgstr "PELIT"
+msgid ":"
+msgstr ""
 
 msgctxt "#31002"
-msgid "[B]GAME SETTINGS[/B][CR][CR]Configure rewind support & options ·  Configure keyboard use and number of keyboard players"
-msgstr "[B]PELIASETUKSET[/B][CR][CR]Muokkaa kelausasetuksia · Muokkaa näppäimistöasetuksia ja näppäimistöpelaajien määrää"
+msgid "Enable manual opening of media views slide menu"
+msgstr ""
 
 msgctxt "#31003"
 msgid "Power options"
@@ -42,11 +42,11 @@ msgstr "Piilota tiedot"
 
 msgctxt "#31006"
 msgid "View options"
-msgstr "Näkymäasetukset"
+msgstr "Näkymän asetukset"
 
 msgctxt "#31007"
 msgid "Video process information"
-msgstr "Videon tekniset tiedot"
+msgstr "Videon käsittelyn tiedot"
 
 msgctxt "#31008"
 msgid "Full screen"
@@ -70,15 +70,19 @@ msgstr "Purkutapa"
 
 msgctxt "#31013"
 msgid "Audio process information"
-msgstr "Äänen tekniset tiedot"
+msgstr "Äänen käsittelyn tiedot"
 
 msgctxt "#31014"
 msgid "Memory used"
 msgstr "Käytetty muisti"
 
 msgctxt "#31015"
-msgid "Minute"
-msgstr "Minuutti"
+msgid "Never"
+msgstr ""
+
+msgctxt "#31016"
+msgid "Permanently"
+msgstr ""
 
 msgctxt "#31017"
 msgid "Info button"
@@ -418,7 +422,7 @@ msgstr "Näytä \"Tauko\" kuvaesityksessä"
 
 msgctxt "#31104"
 msgid "Play trailers in a window [COLOR=grey3](Video information dialogue only)[/COLOR]"
-msgstr "Toista trailerit ikkunassa [COLOR=grey3](Vain videotietoikkuna)[/COLOR]"
+msgstr "Toista trailerit ikkunassa [COLOR=grey3](Vain videon informaatiodialogi)[/COLOR]"
 
 msgctxt "#31105"
 msgid "Artwork"
@@ -434,15 +438,15 @@ msgstr "Piilota tiedostojen nimistä luetut merkinnät [COLOR=grey3](Blu-ray, HD
 
 msgctxt "#31108"
 msgid "Hide main menu buttons"
-msgstr "Piilota päävalikon osia"
+msgstr "Piilota päävalikon painikkeet"
 
 msgctxt "#31109"
 msgid "Enable custom background"
-msgstr "Käytä omaa taustakuvaa"
+msgstr "Valinnainen taustakuva käytössä"
 
 msgctxt "#31110"
 msgid "Background path:"
-msgstr "Taustakuvan sijainti:"
+msgstr "Taustakuvan polku:"
 
 msgctxt "#31111"
 msgid "Hide"
@@ -478,7 +482,7 @@ msgstr "Päävalikon ohjelmaosion alavalikko"
 
 msgctxt "#31119"
 msgid "Hide background fanart"
-msgstr "Piilota fanitaide"
+msgstr "Piilota taustan fanitaide"
 
 msgctxt "#31120"
 msgid "Hide page count info"
@@ -490,7 +494,7 @@ msgstr ""
 
 msgctxt "#31122"
 msgid "Hide EPG if RDS is present on channel window"
-msgstr "Piilota ohjelmatiedot kanavaikkunassa, jos RDS-tietoja on tarjolla"
+msgstr "Piilota EPG, jos RDS on nähtävillä kanavaikkunassa"
 
 msgctxt "#31123"
 msgid "Popup:"
@@ -498,11 +502,11 @@ msgstr ""
 
 msgctxt "#31124"
 msgid "Show background \"Now playing\" video"
-msgstr "Näytä toistettava video valikoiden taustalla"
+msgstr "Näytä taustalla \"Nyt katsellaan\"-video"
 
 msgctxt "#31125"
 msgid "Show background \"Now playing\" visualisation"
-msgstr "Näytä musiikkivisualisointi valikoiden taustalla"
+msgstr "Näytä taustalla \"Nyt soi\"-visualisaatio"
 
 msgctxt "#31127"
 msgid "TvTunes"
@@ -558,7 +562,7 @@ msgstr ""
 
 msgctxt "#31140"
 msgid "Music OSD"
-msgstr "Musiikin kuvaruutuvalikko"
+msgstr "Musiikki-OSD"
 
 msgctxt "#31142"
 msgid "Settings level"
@@ -614,54 +618,6 @@ msgstr ""
 
 msgctxt "#31155"
 msgid "Show global search button on bottom left"
-msgstr ""
-
-msgctxt "#31156"
-msgid ":"
-msgstr ""
-
-msgctxt "#31157"
-msgid "Enable manual opening of media views slide menu"
-msgstr ""
-
-msgctxt "#31158"
-msgid "Never"
-msgstr ""
-
-msgctxt "#31159"
-msgid "Permanently"
-msgstr ""
-
-msgctxt "#31160"
-msgid "Visualisation settings"
-msgstr ""
-
-msgctxt "#31161"
-msgid "Lyrics add-on settings"
-msgstr ""
-
-msgctxt "#31162"
-msgid " pack for "
-msgstr ""
-
-msgctxt "#31163"
-msgid "Update all backgrounds"
-msgstr ""
-
-msgctxt "#31164"
-msgid "Flags"
-msgstr ""
-
-msgctxt "#31165"
-msgid "Don't ask again"
-msgstr ""
-
-msgctxt "#31166"
-msgid "Setup default background"
-msgstr ""
-
-msgctxt "#31167"
-msgid "No backgrounds set, install and setup default backgrounds add-on?"
 msgstr ""
 
 msgctxt "#31188"
@@ -981,7 +937,7 @@ msgid "Enable visible horizontal submenu"
 msgstr ""
 
 msgctxt "#31276"
-msgid "Extra artwork options"
+msgid "Extra art work options"
 msgstr ""
 
 msgctxt "#31277"
@@ -1181,7 +1137,7 @@ msgid "Album details"
 msgstr "Albumin tiedot"
 
 msgctxt "#31332"
-msgid "Alternate fanart"
+msgid "Alternate fanArt"
 msgstr ""
 
 msgctxt "#31333"
@@ -1481,7 +1437,7 @@ msgid "[B]INTERFACE SETTINGS[/B][CR][CR]Configure skin · Configure region · Co
 msgstr "[B]KÄYTTÖLIITTYMÄN ASETUKSET[/B][CR][CR]Muokkaa ulkoasua · Muokkaa alueasetuksia · Muokkaa ohjauslaiteasetuksia · Muokkaa näytönsäästäjän asetuksia · Muokkaa lukitusasetuksia"
 
 msgctxt "#31437"
-msgid "[B]CONFIGURE SKIN SETTINGS[/B][CR][CR]Setup the Xonfluence skin · Add and remove home menu items · Change skin backgrounds"
+msgid "[B]CONFIGURE SKIN SETTINGS[/B][CR][CR]Setup the Durexonfluence skin · Add and remove home menu items · Change skin backgrounds"
 msgstr ""
 
 msgctxt "#31440"
@@ -1832,22 +1788,6 @@ msgctxt "#31943"
 msgid "Use default confluence favourites window look and feel"
 msgstr ""
 
-msgctxt "#31944"
-msgid "Visible in Master mode only"
-msgstr ""
-
-msgctxt "#31947"
-msgid "Button look and feel"
-msgstr ""
-
-msgctxt "#31948"
-msgid "Button layout look and feel"
-msgstr ""
-
-msgctxt "#31949"
-msgid "OSD look and feel"
-msgstr ""
-
 msgctxt "#31950"
 msgid "WEATHER"
 msgstr "SÄÄ"
@@ -1969,7 +1909,7 @@ msgid "Reload"
 msgstr ""
 
 msgctxt "#31980"
-msgid "Save settings and reload Xonfluence"
+msgid "Save settings and reload Durexonfluence"
 msgstr ""
 
 msgctxt "#31981"

@@ -1,7 +1,7 @@
 """
     OTB Trekkie
     Copyright (C) 2018,
-    Version 1.0.0
+    Version 1.0.1
     Team OTB
 
     This program is free software: you can redistribute it and/or modify
@@ -178,7 +178,7 @@ class Otb_Trekkie(Plugin):
 def open_list():
     xml = ""
     at = Airtable('appRSOovERyPqtopl', 'otb_trekkie', api_key='keyikW1exArRfNAWj')
-    match = at.get_all(maxRecords=700, view='Grid view') 
+    match = at.get_all(maxRecords=1200, view='Grid view') 
     for field in match:
         try:
             res = field['fields']   
@@ -210,7 +210,7 @@ def open_items(url):
     title = url.split("|")[-2]
     key = url.split("|")[-1]
     at = Airtable(key, title, api_key='keyikW1exArRfNAWj')
-    match = at.get_all(maxRecords=700, view='Grid view')
+    match = at.get_all(maxRecords=1200, view='Grid view')
     if title == "Star_Trek_Movies":
         for field in match:
             try:

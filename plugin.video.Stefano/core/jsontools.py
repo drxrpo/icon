@@ -26,7 +26,7 @@
 # --------------------------------------------------------------------------------
 
 import traceback
-from platformcode import logger
+from core import logger
 
 try:
     import json

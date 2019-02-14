@@ -1,35 +1,37 @@
-﻿# -*- coding: utf-8 -*-
+﻿# ------------------------------------------------------------
+# -*- coding: utf-8 -*-
 # ------------------------------------------------------------
-# Stefano 5
-# Copyright 2015 tvalacarta@gmail.com
-# http://www.mimediacenter.info/foro/viewforum.php?f=36
+# Stefano Thegroove 360
+# Copyright 2018 https://stefanoaddon.info
 #
-# Distributed under the terms of GNU General Public License v3 (GPLv3)
+# Distribuito sotto i termini di GNU General Public License v3 (GPLv3)
 # http://www.gnu.org/licenses/gpl-3.0.html
+# ------------------------------------------------- -----------
+# Questo file fa parte di Stefano Thegroove 360.
+#
+# Stefano Thegroove 360 ​​è un software gratuito: puoi ridistribuirlo e / o modificarlo
+# è sotto i termini della GNU General Public License come pubblicata da
+# la Free Software Foundation, o la versione 3 della licenza, o
+# (a tua scelta) qualsiasi versione successiva.
+#
+# Stefano Thegroove 360 ​​è distribuito nella speranza che possa essere utile,
+# ma SENZA ALCUNA GARANZIA; senza nemmeno la garanzia implicita di
+# COMMERCIABILITÀ o IDONEITÀ PER UN PARTICOLARE SCOPO. Vedere il
+# GNU General Public License per maggiori dettagli.
+#
+# Dovresti aver ricevuto una copia della GNU General Public License
+# insieme a Stefano Thegroove 360. In caso contrario, vedi <http://www.gnu.org/licenses/>.
+# ------------------------------------------------- -----------
+# Client for Stefano Thegroove 360
 # ------------------------------------------------------------
-# This file is part of Stefano 5.
-#
-# Stefano 5 is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# Stefano 5 is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with Stefano 5.  If not, see <http://www.gnu.org/licenses/>.
-# --------------------------------------------------------------------------------
-# Updater process
-# --------------------------------------------------------------------------------
 
+import json
 import os
 import time
+import urllib2
 
 import config
-from platformcode import logger
+from core import logger
 import scrapertools
 
 ROOT_DIR = config.get_runtime_path()
@@ -76,12 +78,19 @@ def checkforupdates():
     logger.info("Stefano.core.updater Version remota: " + REMOTE_VERSION_FILE)
     data = scrapertools.cachePage(REMOTE_VERSION_FILE)
 
-    numero_version_publicada = scrapertools.find_single_match(data, "<version>([^<]+)</version>").strip()
-    tag_version_publicada = scrapertools.find_single_match(data, "<tag>([^<]+)</tag>").strip()
+    # numero_version_publicada = scrapertools.find_single_match(data, "<version>([^<]+)</version>").strip()
+
+    req = urllib2.urlopen("http://www.stefanoaddon.info/Thepasto/ver.php").read()
+    json_data = json.loads(str.encode(req, "utf-8"))
+    numero_version_publicada = json_data["current"]
+
+    tag_version_publicada = numero_version_publicada.replace(".", "").ljust(4, '0')
+
+    # tag_version_publicada = scrapertools.find_single_match(data, "<tag>([^<]+)</tag>").strip()
     logger.info("Stefano.core.updater version remota=" + tag_version_publicada + " " + numero_version_publicada)
 
     try:
-        numero_version_publicada = int(numero_version_publicada)
+        numero_version_publicada = int(tag_version_publicada)
     except:
         numero_version_publicada = 0
         import traceback
@@ -140,9 +149,9 @@ def download_and_install(remote_file_name, local_file_name):
     logger.info("Stefano.core.updater descomprime fichero...")
     import xbmc
     from core import filetools
-    path_channels=xbmc.translatePath("special://home/addons/plugin.video.Stefano/channels")
+    path_channels = xbmc.translatePath("special://home/addons/plugin.video.Stefano/channels")
     filetools.rmdirtree(path_channels)
-    path_servers=xbmc.translatePath("special://home/addons/plugin.video.Stefano/servers")
+    path_servers = xbmc.translatePath("special://home/addons/plugin.video.Stefano/servers")
     filetools.rmdirtree(path_servers)
     import ziptools
     unzipper = ziptools.ziptools()

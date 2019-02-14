@@ -1,24 +1,32 @@
 """Utilities for writing code that runs on Python 2 and 3"""
 
-# Copyright (c) 2010-2015 Benjamin Peterson
+# ------------------------------------------------------------
+# -*- coding: utf-8 -*-
+# ------------------------------------------------------------
+# Stefano Thegroove 360
+# Copyright 2018 https://stefanoaddon.info
 #
-# Permission is hereby granted, free of charge, to any person obtaining a copy
-# of this software and associated documentation files (the "Software"), to deal
-# in the Software without restriction, including without limitation the rights
-# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-# copies of the Software, and to permit persons to whom the Software is
-# furnished to do so, subject to the following conditions:
+# Distribuito sotto i termini di GNU General Public License v3 (GPLv3)
+# http://www.gnu.org/licenses/gpl-3.0.html
+# ------------------------------------------------- -----------
+# Questo file fa parte di Stefano Thegroove 360.
 #
-# The above copyright notice and this permission notice shall be included in all
-# copies or substantial portions of the Software.
+# Stefano Thegroove 360 ​​è un software gratuito: puoi ridistribuirlo e / o modificarlo
+# è sotto i termini della GNU General Public License come pubblicata da
+# la Free Software Foundation, o la versione 3 della licenza, o
+# (a tua scelta) qualsiasi versione successiva.
 #
-# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-# SOFTWARE.
+# Stefano Thegroove 360 ​​è distribuito nella speranza che possa essere utile,
+# ma SENZA ALCUNA GARANZIA; senza nemmeno la garanzia implicita di
+# COMMERCIABILITÀ o IDONEITÀ PER UN PARTICOLARE SCOPO. Vedere il
+# GNU General Public License per maggiori dettagli.
+#
+# Dovresti aver ricevuto una copia della GNU General Public License
+# insieme a Stefano Thegroove 360. In caso contrario, vedi <http://www.gnu.org/licenses/>.
+# ------------------------------------------------- -----------
+# Client for Stefano Thegroove 360
+#------------------------------------------------------------
+
 
 from __future__ import absolute_import
 

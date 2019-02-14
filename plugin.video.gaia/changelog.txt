@@ -1,3 +1,23 @@
+[B]3.2.8 (2018.12.18)[/B] - Reaper Temp Update
+- Fixed issue with lists caused by IMDB change (ty u/host505)
+- Fixed Certficates and Age (ty u/Nfs0623)
+
+
+[B]3.2.7 (2018.12.14)[/B] - Reaper Temp Update
+- Fixed LambdaScrapers support with settings support
+- Added TorentAPI max search limit (100)
+- Added /u/Host505 IMDB list changes
+
+[B]3.2.5 (2018.10.03)[/B]
+- Added LambdaScrapers.
+- Fixed Elementum and Quasar buffering.
+- Improved metadata detection.
+
+[B]3.2.4 (2018.09.27)[/B]
+- Fixed exact episode searches.
+- Fixed apostrophe bug in metadata.
+- Fixed NzbFinder provider.
+- Fixed NzbGeek provider.
 
 [B]3.2.3 (2018.09.20)[/B]
 - Fixed slow Orion loading times.

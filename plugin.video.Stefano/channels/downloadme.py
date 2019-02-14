@@ -1,11 +1,9 @@
 # -*- coding: utf-8 -*-
-# StreamOnDemand Community Edition - Kodi Addon
 # ------------------------------------------------------------
-# Stefano.- XBMC Plugin
+# TheGroove360 - XBMC Plugin
 # Canale downloadme
-# http://www.mimediacenter.info/foro/viewforum.php?f=36
-# Version: 201804162230
 # ------------------------------------------------------------
+
 import re
 
 from core import httptools, scrapertools
@@ -17,13 +15,13 @@ from servers.decrypters import expurl
 
 __channel__ = "downloadme"
 
-host = "https://downloadme.altervista.org"
+host = "https://downloadme.gratis"
 
 headers = [['Referer', host]]
 
 
 def mainlist(item):
-    logger.info("[downloadme.py] mainlist")
+    logger.info("[thegroove360.downloadme] mainlist")
 
     # Main options
     itemlist = [Item(channel=__channel__,
@@ -37,22 +35,29 @@ def mainlist(item):
                      title="[COLOR azure]Categorie[/COLOR]",
                      url="%s/" % host,
                      extra="movie",
-                     thumbnail="http://orig03.deviantart.net/6889/f/2014/079/7/b/movies_and_popcorn_folder_icon_by_matheusgrilo-d7ay4tw.png")]
+                     thumbnail="http://orig03.deviantart.net/6889/f/2014/079/7/b/movies_and_popcorn_folder_icon_by_matheusgrilo-d7ay4tw.png"),
+                Item(channel=__channel__,
+                     title="[COLOR yellow]Cerca...[/COLOR]",
+                     action="search",
+                     extra="movie",
+                     thumbnail="http://dc467.4shared.com/img/fEbJqOum/s7/13feaf0c8c0/Search")
+                ]
 
     return itemlist
 
 def peliculas(item):
-    logger.info("[downloadme.py] peliculas")
+    logger.info("[thegroove360.downloadme] peliculas")
     itemlist = []
 
     data = httptools.downloadpage(item.url, headers=headers).data
-    patron = '<figure class=[^<]+<a href="([^"]+)" title="(.*?)">'
-    matches = re.compile(patron, re.DOTALL).findall(data)
+    patron = r'<figure class=[^<]+.*\s.*?data-background=\"([^\"]+)\".*?href=\"([^\"]+)\"></a>.*?<h3.*?\/\">(.*?)</a>'
+    matches = re.compile(patron, re.IGNORECASE).findall(data)
 
-    for scrapedurl, scrapedtitle in matches:
+    for scrapedthumbnail, scrapedurl, scrapedtitle in matches:
         scrapedtitle = scrapedtitle.split("&#8211;")[0]
         scrapedtitle = scrapedtitle.split(" Download")[0]
-        scrapedthumbnail = ""
+        scrapedtitle = scrapedtitle.split(" sub ITA")[0]
+        scrapedtitle = scrapedtitle.split(" Streaming")[0]
         itemlist.append(infoSod(
             Item(channel=__channel__,
                  action="findvideos",
@@ -77,7 +82,7 @@ def peliculas(item):
 
 
 def categorie(item):
-    logger.info("[downloadme.py] peliculas")
+    logger.info("[thegroove360.downloadme] peliculas")
     itemlist = []
 
     if item.url == "":
@@ -102,20 +107,28 @@ def categorie(item):
     return itemlist
 
 def findvideos(item):
-    logger.info("Stefano.downloadme findvideos")
-    itemlist = []
+    logger.info("[thegroove360.downloadme] findvideos")
 
     # Carica la pagina 
     data = httptools.downloadpage(item.url, headers=headers).data
+    patron = r'<a\s?href=\"([^\"]+)\">LINK DOWNLOAD E STREAMING'
+    matches = re.compile(patron, re.IGNORECASE).findall(data)
 
-    if 'velociterium' in data:
+    from lib.unshortenit import unshorten_only
+    urls = ""
+    for url in matches:
 
-        resp = httptools.downloadpage(
-             data, follow_redirects=False)
-        data = resp.headers.get("location", "")
+        resp = httptools.downloadpage(url, follow_redirects=False)
+        url = resp.headers.get("location", "")
 
+        uri, status = unshorten_only(url, "adfly")
 
-    itemlist = servertools.find_video_items(data=data)
+        if status < 400:
+            urls += uri.encode('utf8') + "\n"
+        else:
+            urls += url.encode('utf8') + "\n"
+
+    itemlist = servertools.find_video_items(data=urls)
 
     for videoitem in itemlist:
         videoitem.title = item.title + videoitem.title
@@ -127,3 +140,15 @@ def findvideos(item):
 
     return itemlist
 
+def search(item, texto):
+    logger.info("[thegroove360.downloadme] " + item.url + " search " + texto)
+    item.url = host + "/?s=" + texto
+    try:
+        if item.extra == "movie":
+            return peliculas(item)
+    # Continua la ricerca in caso di errore
+    except:
+        import sys
+        for line in sys.exc_info():
+            logger.error("%s" % line)
+        return []

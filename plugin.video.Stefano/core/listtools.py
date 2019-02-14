@@ -27,10 +27,9 @@
 
 import re
 
-from core import httptools, scrapertools
+from core import httptools, scrapertools, logger
 from core.item import Item
 from core.tmdb import infoSod
-from platformcode import logger
 
 __channel__ = ''
 

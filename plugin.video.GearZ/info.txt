@@ -1,3 +1,5 @@
+[COLOR red]December 16 2018[COLOR gold]Added - PerformanceCars, Hennessey Performance, DBR High Performance, CarsandCameras, High Performance Network, Road Test TV, Lamborghini Squadra Corse[/COLOR]
+
 [COLOR red]Sept 22 2018[COLOR gold]Added - Idiots on Wheels, Crashed Car Channel, Car World,CC TUBE, DDS TV, Roads of Mayhem, RoadAccidentsWorld, NHRA[/COLOR]
 
 [COLOR red]August 26 2018 Updated Dependencies.[/COLOR]

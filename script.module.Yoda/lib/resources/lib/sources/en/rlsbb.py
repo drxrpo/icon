@@ -10,9 +10,9 @@
 
 # Addon Name: Yoda
 # Addon id: plugin.video.Yoda
-# Addon Provider: MuadDib
+# Addon Provider: Supremacy
 
-import re,traceback,urllib,urlparse,json
+import re,urllib,urlparse,json
 
 from resources.lib.modules import cleantitle
 from resources.lib.modules import client
@@ -20,12 +20,13 @@ from resources.lib.modules import control
 from resources.lib.modules import debrid
 from resources.lib.modules import log_utils
 from resources.lib.modules import source_utils
+from resources.lib.modules import cfscrape
 
 class source:
     def __init__(self):
         self.priority = 1
         self.language = ['en']
-        self.domains = ['rlsbb.com', 'rlsbb.ru']
+        self.domains = ['rlsbb.ru']
         self.base_link = 'http://rlsbb.ru'
         self.search_base_link = 'http://search.rlsbb.ru'
         self.search_cookie = 'serach_mode=rlsbb'
@@ -37,8 +38,6 @@ class source:
             url = urllib.urlencode(url)
             return url
         except:
-            failure = traceback.format_exc()
-            log_utils.log('RLSBB - Exception: \n' + str(failure))
             return
 
     def tvshow(self, imdb, tvdb, tvshowtitle, localtvshowtitle, aliases, year):
@@ -47,8 +46,6 @@ class source:
             url = urllib.urlencode(url)
             return url
         except:
-            failure = traceback.format_exc()
-            log_utils.log('RLSBB - Exception: \n' + str(failure))
             return
 
     def episode(self, url, imdb, tvdb, title, premiered, season, episode):
@@ -61,13 +58,12 @@ class source:
             url = urllib.urlencode(url)
             return url
         except:
-            failure = traceback.format_exc()
-            log_utils.log('RLSBB - Exception: \n' + str(failure))
             return
 
     def sources(self, url, hostDict, hostprDict):
         try:
             sources = []
+            scraper = cfscrape.create_scraper()
 
             if url == None: return sources
 
@@ -75,10 +71,10 @@ class source:
 
             data = urlparse.parse_qs(url)
             data = dict([(i, data[i][0]) if data[i] else (i, '') for i in data])
-
             title = data['tvshowtitle'] if 'tvshowtitle' in data else data['title']
             hdlr = 'S%02dE%02d' % (int(data['season']), int(data['episode'])) if 'tvshowtitle' in data else data['year']
-
+            premDate = ''
+            
             query = '%s S%02dE%02d' % (
             data['tvshowtitle'], int(data['season']), int(data['episode'])) if 'tvshowtitle' in data else '%s %s' % (
             data['title'], data['year'])
@@ -87,16 +83,15 @@ class source:
             query = query.replace("&", "and")
             query = query.replace("  ", " ")
             query = query.replace(" ", "-")
-
+            
             url = self.search_link % urllib.quote_plus(query)
             url = urlparse.urljoin(self.base_link, url)
 
-            url = "http://rlsbb.ru/" + query
+            url = "http://rlsbb.ru/" + query                                
+            if 'tvshowtitle' not in data: url = url + "-1080p"				 
 
-            if 'tvshowtitle' not in data: url = url + "-1080p"
-
-            r = client.request(url)
-
+            r = scraper.get(url).content                                         
+            
             if r == None and 'tvshowtitle' in data:
                 season = re.search('S(.*?)E', hdlr)
                 season = season.group(1)
@@ -107,22 +102,42 @@ class source:
                 query = query.replace("  ", " ")
                 query = query.replace(" ", "-")
                 url = "http://rlsbb.ru/" + query
-                r = client.request(url)
+                r = scraper.get(url).content
 
-            posts = client.parseDOM(r, "div", attrs={"class": "content"})
-            hostDict = hostprDict + hostDict
-            items = []
-            for post in posts:
-                try:
-                    u = client.parseDOM(post, 'a', ret='href')
-                    for i in u:
-                        try:
-                            name = str(i)
-                            if hdlr in name.upper(): items.append(name)
-                        except:
-                            pass
-                except:
-                    pass
+            
+            for loopCount in range(0,2):
+                if loopCount == 1 or (r == None and 'tvshowtitle' in data):                     
+                    
+                    
+                    premDate = re.sub('[ \.]','-',data['premiered'])                            
+                    query = re.sub('[\\\\:;*?"<>|/\-\']', '', data['tvshowtitle'])              
+                    query = query.replace("&", " and ").replace("  ", " ").replace(" ", "-")    
+                    query = query + "-" + premDate                      
+                    
+                    url = "http://rlsbb.to/" + query            
+                    url = url.replace('The-Late-Show-with-Stephen-Colbert','Stephen-Colbert')   
+                    
+
+                    r = scraper.get(url).content
+                    
+                posts = client.parseDOM(r, "div", attrs={"class": "content"})
+                hostDict = hostprDict + hostDict
+                items = []
+                for post in posts:
+                    try:
+                        u = client.parseDOM(post, 'a', ret='href')
+                        for i in u:
+                            try:
+                                name = str(i)
+                                if hdlr in name.upper(): items.append(name)
+                                elif len(premDate) > 0 and premDate in name.replace(".","-"): items.append(name)      
+                                
+                            except:
+                                pass
+                    except:
+                        pass
+                        
+                if len(items) > 0: break
 
             seen_urls = set()
 
@@ -148,21 +163,22 @@ class source:
                         quality = 'HD'
                     elif '1080p' in host2:
                         quality = '1080p'
+                    elif '2160p' in host2:
+                        quality = '4K'
                     else:
                         quality = 'SD'
 
                     info = ' | '.join(info)
                     host = client.replaceHTMLCodes(host)
                     host = host.encode('utf-8')
-                    sources.append({'source': host, 'quality': quality, 'language': 'en', 'url': host2, 'info': info, 'direct': False, 'debridonly': True})
+                    sources.append({'source': host, 'quality': quality, 'language': 'en', 'url': host2, 'info': info, 'direct': False, 'debridonly': False})
+                    
                 except:
                     pass
             check = [i for i in sources if not i['quality'] == 'CAM']
             if check: sources = check
             return sources
         except:
-            failure = traceback.format_exc()
-            log_utils.log('RLSBB - Exception: \n' + str(failure))
             return sources
 
     def resolve(self, url):

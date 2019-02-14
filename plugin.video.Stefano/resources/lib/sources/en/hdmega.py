@@ -8,7 +8,9 @@
  # ----------------------------------------------------------------------------
 #######################################################################
 
-#
+# Addon Name: Exodus
+# Addon id: plugin.video.exodus
+# Addon Provider: Exodus
 
 import re,traceback,urlparse,urllib,base64
 

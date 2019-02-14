@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-    Poached Add-on
+    Eggman Add-on
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by

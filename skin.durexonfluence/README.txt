@@ -1,7 +1,7 @@
-skin.xonfluence:
+skin.durexonfluence:
 
 See:
-https://forum.kodi.tv/showthread.php?tid=315391
+http://forum.kodi.tv/showthread.php?tid=238630
      
 
 

@@ -1,9 +1,8 @@
 # -*- coding: utf-8 -*-
 # StreamOnDemand Community Edition - Kodi Addon
 
-from core import httptools
+from core import httptools, logger
 from core import jsontools
-from platformcode import logger
 from core import scrapertools
 
 

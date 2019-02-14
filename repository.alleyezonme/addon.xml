@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
-<addon id="repository.alleyezonme" name="[B]All Eyez On Me Repository[/B]" version="05.30.18" provider-name="Tupac">
+<addon id="repository.alleyezonme" name="[B]All Eyez On Me Repository[/B]" version="08.22.18" provider-name="Tupac">
 	<extension point="xbmc.addon.repository" name="All Eyez On Me Repository">
 		<dir>
 			<info compressed="false">https://raw.githubusercontent.com/totalrevolution/python-koding/master/zips/addons.xml</info>
@@ -38,9 +38,9 @@
             <datadir zip="true">https://raw.githubusercontent.com/jenaddon/repository.jenrepo/master/zips/</datadir>
             <hashes>false</hashes>
         </dir>
-		<info compressed="false">http://91.134.207.154/~daffysli/addons.xml</info>
-		<checksum>http://91.134.207.154/~daffysli/addons.xml.md5</checksum>
-		<datadir zip="true">http://91.134.207.154/~daffysli/zips/</datadir>					
+		<info compressed="false">https://raw.githubusercontent.com/Daffy81/repository.alleyezonme/master/zips/addons.xml</info>
+		<checksum>https://raw.githubusercontent.com/Daffy81/repository.alleyezonme/master/zips/addons.xml.md5</checksum>
+		<datadir zip="true">https://raw.githubusercontent.com/Daffy81/repository.alleyezonme/master/zips/</datadir>					
 	</extension>
 	<extension point="xbmc.addon.metadata">
 		<summary>All eyez on me addon and other addons hosted here.</summary>
@@ -48,5 +48,3 @@
 		<platform>all</platform>
 	</extension>
 </addon>
-
-

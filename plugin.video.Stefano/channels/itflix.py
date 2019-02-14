@@ -1,10 +1,7 @@
 # -*- coding: utf-8 -*-
-# StreamOnDemand Community Edition - Kodi Addon
 # ------------------------------------------------------------
-# Stefano.- XBMC Plugin
-# Canale itflix
-# http://www.mimediacenter.info/foro/viewforum.php?f=36
-# Version: 201802101230
+# TheGroove360 / XBMC Plugin
+# Canale 
 # ------------------------------------------------------------
 
 from core import httptools, scrapertools, servertools, listtools

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <settings>
     <category label="32310">
+	    <setting id="Resistancedirect" type="action" label="Resistance Direct" option="close" action="RunPlugin(plugin://plugin.video.youtube/?action=search)"/>
         <setting id="appearance.alt" type="action" label="32311" default="-" option="close" action="RunPlugin(plugin://plugin.video.resistance/?action=artwork)" visible="!System.HasAddon(script.resistance.artwork)" />
         <setting id="appearance.1" type="select" label="32311" values="Exuary|resistance|Stealth" default="resistance" visible="System.HasAddon(script.resistance.artwork)" />
         <setting id="scrapers.timeout.1" type="slider" label="32312" default="60" range="10,60" option="int" />

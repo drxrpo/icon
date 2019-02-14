@@ -1,6 +1,6 @@
 #!/usr/bin/python
 """
-    Poached Add-on
+    Eggman Add-on
     Copyright (C) 2016 tknorris
 
     This program is free software: you can redistribute it and/or modify

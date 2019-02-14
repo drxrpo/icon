@@ -1,29 +1,30 @@
+# ------------------------------------------------------------
 # -*- coding: utf-8 -*-
 # ------------------------------------------------------------
-# streamondemand 4
-# Copyright 2015 tvalacarta@gmail.com
-# http://blog.tvalacarta.info/plugin-xbmc/pelisalacarta/
+# Stefano Thegroove 360
+# Copyright 2018 https://stefanoaddon.info
 #
-# Distributed under the terms of GNU General Public License v3 (GPLv3)
+# Distribuito sotto i termini di GNU General Public License v3 (GPLv3)
 # http://www.gnu.org/licenses/gpl-3.0.html
-# ------------------------------------------------------------
-# This file is part of streamondemand 5.
+# ------------------------------------------------- -----------
+# Questo file fa parte di Stefano Thegroove 360.
 #
-# pelisalacarta 4 is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
+# Stefano Thegroove 360 ​​è un software gratuito: puoi ridistribuirlo e / o modificarlo
+# è sotto i termini della GNU General Public License come pubblicata da
+# la Free Software Foundation, o la versione 3 della licenza, o
+# (a tua scelta) qualsiasi versione successiva.
 #
-# pelisalacarta 4 is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
+# Stefano Thegroove 360 ​​è distribuito nella speranza che possa essere utile,
+# ma SENZA ALCUNA GARANZIA; senza nemmeno la garanzia implicita di
+# COMMERCIABILITÀ o IDONEITÀ PER UN PARTICOLARE SCOPO. Vedere il
+# GNU General Public License per maggiori dettagli.
 #
-# You should have received a copy of the GNU General Public License
-# along with pelisalacarta 4.  If not, see <http://www.gnu.org/licenses/>.
-# ------------------------------------------------------------
-# XBMC Library Tools
-# ------------------------------------------------------------
+# Dovresti aver ricevuto una copia della GNU General Public License
+# insieme a Stefano Thegroove 360. In caso contrario, vedi <http://www.gnu.org/licenses/>.
+# ------------------------------------------------- -----------
+# Client for Stefano Thegroove 360
+#------------------------------------------------------------
+
 
 import os
 import threading
@@ -31,10 +32,9 @@ import urllib2
 import time
 
 import xbmc
-from core import config
+from core import config, logger
 from core import filetools
 from core import jsontools
-from platformcode import logger
 from platformcode import platformtools
 
 
@@ -379,7 +379,7 @@ def get_data(payload):
             template = "An exception of type {0} occured. Arguments:\n{1!r}"
             message = template.format(type(ex).__name__, ex.args)
             logger.error("get_data:: error en xbmc.executeJSONRPC: {0}".
-                        format(message))
+                         format(message))
             data = ["error"]
 
     logger.info("data: %s" % data)
@@ -691,7 +691,7 @@ def set_content(content_type, silent=False):
             heading = "Biblioteca %s configurata" % content_type
             msg_text = "Libreria di Kodi configurata correttamente."
         platformtools.dialog_notification(heading, msg_text, icon=1, time=10000)
-        logger.info("%s: %s" % (heading,msg_text))
+        logger.info("%s: %s" % (heading, msg_text))
 
 
 def execute_sql_kodi(sql):

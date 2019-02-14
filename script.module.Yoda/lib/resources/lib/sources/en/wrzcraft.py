@@ -10,23 +10,23 @@
 
 # Addon Name: Yoda
 # Addon id: plugin.video.Yoda
-# Addon Provider: MuadDib
+# Addon Provider: Supremacy
 
-import re,traceback,urllib,urlparse
+import re,urllib,urlparse
 
 from resources.lib.modules import cleantitle
 from resources.lib.modules import client
 from resources.lib.modules import debrid
-from resources.lib.modules import log_utils
+from resources.lib.modules import cfscrape
 
 class source:
     def __init__(self):
         self.priority = 1
         self.language = ['en']
         self.domains = ['wrzcraft.net']
-        self.base_link = 'http://wrzcraft.net'
+        self.base_link = 'http://wrzcraft.life'
         self.search_link = '/search/%s/feed/rss2/'
-
+        self.scraper = cfscrape.create_scraper()
 
     def movie(self, imdb, title, localtitle, aliases, year):
         try:
@@ -34,8 +34,6 @@ class source:
             url = urllib.urlencode(url)
             return url
         except:
-            failure = traceback.format_exc()
-            log_utils.log('WrzCraft - Exception: \n' + str(failure))
             return
 
     def tvshow(self, imdb, tvdb, tvshowtitle, localtvshowtitle, aliases, year):
@@ -44,8 +42,6 @@ class source:
             url = urllib.urlencode(url)
             return url
         except:
-            failure = traceback.format_exc()
-            log_utils.log('WrzCraft - Exception: \n' + str(failure))
             return
 
     def episode(self, url, imdb, tvdb, title, premiered, season, episode):
@@ -58,8 +54,6 @@ class source:
             url = urllib.urlencode(url)
             return url
         except:
-            failure = traceback.format_exc()
-            log_utils.log('WrzCraft - Exception: \n' + str(failure))
             return
 
     def sources(self, url, hostDict, hostprDict):
@@ -83,7 +77,7 @@ class source:
             url = self.search_link % urllib.quote_plus(query)
             url = urlparse.urljoin(self.base_link, url)
 
-            r = client.request(url)
+            r = self.scraper.get(url).content
 
             posts = client.parseDOM(r, 'item')
 
@@ -172,8 +166,6 @@ class source:
 
             return sources
         except:
-            failure = traceback.format_exc()
-            log_utils.log('WrzCraft - Exception: \n' + str(failure))
             return sources
 
     def resolve(self, url):

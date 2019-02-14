@@ -1,12 +1,17 @@
-# -*- coding: utf-8 -*-
-# StreamOnDemand Community Edition - Kodi Addon
+﻿# -*- coding: utf-8 -*-
+#------------------------------------------------------------
+# streamondemand - XBMC Plugin
+# Conector para yaske-netutv, netutv, hqqtv waawtv
+# http://www.mimediacenter.info/foro/viewforum.php?f=36
+#------------------------------------------------------------
 
+import base64
 import re
 import urllib
 
 from core import httptools
 from core import jsontools
-from platformcode import logger
+from core import logger
 from core import scrapertools
 
 
@@ -140,3 +145,104 @@ def jswise(wise):
         if not wise: break
         ret = wise = js_wise(wise.groups())
     return ret
+## Encuentra vídeos del servidor en el texto pasado
+def find_videos(data):
+
+    encontrados = set()
+    devuelve = []
+
+    ## Patrones
+    # http://www.yaske.net/archivos/netu/tv/embed_54b15d2d41641.html
+    # http://www.yaske.net/archivos/netu/tv/embed_54b15d2d41641.html?1
+    # http://hqq.tv/player/embed_player.php?vid=498OYGN19D65&autoplay=no
+    # http://hqq.tv/watch_video.php?v=498OYGN19D65
+    # http://netu.tv/player/embed_player.php?vid=82U4BRSOB4UU&autoplay=no
+    # http://netu.tv/watch_video.php?v=96WDAAA71A8K
+    # http://waaw.tv/player/embed_player.php?vid=82U4BRSOB4UU&autoplay=no
+    # http://waaw.tv/watch_video.php?v=96WDAAA71A8K
+    patterns = [
+        '/netu/tv/embed_(.*?$)',
+        'hqq.tv/[^=]+=([a-zA-Z0-9]+)',
+        'netu.tv/[^=]+=([a-zA-Z0-9]+)',
+        'waaw.tv/[^=]+=([a-zA-Z0-9]+)',
+        'netu.php\?nt=([a-zA-Z0-9]+)'
+    ]
+
+    if '/netu/tv/embed_' in data:
+        url = "http://www.yaske.net/archivos/netu/tv/embed_%s"
+    else:
+        url = "http://netu.tv/watch_video.php?v=%s"
+
+    for pattern in patterns:
+
+        logger.info("[netutv.py] find_videos #"+pattern+"#")
+        matches = re.compile(pattern,re.DOTALL).findall(data)
+
+        for match in matches:
+            titulo = "[netu.tv]"
+            url = url % match
+            if url not in encontrados:
+                logger.info("  url="+url)
+                devuelve.append( [ titulo , url , 'netutv' ] )
+                encontrados.add(url)
+                break
+            else:
+                logger.info("  url duplicada="+url)
+
+    return devuelve
+
+
+## --------------------------------------------------------------------------------
+## --------------------------------------------------------------------------------
+
+## Decode
+def b64(text, inverse=False):
+    if inverse:
+        text = text[::-1]
+    return base64.decodestring(text)
+
+## Petición a hqq.tv con la nueva id de vídeo
+def get_b64_data(new_id_video, headers):
+    page_url_hqq = "http://hqq.tv/player/embed_player.php?vid="+new_id_video+"&autoplay=no"
+    data_page_url_hqq = scrapertools.cache_page( page_url_hqq , headers=headers )
+    b64_data = scrapertools.get_match(data_page_url_hqq, 'base64,([^"]+)"')
+    return b64_data
+
+## Doble decode y unicode-escape
+def double_b64(b64_data):
+    b64_data_inverse = b64(b64_data)
+    b64_data_2 = scrapertools.get_match(b64_data_inverse, "='([^']+)';")
+
+    utf8_data_encode = b64(b64_data_2,True)
+    utf8_encode = scrapertools.get_match(utf8_data_encode, "='([^']+)';")
+
+    utf8_decode = utf8_encode.replace("%","\\").decode('unicode-escape')
+    return utf8_decode
+
+## Recoger los bytes ofuscados que contiene el m3u8
+def get_obfuscated(id_video, at, urlEncode, headers):
+    url = "http://hqq.tv/sec/player/embed_player.php?vid="+id_video+"&at="+at+"&autoplayed=yes&referer=on&http_referer="+urlEncode+"&pass="
+    data = scrapertools.cache_page( url, headers=headers )
+
+    match_b_m3u8_1 = '</div>.*?<script>document.write[^"]+"([^"]+)"'
+    b_m3u8_1 = urllib.unquote( scrapertools.get_match(data, match_b_m3u8_1) )
+
+    if b_m3u8_1 == "undefined": b_m3u8_1 = urllib.unquote( data )
+
+    match_b_m3u8_2 = '"#([^"]+)"'
+    b_m3u8_2 = scrapertools.get_match(b_m3u8_1, match_b_m3u8_2)
+
+    return b_m3u8_2
+
+## Obtener la url del m3u8
+def tb(b_m3u8_2):
+    j = 0
+    s2 = ""
+    while j < len(b_m3u8_2):
+        s2+= "\\u0"+b_m3u8_2[j:(j+3)]
+        j+= 3
+
+    return s2.decode('unicode-escape').encode('ASCII', 'ignore')
+
+## --------------------------------------------------------------------------------
+## --------------------------------------------------------------------------------

@@ -1,77 +1,73 @@
 # -*- coding: utf-8 -*-
 # ------------------------------------------------------------
-# StreamOnDemand-PureITA / XBMC Plugin
-# Canale itastreaming
-# by SchisM
-# http://www.mimediacenter.info/foro/viewtopic.php?f=36&t=7808
+# TheGroove360 / XBMC Plugin
+# Canale 
 # ------------------------------------------------------------
 import base64
 import re
 import urlparse
 
-from core import logger
 from core import httptools
 from core import scrapertools
 from core import servertools
 from core.item import Item
 from core.tmdb import infoSod
+from platformcode import logger
 
 __channel__ = "itastreaming"
-host = "http://itastreaming.gratis"
+
+host = "http://itastreaming.org/"
+
 headers = [['Referer', host]]
 
 
 def mainlist(item):
-    logger.info("[streamondemand-pureita itastreaming] mainlist")
+    logger.info("[itastreaming.py] mainlist")
 
     itemlist = [
         Item(channel=__channel__,
-             title="[COLOR azure]Film[COLOR orange] - Al Cinema[/COLOR]",
+             title="[COLOR azure]Home[/COLOR]",
              action="fichas",
-             url=host + "/al-cinema/",
-             thumbnail="https://raw.githubusercontent.com/orione7/Pelis_images/master/channels_icon_pureita/popcorn_cinema_P.png"),
+             url=host,
+             thumbnail=""),
         Item(channel=__channel__,
-             title="[COLOR azure]Film[COLOR orange] - Ultimi Inseriti[/COLOR]",
+             title="[COLOR azure]Nuove uscite[/COLOR]",
              action="fichas",
              url=host + "/nuove-uscite/",
-             thumbnail="https://raw.githubusercontent.com/orione7/Pelis_images/master/channels_icon_pureita/movie_new_P.png"),
+             thumbnail="http://orig03.deviantart.net/6889/f/2014/079/7/b/movies_and_popcorn_folder_icon_by_matheusgrilo-d7ay4tw.png"),
         Item(channel=__channel__,
-             title="[COLOR azure]Film[COLOR orange] - Novità[/COLOR]",
-             action="fichas",
-             url=host,
-             thumbnail="https://raw.githubusercontent.com/orione7/Pelis_images/master/channels_icon_pureita/movie_new_P.png"),
-        Item(channel=__channel__,
-             title="[COLOR azure]Film[COLOR orange] - Categorie[/COLOR]",
+             title="[COLOR azure]Film per Genere[/COLOR]",
              action="genere",
              url=host,
-             thumbnail="https://raw.githubusercontent.com/orione7/Pelis_images/master/channels_icon_pureita/genres_P.png"),
+             thumbnail="http://orig03.deviantart.net/6889/f/2014/079/7/b/movies_and_popcorn_folder_icon_by_matheusgrilo-d7ay4tw.png"),
         Item(channel=__channel__,
-             title="[COLOR azure]Film[COLOR orange] - Qualita'[/COLOR]",
+             title="[COLOR azure]Film per Qualita'[/COLOR]",
              action="quality",
              url=host,
-             thumbnail="https://raw.githubusercontent.com/orione7/Pelis_images/master/channels_icon_pureita/blueray_P.png"),
+             thumbnail="http://files.softicons.com/download/computer-icons/disks-icons-by-wil-nichols/png/256x256/Blu-Ray.png"),
+
         Item(channel=__channel__,
-             title="[COLOR azure]Film[COLOR orange] - Lista A-Z[/COLOR]",
+             title="[COLOR azure]Film A-Z[/COLOR]",
              action="atoz",
-             url=host,
-             thumbnail="https://raw.githubusercontent.com/orione7/Pelis_images/master/channels_icon_pureita/a-z_P.png"),
+             url=host + "/tag/a/",
+             thumbnail="http://i.imgur.com/IjCmx5r.png"),
+
         Item(channel=__channel__,
              title="[COLOR orange]Cerca...[/COLOR]",
              action="search",
              extra="movie",
-             thumbnail="https://raw.githubusercontent.com/orione7/Pelis_images/master/channels_icon_pureita/search_P.png")]
+             thumbnail="http://dc467.4shared.com/img/fEbJqOum/s7/13feaf0c8c0/Search")]
 
     return itemlist
 
-# ===================================================================================================================================================
-	
+
 def newest(categoria):
-    logger.info("[streamondemand-pureita itastreaming] newest" + categoria)
+    logger.info("[itastreaming.py] newest" + categoria)
     itemlist = []
     item = Item()
     try:
         if categoria == "peliculas":
-            item.url = "http://itastreaming.gratis/nuove-uscite/"
+            item.url = host + "/nuove-uscite/"
             item.action = "fichas"
             itemlist = fichas(item)
 
@@ -87,10 +83,9 @@ def newest(categoria):
 
     return itemlist
 
-# ===================================================================================================================================================
 
 def search(item, texto):
-    logger.info("[streamondemand-pureita itastreaming] " + item.url + " search " + texto)
+    logger.info("[itastreaming.py] " + item.url + " search " + texto)
 
     item.url = host + "/?s=" + texto
 
@@ -104,10 +99,9 @@ def search(item, texto):
             logger.error("%s" % line)
         return []
 
-# ===================================================================================================================================================
-		
+
 def searchfilm(item):
-    logger.info("[streamondemand-pureita itastreaming] fichas")
+    logger.info("[itastreaming.py] fichas")
 
     itemlist = []
 
@@ -155,16 +149,15 @@ def searchfilm(item):
         itemlist.append(
             Item(channel=__channel__,
                  action="searchfilm",
-                 title="[COLOR orange]Successivi >>[/COLOR]",
+                 title="[COLOR orange]Successivo >>[/COLOR]",
                  url=next_page,
-                 thumbnail="https://raw.githubusercontent.com/orione7/Pelis_images/master/channels_icon_pureita/next_1.png"))
+                 thumbnail="http://2.bp.blogspot.com/-fE9tzwmjaeQ/UcM2apxDtjI/AAAAAAAAeeg/WKSGM2TADLM/s1600/pager+old.png"))
 
     return itemlist
 
-# ===================================================================================================================================================
 
 def genere(item):
-    logger.info("[streamondemand-pureita itastreaming] genere")
+    logger.info("[itastreaming.py] genere")
     itemlist = []
 
     data = httptools.downloadpage(item.url, headers=headers).data
@@ -183,15 +176,13 @@ def genere(item):
                  action="fichas",
                  title=scrapedtitle,
                  url=scrapedurl,
-                 thumbnail="https://raw.githubusercontent.com/orione7/Pelis_images/master/channels_icon_pureita/genre_P.png",
                  folder=True))
 
     return itemlist
 
-# ===================================================================================================================================================
 
 def atoz(item):
-    logger.info("[streamondemand-pureita itastreaming] genere")
+    logger.info("[itastreaming.py] genere")
     itemlist = []
 
     data = httptools.downloadpage(item.url, headers=headers).data
@@ -212,15 +203,13 @@ def atoz(item):
                  action="fichas",
                  title=scrapedtitle,
                  url=scrapedurl,
-                 thumbnail="https://raw.githubusercontent.com/orione7/Pelis_images/master/channels_icon_pureita/a-z_P.png",
                  folder=True))
 
     return itemlist
 
-# ===================================================================================================================================================
 
 def quality(item):
-    logger.info("[streamondemand-pureita itastreaming] genere")
+    logger.info("[itastreaming.py] genere")
     itemlist = []
 
     data = httptools.downloadpage(item.url, headers=headers).data
@@ -241,15 +230,13 @@ def quality(item):
                  action="fichas",
                  title=scrapedtitle,
                  url=scrapedurl,
-                 thumbnail="https://raw.githubusercontent.com/orione7/Pelis_images/master/channels_icon_pureita/blueray_P.png",
                  folder=True))
 
     return itemlist
 
-# ===================================================================================================================================================
-	
+
 def fichas(item):
-    logger.info("[streamondemand-pureita itastreaming] fichas")
+    logger.info("[itastreaming.py] fichas")
 
     itemlist = []
 
@@ -296,16 +283,15 @@ def fichas(item):
         itemlist.append(
             Item(channel=__channel__,
                  action="fichas",
-                 title="[COLOR orange]Successivi >>[/COLOR]",
+                 title="[COLOR orange]Successivo >>[/COLOR]",
                  url=next_page,
-                 thumbnail="https://raw.githubusercontent.com/orione7/Pelis_images/master/channels_icon_pureita/next_1.png"))
+                 thumbnail="http://2.bp.blogspot.com/-fE9tzwmjaeQ/UcM2apxDtjI/AAAAAAAAeeg/WKSGM2TADLM/s1600/pager+old.png"))
 
     return itemlist
 
-# ===================================================================================================================================================
 
 def findvideos(item):
-    logger.info("[streamondemand-pureita italiafilmvideohd] findvideos")
+    logger.info("[italiafilmvideohd.py] findvideos")
 
     itemlist = []
 
@@ -353,8 +339,7 @@ def findvideos(item):
 
     return itemlist
 
-# ===================================================================================================================================================
-	
+
 def url_decode(url_enc):
     lenght = len(url_enc)
     if lenght % 2 == 0:

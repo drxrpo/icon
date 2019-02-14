@@ -1,4 +1,3 @@
-
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <channel>
 	<id>piratestreaming</id>
@@ -9,13 +8,13 @@
 	<language>it</language>
 
 	<fanart></fanart>
-	<thumbnail>https://raw.githubusercontent.com/orione7/Pelis_images/master/bannermenu/piratestreaming.png</thumbnail>
-	<bannermenu>https://raw.githubusercontent.com/orione7/Pelis_images/master/bannermenu/piratestreaming.png</bannermenu>
+	<thumbnail>https://raw.githubusercontent.com/Zanzibar82/images/master/posters/piratestreaming.png</thumbnail>
+	<bannermenu>https://raw.githubusercontent.com/Zanzibar82/images/master/posters/piratestreaming.png</bannermenu>
 
-	<update_url>https://raw.githubusercontent.com/orione7/plugin.video.streamondemand-pureita/master/channels/</update_url>
-	<version>08</version>
-	<date>02/09/2018</date>
-	<changes>Partialy Fix</changes>
+	<update_url>https://raw.githubusercontent.com/stesev1/channels/master/channels/</update_url>
+	<version>7</version>
+	<date>24/01/2019</date>
+	<changes>Change Domain</changes>
 
 	<categories>
 		<category>movie</category>
@@ -23,12 +22,11 @@
 	</categories>
 
 	<settings>
-		<include_in_global_search>true</include_in_global_search>
 		<id>include_in_global_search</id>
 		<type>bool</type>
 		<label>Includi ricerca globale</label>
 		<default>true</default>
 		<enabled>true</enabled>
-		<visible>true</visible>	
+		<visible>true</visible>
 	</settings>
 </channel>

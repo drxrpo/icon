@@ -4,7 +4,7 @@
 #######################################################################
  # ----------------------------------------------------------------------------
  # "THE BEER-WARE LICENSE" (Revision 42):
- # @tantrumdev wrote this file.  As long as you retain this notice you
+ # @Daddy_Blamo wrote this file.  As long as you retain this notice you
  # can do whatever you want with this stuff. If we meet some day, and you think
  # this stuff is worth it, you can buy me a beer in return. - Muad'Dib
  # ----------------------------------------------------------------------------
@@ -26,9 +26,9 @@ class source:
     def __init__(self):
         self.priority = 1
         self.language = ['en']
-        self.domains = ['tunemovie.com', 'tunemovie.tv']
-        self.base_link = 'https://tunemovie.com'
-        self.search_link = '/search/%s.html'
+        self.domains = ['tunemovie.net']
+        self.base_link = 'http://tunemovie.net/'
+        self.search_link = '/?type=movie&s=%s'
 
 
     def movie(self, imdb, title, localtitle, aliases, year):

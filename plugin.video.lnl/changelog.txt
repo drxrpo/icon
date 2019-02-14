@@ -1,12 +1,3 @@
-v1.1
-based on bob 1.0.12
+v1.0.1.8===ADDED NEW CODE
 
-Added "plugin" system, see plugin.py
-Added most strings to strings.po
-Added hebrew translation (thanks Eng2Heb)
-Added Search and Search db generation script
-Loads of bugfixes
-
-Release 1.0.0 initial release
-
-based on bob 1.0.1
+j-1.9.1

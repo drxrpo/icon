@@ -2,15 +2,15 @@
 #######################################################################
  # ----------------------------------------------------------------------------
  # "THE BEER-WARE LICENSE" (Revision 42):
- # @Daddy_Blamo wrote this file.  As long as you retain this notice you
+ # @tantrumdev wrote this file.  As long as you retain this notice you
  # can do whatever you want with this stuff. If we meet some day, and you think
  # this stuff is worth it, you can buy me a beer in return. - Muad'Dib
  # ----------------------------------------------------------------------------
 #######################################################################
 
-# Addon Name: Placenta
-# Addon id: plugin.video.placenta
-# Addon Provider: Mr.Blamo
+# Addon Name: Exodus
+# Addon id: plugin.video.exodus
+# Addon Provider: Exodus
 
 import re,traceback,urllib,urlparse,hashlib,random,string,json,base64,sys,xbmc
 
@@ -47,8 +47,8 @@ class source:
         self.priority = 1
         self.language = ['en']
         self.domains = ['solarmoviez.to', 'solarmoviez.ru']
-        self.base_link = 'https://solarmoviez.ru/'
-        self.search_link = '/search/%s.html'
+        self.base_link = 'https://solarmoviez.ru'
+        self.search_link = '/movie/search/%s.html'
         self.info_link = '/ajax/movie_info/%s.html?is_login=false'
         self.server_link = '/ajax/v4_movie_episodes/%s'
         self.embed_link = '/ajax/movie_embed/%s'
@@ -118,7 +118,7 @@ class source:
         try:
             title = cleantitle.normalize(title)
             url = urlparse.urljoin(self.base_link, self.search_link % urllib.quote_plus(cleantitle.getsearch(title)))
-            r = client.request(url, headers=headers, timeout='20')
+            r = client.request(url, headers=headers, timeout='15')
             r = client.parseDOM(r, 'div', attrs={'class': 'ml-item'})
             r = zip(client.parseDOM(r, 'a', ret='href'), client.parseDOM(r, 'a', ret='title'))
             results = [(i[0], i[1], re.findall('\((\d{4})', i[1])) for i in r]

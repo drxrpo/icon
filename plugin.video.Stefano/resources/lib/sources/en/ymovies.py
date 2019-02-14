@@ -1,29 +1,20 @@
 # -*- coding: utf-8 -*-
-
 '''
-    Covenant Add-on
+    ymovies scraper for Exodus.
+    Nov 9 2018 - Checked
 
-    This program is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
-
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+    Updated and refactored by someone.
+    Originally created by others.
 '''
-
-
 import re,urllib,urlparse,json,base64
 
 from resources.lib.modules import cleantitle
 from resources.lib.modules import client
 from resources.lib.modules import directstream
 from resources.lib.modules import jsunfuck
+from resources.lib.modules import source_utils
+from resources.lib.modules import dom_parser
+from resources.lib.modules import log_utils
 
 CODE = '''def retA():
     class Infix:
@@ -103,6 +94,7 @@ class source:
             title = cleantitle.normalize(title)
             search = '%s Season %01d' % (title, int(season))
             url = urlparse.urljoin(self.base_link, self.search_link % urllib.quote_plus(cleantitle.getsearch(search)))
+            log_utils.log('shit Returned: %s' % str(url), log_utils.LOGNOTICE)
             r = client.request(url, headers=headers, timeout='15')
             r = client.parseDOM(r, 'div', attrs={'class': 'ml-item'})
             r = zip(client.parseDOM(r, 'a', ret='href'), client.parseDOM(r, 'a', ret='title'))
@@ -164,6 +156,11 @@ class source:
                 servers = client.parseDOM(r, 'li', ret='data-server')
                 labels = client.parseDOM(r, 'a', ret='title')
                 r = zip(ids, servers, labels)
+                u = urlparse.urljoin(self.base_link, self.info_link % mid)
+                quality = client.request(u, headers=headers)
+                quality = dom_parser.parse_dom(quality, 'div', attrs={'class': 'jtip-quality'})[0].content
+                if quality == "HD":
+                    quality = "720p"
                 for eid in r:
                     try:
                         try:
@@ -171,32 +168,39 @@ class source:
                         except:
                             ep = 0
                         if (episode == 0) or (int(ep) == episode):
-                            url = urlparse.urljoin(self.base_link, self.token_link % (eid[0], mid))
-                            script = client.request(url)
-                            if '$_$' in script:
-                                params = self.uncensored1(script)
-                            elif script.startswith('[]') and script.endswith('()'):
-                                params = self.uncensored2(script)
-                            elif '_x=' in script:
-                                x = re.search('''_x=['"]([^"']+)''', script).group(1)
-                                y = re.search('''_y=['"]([^"']+)''', script).group(1)
-                                params = {'x': x, 'y': y}
+                            if eid[1] != '6':
+                                url = urlparse.urljoin(self.base_link, self.embed_link % eid[0])
+                                link = client.request(url)
+                                link = json.loads(link)['src']
+                                valid, host = source_utils.is_host_valid(link, hostDict)
+                                sources.append({'source':host,'quality':quality,'language': 'en','url':link,'info':[],'direct':False,'debridonly':False})
                             else:
-                                raise Exception()
+                                url = urlparse.urljoin(self.base_link, self.token_link % (eid[0], mid))
+                                script = client.request(url)
+                                if '$_$' in script:
+                                    params = self.uncensored1(script)
+                                elif script.startswith('[]') and script.endswith('()'):
+                                    params = self.uncensored2(script)
+                                elif '_x=' in script:
+                                    x = re.search('''_x=['"]([^"']+)''', script).group(1)
+                                    y = re.search('''_y=['"]([^"']+)''', script).group(1)
+                                    params = {'x': x, 'y': y}
+                                else:
+                                    raise Exception()
 
-                            u = urlparse.urljoin(self.base_link, self.source_link % (eid[0], params['x'], params['y']))
-                            r = client.request(u, XHR=True)
-                            url = json.loads(r)['playlist'][0]['sources']
-                            url = [i['file'] for i in url if 'file' in i]
-                            url = [directstream.googletag(i) for i in url]
-                            url = [i[0] for i in url if i]
+                                u = urlparse.urljoin(self.base_link, self.source_link % (eid[0], params['x'], params['y']))
+                                r = client.request(u, XHR=True)
+                                url = json.loads(r)['playlist'][0]['sources']
+                                url = [i['file'] for i in url if 'file' in i]
+                                url = [directstream.googletag(i) for i in url]
+                                url = [i[0] for i in url if i]
 
-                            for s in url:
-                                if 'lh3.googleusercontent.com' in s['url']:
-                                    s['url'] = directstream.googleredirect(s['url'])
-                                    
-                                sources.append({'source': 'gvideo', 'quality': s['quality'], 'language': 'en',
-                                                'url': s['url'], 'direct': True, 'debridonly': False})
+                                for s in url:
+                                    if 'lh3.googleusercontent.com' in s['url']:
+                                        s['url'] = directstream.googleredirect(s['url'])
+                                        
+                                    sources.append({'source': 'gvideo', 'quality': s['quality'], 'language': 'en',
+                                                    'url': s['url'], 'direct': True, 'debridonly': False})
                     except:
                         pass
             except:
@@ -213,13 +217,7 @@ class source:
                 url = json.loads(result)['embed_url']
                 return url
 
-            try:
-                for i in range(3):
-                    u = directstream.googlepass(url)
-                    if not u == None: break
-                return u
-            except:
-                return
+            return url
         except:
             return
 

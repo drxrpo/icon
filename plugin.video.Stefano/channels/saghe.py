@@ -1,36 +1,26 @@
 # -*- coding: utf-8 -*-
 # ------------------------------------------------------------
-# streamondemand-PureITA  / XBMC Plugin
-# Ricerca "Saghe"
-# http://www.mimediacenter.info/foro/viewtopic.php?f=36&t=7808
+# TheGroove360 / XBMC Plugin
+# Canale 
 # ------------------------------------------------------------
 
-import Queue
+import re
+
 import datetime
-import glob
-import imp
 import json
-import os
-import threading
 import urllib
 
-from core import channeltools
-from core import config
-from core import logger
+from core import httptools, tmdb
+from platformcode import logger
 from core import scrapertools
 from core.item import Item
-from lib.fuzzywuzzy import fuzz
+from core.tmdb import infoSod
 
 __channel__ = "saghe"
-__category__ = "F"
-__type__ = "generic"
-__title__ = "saghe"
-__language__ = "IT"
 
-DEBUG = config.get_setting("debug")
+PERPAGE = 20
 
-tmdb_key = '99ceb6cfe8e4ee644dc3b4d2ca2b2044'
-# tmdb_key = base64.urlsafe_b64decode('NTc5ODNlMzFmYjQzNWRmNGRmNzdhZmI4NTQ3NDBlYTk=')
+tmdb_key =  tmdb.tmdb_auth_key #tmdb_key = '92db8778ccb39d825150332b0a46061d'
 dttime = (datetime.datetime.utcnow() - datetime.timedelta(hours=5))
 systime = dttime.strftime('%Y%m%d%H%M%S%f')
 today_date = dttime.strftime('%Y-%m-%d')
@@ -41,58 +31,59 @@ tmdb_image = 'http://image.tmdb.org/t/p/original'
 tmdb_poster = 'http://image.tmdb.org/t/p/w500'
 
 
-def isGeneric():
-    return True
-
-
 def mainlist(item):
-    logger.info("streamondemand-pureita.saghe mainlist")
+    logger.info("Stefano.saghe mainlist")
     itemlist = [Item(channel=__channel__,
                      title="[COLOR yellow]The Marvel Universe[/COLOR]",
                      action="tmdb_saghe",
                      url='http://api.themoviedb.org/3/list/50941077760ee35e1500000c?api_key=%s&language=it' % tmdb_key,
-                     thumbnail="https://image.tmdb.org/t/p/w185/coJVIUEOToAEGViuhclM7pXC75R.jpg"),
+                     thumbnail="https://image.tmdb.org/t/p/w180_and_h270_bestv2/6t3KOEUtrIPmmtu1czzt6p2XxJy.jpg"),
                 Item(channel=__channel__,
                      title="[COLOR yellow]The DC Comics Universe[/COLOR]",
                      action="tmdb_saghe",
                      url='http://api.themoviedb.org/3/list/5094147819c2955e4c00006a?api_key=%s&language=it' % tmdb_key,
-                     thumbnail="https://image.tmdb.org/t/p/w185/xWlaTLnD8NJMTT9PGOD9z5re1SL.jpg"),
+                     thumbnail="https://image.tmdb.org/t/p/w180_and_h270_bestv2/xWlaTLnD8NJMTT9PGOD9z5re1SL.jpg"),
                 Item(channel=__channel__,
                      title="[COLOR yellow]iMDb Top 250 Movies[/COLOR]",
                      action="tmdb_saghe",
                      url='http://api.themoviedb.org/3/list/522effe419c2955e9922fcf3?api_key=%s&language=it' % tmdb_key,
-                     thumbnail="https://image.tmdb.org/t/p/w185/9O7gLzmreU0nGkIB6K3BsJbzvNv.jpg"),
+                     thumbnail="https://image.tmdb.org/t/p/w180_and_h270_bestv2/9O7gLzmreU0nGkIB6K3BsJbzvNv.jpg"),
                 Item(channel=__channel__,
                      title="[COLOR yellow]Rotten Tomatoes top 100 movies of all times[/COLOR]",
                      action="tmdb_saghe",
                      url='http://api.themoviedb.org/3/list/5418c914c3a368462c000020?api_key=%s&language=it' % tmdb_key,
-                     thumbnail="https://image.tmdb.org/t/p/w185/zGadcmcF48gy8rKCX2ubBz2ZlbF.jpg"),
+                     thumbnail="https://image.tmdb.org/t/p/w180_and_h270_bestv2/zGadcmcF48gy8rKCX2ubBz2ZlbF.jpg"),
                 Item(channel=__channel__,
                      title="[COLOR yellow]Reddit top 250 movies[/COLOR]",
                      action="tmdb_saghe",
                      url='http://api.themoviedb.org/3/list/54924e17c3a3683d070008c8?api_key=%s&language=it' % tmdb_key,
-                     thumbnail="https://image.tmdb.org/t/p/w185/dM2w364MScsjFf8pfMbaWUcWrR.jpg"),
+                     thumbnail="https://image.tmdb.org/t/p/w180_and_h270_bestv2/dM2w364MScsjFf8pfMbaWUcWrR.jpg"),
                 Item(channel=__channel__,
                      title="[COLOR yellow]Sci-Fi Action[/COLOR]",
                      action="tmdb_saghe",
                      url='http://api.themoviedb.org/3/list/54408e79929fb858d1000052?api_key=%s&language=it' % tmdb_key,
-                     thumbnail="https://image.tmdb.org/t/p/w185/5ig0kdWz5kxR4PHjyCgyI5khCzd.jpg"),
+                     thumbnail="https://image.tmdb.org/t/p/w180_and_h270_bestv2/5ig0kdWz5kxR4PHjyCgyI5khCzd.jpg"),
                 Item(channel=__channel__,
                      title="[COLOR yellow]007 - Movies[/COLOR]",
                      action="tmdb_saghe",
                      url='http://api.themoviedb.org/3/list/557b152bc3a36840f5000265?api_key=%s&language=it' % tmdb_key,
-                     thumbnail="https://image.tmdb.org/t/p/w185/zlWBxz2pTA9p45kUTrI8AQiKrHm.jpg"),
+                     thumbnail="https://image.tmdb.org/t/p/w180_and_h270_bestv2/zlWBxz2pTA9p45kUTrI8AQiKrHm.jpg"),
                 Item(channel=__channel__,
                      title="[COLOR yellow]Disney Classic Collection[/COLOR]",
                      action="tmdb_saghe",
                      url='http://api.themoviedb.org/3/list/51224e42760ee3297424a1e0?api_key=%s&language=it' % tmdb_key,
-                     thumbnail="https://image.tmdb.org/t/p/w185/vGV35HBCMhQl2phhGaQ29P08ZgM.jpg")]
+                     thumbnail="https://image.tmdb.org/t/p/w180_and_h270_bestv2/vGV35HBCMhQl2phhGaQ29P08ZgM.jpg"),
+                Item(channel=__channel__,
+                     title="[COLOR yellow]Bad Movies[/COLOR]",
+                     action="badmovies",
+                     url='http://www.badmovies.org/movies/',
+                     thumbnail="http://www.badmovies.org/mainpage/badmovielogo_600.jpg")]
     return itemlist
 
 
 def tmdb_saghe(item):
     try:
-        result = scrapertools.cache_page(item.url)
+        result = httptools.downloadpage(item.url).data
         result = json.loads(result)
         items = result['items']
     except:
@@ -137,98 +128,61 @@ def tmdb_saghe(item):
 
     return itemlist
 
-
-def do_search(item):
-    logger.info("streamondemand-pureita.channels.saghe do_search")
-
-    tecleado = item.extra
-    mostra = item.fulltitle
-
+def badmovies(item):
     itemlist = []
 
-    channels_path = os.path.join(config.get_runtime_path(), "channels", '*.xml')
-    logger.info("streamondemand-pureita.channels.buscador channels_path=" + channels_path)
+    p = 1
+    if '{}' in item.url:
+        item.url, p = item.url.split('{}')
+        p = int(p)
 
-    channel_language = config.get_setting("channel_language")
-    logger.info("streamondemand-pureita.channels.buscador channel_language=" + channel_language)
-    if channel_language == "":
-        channel_language = "all"
-        logger.info("streamondemand-pureita.channels.buscador channel_language=" + channel_language)
+    # Carica la pagina 
+    data = httptools.downloadpage(item.url).data
+    data = scrapertools.find_single_match(data, '<table width="100%" cellpadding="6" cellspacing="1" class="listtab">(.*?)<tr><td align="center" valign="top">')
 
-    if config.is_xbmc():
-        show_dialog = True
+    # Estrae i contenuti 
+    patron = r'">([^<]+)\s*</a>'
+    matches = re.compile(patron, re.DOTALL).findall(data)
 
-    try:
-        import xbmcgui
-        progreso = xbmcgui.DialogProgressBG()
-        progreso.create("Ricerca di " + mostra)
-    except:
-        show_dialog = False
+    scrapedurl = ""
+    scrapedplot = ""
+    scrapedthumbnail = ""
+    for i, (scrapedtitle) in enumerate(matches):
+        if (p - 1) * PERPAGE > i: continue
+        if i >= p * PERPAGE: break
+        title = scrapertools.decodeHtmlentities(scrapedtitle).strip()
+        itemlist.append(infoSod(
+            Item(channel=__channel__,
+                 extra=item.extra,
+                 action="do_search",
+                 title=title,
+                 url=title,
+                 thumbnail=scrapedthumbnail,
+                 fulltitle=title,
+                 show=title,
+                 plot=scrapedplot,
+                 folder=True), tipo='movie'))
 
-    def worker(infile, queue):
-        channel_result_itemlist = []
-        try:
-            basename_without_extension = os.path.basename(infile)[:-4]
-            # http://docs.python.org/library/imp.html?highlight=imp#module-imp
-            obj = imp.load_source(basename_without_extension, infile[:-4]+".py")
-            logger.info("streamondemand-pureita.channels.buscador cargado " + basename_without_extension + " de " + infile)
-            channel_result_itemlist.extend(obj.search(Item(), tecleado))
-            for item in channel_result_itemlist:
-                item.title = " [COLOR azure] " + item.title + " [/COLOR] [COLOR orange]su[/COLOR] [COLOR green]" + basename_without_extension + "[/COLOR]"
-                item.viewmode = "list"
-        except:
-            import traceback
-            logger.error(traceback.format_exc())
-        queue.put(channel_result_itemlist)
+    if len(itemlist) > 0:
+        itemlist.append(
+            Item(channel=__channel__,
+                 action="HomePage",
+                 title="[COLOR yellow]Torna Home[/COLOR]",
+                 folder=True)),
 
-    channel_files = glob.glob(channels_path)
-
-    channel_files_tmp = []
-    for infile in channel_files:
-
-        basename_without_extension = os.path.basename(infile)[:-4]
-
-        channel_parameters = channeltools.get_channel_parameters(basename_without_extension)
-
-        # No busca si es un canal inactivo
-        if channel_parameters["active"] != "true":
-            continue
-
-        # No busca si es un canal excluido de la busqueda global
-        if channel_parameters["include_in_global_search"] != "true":
-            continue
-
-        # No busca si es un canal para adultos, y el modo adulto está desactivado
-        if channel_parameters["adult"] == "true" and config.get_setting("adult_mode") == "false":
-            continue
-
-        # No busca si el canal es en un idioma filtrado
-        if channel_language != "all" and channel_parameters["language"] != channel_language:
-            continue
-
-        channel_files_tmp.append(infile)
-
-    channel_files = channel_files_tmp
-
-    result = Queue.Queue()
-    threads = [threading.Thread(target=worker, args=(infile, result)) for infile in channel_files]
-
-    for t in threads:
-        t.start()
-
-    number_of_channels = len(channel_files)
-
-    for index, t in enumerate(threads):
-        percentage = index * 100 / number_of_channels
-        if show_dialog:
-            progreso.update(percentage, ' Ricerca di "' + mostra + '"')
-        t.join()
-        itemlist.extend(result.get())
-
-    itemlist = sorted([item for item in itemlist if fuzz.WRatio(mostra, item.fulltitle) > 85],
-                      key=lambda Item: Item.title)
-
-    if show_dialog:
-        progreso.close()
+    if len(matches) >= p * PERPAGE:
+        scrapedurl = item.url + '{}' + str(p + 1)
+        itemlist.append(
+            Item(channel=__channel__,
+                 extra=item.extra,
+                 action="badmovies",
+                 title="[COLOR orange]Successivo >>[/COLOR]",
+                 url=scrapedurl,
+                 thumbnail="http://2.bp.blogspot.com/-fE9tzwmjaeQ/UcM2apxDtjI/AAAAAAAAeeg/WKSGM2TADLM/s1600/pager+old.png",
+                 folder=True))
 
     return itemlist
+
+def do_search(item):
+    from channels import buscador
+    return buscador.do_search(item)

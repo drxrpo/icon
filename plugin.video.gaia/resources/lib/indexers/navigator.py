@@ -1079,6 +1079,7 @@ class navigator:
 		self.endDirectory()
 
 	def servicesScraperNavigator(self):
+		self.addDirectoryItem(35431, 'lamscrapersNavigator', 'lamscrapers.png', 'DefaultAddonProgram.png')
 		self.addDirectoryItem(35331, 'uniscrapersNavigator', 'uniscrapers.png', 'DefaultAddonProgram.png')
 		self.addDirectoryItem(35332, 'nanscrapersNavigator', 'nanscrapers.png', 'DefaultAddonProgram.png')
 		self.addDirectoryItem(35334, 'incscrapersNavigator', 'incscrapers.png', 'DefaultAddonProgram.png')
@@ -1234,9 +1235,16 @@ class navigator:
 			self.addDirectoryItem(33474, 'urlresolverInstall', 'urlresolverinstall.png', 'DefaultAddonProgram.png', isAction = True, isFolder = False)
 		self.endDirectory()
 
+	def lamscrapersNavigator(self):
+		if tools.UniScrapers.installed():
+			self.addDirectoryItem(33011, 'lamscrapersSettings', 'lamscraperssettings.png', 'DefaultAddonProgram.png', isAction = True, isFolder = False)
+		else:
+			self.addDirectoryItem(33474, 'lamscrapersInstall', 'lamscrapersinstall.png', 'DefaultAddonProgram.png', isAction = True, isFolder = False)
+		self.endDirectory()
+
 	def uniscrapersNavigator(self):
 		if tools.UniScrapers.installed():
-			self.addDirectoryItem(33011, 'unicrapersSettings', 'uniscraperssettings.png', 'DefaultAddonProgram.png', isAction = True, isFolder = False)
+			self.addDirectoryItem(33011, 'uniscrapersSettings', 'uniscraperssettings.png', 'DefaultAddonProgram.png', isAction = True, isFolder = False)
 		else:
 			self.addDirectoryItem(33474, 'uniscrapersInstall', 'uniscrapersinstall.png', 'DefaultAddonProgram.png', isAction = True, isFolder = False)
 		self.endDirectory()

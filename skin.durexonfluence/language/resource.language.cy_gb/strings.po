@@ -1,6 +1,6 @@
 # Kodi Media Center language file
-# Addon Name: Xonfluence
-# Addon id: skin.xonfluence
+# Addon Name: Durexonfluence
+# Addon id: skin.durexonfluence
 # Addon Provider: Helly1206
 msgid ""
 msgstr ""
@@ -18,19 +18,19 @@ msgstr ""
 
 msgctxt "#31000"
 msgid "Change your"
-msgstr "Newid eich"
+msgstr ""
 
 msgctxt "#31001"
-msgid "GAMES"
-msgstr "GEMAU"
+msgid ":"
+msgstr ""
 
 msgctxt "#31002"
-msgid "[B]GAME SETTINGS[/B][CR][CR]Configure rewind support & options ·  Configure keyboard use and number of keyboard players"
-msgstr "[B]GOSODIADAU GEMAU[/B][CR][CR]Ffurfweddu cefnogaeth ailddirwyn a dewisiadau ·  Ffurfweddu'r bysellfwrdd a'r nifer o chwaraewyr bysellfwrdd"
+msgid "Enable manual opening of media views slide menu"
+msgstr ""
 
 msgctxt "#31003"
 msgid "Power options"
-msgstr "Dewisiadau Pŵer"
+msgstr ""
 
 msgctxt "#31004"
 msgid "Working..."
@@ -38,7 +38,7 @@ msgstr "Gweithio..."
 
 msgctxt "#31005"
 msgid "Hide information"
-msgstr "Cuddio'r wybodaeth"
+msgstr ""
 
 msgctxt "#31006"
 msgid "View options"
@@ -46,7 +46,7 @@ msgstr "Gweld y dewisiadau"
 
 msgctxt "#31007"
 msgid "Video process information"
-msgstr "Gwybodaeth y prosesydd fideo"
+msgstr ""
 
 msgctxt "#31008"
 msgid "Full screen"
@@ -54,31 +54,35 @@ msgstr "Sgrin Lawn"
 
 msgctxt "#31009"
 msgid "Total duration"
-msgstr "Cyfanswm hyd"
+msgstr ""
 
 msgctxt "#31010"
 msgid "Hardware decoding"
-msgstr "Dadgodio caledwedd"
+msgstr ""
 
 msgctxt "#31011"
 msgid "Inactive"
-msgstr "Anweithredol"
+msgstr ""
 
 msgctxt "#31012"
 msgid "Decoder"
-msgstr "Dadgodydd"
+msgstr ""
 
 msgctxt "#31013"
 msgid "Audio process information"
-msgstr "Gwybodaeth y prosesydd sain"
+msgstr ""
 
 msgctxt "#31014"
 msgid "Memory used"
-msgstr "Cof a ddefnyddir"
+msgstr ""
 
 msgctxt "#31015"
-msgid "Minute"
-msgstr "Munud"
+msgid "Never"
+msgstr ""
+
+msgctxt "#31016"
+msgid "Permanently"
+msgstr ""
 
 msgctxt "#31017"
 msgid "Info button"
@@ -118,7 +122,7 @@ msgstr "Eitem"
 
 msgctxt "#31026"
 msgid "Misc options"
-msgstr "Dewisiadau eraill"
+msgstr ""
 
 msgctxt "#31027"
 msgid "Location"
@@ -138,7 +142,7 @@ msgstr ""
 
 msgctxt "#31031"
 msgid "Pic thumbs"
-msgstr "Mân-luniau"
+msgstr ""
 
 msgctxt "#31032"
 msgid "Image wrap"
@@ -170,7 +174,7 @@ msgstr "Gweithredoedd"
 
 msgctxt "#31040"
 msgid "Now playing"
-msgstr "Wrthi'n chwarae"
+msgstr ""
 
 msgctxt "#31041"
 msgid "UPnP error"
@@ -616,54 +620,6 @@ msgctxt "#31155"
 msgid "Show global search button on bottom left"
 msgstr ""
 
-msgctxt "#31156"
-msgid ":"
-msgstr ""
-
-msgctxt "#31157"
-msgid "Enable manual opening of media views slide menu"
-msgstr ""
-
-msgctxt "#31158"
-msgid "Never"
-msgstr ""
-
-msgctxt "#31159"
-msgid "Permanently"
-msgstr ""
-
-msgctxt "#31160"
-msgid "Visualisation settings"
-msgstr ""
-
-msgctxt "#31161"
-msgid "Lyrics add-on settings"
-msgstr ""
-
-msgctxt "#31162"
-msgid " pack for "
-msgstr ""
-
-msgctxt "#31163"
-msgid "Update all backgrounds"
-msgstr ""
-
-msgctxt "#31164"
-msgid "Flags"
-msgstr ""
-
-msgctxt "#31165"
-msgid "Don't ask again"
-msgstr ""
-
-msgctxt "#31166"
-msgid "Setup default background"
-msgstr ""
-
-msgctxt "#31167"
-msgid "No backgrounds set, install and setup default backgrounds add-on?"
-msgstr ""
-
 msgctxt "#31188"
 msgid "Random concerts"
 msgstr ""
@@ -981,7 +937,7 @@ msgid "Enable visible horizontal submenu"
 msgstr ""
 
 msgctxt "#31276"
-msgid "Extra artwork options"
+msgid "Extra art work options"
 msgstr ""
 
 msgctxt "#31277"
@@ -1074,7 +1030,7 @@ msgstr ""
 
 msgctxt "#31301"
 msgid "Last updated"
-msgstr "Chwaraewyd ddiwethaf"
+msgstr ""
 
 msgctxt "#31302"
 msgid "Outlook - "
@@ -1181,7 +1137,7 @@ msgid "Album details"
 msgstr ""
 
 msgctxt "#31332"
-msgid "Alternate fanart"
+msgid "Alternate fanArt"
 msgstr ""
 
 msgctxt "#31333"
@@ -1481,7 +1437,7 @@ msgid "[B]INTERFACE SETTINGS[/B][CR][CR]Configure skin · Configure region · Co
 msgstr ""
 
 msgctxt "#31437"
-msgid "[B]CONFIGURE SKIN SETTINGS[/B][CR][CR]Setup the Xonfluence skin · Add and remove home menu items · Change skin backgrounds"
+msgid "[B]CONFIGURE SKIN SETTINGS[/B][CR][CR]Setup the Durexonfluence skin · Add and remove home menu items · Change skin backgrounds"
 msgstr ""
 
 msgctxt "#31440"
@@ -1832,22 +1788,6 @@ msgctxt "#31943"
 msgid "Use default confluence favourites window look and feel"
 msgstr ""
 
-msgctxt "#31944"
-msgid "Visible in Master mode only"
-msgstr ""
-
-msgctxt "#31947"
-msgid "Button look and feel"
-msgstr ""
-
-msgctxt "#31948"
-msgid "Button layout look and feel"
-msgstr ""
-
-msgctxt "#31949"
-msgid "OSD look and feel"
-msgstr ""
-
 msgctxt "#31950"
 msgid "WEATHER"
 msgstr "TYWYDD"
@@ -1969,7 +1909,7 @@ msgid "Reload"
 msgstr ""
 
 msgctxt "#31980"
-msgid "Save settings and reload Xonfluence"
+msgid "Save settings and reload Durexonfluence"
 msgstr ""
 
 msgctxt "#31981"

@@ -1,11 +1,9 @@
 # -*- coding: utf-8 -*-
-# StreamOnDemand Community Edition - Kodi Addon
 # ------------------------------------------------------------
-# Stefano.- XBMC Plugin
-# Canale documentaristreaming [Stefano]
-# http://www.mimediacenter.info/foro/viewforum.php?f=36
-# by dentaku65, DrZ3r0
+# TheGroove360 - XBMC Plugin
+# Canale documentaristreaming
 # ------------------------------------------------------------
+
 import re
 import urlparse
 
@@ -16,7 +14,7 @@ from core.item import Item
 
 __channel__ = "documentaristreaming"
 
-host = "https://www.documentaristreaming.net/"
+host = "http://documentaristreaming.net"
 
 headers = [
     ['User-Agent', 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:58.0) Gecko/20100101 Firefox/58.0'],
@@ -32,26 +30,26 @@ headers = [
 
 
 def mainlist(item):
-    logger.info("Stefano.documentaristreaming mainlist")
+    logger.info("[thegroove360.documentaristreaming] mainlist")
     itemlist = [Item(channel=__channel__,
                      title="[COLOR azure]Aggiornamenti[/COLOR]",
                      action="peliculas",
                      url=host,
-                     thumbnail="http://orig03.deviantart.net/6889/f/2014/079/7/b/movies_and_popcorn_folder_icon_by_matheusgrilo-d7ay4tw.png"),
+                     thumbnail=""),
                 Item(channel=__channel__,
                      title="[COLOR azure]Categorie[/COLOR]",
                      action="categorias",
                      url="%s/categorie-documentari-streaming/" % host,
-                     thumbnail="http://orig03.deviantart.net/6889/f/2014/079/7/b/movies_and_popcorn_folder_icon_by_matheusgrilo-d7ay4tw.png"),
+                     thumbnail=""),
                 Item(channel=__channel__,
                      title="[COLOR yellow]Cerca...[/COLOR]",
                      action="search",
-                     thumbnail="http://dc467.4shared.com/img/fEbJqOum/s7/13feaf0c8c0/Search")]
+                     thumbnail="")]
 
     return itemlist
 
 def peliculas(item):
-    logger.info("Stefano.documentaristreaming peliculas")
+    logger.info("[thegroove360.documentaristreaming] peliculas")
     itemlist = []
 
     # Download page
@@ -94,14 +92,14 @@ def peliculas(item):
                  action="peliculas",
                  title="[COLOR orange]Successivo >>[/COLOR]",
                  url=scrapedurl,
-                 thumbnail="http://2.bp.blogspot.com/-fE9tzwmjaeQ/UcM2apxDtjI/AAAAAAAAeeg/WKSGM2TADLM/s1600/pager+old.png",
+                 thumbnail="",
                  folder=True))
 
     return itemlist
 
 
 def peliculas_src(item):
-    logger.info("Stefano.documentaristreaming peliculas")
+    logger.info("[thegroove360.documentaristreaming] peliculas")
     itemlist = []
 
     # Download page
@@ -146,7 +144,7 @@ def peliculas_src(item):
                  action="peliculas_src",
                  title="[COLOR orange]Successivo >>[/COLOR]",
                  url=scrapedurl,
-                 thumbnail="http://2.bp.blogspot.com/-fE9tzwmjaeQ/UcM2apxDtjI/AAAAAAAAeeg/WKSGM2TADLM/s1600/pager+old.png",
+                 thumbnail="",
                  folder=True))
 
     return itemlist
@@ -157,7 +155,7 @@ def HomePage(item):
 
 
 def categorias(item):
-    logger.info("Stefano.documentaristreaming categorias")
+    logger.info("[thegroove360.documentaristreaming] categorias")
     itemlist = []
 
     data = httptools.downloadpage(item.url, headers=headers).data

@@ -1,9 +1,9 @@
-# Addon Name: Jen Unleashed
-# Addon id: plugin.video.jen.unleased
-# Addon Provider: Team Jen
+# Addon Name: LOCK N LOAD
+# Addon id: plugin.video.lnl	
+# Addon Provider: BBB			
 msgid ""
 msgstr ""
-"Project-Id-Version: Jen\n"
+"Project-Id-Version: BBB\n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "PO-Revision-Date: 2017-11-04 18:56+0200\n"
 "Last-Translator: A. Dambledore\n"

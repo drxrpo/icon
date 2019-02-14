@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 
 """
-    Numbers By Numbers Add-on
-    Copyright (C) 2017 Numbers By Numbers
+    Numbers Add-on
+    Copyright (C) 2017 Numbers
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -23,5 +23,3 @@ import os.path
 
 files = os.listdir(os.path.dirname(__file__))
 __all__ = [filename[:-3] for filename in files if not filename.startswith('__') and filename.endswith('.py')]
-
-

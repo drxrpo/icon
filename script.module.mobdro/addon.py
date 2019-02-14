@@ -24,6 +24,7 @@ import xbmcplugin
 from xbmcgui import ListItem
 from routing import Plugin
 
+import sys
 import time
 import os
 import warnings
@@ -36,68 +37,111 @@ from datetime import timedelta
 from base64 import urlsafe_b64encode
 from binascii import a2b_hex
 from hashlib import md5
+
 try:
     from http.cookiejar import LWPCookieJar
 except ImportError:
     from cookielib import LWPCookieJar
 try:
-    from urllib.parse import quote as orig_quote
-    from urllib.parse import unquote as orig_unquote
+    from urllib.parse import quote_from_bytes as orig_quote
 except ImportError:
     from urllib import quote as orig_quote
-    from urllib import unquote as orig_unquote
 
 warnings.filterwarnings("ignore")
 
 addon = xbmcaddon.Addon()
 plugin = Plugin()
-plugin.name = addon.getAddonInfo('name')
+plugin.name = addon.getAddonInfo("name")
 
-USER_DATA_DIR = xbmc.translatePath(addon.getAddonInfo('profile')).decode('utf-8') # !!
+USER_DATA_DIR = xbmc.translatePath(addon.getAddonInfo("profile")).decode("utf-8")  # !!
 if not os.path.exists(USER_DATA_DIR):
     os.makedirs(USER_DATA_DIR)
 
-COOKIE_FILE = os.path.join(USER_DATA_DIR, 'lwp_cookies.dat')
-CACHE_FILE = os.path.join(USER_DATA_DIR, 'cache')
+COOKIE_FILE = os.path.join(USER_DATA_DIR, "lwp_cookies.dat")
+CACHE_FILE = os.path.join(USER_DATA_DIR, "cache")
 expire_after = timedelta(hours=2)
 
-user_agent = 'Mozilla/5.0 (Linux; Android 5.1.1; AFTT Build/LVY48F) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/57.0.2987.132 Mobile Safari/537.36'
-auth_url = a2b_hex('68747470733a2f2f6170692e6d6f6264726f2e73782f7574696c732f61757468').decode('utf-8')
-lb_url = a2b_hex('68747470733a2f2f6170692e6d6f6264726f2e73782f7574696c732f6c6f616462616c616e636572').decode('utf-8')
-list_url = a2b_hex('68747470733a2f2f6170692e6d6f6264726f2e73782f73747265616d626f742f76342f73686f77').decode('utf-8')
-app_signature = str(0x1e2f98cc)     # 0x84051b4a 0x3b72c95d 0x20b5d5bb
+user_agent = "Mozilla/5.0 (Linux; Android 5.1.1; AFTT Build/LVY48F) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3325.109 Mobile Safari/537.36"
+auth_url = a2b_hex("68747470733a2f2f6170692e6d6f6264726f2e746f2f7574696c732f61757468").decode("utf-8")
+lb_url = a2b_hex("68747470733a2f2f6170692e6d6f6264726f2e746f2f7574696c732f6c6f616462616c616e636572").decode("utf-8")
+list_url = a2b_hex("68747470733a2f2f6170692e6d6f6264726f2e746f2f73747265616d626f742f76342f73686f77").decode("utf-8")
+app_signature = str(0xd43b3efa)  # 0x17cab638a 0x7007c21c 0xceed20e0
 
-s = requests_cache.CachedSession(CACHE_FILE, allowable_methods='POST',
-                                 expire_after=expire_after, old_data_on_error=True,
-                                 ignored_parameters=['token'])
-s.headers.update({'User-Agent': user_agent})
+s = requests_cache.CachedSession(CACHE_FILE, allowable_methods="POST", expire_after=expire_after, old_data_on_error=True, ignored_parameters=["token"])
+s.hooks = {"response": lambda r, *args, **kwargs: r.raise_for_status()}
+s.headers.update({"User-Agent": user_agent})
 s.cookies = LWPCookieJar(filename=COOKIE_FILE)
 if os.path.isfile(COOKIE_FILE):
     s.cookies.load(ignore_discard=True, ignore_expires=True)
 
-auth_token_time = int(addon.getSetting('auth_token_time') or '0')
-auth_token = addon.getSetting('auth_token')
+auth_token_time = int(addon.getSetting("auth_token_time") or "0")
+auth_token = addon.getSetting("auth_token")
 
 current_time = int(time.time())
 if current_time - auth_token_time > 7200:
-    with s.cache_disabled():
-        r = s.post(auth_url, data={'signature': app_signature}, timeout=10)
+    try:
+        with s.cache_disabled():
+            r = s.post(auth_url, data={"signature": app_signature}, timeout=10)
 
-    if r.content.strip():
-        auth_token = r.json().get('token')
-        addon.setSetting('auth_token_time', str(current_time))
-        addon.setSetting('auth_token', auth_token)
-
-
-def quote(s, safe=''):
-    return orig_quote(s.encode('utf-8'), safe.encode('utf-8'))
-
-
-def unquote(s):
-    return orig_unquote(s).decode('utf-8') # !!
+        if r.content.strip():
+            auth_token = r.json().get("token")
+            addon.setSetting("auth_token_time", str(current_time))
+            addon.setSetting("auth_token", auth_token)
+    except Exception:
+        pass
 
 
-@plugin.route('/')
+def quote(s, safe=""):
+    return orig_quote(s.encode("utf-8"), safe.encode("utf-8"))
+
+
+def get_lb_media_url(relayer):
+    data = {"referer": a2b_hex("6d6f6264726f2e6d65").decode("utf-8"), "playpath": relayer.get("playpath", ""), "token": auth_token}
+    try:
+        with s.cache_disabled():
+            r = s.post(lb_url, data=data, timeout=10)
+        lb_info = r.json()
+    except Exception:
+        lb_info = {}
+
+    time_stamp = str(int(lb_info.get("epoch", time.time())) + int(relayer.get("expiration_time", "20400")))
+    to_hash = "{password}{time_stamp}/{dir}/{playpath}".format(time_stamp=time_stamp, **relayer).encode("utf-8")
+    out_hash = urlsafe_b64encode(md5(to_hash).digest()).rstrip(b"=").decode("utf-8")
+
+    headers = [
+        "Referer={0}".format(quote(lb_info.get("referer", a2b_hex("6d6f6264726f2e6d65").decode("utf-8")))),
+        "User-Agent={0}".format(quote(user_agent)),
+        "Cookie={0}".format(quote(lb_info.get("cookie", "token=null"))),
+        a2b_hex("582d5265717565737465642d576974683d322e312e3132253230467265656d69756d").decode("utf-8"),
+    ]
+
+    url = "{0}://{1}/{2}/{3}/{4}/{5}".format(
+        relayer.get("protocol", "http"),
+        lb_info.get("server", relayer.get("server")),
+        relayer.get("app", "live"),
+        out_hash,
+        time_stamp,
+        relayer.get("playpath").replace(relayer.get("replace"), ""),
+    )
+
+    return "{url}|{headers}".format(url=url, headers="&".join(headers))
+
+
+def get_lb_rtmfp_url(relayer):
+    data = {"referer": a2b_hex("6d6f6264726f2e6d65").decode("utf-8"), "playpath": relayer.get("playpath", ""), "token": auth_token}
+    try:
+        with s.cache_disabled():
+            r = s.post(lb_url, data=data, timeout=10)
+        lb_info = r.json()
+    except Exception:
+        lb_info = {}
+
+    return "rtmfp://{0}/{1} netgroup={2} fallbackUrl=rtmfp://{0}/{3}".format(
+        lb_info.get("server", relayer.get("server")), relayer.get("playpath"), relayer.get("netgroup"), relayer.get("fallbackUrl").replace(" ", "")
+    )
+
+
+@plugin.route("/")
 def root():
     categories = ["channels", "news", "shows", "movies", "sports", "music"]
     list_items = []
@@ -110,113 +154,112 @@ def root():
     xbmcplugin.endOfDirectory(plugin.handle)
 
 
-@plugin.route('/list_channels/<cat>')
+@plugin.route("/list_channels/<cat>")
 def list_channels(cat=None):
-    data = {'data': cat, 'parental': 'no', 'languages': 'all', 'alphabetical': 'no', 'token': auth_token}
+    data = {"data": cat, "parental": "no", "languages": "all", "alphabetical": "no", "token": auth_token}
     r = s.post(list_url, data=data, timeout=10)
 
+    list_ids = []
     list_items = []
     for ch in r.json():
-        if 'relayer' in ch:
-            channel = json.loads(ch.get('relayer'))
-            if not channel.get('protocol') == 'rtmfp':
-                image = "{0}|User-Agent={1}".format(ch.get('img'), quote(user_agent))
-                li = ListItem(ch.get('name'))
-                li.setProperty("IsPlayable", "true")
-                li.setInfo(type='Video', infoLabels={'Title': ch.get('name'), 'mediatype': 'video', 'PlayCount': 0})
-                li.setArt({'thumb': image, 'icon': image})
-                # kodi 16/17
-                try:
-                    li.setContentLookup(False)
-                except AttributeError:
-                    # kodi 14/15
-                    pass
-                url = plugin.url_for(play_id, cat=cat, _id=ch.get('_id'))
-                list_items.append((url, li, False))
+        if "relayer" in ch:
+            channel = json.loads(ch.get("relayer"))
+            image = "{0}|User-Agent={1}".format(ch.get("img"), quote(user_agent))
+            li = ListItem(ch.get("name"))
+            li.setProperty("IsPlayable", "true")
+            li.setInfo(type="Video", infoLabels={"Title": ch.get("name"), "mediatype": "video"})
+            li.setArt({"thumb": image, "icon": image})
+            # kodi 16/17
+            try:
+                li.setContentLookup(False)
+            except AttributeError:
+                # kodi 14/15
+                pass
+            url = plugin.url_for(play, cat=cat, _id=ch.get("_id"))
+            if channel.get("protocol") == "http":
+                if ch.get("_id") not in list_ids:
+                    list_items.append((url, li, False))
+                    list_ids.append(ch.get("_id"))
+            elif channel.get("protocol") == "rtmfp":
+                if addon.getSetting("rtmfp") == "true":
+                    if ch.get("_id") not in list_ids:
+                        list_items.append((url, li, False))
+                        list_ids.append(ch.get("_id"))
 
     xbmcplugin.addDirectoryItems(plugin.handle, list_items)
     xbmcplugin.endOfDirectory(plugin.handle)
 
 
-@plugin.route('/play_id/<cat>/<_id>')
-def play_id(cat, _id):
+@plugin.route("/play/<cat>/<_id>/play.pvr")
+def play(cat, _id):
     channel = None
-    data = {'data': cat, 'parental': 'no', 'languages': 'all', 'alphabetical': 'no', 'token': auth_token}
-
+    data = {"data": cat, "parental": "no", "languages": "all", "alphabetical": "no", "token": auth_token}
     r = s.post(list_url, data=data, timeout=10)
 
-    for ch in r.json():
-        if 'relayer' in ch:
-            if _id == ch.get('_id'):
-                channel = json.loads(ch.get('relayer'))
-                if not channel.get('protocol') == 'rtmfp':
-                    label = ch.get('name')
-                    image = "{0}|User-Agent={1}".format(ch.get('img'), quote(user_agent))
-                    break
+    stream_list = [stream for stream in r.json() if stream["_id"] == _id]
+    media_urls = {}
+    for stream in stream_list:
+        if "relayer" in stream:
+            relayer = json.loads(stream.get("relayer"))
+            label = stream.get("name")
+            image = "{0}|User-Agent={1}".format(stream.get("img"), quote(user_agent))
+            if relayer.get("protocol") == "http":
+                media_urls[relayer.get("playpath")] = relayer
+            elif relayer.get("protocol") == "rtmfp":
+                if addon.getSetting("rtmfp") == "true":
+                    media_urls[relayer.get("playpath")] = relayer
 
-    if channel:
-        data = {'referer': a2b_hex('6d6f6264726f2e6d65').decode('utf-8'), 'token': auth_token}
-        try:
-            with s.cache_disabled():
-                r = s.post(lb_url, data=data, timeout=10)
-            lb_info = r.json()
-        except Exception:
-            lb_info = {}
+    keys = media_urls.keys()
+    if len(keys) > 1:
+        dialog = xbmcgui.Dialog()
+        ret = dialog.select("Choose Stream", keys)
+        relayer = media_urls[keys[ret]]
+    else:
+        relayer = media_urls[keys[0]]
 
-        time_stamp = str(int(lb_info.get('epoch', time.time())) + int(channel.get('expiration_time', '20400')))
-        to_hash = '{password}{time_stamp}/{dir}/{playpath}'.format(time_stamp=time_stamp, **channel).encode('utf-8')
-        out_hash = urlsafe_b64encode(md5(to_hash).digest()).rstrip(b'=').decode('utf-8')
+    if relayer.get("protocol") == "http":
+        media_url = get_lb_media_url(relayer)
+    elif relayer.get("protocol") == "rtmfp":
+        media_url = get_lb_rtmfp_url(relayer)
 
-        headers = ['Referer={0}'.format(quote(lb_info.get('referer', a2b_hex('6d6f6264726f2e6d65').decode('utf-8')))),
-                   'User-Agent={0}'.format(quote(user_agent)),
-                   'Cookie={0}'.format(quote(lb_info.get('cookie', 'token=null'))),
-                   a2b_hex('582d5265717565737465642d576974683d322e302e3636253230467265656d69756d').decode('utf-8')]
+    if addon.getSetting("livestreamer") == "true" and relayer.get("protocol") == "http":
+        serverPath = os.path.join(xbmc.translatePath(addon.getAddonInfo("path")), "livestreamerXBMCLocalProxy.py")
+        runs = 0
+        while not runs > 10:
+            try:
+                requests.get("http://127.0.0.1:19001/version")
+                break
+            except Exception:
+                xbmc.executebuiltin("RunScript(" + serverPath + ")")
+                runs += 1
+                xbmc.sleep(600)
 
-        url = "{0}://{1}/{2}/{3}/{4}/{5}".format(channel.get('protocol', 'http'),
-                                                 lb_info.get('server', channel.get('server')),
-                                                 channel.get('app', 'live'),
-                                                 out_hash, time_stamp,
-                                                 channel.get('playpath').replace(channel.get('replace'), ''))
+        livestreamer_url = "http://127.0.0.1:19001/livestreamer/" + urlsafe_b64encode("hls://" + media_url)
+        li = ListItem(label, path=livestreamer_url)
+        li.setArt({"thumb": image, "icon": image})
+        li.setMimeType("video/x-mpegts")
+    else:
+        li = ListItem(label, path=media_url)
+        li.setArt({"thumb": image, "icon": image})
+        li.setMimeType("application/vnd.apple.mpegurl")
 
-        media_url = '{url}|{headers}'.format(url=url, headers='&'.join(headers))
-
-        if addon.getSetting('livestreamer') == 'true':
-            serverPath = os.path.join(xbmc.translatePath(addon.getAddonInfo('path')), 'livestreamerXBMCLocalProxy.py')
-            runs = 0
-            while not runs > 10:
-                try:
-                    requests.get('http://127.0.0.1:19001/version')
-                    break
-                except Exception:
-                    xbmc.executebuiltin('RunScript(' + serverPath + ')')
-                    runs += 1
-                    xbmc.sleep(600)
-
-            livestreamer_url = 'http://127.0.0.1:19001/livestreamer/' + urlsafe_b64encode('hls://' + media_url)
-            li = ListItem(label, path=livestreamer_url)
-            li.setArt({'thumb': image, 'icon': image})
-            li.setMimeType('video/x-mpegts')
-        else:
-            li = ListItem(label, path=media_url)
-            li.setArt({'thumb': image, 'icon': image})
-            li.setMimeType('application/vnd.apple.mpegurl')
-
-        # kodi 18
-        try:
-            li.setContentLookup(False)
-        except AttributeError:
-            # kodi 14/15
-            pass
-
-        xbmcplugin.setResolvedUrl(plugin.handle, True, li)
-
-
-if __name__ == '__main__':
+    # kodi 18
     try:
-        plugin.run()
+        li.setContentLookup(False)
+    except AttributeError:
+        # kodi 14/15
+        pass
+
+    xbmcplugin.setResolvedUrl(plugin.handle, True, li)
+
+
+if __name__ == "__main__":
+    try:
+        plugin.run(sys.argv)
         s.cookies.save(ignore_discard=True, ignore_expires=True)
         s.close()
-    except requests.exceptions.RequestException:
+    except requests.exceptions.RequestException as e:
         dialog = xbmcgui.Dialog()
-        dialog.notification(plugin.name, "Web Request Exception", xbmcgui.NOTIFICATION_ERROR)
+        dialog.notification(plugin.name, str(e), xbmcgui.NOTIFICATION_ERROR)
         traceback.print_exc()
+        xbmcplugin.endOfDirectory(plugin.handle, False)

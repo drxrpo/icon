@@ -4,8 +4,7 @@
 # Rel: 20180127
 import re
 
-from core import httptools, servertools
-from platformcode import logger
+from core import httptools, servertools, logger, scrapertools
 from servers.decrypters import expurl
 
 
@@ -20,7 +19,7 @@ def find_videos(text):
 
     patronvideos = [
         r'(https?://(gestyy|rapidteria|sprysphere)\.com/[a-zA-Z0-9]+)',
-        r'(https?://(vcrypt|linkup)\.[^/]+/[^/]+/[a-zA-Z0-9]+)'
+        r'(https?://(?:www\.)?(vcrypt|linkup)\.[^/]+/[^/]+/[a-zA-Z0-9_]+)'
     ]
 
     for patron in patronvideos:
@@ -32,6 +31,9 @@ def find_videos(text):
                 logger.info("  url=" + url)
                 encontrados.add(url)
 
+                import requests
+                headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; WOW64; rv:59.0) Gecko/20100101 Firefox/59.0'}
+
                 if host == 'gestyy':
                     resp = httptools.downloadpage(
                         url,
@@ -41,6 +43,42 @@ def find_videos(text):
                         replace_headers=True,
                         headers={'User-Agent': 'curl/7.59.0'})
                     data = resp.headers.get("location", "")
+                elif 'vcrypt.net' in url:
+                    # req = httptools.downloadpage(url)
+                    req = requests.get(url, headers=headers)
+                    idata = req.content
+                    patron = r"document.cookie\s=\s.*?'(.*)'"
+                    # matches = re.compile(patron, re.IGNORECASE).findall(idata)
+                    matches = re.finditer(patron, idata, re.MULTILINE)
+                    mcookie = {}
+                    for matchNum, match in enumerate(matches, start=1):
+                        for c in match.group(1).split("; "):
+                            c, v = c.split('=')
+                            mcookie[c] = v
+
+                    try:
+                        print mcookie
+                        patron = r';URL=([^\"]+)\">'
+                        dest = scrapertools.get_match(idata, patron)
+                        r = requests.post(dest, cookies=mcookie)
+                        url = r.url
+                    except:
+                        r = requests.get(req.url, headers=headers)
+                        if r.url == url:
+                            url = ""
+
+                    if "4snip" in url:
+                        desturl = url.replace("/out/", "/outlink/")
+                        import os
+                        par = os.path.basename(desturl)
+                        rdata = requests.post(desturl, data={'url': par})
+                        url = rdata.url
+
+                    if "wstream" in url:
+                        url = url.replace("/video/", "/")
+
+                    data = url
+
                 else:
                     data = ""
                     while host in url:

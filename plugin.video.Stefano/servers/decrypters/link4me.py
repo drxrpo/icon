@@ -3,8 +3,7 @@
 
 import urllib
 
-from core import httptools, scrapertools
-from platformcode import logger
+from core import httptools, scrapertools, logger
 
 
 def get_long_url(short_url, referer):

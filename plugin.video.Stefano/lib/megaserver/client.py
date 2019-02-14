@@ -8,7 +8,7 @@ from threading import Thread
 import json
 
 import lib.pyaes as aes
-from platformcode import logger
+from core import logger
 from file import File
 from handler import Handler
 from server import Server

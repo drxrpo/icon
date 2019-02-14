@@ -1,181 +1,104 @@
 # -*- coding: utf-8 -*-
-#------------------------------------------------------------
-# StreamOnDemand-PureITA / XBMC Plugin
-# CanalE  hdblog
-# http://www.mimediacenter.info/foro/viewtopic.php?f=36&t=7808
-#------------------------------------------------------------
+# ------------------------------------------------------------
+# TheGroov360 - XBMC Plugin
+# Canale hdblog
+# ------------------------------------------------------------
 
 import re
 import urlparse
 
-from core import config
 from core import httptools
-from core import logger
+from platformcode import logger
 from core import scrapertools
-from core import servertools
 from core.item import Item
-from core.tmdb import infoSod
 
 __channel__ = "hdblog"
-host = "https://www.hdblog.it"
-headers = [['Referer', host]]
 
+host = "https://www.hdblog.it"
 
 
 def mainlist(item):
-    logger.info("[streamondemand-pureita hdblog] mainlist")
+    logger.info("[thegroove360.hdblog] mainlist")
     itemlist = [Item(channel=__channel__,
-                     title="[COLOR azure]Recensioni[COLOR orange] - Novita'[/COLOR]",
+                     title="[COLOR azure]Video recensioni tecnologiche[/COLOR]",
                      action="peliculas",
-                     url="%s/video/" % host,
-                     thumbnail="https://raw.githubusercontent.com/orione7/Pelis_images/master/channels_icon_pureita/rev_P.png"),
+                     url=host + "/video/",
+                     thumbnail="https://raw.githubusercontent.com/stesev1/channels/master/images/channels_icon/devices.png"),
                 Item(channel=__channel__,
-                     title="[COLOR azure]Recensioni[COLOR orange] - Hardware[/COLOR]",
-                     action="peliculas",
-                     url="https://hardware.hdblog.it/video/",
-                     extra="movie",
-                     thumbnail="https://raw.githubusercontent.com/orione7/Pelis_images/master/channels_icon_pureita/pc_P.png"),
-                Item(channel=__channel__,
-                     title="[COLOR azure]Recensioni[COLOR orange] - Android[/COLOR]",
-                     action="peliculas",
-                     url="https://android.hdblog.it/video/",
-                     thumbnail="https://raw.githubusercontent.com/orione7/Pelis_images/master/channels_icon_pureita/android_P.png"),
-                Item(channel=__channel__,
-                     title="[COLOR azure]Recensioni[COLOR orange] - Windows[/COLOR]",
-                     action="peliculas",
-                     url="https://windows.hdblog.it/video/",
-                     thumbnail="https://raw.githubusercontent.com/orione7/Pelis_images/master/channels_icon_pureita/windows_P.png"),
-                Item(channel=__channel__,
-                     title="[COLOR azure]Recensioni[COLOR orange] - IOS[/COLOR]",
-                     action="peliculas",
-                     url="https://apple.hdblog.it/video/",
-                     thumbnail="https://raw.githubusercontent.com/orione7/Pelis_images/master/channels_icon_pureita/ios_P.png"),
-                Item(channel=__channel__,
-                     title="[COLOR azure]Recensioni[COLOR orange] - AltaDefinizione[/COLOR]",
-                     action="peliculas",
-                     url="https://altadefinizione.hdblog.it/video/",
-                     thumbnail="https://raw.githubusercontent.com/orione7/Pelis_images/master/channels_icon_pureita/vid_camera_P.png"),
-                Item(channel=__channel__,
-                     title="[COLOR azure]Recensioni[COLOR orange] - Games[/COLOR]",
-                     action="peliculas",
-                     url="https://games.hdblog.it/video/",
-                     thumbnail="https://raw.githubusercontent.com/orione7/Pelis_images/master/channels_icon_pureita/games1_P.png"),
-                Item(channel=__channel__,
-                     title="[COLOR azure]Cerca ...[/COLOR]",
-                     action="search",
-                     thumbnail="https://raw.githubusercontent.com/orione7/Pelis_images/master/channels_icon_pureita/search_P.png")]
-
-
+                     title="[COLOR azure]Categorie[/COLOR]",
+                     action="categorias",
+                     url=host + "/video/",
+                     thumbnail="https://raw.githubusercontent.com/stesev1/channels/master/images/channels_icon/category.png")]
 
     return itemlist
 
-# ==================================================================================================================================================
-	
-def search(item, texto):
-    logger.info("[streamondemand-pureita hdblog] " + item.url + " search " + texto)
 
-    item.url = "%s/?sName=recensione %s" % (host, texto)
-    try:
-        return peliculas_src(item)
-    # Se captura la excepción, para no interrumpir al buscador global si un canal falla
-    except:
-        import sys
-        for line in sys.exc_info():
-            logger.error("%s" % line)
-        return []	
-
-# ==================================================================================================================================================
-		
-def peliculas_src(item):
-    logger.info("[streamondemand-pureita hdblog] peliculas")
+def categorias(item):
+    logger.info("[thegroove360.hdblog] categorias")
     itemlist = []
 
-    # Descarga la pagina
-    data = httptools.downloadpage(item.url, headers=headers).data
+    data = httptools.downloadpage(item.url).data
+    logger.info(data)
 
-    # Extrae las entradas (carpetas)
-    patron = 'data-src="([^"]+)"[^>]+>\s*[^>]+></span>\s*'
-    patron += '</a>\s*<div class="title_.*?">\s*'
-    patron += '<a href="([^"]+)"[^>]+>\s*(.*?)\s*</a>' 
-    matches = re.compile(patron,re.DOTALL).findall(data)
+    # Narrow search by selecting only the combo
+    start = data.find('<section class="left_toolbar" style="float: left;width: 125px;margin-right: 18px;">')
+    end = data.find('</section>', start)
+    bloque = data[start:end]
+
+    # The categories are the options for the combo  
+    patron = '<a href="([^"]+)"[^>]+><span>(.*?)</span>'
+    matches = re.compile(patron, re.DOTALL).findall(bloque)
     scrapertools.printMatches(matches)
 
-    for scrapedthumbnail, scrapedurl, scrapedtitle in matches:
-        scrapedtitle = scrapertools.decodeHtmlentities(scrapedtitle)
-        if  "recensione-da-hdblog/" in scrapedurl or "recensione da HDblog" in scrapedtitle:
-         continue
+    for scrapedurl, scrapedtitle in matches:
+        scrapedthumbnail = ""
         scrapedplot = ""
         itemlist.append(
             Item(channel=__channel__,
-                 action="findvideos",
-                 fulltitle=scrapedtitle,
-                 show=scrapedtitle,
-                 title=scrapedtitle,
-                 url=scrapedurl,
-                 thumbnail=scrapedthumbnail,
-                 plot=scrapedplot,
-                 folder=True) )
-
-    # Extrae el paginador
-    patronvideos  = '<a style="[^"]+" href="([^"]+)" class="esteso">Prossima pagina</a>'
-    matches = re.compile(patronvideos,re.DOTALL).findall(data)
-    scrapertools.printMatches(matches)
-
-    if len(matches)>0:
-        scrapedurl = urlparse.urljoin(item.url,matches[0])
-        itemlist.append(
-            Item(channel=__channel__,
                  action="peliculas",
-                 title="[COLOR orange]Successivi >>[/COLOR]",
-                 url=scrapedurl,
-                 thumbnail="https://raw.githubusercontent.com/orione7/Pelis_images/master/channels_icon_pureita/next_1.png",
-                 folder=True))
+                 title="[COLOR azure]" + scrapedtitle + "[/COLOR]",
+                 url=scrapedurl + "video/",
+                 thumbnail=scrapedthumbnail,
+                 plot=scrapedplot))
 
     return itemlist
 
-# ==================================================================================================================================================
-	
+
 def peliculas(item):
-    logger.info("[streamondemand-pureita hdblog] peliculas")
+    logger.info("[thegroove360.hdblog] peliculas")
     itemlist = []
 
-    # Descarga la pagina
-    data = httptools.downloadpage(item.url, headers=headers).data
+    # Carica la pagina 
+    data = httptools.downloadpage(item.url).data
 
-    # Extrae las entradas (carpetas)
-    patron = '<img width=".*?" height=".*?" alt="" data-src="([^"]+)" src="[^>]+"/>\s*</a>\s*'
-    patron += '<a href="([^"]+)"\s*'
-    patron += 'class="title_link">\s*(.*?)\s*</' 
-    matches = re.compile(patron,re.DOTALL).findall(data)
+    # Estrae i contenuti 
+    patron = '<a class="thumb_new_image" href="([^"]+)">\s*<img[^s]+src="([^"]+)"[^>]+>\s*</a>\s*[^>]+>\s*(.*?)\s*<'
+    matches = re.compile(patron, re.DOTALL).findall(data)
     scrapertools.printMatches(matches)
 
-    for scrapedthumbnail, scrapedurl, scrapedtitle in matches:
+    for scrapedurl, scrapedthumbnail, scrapedtitle in matches:
         scrapedtitle = scrapertools.decodeHtmlentities(scrapedtitle)
         scrapedplot = ""
-        itemlist.append(
-            Item(channel=__channel__,
-                 action="findvideos",
-                 fulltitle=scrapedtitle,
-                 show=scrapedtitle,
-                 title=scrapedtitle,
-                 url=scrapedurl,
-                 thumbnail=scrapedthumbnail,
-                 plot=scrapedplot,
-                 folder=True) )
+        itemlist.append(Item(channel=__channel__, action="findvideos", fulltitle=scrapedtitle, show=scrapedtitle,
+                             title=scrapedtitle, url=scrapedurl, thumbnail=scrapedthumbnail, plot=scrapedplot,
+                             folder=True))
 
-    # Extrae el paginador
-    patronvideos  = '<a style="[^"]+" href="([^"]+)" class="esteso">Prossima pagina</a>'
-    matches = re.compile(patronvideos,re.DOTALL).findall(data)
+    # Paginazione 
+    patronvideos = '<span class="attiva">[^>]+>[^=]+="next" href="(.*?)" class="inattiva">'
+    matches = re.compile(patronvideos, re.DOTALL).findall(data)
     scrapertools.printMatches(matches)
 
-    if len(matches)>0:
-        scrapedurl = urlparse.urljoin(item.url,matches[0])
+    if len(matches) > 0:
+        scrapedurl = urlparse.urljoin(item.url, matches[0])
         itemlist.append(
-            Item(channel=__channel__,
-                 action="peliculas",
-                 title="[COLOR orange]Successivi >>[/COLOR]",
-                 url=scrapedurl,
-                 thumbnail="https://raw.githubusercontent.com/orione7/Pelis_images/master/channels_icon_pureita/next_1.png",
+            Item(channel=__channel__, action="HomePage", title="[COLOR yellow]Torna Home[/COLOR]", folder=True))
+        itemlist.append(
+            Item(channel=__channel__, action="peliculas", title="[COLOR orange]Avanti >>[/COLOR]", url=scrapedurl,
                  folder=True))
 
     return itemlist
+
+
+def HomePage(item):
+    import xbmc
+    xbmc.executebuiltin("ReplaceWindow(10024,plugin://plugin.video.Stefano)")

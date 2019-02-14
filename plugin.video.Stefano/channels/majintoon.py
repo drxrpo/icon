@@ -1,8 +1,7 @@
 # -*- coding: utf-8 -*-
 # ------------------------------------------------------------
-# streamondemand-pureita / XBMC Plugin
+# TheGroove360 / XBMC Plugin
 # Canal majintoon
-# http://www.mimediacenter.info/foro/viewtopic.php?f=36&t=7808
 # ------------------------------------------------------------
 
 import re
@@ -22,61 +21,66 @@ headers = [['Referer', host]]
 
 
 def mainlist(item):
-    logger.info("streamondemand-pureita majintoon mainlist")
+    logger.info("[thegroove360.majintoon] mainlist")
     itemlist = [Item(channel=__channel__,
                      title="[COLOR azure]Video [COLOR orange]- Aggiornati[/COLOR]",
                      action="peliculas_new",
                      url=host,
-                     thumbnail="https://raw.githubusercontent.com/orione7/Pelis_images/master/channels_icon_pureita/popcorn_new.png"),
+                     thumbnail="https://raw.githubusercontent.com/stesev1/channels/master/images/channels_icon/popcorn_new.png"),
                 Item(channel=__channel__,
                      title="[COLOR azure]Anime [COLOR orange]- Popolari[/COLOR]",
                      action="peliculas_popular",
                      url=host,
-                     thumbnail="https://raw.githubusercontent.com/orione7/Pelis_images/master/channels_icon_pureita/anime_P.png"),
+                     thumbnail="https://raw.githubusercontent.com/stesev1/channels/master/images/channels_icon/anime_P.png"),
                 Item(channel=__channel__,
                      title="[COLOR azure]Anime [COLOR orange]- Lista[/COLOR]",
                      action="lista_animation",
                      url=host + "/lista-anime-2/",
-                     thumbnail="https://raw.githubusercontent.com/orione7/Pelis_images/master/channels_icon_pureita/anime_lista_P.png"),               
+                     thumbnail="https://raw.githubusercontent.com/stesev1/channels/master/images/channels_icon/anime_lista_P.png"),               
                 Item(channel=__channel__,
                      title="[COLOR azure]Anime [COLOR orange]- Sub-ITA[/COLOR]",
                      action="lista_animation",
                      url=host + "/lista-anime-sub-ita/",
-                     thumbnail="https://raw.githubusercontent.com/orione7/Pelis_images/master/channels_icon_pureita/anime_sub_P.png"),
+                     thumbnail="https://raw.githubusercontent.com/stesev1/channels/master/images/channels_icon/anime_sub_P.png"),
                 #Item(channel=__channel__,
                      #title="[COLOR azure]Animazione [COLOR orange]- Bambini[/COLOR]",
                      #action="lista_animation",
                      #url=host + "/category/per-tutti/",
                      #extra="tv",
-                     #thumbnail="https://raw.githubusercontent.com/orione7/Pelis_images/master/channels_icon_pureita/animation_P.png"),
+                     #thumbnail="https://raw.githubusercontent.com/stesev1/channels/master/images/channels_icon/animation_P.png"),
 	            #Item(channel=__channel__,
                      #action="categorie",
                      #title="[COLOR azure]Anime & Serie TV [COLOR orange]- Cetegorie[/COLOR]",
                      #url=host,
-                     #thumbnail="https://raw.githubusercontent.com/orione7/Pelis_images/master/channels_icon_pureita/anime_genre_P.png"),              
+                     #thumbnail="https://raw.githubusercontent.com/stesev1/channels/master/images/channels_icon/anime_genre_P.png"),              
                 #Item(channel=__channel__,
                      #title="[COLOR azure]Anime [COLOR orange]- Film Animation[/COLOR]",
                      #action="lista_animation",
                      #extra="movie",
                      #url="%s/lista-film-animazione/" % host,
-                     #thumbnail="https://raw.githubusercontent.com/orione7/Pelis_images/master/channels_icon_pureita/animated_movie_P.png"),
+                     #thumbnail="https://raw.githubusercontent.com/stesev1/channels/master/images/channels_icon/animated_movie_P.png"),
                 Item(channel=__channel__,
                      title="[COLOR azure]Serie TV[/COLOR]",
                      action="lista_animation",
                      url=host + "/lista-serie-tv/",
-                     thumbnail="https://raw.githubusercontent.com/orione7/Pelis_images/master/channels_icon_pureita/tv_series_P.png"),
+                     thumbnail="https://raw.githubusercontent.com/stesev1/channels/master/images/channels_icon/tv_series_P.png"),
                 Item(channel=__channel__,
-                     title="[COLOR yellow]Cerca ...[/COLOR]",
+                     title="[COLOR yellow]Cerca Film...[/COLOR]",
                      action="search",
-                     extra="anime",
-                     thumbnail="https://raw.githubusercontent.com/orione7/Pelis_images/master/channels_icon_pureita/search_P.png")]
+                     extra="movie",
+                     thumbnail="https://raw.githubusercontent.com/stesev1/channels/master/images/channels_icon/search_P.png"),
+                Item(channel=__channel__,
+                     title="[COLOR yellow]Cerca Serie TV...[/COLOR]",
+                     action="search",
+                     extra="serie",
+                     thumbnail="https://raw.githubusercontent.com/stesev1/channels/master/images/channels_icon/search_P.png")]
 
     return itemlist
 
 # ===================================================================================================================================================
 
 def search(item, texto):
-    logger.info("streamondemand-pureita majintoon " + item.url + " search " + texto)
+    logger.info("[thegroove360.majintoon] " + item.url + " search " + texto)
     item.url = host + "/?s=" + texto
     try:
         return peliculas_src(item)
@@ -90,7 +94,7 @@ def search(item, texto):
 # ===================================================================================================================================================
 
 def categorie(item):
-    logger.info("streamondemand-pureita majintoon categorie")
+    logger.info("[thegroove360.majintoon] categorie")
     itemlist = []
 
     data = httptools.downloadpage(item.url, headers=headers).data
@@ -114,7 +118,7 @@ def categorie(item):
 # ===================================================================================================================================================
 
 def peliculas_popular(item):
-    logger.info("streamondemand-pureita majintoon categorie")
+    logger.info("[thegroove360.majintoon] categorie")
     itemlist = []
 
     data = httptools.downloadpage(item.url, headers=headers).data
@@ -146,7 +150,7 @@ def peliculas_popular(item):
 # ===================================================================================================================================================
 
 def peliculas_src(item):
-    logger.info("streamondemand-pureita majintoon lista_animation")
+    logger.info("[thegroove360.majintoon] lista_animation")
     itemlist = []
     minpage = 14
 	
@@ -189,7 +193,7 @@ def peliculas_src(item):
                  action="peliculas_src",
                  title="[COLOR orange]Successivi >>[/COLOR]",
                  url=scrapedurl,
-                 thumbnail="https://raw.githubusercontent.com/orione7/Pelis_images/master/channels_icon_pureita/next_1.png",
+                 thumbnail="https://raw.githubusercontent.com/stesev1/channels/master/images/channels_icon/next_1.png",
                  folder=True))
 
     return itemlist
@@ -197,7 +201,7 @@ def peliculas_src(item):
 # ===================================================================================================================================================
 
 def peliculas_new(item):
-    logger.info("streamondemand-pureita majintoon lista_animation")
+    logger.info("[thegroove360.majintoon] lista_animation")
     itemlist = []
     minpage = 14
 	
@@ -240,7 +244,7 @@ def peliculas_new(item):
                  action="peliculas_new",
                  title="[COLOR orange]Successivi >>[/COLOR]",
                  url=scrapedurl,
-                 thumbnail="https://raw.githubusercontent.com/orione7/Pelis_images/master/channels_icon_pureita/next_1.png",
+                 thumbnail="https://raw.githubusercontent.com/stesev1/channels/master/images/channels_icon/next_1.png",
                  folder=True))
 
     return itemlist
@@ -248,7 +252,7 @@ def peliculas_new(item):
 # ===================================================================================================================================================
 
 def lista_animation(item):
-    logger.info("streamondemand-pureita majintoon lista_animation")
+    logger.info("[thegroove360.majintoon] lista_animation")
     itemlist = []
     minpage = 14
 	
@@ -290,7 +294,7 @@ def lista_animation(item):
                  action="lista_animation",
                  title="[COLOR orange]Successivi >>[/COLOR]",
                  url=scrapedurl,
-                 thumbnail="https://raw.githubusercontent.com/orione7/Pelis_images/master/channels_icon_pureita/next_1.png",
+                 thumbnail="https://raw.githubusercontent.com/stesev1/channels/master/images/channels_icon/next_1.png",
                  folder=True))
 
     return itemlist
@@ -298,7 +302,7 @@ def lista_animation(item):
 # ===================================================================================================================================================
 
 def peliculas_server(item):
-    logger.info("streamondemand-pureita majintoon peliculas_server")
+    logger.info("[thegroove360.majintoon] peliculas_server")
     itemlist = []
 
     data = httptools.downloadpage(item.url, headers=headers).data
@@ -329,7 +333,7 @@ def peliculas_server(item):
 # ===================================================================================================================================================
 
 def episodes(item):
-    logger.info("streamondemand-pureita majintoon episodes")
+    logger.info("[thegroove360.majintoon] episodes")
     itemlist = []
 	
     data = httptools.downloadpage(item.url, headers=headers).data
@@ -381,7 +385,7 @@ def episodes(item):
 # ===================================================================================================================================================
 
 def findvideos(item):
-    logger.info("streamondemand-pureita majintoon findvideos")
+    logger.info("[thegroove360.majintoon] findvideos")
     itemlist = servertools.find_video_items(data=item.url)
     
     for videoitem in itemlist:
@@ -394,8 +398,3 @@ def findvideos(item):
         videoitem.show = item.show
 
     return itemlist
-
-
-
-
-

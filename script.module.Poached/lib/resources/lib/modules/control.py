@@ -1,7 +1,6 @@
-# -*- coding: utf-8 -*-
-
-"""
-    Poached Add-on
+# -*- coding: UTF-8 -*-
+'''
+    Eggman Add-on
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -12,10 +11,9 @@
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
     GNU General Public License for more details.
-
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
-"""
+'''
 
 
 import os
@@ -132,6 +130,10 @@ key = "RgUkXp2s5v8x/A?D(G+KbPeShVmYq3t6"
 
 iv = "p2s5v8y/B?E(H+Mb"
 
+def autoTraktSubscription(tvshowtitle, year, imdb, tvdb):
+    from . import libtools
+    libtools.libtvshows().add(tvshowtitle, year, imdb, tvdb)
+
 def addonIcon():
     theme = appearance() ; art = artPath()
     if not (art == None and theme in ['-', '']): return os.path.join(art, 'icon.png')
@@ -221,13 +223,6 @@ def yesnoDialog(line1, line2, line3, heading=addonInfo('name'), nolabel='', yesl
 def selectDialog(list, heading=addonInfo('name')):
     return dialog.select(heading, list)
 
-
-def moderator():
-    netloc = [urlparse.urlparse(sys.argv[0]).netloc, '', 'plugin.video.live.streamspro', 'plugin.video.phstreams', 'plugin.video.cpstreams', 'plugin.video.tinklepad', 'script.tvguide.fullscreen', 'script.tvguide.assassins', 'plugin.video.metalliq', 'script.extendedinfo', 'plugin.program.super.favourites']
-
-    if not infoLabel('Container.PluginName') in netloc: sys.exit()
-
-
 def metaFile():
     if condVisibility('System.HasAddon(script.Poached.metadata)'):
         return os.path.join(xbmcaddon.Addon('script.Poached.metadata').getAddonInfo('path'), 'resources', 'data', 'meta.db')
@@ -306,7 +301,6 @@ def getCurrentViewId():
     win = xbmcgui.Window(xbmcgui.getCurrentWindowId())
     return str(win.getFocusId())
 
-
 def refresh():
     return execute('Container.Refresh')
 
@@ -319,3 +313,4 @@ def idle():
 
 def queueItem():
     return execute('Action(Queue)')
+

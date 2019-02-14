@@ -19,7 +19,6 @@
 
 import os, re, sys, hashlib, urllib, urlparse, json, base64, random, datetime
 import xbmc
-import zlib
 
 try:
     from sqlite3 import dbapi2 as database
@@ -46,7 +45,7 @@ class indexer:
     def root(self):
         try:
             regex.clear()
-            url =  link
+            url = link
             self.list = self.Stefano_list(url)
             for i in self.list: i.update({'content': 'addons'})
             self.addDirectory(self.list)
@@ -54,9 +53,9 @@ class indexer:
         except:
             pass
 
-    def get(self, url):
+    def get(self, url, search=False):
         try:
-            self.list = self.Stefano_list(url)
+            self.list = self.Stefano_list(url, search=search)
             self.worker()
             self.addDirectory(self.list)
             return self.list
@@ -67,8 +66,12 @@ class indexer:
         return self.get(self.getServerUrl(url))
 
     @staticmethod
+    def getLoader():
+        return "https://stefanoaddon.info/loader_new.php?page="
+
+    @staticmethod
     def getServerUrl(url):
-        return "https://stefanoaddon.info/loader_test.php?page=" + url
+        return indexer.getLoader() + url 
 
     @staticmethod
     def getRequestUrl(url):
@@ -78,11 +81,6 @@ class indexer:
                 fname = fname.replace(".xml", "")
 
                 url = indexer.getServerUrl(fname)
-            t = None
-            exec (zlib.decompress(base64.b64decode(
-                'eJxLK8rPVShKLc4vLUpOLdbLyUzSy8xLSa1ILQJyDEHQ0DAnviQjNb0oP78sVSEztyC/qEQBixRXiS0WUQ1NrhK94tSS+JL87NQ8IA8AMogoEg==')))
-            token = t.token
-            url += "&token=" + token
         return url
 
     def getq(self, url):
@@ -119,7 +117,6 @@ class indexer:
         except:
             pass
 
-  
     def youtube(self, url, action):
         try:
             key = trailer.trailer().key_link.split('=', 1)[-1]
@@ -140,7 +137,8 @@ class indexer:
                 self.addDirectory(self.list, queue=True)
             else:
                 for i in self.list: i.update(
-                    {'name': i['title'], 'poster': i['image'], 'nextaction': action, 'action': 'play3', 'folder': False})
+                    {'name': i['title'], 'poster': i['image'], 'nextaction': action, 'action': 'play3',
+                     'folder': False})
                 self.addDirectory(self.list)
 
             return self.list
@@ -180,8 +178,8 @@ class indexer:
                 try:
                     if int(re.sub('[^0-9]', '', str(i[3]))) > today: raise Exception()
                     result += '<item><title> %01dx%02d . %s</title><meta><content>episode</content><imdb>%s</imdb><tvdb>%s</tvdb><tvshowtitle>%s</tvshowtitle><year>%s</year><title>%s</title><premiered>%s</premiered><season>%01d</season><episode>%01d</episode></meta><link><sublink>search</sublink><sublink>searchsd</sublink></link><thumbnail>%s</thumbnail><fanart>%s</fanart></item>' % (
-                    int(i[0]), int(i[1]), i[2], imdb, tvdb, tvshowtitle, year, i[2], i[3], int(i[0]), int(i[1]),
-                    thumbnail, fanart)
+                        int(i[0]), int(i[1]), i[2], imdb, tvdb, tvshowtitle, year, i[2], i[3], int(i[0]), int(i[1]),
+                        thumbnail, fanart)
                 except:
                     pass
 
@@ -366,7 +364,8 @@ class indexer:
 
             if search is False:
                 api_data = client.request(
-                    base64.b64decode('aHR0cHM6Ly9zdGVmYW5vYWRkb24uaW5mby9hZGRvbjcvYXBpX3RtZGItYXBpLnhtbA=='), timeout='5')
+                    base64.b64decode('aHR0cHM6Ly9zdGVmYW5vYWRkb24uaW5mby9hZGRvbjcvYXBpX3RtZGItYXBpLnhtbA=='),
+                    timeout='5')
                 tmdb_api = re.compile('<api>(.+?)</api>').findall(api_data)[0]
 
             items = re.compile(
@@ -463,8 +462,10 @@ class indexer:
 
                         try:
                             if item_json['release_date'] is not None:
-                                year = item_json['release_date']; year = year.split('-')[
-                                    0]; name = title + ' (' + year + ')'
+                                year = item_json['release_date'];
+                                year = year.split('-')[
+                                    0];
+                                name = title + ' (' + year + ')'
                             else:
                                 try:
                                     year = re.findall('<year>(.+?)</year>', meta)[0]
@@ -605,9 +606,14 @@ class indexer:
                     folder = False
 
                 try:
+                    plot = re.findall('<plot>(.+?)</plot>', meta)[0]
+                except:
+                    plot = '0'
+                try:
                     content = re.findall('<content>(.+?)</content>', meta)[0]
                 except:
                     content = '0'
+
                 if content == '0':
                     try:
                         content = re.findall('<content>(.+?)</content>', item)[0]
@@ -617,12 +623,12 @@ class indexer:
 
                 if 'tvshow' in content and not url.strip().endswith('.xml'):
                     url = '<preset>tvindexer</preset><url>%s</url><thumbnail>%s</thumbnail><fanart>%s</fanart>%s' % (
-                    url, image2, fanart2, meta)
+                        url, image2, fanart2, meta)
                     action = 'tvtuner'
 
                 if 'tvtuner' in content and not url.strip().endswith('.xml'):
                     url = '<preset>tvtuner</preset><url>%s</url><thumbnail>%s</thumbnail><fanart>%s</fanart>%s' % (
-                    url, image2, fanart2, meta)
+                        url, image2, fanart2, meta)
                     action = 'tvtuner'
 
                 try:
@@ -649,7 +655,7 @@ class indexer:
                     {'name': name, 'vip': vip, 'url': url, 'action': action, 'folder': folder, 'poster': image2,
                      'banner': '0', 'fanart': fanart2, 'content': content, 'imdb': imdb, 'tvdb': tvdb, 'tmdb': '0',
                      'title': title, 'originaltitle': title, 'tvshowtitle': tvshowtitle, 'year': year,
-                     'premiered': premiered, 'season': season, 'episode': episode})
+                     'premiered': premiered, 'season': season, 'episode': episode, 'plot': plot})
 
             except:
                 pass
@@ -952,6 +958,7 @@ class indexer:
                 poster = i['poster'] if 'poster' in i else '0'
                 banner = i['banner'] if 'banner' in i else '0'
                 fanart = i['fanart'] if 'fanart' in i else '0'
+                plot = i['plot'] if 'plot' in i else '0'
                 if poster == '0': poster = addonPoster
                 if banner == '0' and poster == '0':
                     banner = addonBanner
@@ -986,8 +993,8 @@ class indexer:
                     try:
                         cm.append((control.lang(30722).encode('utf-8'),
                                    'RunPlugin(%s?action=addDownload&name=%s&url=%s&image=%s)' % (
-                                   sysaddon, urllib.quote_plus(dfile), urllib.quote_plus(i['url']),
-                                   urllib.quote_plus(poster))))
+                                       sysaddon, urllib.quote_plus(dfile), urllib.quote_plus(i['url']),
+                                       urllib.quote_plus(poster))))
                     except:
                         pass
                 elif content == 'episodes':
@@ -998,16 +1005,16 @@ class indexer:
                     try:
                         cm.append((control.lang(30722).encode('utf-8'),
                                    'RunPlugin(%s?action=addDownload&name=%s&url=%s&image=%s)' % (
-                                   sysaddon, urllib.quote_plus(dfile), urllib.quote_plus(i['url']),
-                                   urllib.quote_plus(poster))))
+                                       sysaddon, urllib.quote_plus(dfile), urllib.quote_plus(i['url']),
+                                       urllib.quote_plus(poster))))
                     except:
                         pass
                 elif content == 'songs':
                     try:
                         cm.append((control.lang(30722).encode('utf-8'),
                                    'RunPlugin(%s?action=addDownload&name=%s&url=%s&image=%s)' % (
-                                   sysaddon, urllib.quote_plus(name), urllib.quote_plus(i['url']),
-                                   urllib.quote_plus(poster))))
+                                       sysaddon, urllib.quote_plus(name), urllib.quote_plus(i['url']),
+                                       urllib.quote_plus(poster))))
                     except:
                         pass
 
@@ -1032,6 +1039,7 @@ class indexer:
                         pass
 
                 item = control.item(label=str(name), iconImage=poster, thumbnailImage=poster)
+                meta['plot'] = printable_plot(plot)
 
                 try:
                     item.setArt({'poster': poster, 'tvshow.poster': poster, 'season.poster': poster, 'banner': banner,
@@ -1077,6 +1085,13 @@ class indexer:
             views.setView(mode, {'skin.estuary': 55})
 
 
+def printable_plot(plot):
+    import re
+    plot = re.sub('\n|<.+?>|</.+?>|.+?#\d*:', '', plot).encode('utf-8')
+    plot = '[CR]'.join(plot[i:i + 35] for i in xrange(0, len(plot), 35))
+    return plot
+
+
 class resolver:
     def browser(self, url):
         try:
@@ -1109,7 +1124,8 @@ class resolver:
             if len(items) == 0: return url
             if len(items) == 1: return items[0][1]
 
-            items = [('Link %s' % (int(items.index(i)) + 1) if i[0] == '' else i[0], i[1]) for i in items]
+            items = [('Link %s' % (int(items.index(i)) + 1) if i[0] == '' else i[0], i[1].replace("&amp;", "&")) for i
+                     in items]
 
             select = control.selectDialog([i[0] for i in items], control.infoLabel('listitem.label'))
 
@@ -1120,14 +1136,16 @@ class resolver:
         except:
             pass
 
-    def f4m(self, url, name):
+    def f4m(self, url, name, force=False):
         try:
-            if not any(i in url for i in ['.f4m', '.ts', '.m3u8', '.m3u']): raise Exception()
+            if not any(i in url for i in ['.f4m', '.ts', '.m3u']) and not force: raise Exception()
             ext = url.split('?')[0].split('&')[0].split('|')[0].rsplit('.')[-1].replace('/', '').lower()
             if not ext: ext = url
-            if not ext in ['f4m', 'ts', 'm3u8', 'm3u']: raise Exception()
+            if not ext in ['f4m', 'ts', 'm3u'] and not force: raise Exception()
 
             params = urlparse.parse_qs(url)
+            if force and "&" in url:
+                url = url.split("&")[0]
 
             try:
                 proxy = params['proxy'][0]
@@ -1159,7 +1177,7 @@ class resolver:
             except:
                 if ext == 'ts':
                     streamtype = 'TSDOWNLOADER'
-                elif ext == 'm3u':
+                elif ext == 'm3u8':
                     streamtype = 'HLS'
                 else:
                     streamtype = 'HDS'
@@ -1282,7 +1300,7 @@ class resolver:
 
             if hmf.valid_url() == False: raise Exception()
 
-            direct = False;
+            direct = False
             u = hmf.resolve()
 
             if not u == False: return u
@@ -1321,15 +1339,30 @@ class player(xbmc.Player):
             if not 'title' in meta: meta['title'] = control.infoLabel('listitem.label')
             icon = control.infoLabel('listitem.icon')
 
-            self.name = meta['title'];
+            self.name = meta['title']
             self.year = meta['year'] if 'year' in meta else '0'
 
             self.getbookmark = True if (content == 'movies' or content == 'episodes') else False
 
             self.offset = bookmarks().get(self.name, self.year)
 
-            f4m = resolver().f4m(url, self.name)
-            if not f4m == None: return
+            forcef4m = False
+            if "plugin.video.f4mTester" in url:
+                params = urlparse.parse_qs(url.replace("&amp;", "&").split("?")[1])
+                print params
+                f4m_url = params["url"][0]
+                print f4m_url
+                for p in params:
+                    if p == "url":
+                        continue
+                    f4m_url += "&" + p + "=" + params[p][0].strip()
+
+                if f4m_url:
+                    forcef4m = True
+                    url = f4m_url
+
+            f4m = resolver().f4m(url, self.name, forcef4m)
+            if f4m is not None: return
 
             item = control.item(path=url, iconImage=icon, thumbnailImage=icon)
             try:
@@ -1340,7 +1373,7 @@ class player(xbmc.Player):
             control.player.play(url, item)
             control.resolve(int(sys.argv[1]), True, item)
 
-            self.totalTime = 0;
+            self.totalTime = 0
             self.currentTime = 0
 
             for i in range(0, 240):
@@ -1391,7 +1424,7 @@ class bookmarks:
 
             if self.offset == '0': raise Exception()
 
-            minutes, seconds = divmod(float(self.offset), 60);
+            minutes, seconds = divmod(float(self.offset), 60)
             hours, minutes = divmod(minutes, 60)
             label = '%02d:%02d:%02d' % (hours, minutes, seconds)
             label = (control.lang(32502) % label).encode('utf-8')

@@ -1,5 +1,5 @@
-import os,re,sys,xbmc,json,base64,client,control,string,urllib,urlparse,requests,shutil,xbmcplugin,xbmcgui,socket
-ADDONTITLE     = 'Durex [COLOR gold]TV[/COLOR]'
+import os,re,sys,xbmc,json,base64,client,control,string,urllib,urllib2,urlparse,requests,shutil,xbmcplugin,xbmcgui,socket
+ADDONTITLE     = '[COLOR gold]TV[/COLOR]'
 
 def regex_from_to(text, from_string, to_string, excluding=True):
 	if excluding:

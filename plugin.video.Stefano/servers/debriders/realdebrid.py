@@ -3,8 +3,8 @@
 import urllib
 
 import xbmc
-from core import config, jsontools, scrapertools
-from platformcode import logger, platformtools
+from core import config, jsontools, scrapertools, logger
+from platformcode import platformtools
 
 headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; WOW64; rv:47.0) Gecko/20100101 Firefox/47.0'}
 

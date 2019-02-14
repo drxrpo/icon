@@ -102,7 +102,9 @@ class SafeString(str):
         return self
 
 def OPEN_URL(url):
-    addDir('[COLOR turquoise][B]LINKS TAKE UP TO 10 SECONDS TO PLAY...WAIT[/B][/COLOR]',url,0,iconimage,fanart,'','','',None,'source')
+    addDir('[COLOR turquoise][B]LOADING TAKES UP TO 20 SECS...PLZ WAIT[/B][/COLOR]',url,0,iconimage,fanart,'','','',None,'source')
+    addDir('[COLOR yellow][B]OPENLOAD PAIRING MIGHT BE NEEDED[/B][/COLOR]',url,0,iconimage,fanart,'','','',None,'source')
+    addDir('[COLOR grey][B]>=================================<[/B][/COLOR]',url,0,iconimage,fanart,'','','',None,'source')
     req = urllib2.Request(url)
     req.add_header('User-Agent', 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-GB; rv:1.9.0.3) Gecko/2008092417 Firefox/3.0.3')
     response = urllib2.urlopen(req)
@@ -111,25 +113,46 @@ def OPEN_URL(url):
     return link
         
 def scrape():
-    html = OPEN_URL('http://www.goalsarena.org/en/')
-    r='<a title="(.+?)".+?href="(.+?)">'
+    html = OPEN_URL('https://hdmatches.com/')
+    r='<div class="td-module-thumb"><a href="(.+?)".+?title="(.+?)">'
     match = re.compile ( r , re.DOTALL).findall (html)
-    for name,url in match:
-        addDir1('[B][COLOR white]%s[/COLOR][/B]'%name,url,34,'https://i.imgur.com/koR9cKd.jpg' ,FANART,'')
+    for url,name in match:
+        name=name.replace('&#038;','-').replace('Full Match','').replace('&#8211;','-')
+        addDir1('[B][COLOR white]%s[/COLOR][/B]'%name,'http:'+url,34,'https://i.imgur.com/koR9cKd.jpg',FANART,'')
 
 def HIGHLIGHTS_LINKS(name,url):
-    GETLINKS(name,url)
-
-def GETLINKS(name,url):
     xbmc.log('GETLINKS: %s'%url)
     links=OPEN_URL(url)
-    links= links.split("class='shadow-r'>")
+    links= links.split("<div class='td-post-content'>")
     xbmc.log('LINK LEN: %s'%len(links))
     for link in links:
-        r = '<iframe src="(.+?)"'
+        r = '<iframe .+? src="(.+?)"'
         match = re.compile(r,re.DOTALL).findall(link)
-    for url in match:
-        addDir1(name,url,36,'','','' )
+        for url in match:
+            if 'youtube'in url:
+                pass
+            elif 'googletagmanager' in url:
+                pass
+            else:
+                CHECKLINKS(name,url,'https://i.imgur.com/koR9cKd.jpg')
+
+def PLAYLINKS(name,url,iconimage):
+        ok=True
+        liz=xbmcgui.ListItem(name, iconImage=iconimage,thumbnailImage=iconimage); liz.setInfo( type="Video", infoLabels={ "Title": name } )
+        ok=xbmcplugin.addDirectoryItem(handle=int(sys.argv[1]),url=url,listitem=liz)
+        liz.setPath(url)
+        xbmcplugin.setResolvedUrl(int(sys.argv[1]), True, liz)
+
+def CHECKLINKS(name,url,iconimage):
+        if urlresolver.HostedMediaFile(url).valid_url():
+            url = urlresolver.HostedMediaFile(url).resolve()     
+            PLAYLINKS(name,url,iconimage)
+        elif liveresolver.isValid(url)==True:
+            url=liveresolver.resolve(url)
+            PLAYLINKS(name,url,iconimage)
+        else:
+            PLAYLINKS(name,url,iconimage)
+       
 
 def PLAYSTREAM(name,url,iconimage):
         link=urlresolver.resolve(str(url))
@@ -138,10 +161,10 @@ def PLAYSTREAM(name,url,iconimage):
             quit()
         else:
             return
-      
+    
 def resolve(name,url):
     if 'm3u8' in url or 'mp4' in url:
-        xbmc.Player().play(url, xbmcgui.ListItem(name))
+        xbmc.Player().play(url,xbmcgui.ListItem(name))
     
 def play1(name,url):
     import urlresolver
@@ -191,168 +214,6 @@ def get(url):
         swiftstreamschans(url)
     elif url == 'uktvnow':
         Main()
-
-#############
-#UKTVNOW
-#############
-def Main():
-    addDir2('[COLOR turquoise][B]All Channels[/B][/COLOR]','0',61,artpath+'all.PNG',fanart)
-    addDir2('[COLOR turquoise][B]Entertainment [/B][/COLOR]','1',61,artpath+'ent.PNG',fanart)
-    addDir2('[COLOR turquoise][B]Movies[/B][/COLOR]','2',61,artpath+'mov.PNG',fanart)
-    addDir2('[COLOR turquoise][B]Music[/B][/COLOR]','3',61,artpath+'mus.PNG',fanart)
-    addDir2('[COLOR turquoise][B]News[/B][/COLOR]','4',61,artpath+'news.PNG',fanart)
-    addDir2('[COLOR turquoise][B]Sports[/B][/COLOR]','5',61,artpath+'sport.PNG',fanart)
-    addDir2('[COLOR turquoise][B]Documentary[/B][/COLOR]','6',61,artpath+'doc.PNG',fanart)
-    addDir2('[COLOR turquoise][B]Kids[/B][/COLOR]','7',61,artpath+'kids.PNG',fanart)
-    addDir2('[COLOR turquoise][B]Food[/B][/COLOR]','8',61,artpath+'food.PNG',fanart)
-    addDir2('[COLOR turquoise][B]USA[/B][/COLOR]','10',61,artpath+'us.PNG',fanart)
-    addDir2('[COLOR turquoise][B]Others[/B][/COLOR]','11',61,artpath+'others.PNG',fanart)
-    xbmc.executebuiltin('Container.SetViewMode(400)')
-
-def GetChannels(catid):
-    match = GetContent(catid)
-    image = urllib.URLopener()
-
-    i = 0.0
-    cancel = False
-    progress=None
-    for channelid,name,iconimage,stream1,stream2,cat in match:  
-        i = i + 1.0
-
-        filename = thumbpath+iconimage.split("?")[0].split("/")[-1]
-        if not cancel and not os.path.isfile(filename):
-            if progress==None:
-                progress = xbmcgui.DialogProgress()
-                progress.create('UKTVNow.net', 'Downloading channel images')
-                xbmc.executebuiltin( 'Dialog.Close(busydialog)' )
-            if not cancel and progress!=None:
-                percent = int((100.0 / len(match)) * i)
-                progress.update( percent, "", name, "" )
-                if progress.iscanceled():
-                    cancel = True
-            #xbmc.log(filename, xbmc.LOGNOTICE)
-            thumb='http://uktvnow.net/uktvnow8/'+iconimage
-            #xbmc.log(thumb, xbmc.LOGNOTICE)
-            try:        
-                image.retrieve(thumb,filename)
-            except IOError, e:
-                xbmc.log('failed to get image: '+ SafeString(e), xbmc.LOGNOTICE)
-        addLink1('[B][COLOR gold]%s[/COLOR][/B]'%name,'url',62,filename,fanart,channelid)
-    xbmcplugin.addSortMethod(int(sys.argv[1]), xbmcplugin.SORT_METHOD_VIDEO_TITLE)
-    xbmc.executebuiltin('Container.SetViewMode(400)')
-    if progress!=None:
-        progress.close()
-
-def GetContent(catid):
-    if catid=='0': 
-        token=GetToken('/uktvnow8/index_new.php?case=get_all_channels',Username)
-        postdata={SafeString('username'):Username}
-    else:
-        token=GetToken('/uktvnow8/index_new.php?case=get_channel_by_catid',Username+catid)
-        postdata={SafeString('cat_id'):catid,SafeString('username'):Username}
-    
-    headers={'User-Agent':'USER-AGENT-UKTVNOW-APP-V2',SafeString('app-token'):token}
-    
-    if catid=='0': 
-        channels = net2.http_POST('http://uktvnow.net/uktvnow8/index_new.php?case=get_all_channels',postdata, headers).content
-    else:
-        channels = net2.http_POST('http://uktvnow.net/uktvnow8/index_new.php?case=get_channel_by_catid',postdata, headers).content
-    channels = channels.replace('\/','/')
-    match=re.compile('"pk_id":"(.+?)","channel_name":"(.+?)","img":"(.+?)","country":"(.+?)","cat_id":"(.+?)","cat_name":"(.+?)"').findall(channels)
-    return match
-
-def GetToken(url,username):
-    return '37a6259cc0c1dae299a7866489dff0bd'
-
-def GetStreams(name,iconimage,channelid):
-    
-    token = GetToken('http://uktvnow.net/uktvnow8/index_new.php?case=get_channel_link_with_token',channelid+Username)
-    postdata = {SafeString('username'):Username,'channel_id':channelid}  
-    headers={'User-Agent':'USER-AGENT-UKTVNOW-APP-V2',SafeString('app-token'):token}
-    
-    channels = net2.http_POST('http://uktvnow.net/uktvnow8/index_new.php?case=get_channel_link_with_token',postdata, headers).content
-    channels = channels.replace('\/','')
-    channels = channels.replace('+','')
-    match=re.compile('"channel_name":"(.+?)","img":".+?","http_stream":"(.+?)","http_stream2":"(.+?)","http_stream3":"(.+?)","rtmp_stream":"(.+?)","rtmp_stream2":"(.+?)","rtmp_stream3":"(.+?)"').findall(channels)
-    for name,stream1,stream2,stream3,stream4,stream5,stream6 in match:   
-        streamname=[]
-        streamurl=[]
-        streamurl.append( stream1 )
-        streamurl.append( stream4 )
-        streamname.append('HTTP Stream')
-        streamname.append('RTMP Stream')
-    select = dialog1.select(name,streamname)
-    if select == -1:
-        return
-    else:
-        url=streamurl[select]
-        url.strip()
-        url=magicness(url)
-        #if 'http' in url: url = url+"|User-Agent=VLC/2.2.4 LibVLC/2.2.4"
-        #else: url = url+' timeout=10'
-        ok=True
-        liz=xbmcgui.ListItem(name, iconImage=iconimage,thumbnailImage=iconimage); liz.setInfo( type="Video", infoLabels={ "Title": name } )
-        ok=xbmcplugin.addDirectoryItem(handle=int(sys.argv[1]),url=url,listitem=liz)
-        xbmc.Player().play(url, liz, False)
-        return ok
-    
-def magicness(url):
-        decryptor = pyaes.new("555eop564dfbaaec", pyaes.MODE_CBC, IV="wwe324jkl874qq99")
-        url= decryptor.decrypt(url.decode("hex")).split('\0')
-        return url
-     
-def addLink1(name,url,mode,iconimage,fanart,channelid=''):
-        u=sys.argv[0]+"?url="+urllib.quote_plus(url)+"&mode="+str(mode)+"&name="+urllib.quote_plus(name)+"&channelid="+str(channelid)+"&iconimage="+urllib.quote_plus(iconimage)
-        ok=True
-        liz=xbmcgui.ListItem(name, iconImage="DefaultFolder.png", thumbnailImage=iconimage)
-        liz.setInfo( type="Video", infoLabels={ "Title": name, 'plot': channelid } )
-        liz.setProperty('fanart_image', fanart)
-        ok=xbmcplugin.addDirectoryItem(handle=int(sys.argv[1]),url=u,listitem=liz,isFolder=False)
-        return ok
-
-def setView(content, viewType):
-    if content:
-        xbmcplugin.setContent(int(sys.argv[1]), content)
-    if selfAddon.getSetting('auto-view')=='true':
-        xbmc.executebuiltin("Container.SetViewMode(%s)" % selfAddon.getSetting(viewType) )
-           
-
-#############
-#UKTVNOW
-#############
-
-def swiftstreams():
-    import json,requests
-    url = 'http://swiftstreamz.com/SwiftStreamz/api.php'
-    
-    headers = {'Authorization': 'Basic U25hcHB5OkBTbmFwcHlA',
-        'User-Agent': 'Dalvik/1.6.0 (Linux; U; Android 4.4.4; SM-G900F Build/KTU84Q)'}
-        
-    open = requests.session().get(url,headers=headers).text
-    js   = json.loads(open)
-    js   = js['LIVETV']
-    for a in js:
-        name = a['category_name']
-        id   = a['cid']
-        icon = a['category_image']
-        addDir1('[B][COLOR turquoise]%s[/COLOR][/B]'%name,'http://swiftstreamz.com/SwiftStreamz/api.php?cat_id='+id,4,'http://swiftstreamz.com/SwiftStream/images/thumbs' + icon,fanart,'')
-        
-        
-def swiftstreamschans(url):
-    import json,requests
-
-    headers = {'Authorization': 'Basic U25hcHB5OkBTbmFwcHlA',
-        'User-Agent': 'Dalvik/1.6.0 (Linux; U; Android 4.4.4; SM-G900F Build/KTU84Q)'}
-        
-    open = requests.session().get(url,headers=headers).text
-    js   = json.loads(open)
-    js   = js['LIVETV']
-    for a in js:
-        name = a['channel_title']
-        url  = a['channel_url']
-        icon = a['channel_thumbnail']
-        desc = a['channel_desc']
-        addDir1('[B][COLOR gold]%s[/COLOR][/B]'%name,'swiftstreams:'+url,10,'http://swiftstreamz.com/SwiftStream/images/thumbs/' + icon,fanart,desc) 
 
 def play(url,name,pdialogue=None):
         from resources.root import resolvers
@@ -1146,7 +1007,12 @@ def getItems(items,fanart):
                     for i in item('link'):
                         if not i.string == None:
                             url.append(i.string)
-                    
+
+                if len(item('inputstream')) >0:
+                    for i in item('inputstream'):
+                        if not i.string == None:
+                            url.append(i.string)
+
                 elif len(item('sportsdevil')) >0:
                     for i in item('sportsdevil'):
                         if not i.string == None:
@@ -1156,6 +1022,7 @@ def getItems(items,fanart):
                                 #print 'referer found'
                                 sportsdevil = sportsdevil + '%26referer=' +referer
                             url.append(sportsdevil)
+
                 elif len(item('p2p')) >0:
                     for i in item('p2p'):
                         if not i.string == None:
@@ -3041,6 +2908,12 @@ elif mode==62:
     xbmcplugin.endOfDirectory(int(sys.argv[1]))
 elif mode==63:
     play1(name,url)
+    xbmcplugin.endOfDirectory(int(sys.argv[1]))
+elif mode==64:
+    Big_Resolve(name,url)
+    xbmcplugin.endOfDirectory(int(sys.argv[1]))
+elif mode==65:
+    CHECKLINKS(name,url,iconimage)
     xbmcplugin.endOfDirectory(int(sys.argv[1]))
 elif mode==9999:
     import xbmcgui,xbmcplugin

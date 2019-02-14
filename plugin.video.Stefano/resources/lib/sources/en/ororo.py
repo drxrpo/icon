@@ -8,9 +8,9 @@
  # ----------------------------------------------------------------------------
 #######################################################################
 
-# Addon Name: Placenta
-# Addon id: plugin.video.placenta
-# Addon Provider: Mr.Blamo
+# Addon Name: Exodus
+# Addon id: plugin.video.exodus
+# Addon Provider: Exodus
 
 
 import re,urlparse,json,base64
@@ -36,7 +36,7 @@ class source:
         self.password = control.setting('ororo.pass')
         self.headers = {
         'Authorization': 'Basic %s' % base64.b64encode('%s:%s' % (self.user, self.password)),
-        'User-Agent': 'Placenta for Kodi'
+        'User-Agent': 'Exodus for Kodi'
         }
 
 

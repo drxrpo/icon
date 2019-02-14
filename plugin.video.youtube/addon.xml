@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<addon id="plugin.video.youtube" name="YouTube" version="6.2.0~alpha6" provider-name="bromix">
+<addon id="plugin.video.youtube" name="YouTube" version="6.4.0" provider-name="anxdpanic, bromix">
     <requires>
         <import addon="xbmc.python" version="2.20.0"/>
-        <import addon='script.module.six' version='1.11.0'/>
+        <import addon="script.module.six" version="1.11.0"/>
         <import addon="script.module.requests" version="2.12.4"/>
         <import addon="script.module.inputstreamhelper" version="0.2.2" optional="true"/>
     </requires>
@@ -13,20 +13,24 @@
     <extension point="xbmc.python.module" library="resources/lib/"/>
     <extension point="xbmc.addon.metadata">
         <news>
-6.2.0
-[add] Context menu -> 'Play with subtitles' |contrib: solarus|
-[add] Option to download subtitles before playback in Settings -&gt; General -&gt; Configure subtitles
-[add] 'Settings -&gt; Advanced -&gt; Use YouTube website urls' for external/alternative players
-            eg. Player: MPC-BE, URL: https://www.youtube.com/watch?v=C0NyvxTJGcQ
-[fix] Mark as watched in Kodi 18
-[fix] Reported background progress dialog percentage
-[fix] Playlist items, use video_items instead of playback_items
-[upd] Improve speed of playback starting and resolver
-            before: min: 1.5s max: 2.6s median: 1.7s
-            after:  min: 0.9s max: 2.6s median: 1.2s
-[chg] refactor logging and system version
-[chg] Localize confirmation
-[lang] es_es strings |contrib: roliverosc|
+6.4.0
+[add] 4K videos with InputStream Adaptive >= v2.3.14
+        - Thanks to @peak3d
+[fix] some videos not playing when logged in
+[fix] reset function cache at restart/update to resolve issues persisting due to cached results
+[fix] service potentially not shutting down http server
+[fix] added to playlist/subscriptions notifications
+[fix] only generate mpeg-dash file if adaptive formats are available
+[fix] map frame rates to more common representation to lessen the chance of double refresh changes (applies only to generated mpeg-dash files)
+[fix] currently playing file check when playing file is a plugin:// url
+[chg] Settings - General - Autoplay suggested videos
+        - limit playlist size to 1000 videos
+        - request less relevant videos at one time
+        - old behavior: add 50 most relevant videos for each video played, repeats allowed
+            - result: a lot of barely relevant videos in groups of 50
+        - new behavior: add single most relevant video, no repeats
+            - result: next video is always the most relevant video to the last video played
+[upd] player javascript retrieval
         </news>
         <assets>
             <icon>icon.png</icon>
@@ -44,8 +48,11 @@
         <summary lang="hu_HU">YouTube kiegészítő</summary>
         <description lang="hu_HU">A YouTube világ egyik legnagyobb videómegosztó weboldala.</description>
         <summary lang="es_ES">Plugin para YouTube</summary>
-        <description lang="es_ES">YouTube es uno de los mayores sitios web de intercambio de vídeos del mundo.</description>
+        <description lang="es_ES">YouTube es uno de los sitios web para compartir videos más grande del mundo.</description>
         <disclaimer lang="es_ES">Este add-on no está respaldado por Google</disclaimer>
+        <summary lang="es_MX">Plugin para YouTube</summary>
+        <description lang="es_MX">YouTube es uno de los más grandes sitios web de intercambio de videos del mundo.</description>
+        <disclaimer lang="es_MX">Este add-on no está respaldado por Google</disclaimer>
         <summary lang="ru_RU">Видеодополнение YouTube</summary>
         <description lang="ru_RU">YouTube - популярнейший видеохостинговый сайт, предоставляющий пользователям услуги хранения, доставки и показа видео.</description>
         <summary lang="fr_FR">Plugin pour YouTube</summary>
@@ -62,9 +69,11 @@
         <disclaimer lang="el_GR">Η παρούσα μικροεφαρμογή δεν έχει υϊοθετηθεί από την Google</disclaimer>
         <summary lang="nb_NO">Tillegg for YouTube</summary>
         <description lang="nb_NO">YouTube er en av verdens største nettsider for videodeling.</description>
+        <summary lang="ko_KR">유튜브 플러그인</summary>
+        <description lang="ko_KR">유튜브는 세상에서 가장 큰 동영상 공유 사이트 중의 하나입니다.</description>
         <language></language>
         <platform>all</platform>
-        <license>GNU GENERAL PUBLIC LICENSE. Version 2, June 1991</license>
+        <license>GPL-2.0-only</license>
         <forum>https://forum.kodi.tv/showthread.php?tid=325740</forum>
         <website>https://www.youtube.com</website>
         <email>ytplugin at datanet dot ws</email>

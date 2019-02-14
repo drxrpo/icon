@@ -1,6 +1,6 @@
 # Kodi Media Center language file
-# Addon Name: Xonfluence
-# Addon id: skin.xonfluence
+# Addon Name: Durexonfluence
+# Addon id: skin.durexonfluence
 # Addon Provider: Helly1206
 msgid ""
 msgstr ""
@@ -18,14 +18,14 @@ msgstr ""
 
 msgctxt "#31000"
 msgid "Change your"
-msgstr "Canvieu les"
+msgstr "Canvieu els vostres"
 
 msgctxt "#31001"
-msgid "GAMES"
-msgstr "JOCS"
+msgid ":"
+msgstr ""
 
 msgctxt "#31002"
-msgid "[B]GAME SETTINGS[/B][CR][CR]Configure rewind support & options ·  Configure keyboard use and number of keyboard players"
+msgid "Enable manual opening of media views slide menu"
 msgstr ""
 
 msgctxt "#31003"
@@ -77,7 +77,11 @@ msgid "Memory used"
 msgstr "Memòria utilitzada"
 
 msgctxt "#31015"
-msgid "Minute"
+msgid "Never"
+msgstr ""
+
+msgctxt "#31016"
+msgid "Permanently"
 msgstr ""
 
 msgctxt "#31017"
@@ -562,7 +566,7 @@ msgstr "OSD de música"
 
 msgctxt "#31142"
 msgid "Settings level"
-msgstr "Nivell de les opcions"
+msgstr "Nivell dels ajusts"
 
 msgctxt "#31143"
 msgid "Kodi"
@@ -614,54 +618,6 @@ msgstr ""
 
 msgctxt "#31155"
 msgid "Show global search button on bottom left"
-msgstr ""
-
-msgctxt "#31156"
-msgid ":"
-msgstr ""
-
-msgctxt "#31157"
-msgid "Enable manual opening of media views slide menu"
-msgstr ""
-
-msgctxt "#31158"
-msgid "Never"
-msgstr ""
-
-msgctxt "#31159"
-msgid "Permanently"
-msgstr ""
-
-msgctxt "#31160"
-msgid "Visualisation settings"
-msgstr ""
-
-msgctxt "#31161"
-msgid "Lyrics add-on settings"
-msgstr ""
-
-msgctxt "#31162"
-msgid " pack for "
-msgstr ""
-
-msgctxt "#31163"
-msgid "Update all backgrounds"
-msgstr ""
-
-msgctxt "#31164"
-msgid "Flags"
-msgstr ""
-
-msgctxt "#31165"
-msgid "Don't ask again"
-msgstr ""
-
-msgctxt "#31166"
-msgid "Setup default background"
-msgstr ""
-
-msgctxt "#31167"
-msgid "No backgrounds set, install and setup default backgrounds add-on?"
 msgstr ""
 
 msgctxt "#31188"
@@ -981,7 +937,7 @@ msgid "Enable visible horizontal submenu"
 msgstr ""
 
 msgctxt "#31276"
-msgid "Extra artwork options"
+msgid "Extra art work options"
 msgstr ""
 
 msgctxt "#31277"
@@ -1181,7 +1137,7 @@ msgid "Album details"
 msgstr "Detalls de l'àlbum"
 
 msgctxt "#31332"
-msgid "Alternate fanart"
+msgid "Alternate fanArt"
 msgstr ""
 
 msgctxt "#31333"
@@ -1430,7 +1386,7 @@ msgstr "Seleccioneu el vostre perfil d'usuari de Kodi[CR]per autenticar-vos i co
 
 msgctxt "#31422"
 msgid "Show or hide the login screen at startup."
-msgstr "Mostra o oculta la pantalla d'autenticació a l'inici."
+msgstr "Mostra o oculta la pantalla d'autenticació a l'inici"
 
 msgctxt "#31423"
 msgid "Select the profile that will be used at startup when the login screen is disabled."
@@ -1454,34 +1410,34 @@ msgstr ""
 
 msgctxt "#31430"
 msgid "[B]PLAYER SETTINGS[/B][CR][CR]Configure actions that can be used during playback · Configure how media content is played"
-msgstr "[B]OPCIONS DEL REPRODUCTOR[/B][CR][CR]Configureu les accions que es poden utilitzar durant la reproducció · Configureu com es reprodueix el contingut dels mitjans"
+msgstr "[B]AJUSTS DEL REPRODUCTOR[/B][CR][CR]Configureu les accions que es poden utilitzar durant la reproducció · Configureu com es reprodueix el contingut dels mitjans"
 
 msgctxt "#31431"
 msgid "[B]LIBRARY SETTINGS[/B][CR][CR]Configure how the library/file views display media content ·  Configure how library lists/views are navigated · Configure the media database options"
-msgstr "[B]OPCIONS DE LES BIBLIOTEQUES[/B][CR][CR]Configureu com les vistes de les biblioteques/fitxers visualitzen el contingut dels mitjans · Configureu com es navega per les vistes/llistes de la biblioteca · Configureu les opcions de la base de dades dels mitjans"
+msgstr "[B]AJUSTS DE LES BIBLIOTEQUES[/B][CR][CR]Configureu com les vistes de les biblioteques/fitxers visualitzen el contingut dels mitjans · Configureu com es navega per les vistes/llistes de la biblioteca · Configureu les opcions de la base de dades dels mitjans"
 
 msgctxt "#31432"
 msgid "[B]PVR SETTINGS[/B][CR][CR]Configure how the channels & guide are managed  · Configure how Live TV and recordings are managed"
-msgstr "[B]OPCIONS DE L'ENREGISTRADOR PERSONAL DE VÍDEO (PVR)[/B][CR][CR]Configureu com es gestionen els canals i la guia · Configureu com es gestiona la TV en directe i els enregistraments"
+msgstr "[B]AJUSTS DE L'ENREGISTRADOR PERSONAL DE VÍDEO (PVR)[/B][CR][CR]Configureu com es gestionen els canals i la guia · Configureu com es gestiona la TV en directe i els enregistraments"
 
 msgctxt "#31433"
 msgid "[B]ADD-ONS SETTINGS[/B][CR][CR]Configure your installed add-ons · Browse for and install add-ons from kodi.tv"
-msgstr "[B]OPCIONS DELS COMPLEMENTS[/B][CR][CR]Configureu els complements instal·lats · Navegueu i instal·leu complements des de kodi.tv"
+msgstr "[B]AJUSTS DELS COMPLEMENTS[/B][CR][CR]Configureu els complements instal·lats · Navegueu i instal·leu complements des de kodi.tv"
 
 msgctxt "#31434"
 msgid "[B]SERVICES SETTINGS[/B][CR][CR]Configure & manage media sharing services · Configure web server · Configure & manage the weather service"
-msgstr "[B]OPCIONS DELS SERVEIS[/B][CR][CR]Configureu i gestioneu els serveis per compartir els mitjans · Configureu el servidor web · Configureu i gestioneu el servei meteorològic"
+msgstr "[B]AJUSTS DELS SERVEIS[/B][CR][CR]Configureu i gestioneu els serveis per compartir els mitjans · Configureu el servidor web · Configureu i gestioneu el servei meteorològic"
 
 msgctxt "#31435"
 msgid "[B]SYSTEM SETTINGS[/B][CR][CR]Configure display · Configure audio · Configure internet access · Configure power saving· Configure logging"
-msgstr "[B]OPCIONS DEL SISTEMA[/B][CR][CR]Configureu la pantalla · Configureu l'àudio · Configureu l'accés a Internet · Configureu l'estalvi d'energia · Configureu el registre"
+msgstr "[B]AJUSTS DEL SISTEMA[/B][CR][CR]Configureu la pantalla · Configureu l'àudio · Configureu l'accés a Internet · Configureu l'estalvi d'energia · Configureu el registre"
 
 msgctxt "#31436"
 msgid "[B]INTERFACE SETTINGS[/B][CR][CR]Configure skin · Configure region · Configure control · Configure screensaver · Configure master lock"
-msgstr "[B]OPCIONS DE LA INTERFÍCIE[/B][CR][CR]Configureu l'aparença · Configureu la regió · Configureu el control · Configureu l'estalvi de pantalla · Configureu el bloqueig mestre"
+msgstr "[B]AJUSTS DE LA INTERFÍCIE[/B][CR][CR]Configureu l'aparença · Configureu la regió · Configureu el control · Configureu l'estalvi de pantalla · Configureu el bloqueig mestre"
 
 msgctxt "#31437"
-msgid "[B]CONFIGURE SKIN SETTINGS[/B][CR][CR]Setup the Xonfluence skin · Add and remove home menu items · Change skin backgrounds"
+msgid "[B]CONFIGURE SKIN SETTINGS[/B][CR][CR]Setup the Durexonfluence skin · Add and remove home menu items · Change skin backgrounds"
 msgstr ""
 
 msgctxt "#31440"
@@ -1832,22 +1788,6 @@ msgctxt "#31943"
 msgid "Use default confluence favourites window look and feel"
 msgstr ""
 
-msgctxt "#31944"
-msgid "Visible in Master mode only"
-msgstr ""
-
-msgctxt "#31947"
-msgid "Button look and feel"
-msgstr ""
-
-msgctxt "#31948"
-msgid "Button layout look and feel"
-msgstr ""
-
-msgctxt "#31949"
-msgid "OSD look and feel"
-msgstr ""
-
 msgctxt "#31950"
 msgid "WEATHER"
 msgstr "EL TEMPS"
@@ -1969,7 +1909,7 @@ msgid "Reload"
 msgstr ""
 
 msgctxt "#31980"
-msgid "Save settings and reload Xonfluence"
+msgid "Save settings and reload Durexonfluence"
 msgstr ""
 
 msgctxt "#31981"

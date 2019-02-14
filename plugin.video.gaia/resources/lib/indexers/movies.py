@@ -78,7 +78,7 @@ class movies:
 			if self.restriction >= 3:
 				self.certificates.append('R')
 			self.certificates = ','.join(self.certificates).replace('-', '_').lower()
-			self.certificates = '&certificates=us:' + self.certificates
+			self.certificates = '&certificates=US:' + self.certificates
 		else:
 			self.certificates = ''
 
@@ -619,7 +619,7 @@ class movies:
 		if not self.kidsOnly():
 			certificates.append(('Mature Audience (NC-17)', 'NC-17'))
 
-		for i in certificates: self.list.append({'name': str(i[0]), 'url': self.certification_link % str(i[1]).replace('-', '_').lower(), 'image': 'certificates.png', 'action': self.parameterize('movies')})
+		for i in certificates: self.list.append({'name': str(i[0]), 'url': self.certification_link % str(i[1]).replace('-', '-'), 'image': 'certificates.png', 'action': self.parameterize('movies')})
 		self.addDirectory(self.list)
 		return self.list
 
@@ -637,7 +637,7 @@ class movies:
 		if not self.kidsOnly():
 			certificates.append(('Mature (18+)', 'NC-17'))
 
-		for i in certificates: self.list.append({'name': str(i[0]), 'url': self.certification_link % str(i[1]).replace('-', '_').lower(), 'image': 'age.png', 'action': self.parameterize('movies')})
+		for i in certificates: self.list.append({'name': str(i[0]), 'url': self.certification_link % str(i[1]).replace('-', '-'), 'image': 'age.png', 'action': self.parameterize('movies')})
 		self.addDirectory(self.list)
 		return self.list
 
@@ -915,7 +915,7 @@ class movies:
 			# HTML syntax error, " directly followed by attribute name. Insert space in between. parseDOM can otherwise not handle it.
 			result = result.replace('"class="lister-page-next', '" class="lister-page-next')
 
-			next = client.parseDOM(result, 'a', ret='href', attrs = {'class': 'lister-page-next.+?'})
+			next = client.parseDOM(result, 'a', ret='href', attrs = {'class': '.+?ister-page-nex.+?'})
 
 			if len(next) == 0:
 				next = client.parseDOM(result, 'div', attrs = {'class': 'pagination'})[0]

@@ -34,7 +34,7 @@ import urllib
 import urllib2
 
 import config
-from platformcode import logger
+from core import logger
 
 
 def downloadfile(url, nombrefichero, headers=None, silent=False, continuar=False, resumir=True):
@@ -139,7 +139,7 @@ def downloadfile(url, nombrefichero, headers=None, silent=False, continuar=False
             connexion = opener.open(request)
         except urllib2.HTTPError, e:
             logger.error("error %d (%s) al abrir la url %s" %
-                        (e.code, e.msg, url))
+                         (e.code, e.msg, url))
             # print e.code
             # print e.msg
             # print e.hdrs

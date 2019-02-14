@@ -31,7 +31,7 @@ import urlparse
 
 import xbmc
 
-from platformcode import logger
+from core import logger
 
 
 class Cloudflare:

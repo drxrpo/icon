@@ -1,7 +1,7 @@
-# -*- coding: utf-8 -*-
+# -*- coding: UTF-8 -*-
 
 '''
-    Numbers By Numbers Add-on
+    Numbers Add-on
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -17,7 +17,6 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 '''
 
-
 import re,urllib,urlparse,time,json
 
 from resources.lib.modules import control
@@ -25,14 +24,12 @@ from resources.lib.modules import cleantitle
 from resources.lib.modules import client
 from resources.lib.modules import source_utils
 
-
-
 class source:
     def __init__(self):
         self.priority = 1
         self.language = ['en']
         self.domains = ['gowatchseries.io','gowatchseries.co']
-        self.base_link = 'https://ww2.gowatchseries.co'
+        self.base_link = 'https://ww5.gowatchseries.co'
         self.search_link = '/ajax-search.html?keyword=%s&id=-1'
         self.search_link2 = '/search.html?keyword=%s'
 
@@ -88,7 +85,6 @@ class source:
                 headers['Cookie'] = cookie
 
                 query = urlparse.urljoin(self.base_link, self.search_link % urllib.quote_plus(cleantitle.getsearch(title)))
-                #query2 = urlparse.urljoin(self.base_link, self.search_link % re.sub('\s','+',title))
                 r = client.request(query, headers=headers, XHR=True)
                 r = json.loads(r)['content']
                 r = zip(client.parseDOM(r, 'a', ret='href'), client.parseDOM(r, 'a'))

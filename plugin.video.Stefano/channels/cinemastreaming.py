@@ -1,11 +1,9 @@
 # -*- coding: utf-8 -*-
-# StreamOnDemand Community Edition - Kodi Addon
 # ------------------------------------------------------------
-# Stefano.- XBMC Plugin
+# TheGroove360 - XBMC Plugin
 # Canale cinemastreaming
-# http://www.mimediacenter.info/foro/viewforum.php?f=36
-# Version: 201802030900
 # ------------------------------------------------------------
+
 import re
 import urlparse
 
@@ -19,13 +17,13 @@ from platformcode import logger
 
 __channel__ = "cinemastreaming"
 
-host = "https://www.cinemastreaming.pw"
+host = "https://cinemastreaming.info"
 
 headers = [['Referer', host]]
 
 
 def mainlist(item):
-    logger.info("[cinemastreaming.py] mainlist")
+    logger.info("[thegroove360.cinemastreaming] mainlist")
 
     # Main options
     itemlist = [Item(channel=__channel__,
@@ -68,21 +66,18 @@ def mainlist(item):
 
 
 def peliculas(item):
-    logger.info("[cinemastreaming.py] peliculas")
+    logger.info("[thegroove360.cinemastreaming] peliculas")
     itemlist = []
 
     # Carica la pagina
     data = httptools.downloadpage(item.url, headers=headers).data
 
     # Estrae i contenuti
-    bloque = scrapertools.get_match(data, '<h1 class="Title">(.*?)</article></li></ul>')
-    patron = '<a href="([^"]+)"><div class="Image">'
-    matches = re.compile(patron, re.DOTALL).findall(bloque)
+    patron = '<article id.*\s.*<a href="(.*?)".*\s.*\s.*src="(.*?)".*\s.*\s.*?Title">(.*?)<'
+    matches = re.compile(patron, re.IGNORECASE).findall(data)
 
-    for scrapedurl in matches:
-        scrapedthumbnail = ""
+    for scrapedurl, scrapedthumbnail, scrapedtitle in matches:
         scrapedplot = ""
-        scrapedtitle = scrapedurl.replace("-", " ").replace(host, "").replace("/", "").title()
         itemlist.append(infoSod(
             Item(channel=__channel__,
                  action="findvideos",
@@ -96,8 +91,7 @@ def peliculas(item):
                  extra=item.extra,
                  viewmode="movie_with_plot"), tipo='movie'))
 
-    next_page = scrapertools.find_single_match(data,
-                                               '<span aria-current=\'page\' class=\'page-numbers current\'>[^<]+</span> <a class=\'page-numbers\' href=\'(.*?)\'>')
+    next_page = scrapertools.find_single_match(data,'<a class="next page-numbers" href="(.*?)">')
 
     if next_page != "":
         itemlist.append(
@@ -112,21 +106,18 @@ def peliculas(item):
 
 
 def peliculas_tv(item):
-    logger.info("[cinemastreaming.py] peliculas")
+    logger.info("[thegroove360.cinemastreaming] peliculas")
     itemlist = []
 
     # Carica la pagina
     data = httptools.downloadpage(item.url, headers=headers).data
 
     # Estrae i contenuti
-    bloque = scrapertools.get_match(data, '<h1 class="Title">(.*?)</article></li></ul>')
-    patron = '<a href="([^"]+)"><div class="Image">'
-    matches = re.compile(patron, re.DOTALL).findall(bloque)
+    patron = 'class="TPost C">.*\s.*?<a href="(.*?)">.*\s.*\s.*\s.*?src="(.*?)".*\s.*\s.*\s.*?<h3 class="Title">(.*?)<'
+    matches = re.compile(patron, re.IGNORECASE).findall(data)
 
-    for scrapedurl in matches:
-        scrapedthumbnail = ""
+    for scrapedurl, scrapedthumbnail, scrapedtitle in matches:
         scrapedplot = ""
-        scrapedtitle = scrapedurl.replace("-", " ").replace(host, "").replace("/", "").title()
         itemlist.append(infoSod(
             Item(channel=__channel__,
                  action="episodios",
@@ -141,8 +132,7 @@ def peliculas_tv(item):
                  extra=item.extra,
                  viewmode="movie_with_plot"), tipo='tv'))
 
-    next_page = scrapertools.find_single_match(data,
-                                               '<span aria-current=\'page\' class=\'page-numbers current\'>[^<]+</span> <a class=\'page-numbers\' href=\'(.*?)\'>')
+    next_page = scrapertools.find_single_match(data,'<a class="next page-numbers" href="(.*?)">')
 
     if next_page != "":
         itemlist.append(
@@ -187,7 +177,7 @@ def episodios(item):
     return itemlist
 
 def categorie(item):
-    logger.info("[cinemastreaming.py] categorie")
+    logger.info("[thegroove360.cinemastreaming] categorie")
     itemlist = []
 
     # Carica la pagina
@@ -213,7 +203,7 @@ def categorie(item):
 
 
 def paesi(item):
-    logger.info("[cinemastreaming.py] paesi")
+    logger.info("[thegroove360.cinemastreaming] paesi")
     itemlist = []
 
     if item.url == "":
@@ -246,7 +236,7 @@ def listserie(item):
 
 
 def findvideos(item):
-    logger.info("[cinemastreaming.py] findvideos")
+    logger.info("[thegroove360.cinemastreaming] findvideos")
 
     # Carica la pagina
     data = httptools.downloadpage(item.url, headers=headers).data
@@ -277,7 +267,7 @@ def findvideos(item):
     return itemlist
 
 def search(item, texto):
-    logger.info("[cinemastreaming.py] " + item.url + " search " + texto)
+    logger.info("[thegroove360.cinemastreaming] " + item.url + " search " + texto)
     item.url = host + "/?s=" + texto
     try:
         if item.extra == "movie":
@@ -290,4 +280,3 @@ def search(item, texto):
         for line in sys.exc_info():
             logger.error("%s" % line)
         return []
-

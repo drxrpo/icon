@@ -1,26 +1,26 @@
 # -*- coding: utf-8 -*-
 # ------------------------------------------------------------
-# streamondemand 5
+# stefano 5
 # Copyright 2015 tvalacarta@gmail.com
 # http://www.mimediacenter.info/foro/viewforum.php?f=36
 #
 # Distributed under the terms of GNU General Public License v3 (GPLv3)
 # http://www.gnu.org/licenses/gpl-3.0.html
 # ------------------------------------------------------------
-# This file is part of streamondemand 5.
+# This file is part of stefano 5.
 #
-# streamondemand 5 is free software: you can redistribute it and/or modify
+# stefano 5 is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
 # the Free Software Foundation, either version 3 of the License, or
 # (at your option) any later version.
 #
-# streamondemand 5 is distributed in the hope that it will be useful,
+# stefano 5 is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with streamondemand 5.  If not, see <http://www.gnu.org/licenses/>.
+# along with stefano 5.  If not, see <http://www.gnu.org/licenses/>.
 # --------------------------------------------------------------------------------
 # Logger (kodi)
 # --------------------------------------------------------------------------------
@@ -31,7 +31,7 @@ import os
 import xbmc
 from core import config
 
-loggeractive = (config.get_setting("debug") == "true")
+loggeractive = (config.get_setting("debug") is True)
 
 
 def log_enable(active):
@@ -60,16 +60,16 @@ def get_caller(message=None):
 
     # En boxee en ocasiones no detecta el modulo, de este modo lo hacemos manual
     if module is None:
-        module = ".".join(os.path.splitext(inspect.currentframe().f_back.f_back.f_code.co_filename.split("streamondemand-pureita-master")[1])[0].split(os.path.sep))[1:]
+        module = ".".join(os.path.splitext(inspect.currentframe().f_back.f_back.f_code.co_filename.split("Stefano")[1])[0].split(os.path.sep))[1:]
     else:
         module = module.__name__
 
     function = inspect.currentframe().f_back.f_back.f_code.co_name
 
     if module == "__main__":
-        module = "streamondemand-pureita-master"
+        module = "Stefano"
     else:
-        module = "streamondemand-pureita-master." + module
+        module = "Stefano." + module
     if message:
         if module not in message:
             if function == "<module>":

@@ -1,3 +1,30 @@
+# ------------------------------------------------------------
+# -*- coding: utf-8 -*-
+# ------------------------------------------------------------
+# Stefano Thegroove 360
+# Copyright 2018 https://stefanoaddon.info
+#
+# Distribuito sotto i termini di GNU General Public License v3 (GPLv3)
+# http://www.gnu.org/licenses/gpl-3.0.html
+# ------------------------------------------------- -----------
+# Questo file fa parte di Stefano Thegroove 360.
+#
+# Stefano Thegroove 360 ​​è un software gratuito: puoi ridistribuirlo e / o modificarlo
+# è sotto i termini della GNU General Public License come pubblicata da
+# la Free Software Foundation, o la versione 3 della licenza, o
+# (a tua scelta) qualsiasi versione successiva.
+#
+# Stefano Thegroove 360 ​​è distribuito nella speranza che possa essere utile,
+# ma SENZA ALCUNA GARANZIA; senza nemmeno la garanzia implicita di
+# COMMERCIABILITÀ o IDONEITÀ PER UN PARTICOLARE SCOPO. Vedere il
+# GNU General Public License per maggiori dettagli.
+#
+# Dovresti aver ricevuto una copia della GNU General Public License
+# insieme a Stefano Thegroove 360. In caso contrario, vedi <http://www.gnu.org/licenses/>.
+# ------------------------------------------------- -----------
+# Client for Stefano Thegroove 360
+#------------------------------------------------------------
+
 from resources.lib.indexers.thegroove360 import indexer
 from resources.lib.indexers.thegroove360 import player
 import xbmcaddon
@@ -6,14 +33,6 @@ import xbmcplugin
 import os
 import sys
 from core import config
-from resources.lib.stemodules import cache
-from resources.lib.stemodules import client
-import base64
-import re
-import urllib
-import hashlib
-import json
-from resources.lib.stemodules import regex
 
 try:
     from urllib.parse import quote_from_bytes as orig_quote
@@ -46,7 +65,8 @@ class indexer_ext(indexer):
 
     def updatecheck(self, title):
         # ver = xbmcaddon.Addon().getAddonInfo('version')
-        self.cleanup()
+        import threading
+        threading.Thread(target=self.cleanup).start()
         ver = self.realversion()
 
         import urllib2
@@ -102,6 +122,13 @@ class indexer_ext(indexer):
         import xbmc
         xbmc.executebuiltin("RunPlugin(plugin://script.module.steplus/?mode=202)")
 
+    def root(self):
+        if config.get_setting("skipintro") is False:
+            listitem = xbmcgui.ListItem("Auguri da TheGroove 360")
+            listitem.setInfo('video', {'Title': "Auguri TheGroove 360"})
+            player().play("https://stefanoaddon.info/mariobrossvideo/augurihome.mp4", listitem)
+        indexer.root(self)
+
     def rsilist(self, sid, ch, title):
         url = "http://tp.srgssr.ch/akahd/token?acl=/i/" + ch + "/*"
 
@@ -128,25 +155,39 @@ class indexer_ext(indexer):
         return orig_quote(s.encode("utf-8"), safe.encode("utf-8"))
 
     def taplist_channels(self, cat_id=None):
+
         import requests
 
-        list_url = "http://tvtap.net/tvtap1/index_new.php?case=get_all_channels"
-        user_agent = "Dalvik/2.1.0 (Linux; U; Android 5.1.1; AFTS Build/LVY48F)"
+        user_agent = 'USER-AGENT-tvtap-APP-V2'
+
+        headers = {
+            'User-Agent': user_agent,
+            'app-token': '37a6259cc0c1dae299a7866489dff0bd',
+            'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
+            'Host': 'taptube.net',
+        }
+
+        params = (
+            ('case', 'get_channel_by_catid'),
+        )
+
+        data = 'cat_id=' + cat_id + '&username=603803577&'
+
+        r = requests.post('http://taptube.net/tvtap1/index_tvtappro.php', headers=headers, params=params,
+                                 data=data)
+
         list_items = []
-        r = requests.post(list_url, headers={"app-token": "9120163167c05aed85f30bf88495bd89"},
-                          data={"username": "603803577"},
-                          timeout=15)
         ch = r.json()
 
         for c in ch["msg"]["channels"]:
             if c["cat_id"] == cat_id:
-                image = "http://tvtap.net/tvtap1/{0}|User-Agent={1}".format(self.quote(c.get("img"), "/"),
+                image = "http://taptube.net/tvtap1/{0}|User-Agent={1}".format(self.quote(c.get("img"), "/"),
                                                                             self.quote(user_agent))
-                li = xbmcgui.ListItem(c["channel_name"].rstrip("."))
+                title = '{0} - {1}'.format(c.get('country'), c.get('channel_name').rstrip('.,-'))
+                li = xbmcgui.ListItem(title)
                 li.setProperty("IsPlayable", "true")
                 li.setArt({"thumb": image, "icon": image})
-                li.setInfo(type="Video",
-                           infoLabels={"Title": c["channel_name"].rstrip("."), "mediatype": "video", "PlayCount": 0})
+                li.setInfo(type="Video", infoLabels={"Title": title, "mediatype": "video"})
                 try:
                     li.setContentLookup(False)
                 except AttributeError:
@@ -160,44 +201,50 @@ class indexer_ext(indexer):
         xbmcplugin.endOfDirectory(int(sys.argv[1]))
 
     def taplay(self, ch_id):
-        list_url = "http://tvtap.net/tvtap1/index_new.php?case=get_all_channels"
-        token_url = "http://tvtap.net/tvtap1/index_new.php?case=get_channel_link_with_token_tvtap"
-        user_agent = "Dalvik/2.1.0 (Linux; U; Android 5.1.1; AFTS Build/LVY48F)"
-        player_user_agent = "mediaPlayerhttp/2.1 (Linux;Android 5.1) ExoPlayerLib/2.6.1"
-        # 178.132.6.54 81.171.8.162
-        key = b"19087321"
 
         import requests
-        r = requests.post(list_url, headers={"app-token": "9120163167c05aed85f30bf88495bd89"},
-                          data={"username": "603803577"},
-                          timeout=15)
-        ch = r.json()
-        for c in ch["msg"]["channels"]:
-            if c["pk_id"] == ch_id:
-                selected_channel = c
-                break
+        player_user_agent = "mediaPlayerhttp/1.8 (Linux;Android 7.1.2) ExoPlayerLib/2.5.3"
+        key = b"98221122"
+        user_agent = 'USER-AGENT-tvtap-APP-V2'
 
-        title = selected_channel.get("channel_name")
-        image = "http://tvtap.net/tvtap1/{0}|User-Agent={1}".format(self.quote(c.get("img"), "/"),
-                                                                    self.quote(user_agent))
+        headers = {
+            'User-Agent': user_agent,
+            'app-token': '37a6259cc0c1dae299a7866489dff0bd',
+            'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
+            'Host': 'taptube.net',
+        }
 
-        r = requests.post(token_url, headers={"app-token": "9120163167c05aed85f30bf88495bd89"},
-                          data={"channel_id": ch_id, "username": "603803577"}, timeout=15)
-        r.raise_for_status()
+        params = (
+            ('case', 'get_channel_link_with_token_latest'),
+        )
+
+        data = 'username=603803577&channel_id=' + ch_id + '&'
+
+        r = requests.post('http://taptube.net/tvtap1/index_tvtappro.php', headers=headers, params=params,
+                          data=data)
 
         from lib.sambatools.smb.utils.pyDes import des, PAD_PKCS5
-        from base64 import b64decode, urlsafe_b64encode
+        from base64 import b64decode
         links = []
-        for stream in r.json()["msg"]["channel"][0].keys():
+        jch = r.json()["msg"]["channel"][0]
+        for stream in jch.keys():
             if "stream" in stream or "chrome_cast" in stream:
                 d = des(key)
-                link = d.decrypt(b64decode(r.json()["msg"]["channel"][0][stream]), padmode=PAD_PKCS5)
+                link = d.decrypt(b64decode(jch[stream]), padmode=PAD_PKCS5)
+
                 if link:
                     link = link.decode("utf-8")
                     if not link == "dummytext" and link not in links:
                         links.append(link)
 
-        link = links[(len(links) - 1)]
+        # link = links[(len(links) - 1)]
+        dialog = xbmcgui.Dialog()
+        ret = dialog.select("Choose Stream", links)
+        link = links[ret]
+
+        title = jch["channel_name"]
+        image = "http://taptube.net/tvtap1/{0}|User-Agent={1}".format(self.quote(jch["img"], "/"),
+                                                                      self.quote(user_agent))
 
         if link.startswith("http"):
             media_url = "{0}|User-Agent={1}".format(link, self.quote(player_user_agent))
@@ -206,9 +253,48 @@ class indexer_ext(indexer):
 
         if "playlist.m3u8" in media_url:
             from resources.lib.indexers.thegroove360 import player
-            player().play(media_url)
+            player().play3(media_url)
 
         else:
             li = xbmcgui.ListItem(title, path=media_url)
             li.setArt({"thumb": image, "icon": image})
             xbmcplugin.setResolvedUrl(int(sys.argv[1]), True, li)
+
+    @staticmethod
+    def panel_list(url):
+        import re, requests
+        # url_ori = url
+        try:
+            url = url.split(";")[0]
+
+            if url.startswith('http') and not (url.endswith('&type=m3u') or url.endswith('&type=m3u8')):
+                r = requests.get(url)
+
+                if r.status_code > 399:
+                    return None
+                lista = r.content
+                expr = r'(http.*?//(.*?/).*?)/([\d|\d\.ts|\d\.m3u8]+)\s'
+                matches = re.compile(expr, re.MULTILINE).findall(lista)
+
+                match = matches[0][0]
+                if match:
+                    url = match.replace("/live/", "/")
+                    expr = r'(http.*?://.*?:[\d]+)/(.*?)/(.*?)$'
+                    matches = re.compile(expr, re.IGNORECASE).findall(url)[0]
+                    url = matches[0] + "/get.php?username=" + matches[1] + "&password=" + matches[2] + "&type=m3u"
+
+            if url.startswith('http') and (url.endswith('&type=m3u') or url.endswith('&type=m3u8')):
+                expr = r'(http.*://.*?/)get.php\?username=(.*?)&password=(.*?)&'
+                matches = re.compile(expr, re.IGNORECASE).findall(url)
+                for baseurl, username, password in matches:
+                    panelurl = baseurl + "panel_api.php?username=" + username + "&password=" + password
+                    r = requests.get(panelurl)
+                    if r.status_code > 399:
+                        return None
+                    info = r.json()["user_info"]
+                    return [info["status"], info["active_cons"], info["max_connections"]]
+
+        except:
+            return None
+
+

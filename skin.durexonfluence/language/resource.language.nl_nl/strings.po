@@ -1,6 +1,6 @@
 # Kodi Media Center language file
-# Addon Name: Xonfluence
-# Addon id: skin.xonfluence
+# Addon Name: Durexonfluence
+# Addon id: skin.durexonfluence
 # Addon Provider: Helly1206
 msgid ""
 msgstr ""
@@ -21,12 +21,12 @@ msgid "Change your"
 msgstr "Verander je"
 
 msgctxt "#31001"
-msgid "GAMES"
-msgstr "SPELLEN"
+msgid ":"
+msgstr ":"
 
 msgctxt "#31002"
-msgid "[B]GAME SETTINGS[/B][CR][CR]Configure rewind support & options ·  Configure keyboard use and number of keyboard players"
-msgstr "[B]SPEL INSTELLINGEN[/B][CR][CR]Configureer herhaal ondersteuning en & opties · Configureer toetsenbord gebruik en nummer van toetsenbord spelers"
+msgid "Enable manual opening of media views slide menu"
+msgstr "Activeer handmatige opening van media weergave glij menu"
 
 msgctxt "#31003"
 msgid "Power options"
@@ -46,7 +46,7 @@ msgstr "Weergaveopties"
 
 msgctxt "#31007"
 msgid "Video process information"
-msgstr "Videovoortgangsinformatie"
+msgstr ""
 
 msgctxt "#31008"
 msgid "Full screen"
@@ -77,8 +77,12 @@ msgid "Memory used"
 msgstr "Geheugen gebruikt"
 
 msgctxt "#31015"
-msgid "Minute"
-msgstr "Minuut"
+msgid "Never"
+msgstr "Nooit"
+
+msgctxt "#31016"
+msgid "Permanently"
+msgstr "Permanent"
 
 msgctxt "#31017"
 msgid "Info button"
@@ -126,7 +130,7 @@ msgstr "Locatie"
 
 msgctxt "#31028"
 msgid "Poster wrap"
-msgstr "Posterwrap"
+msgstr "Poster wrap"
 
 msgctxt "#31029"
 msgid "Fanart"
@@ -142,7 +146,7 @@ msgstr "Afbeelding miniaturen"
 
 msgctxt "#31032"
 msgid "Image wrap"
-msgstr "Afbeeldingwrap"
+msgstr "Afbeelding wrap"
 
 msgctxt "#31033"
 msgid "Info"
@@ -246,7 +250,7 @@ msgstr "Huidige afspeellijst"
 
 msgctxt "#31061"
 msgid "Current selected"
-msgstr "Nu geselecteerd"
+msgstr "Huidige geselecteerde"
 
 msgctxt "#31062"
 msgid "Episode backdrop"
@@ -614,55 +618,7 @@ msgstr "Notificaties linksboven"
 
 msgctxt "#31155"
 msgid "Show global search button on bottom left"
-msgstr "Laat globaal zoeken knop linksonder zien"
-
-msgctxt "#31156"
-msgid ":"
-msgstr ":"
-
-msgctxt "#31157"
-msgid "Enable manual opening of media views slide menu"
-msgstr "Activeer handmatige opening van media weergave glij menu"
-
-msgctxt "#31158"
-msgid "Never"
-msgstr "Nooit"
-
-msgctxt "#31159"
-msgid "Permanently"
-msgstr "Permanent"
-
-msgctxt "#31160"
-msgid "Visualisation settings"
-msgstr "Visualisatie instellingen"
-
-msgctxt "#31161"
-msgid "Lyrics add-on settings"
-msgstr "Songtekst add-on instellingen"
-
-msgctxt "#31162"
-msgid " pack for "
-msgstr " pakket voor "
-
-msgctxt "#31163"
-msgid "Update all backgrounds"
-msgstr "Update alle achtergronden"
-
-msgctxt "#31164"
-msgid "Flags"
-msgstr "Vlaggen"
-
-msgctxt "#31165"
-msgid "Don't ask again"
-msgstr "Niet meer vragen"
-
-msgctxt "#31166"
-msgid "Setup default background"
-msgstr "Standaard achtergrond opzetten"
-
-msgctxt "#31167"
-msgid "No backgrounds set, install and setup default backgrounds add-on?"
-msgstr "Geen achtergronden ingesteld, standaard achtergronden add-on installeren en instellen?"
+msgstr "Laat globaal zoeken know linksonder zien"
 
 msgctxt "#31188"
 msgid "Random concerts"
@@ -734,7 +690,7 @@ msgstr "UitgebreideInfo"
 
 msgctxt "#31205"
 msgid "Lyrics source"
-msgstr "Songtekstbron"
+msgstr "Songtekst bron"
 
 msgctxt "#31206"
 msgid "Found"
@@ -981,8 +937,8 @@ msgid "Enable visible horizontal submenu"
 msgstr "Activeer zichtbaar horizontaal submenu"
 
 msgctxt "#31276"
-msgid "Extra artwork options"
-msgstr "Extra artwork opties"
+msgid "Extra art work options"
+msgstr "Extra art work opties"
 
 msgctxt "#31277"
 msgid "Enable music visualization on home screen"
@@ -1181,7 +1137,7 @@ msgid "Album details"
 msgstr "Album details"
 
 msgctxt "#31332"
-msgid "Alternate fanart"
+msgid "Alternate fanArt"
 msgstr "Alternatieve fanart"
 
 msgctxt "#31333"
@@ -1426,7 +1382,7 @@ msgstr "Log-in"
 
 msgctxt "#31421"
 msgid "Select your Kodi user profile[CR]to login and continue"
-msgstr "Selecteer je Kodi-gebruikersprofiel[CR]om in te loggen en door te gaan"
+msgstr "Selecteer jouw Kodi Gebruikersprofiel[CR]om in te loggen en door te gaan"
 
 msgctxt "#31422"
 msgid "Show or hide the login screen at startup."
@@ -1454,35 +1410,35 @@ msgstr "Bioscoop"
 
 msgctxt "#31430"
 msgid "[B]PLAYER SETTINGS[/B][CR][CR]Configure actions that can be used during playback · Configure how media content is played"
-msgstr "[B]AFSPEELINSTELLINGEN[/B][CR][CR]Configureer acties die gebruikt kunnen worden tijdens het afspelen · Configureer hoe mediacontent wordt afgespeeld"
+msgstr "[B]SPELER INSTELLINGEN[/B][CR][CR]Configureer acties die tijdens afspelen gebruikt kunnen worden · Configureer how media inhoud wordt afgespeeld"
 
 msgctxt "#31431"
 msgid "[B]LIBRARY SETTINGS[/B][CR][CR]Configure how the library/file views display media content ·  Configure how library lists/views are navigated · Configure the media database options"
-msgstr "[B]BIBLIOTHEEKINSTELLINGEN[/B][CR][CR]Configureer hoe de bibliotheeklijsten/bestandenlijsten de media tonen · Configureer hoe bibliotheeklijsten/views worden bestuurd · Configureer de media-database opties"
+msgstr "[B]BIBLIOTHEEK INSTELLINGEN[/B][CR][CR]Configureer hoe de bibliotheek/bestand weergave media inhoud laat zien ·  Configureer hoe bibliotheek door lijsten/weergaven wordt genavigeerd ·  Configureer de media database opties"
 
 msgctxt "#31432"
 msgid "[B]PVR SETTINGS[/B][CR][CR]Configure how the channels & guide are managed  · Configure how Live TV and recordings are managed"
-msgstr "[B]PVR INSTELLINGEN[/B][CR][CR]Configureer hoe de kanalen & gids worden gebruikt · Configureer hoe Live TV en opnames worden gebruikt"
+msgstr "[B]PVR INSTELLINGEN[/B][CR][CR]Configureer hoe the kanalen & gids gemanaged worden ·  Configureer hoe Live TV en opnames gemanaged worden"
 
 msgctxt "#31433"
 msgid "[B]ADD-ONS SETTINGS[/B][CR][CR]Configure your installed add-ons · Browse for and install add-ons from kodi.tv"
-msgstr "[B]ADD-ONS INSTELLINGEN[/B][CR][CR]Configureer je geïnstalleerde add-ons · Zoek naar en installeer add-ons van kodi.tv"
+msgstr "[B]ADD-ONS INSTELLINGEN[/B][CR][CR]Configureer je geïnstalleerde add-ons ·  Loop door en installeer add-ons van kodi.tv"
 
 msgctxt "#31434"
 msgid "[B]SERVICES SETTINGS[/B][CR][CR]Configure & manage media sharing services · Configure web server · Configure & manage the weather service"
-msgstr "[B]SERVICE-INSTELLINGEN[/B][CR][CR]Configureer & beheer media sharing services · Configureer webserver · Configureer & beheer de weerservice"
+msgstr "[B]SERVICES INSTELLINGEN[/B][CR][CR]Configureer & manage media deel services · Confiugreer web server · Configureer & manage weer service"
 
 msgctxt "#31435"
 msgid "[B]SYSTEM SETTINGS[/B][CR][CR]Configure display · Configure audio · Configure internet access · Configure power saving· Configure logging"
-msgstr "[B]SYSTEEMINSTELLINGEN[/B][CR][CR]Configureer beeld · Configureer audio · Configureer internettoegang · Configureer stroombeheer · Configureer logbeheer"
+msgstr "[B]SYSTEEM INSTELLINGEN[/B][CR][CR]Configureer scherm · Configureer geluid · Configureer internet toegang · Configureer vermogensbesparing · Configureer logging"
 
 msgctxt "#31436"
 msgid "[B]INTERFACE SETTINGS[/B][CR][CR]Configure skin · Configure region · Configure control · Configure screensaver · Configure master lock"
-msgstr "[B]INTERFACE INSTELLINGEN[/B][CR][CR]Configureer skin · Configureer regio's · Configureer controle · Configureer schermbeveiliging · Configureer hoofdslot"
+msgstr "[B]INTERFACE INSTELLINGEN[/B][CR][CR]Configureer skin · Configureer regio · Configureer besturing  · Configureer schermbeveiliging · Configureer master slot"
 
 msgctxt "#31437"
-msgid "[B]CONFIGURE SKIN SETTINGS[/B][CR][CR]Setup the Xonfluence skin · Add and remove home menu items · Change skin backgrounds"
-msgstr "[B]SKININSTELLINGEN CONFIGUREREN[/B][CR][CR]Configureer de Xonfluence skin · Thuis menu items toevoegen en verwijderen · Skin achtergronden aanpassen"
+msgid "[B]CONFIGURE SKIN SETTINGS[/B][CR][CR]Setup the Durexonfluence skin · Add and remove home menu items · Change skin backgrounds"
+msgstr "[B]SKININSTELLINGEN CONFIGUREREN[/B][CR][CR]Configureer de Durexonfluence skin · Thuis menu items toevoegen en verwijderen · Skin achtergronden aanpassen"
 
 msgctxt "#31440"
 msgid "Select widget set"
@@ -1642,7 +1598,7 @@ msgstr "Hernoem groep"
 
 msgctxt "#31505"
 msgid "Delete group"
-msgstr "Verwijder groep"
+msgstr "Verwijder Groep"
 
 msgctxt "#31506"
 msgid "Available[CR]Groups"
@@ -1654,7 +1610,7 @@ msgstr "Kanaliseer groep"
 
 msgctxt "#31510"
 msgid "Timer set"
-msgstr "Tijdklok instellen"
+msgstr "Timer instellen"
 
 msgctxt "#31511"
 msgid "Channel options"
@@ -1722,19 +1678,19 @@ msgstr "Frankrijk"
 
 msgctxt "#31901"
 msgid "36-hour forecast"
-msgstr "36-uurs voorspelling"
+msgstr "36-Uur vooruitzicht"
 
 msgctxt "#31902"
 msgid "Hourly forecast"
-msgstr "Uur voorspelling"
+msgstr "Uur vooruitzicht"
 
 msgctxt "#31903"
 msgid "Weekend forecast"
-msgstr "Weekendvoorspelling"
+msgstr "Weekend vooruitzicht"
 
 msgctxt "#31904"
 msgid "Daily forecast"
-msgstr "Dagelijkse voorspelling"
+msgstr "Dagelijkse vooruitzicht"
 
 msgctxt "#31905"
 msgid "Forecast"
@@ -1831,22 +1787,6 @@ msgstr "YouTube"
 msgctxt "#31943"
 msgid "Use default confluence favourites window look and feel"
 msgstr "Gebruik standaard confluence favorieten scherm uiterlijk"
-
-msgctxt "#31944"
-msgid "Visible in Master mode only"
-msgstr "Alleen zichtbaar in beheerprofiel"
-
-msgctxt "#31947"
-msgid "Button look and feel"
-msgstr "Knoppen uiterlijk"
-
-msgctxt "#31948"
-msgid "Button layout look and feel"
-msgstr "Knoppen opmaak uiterlijk"
-
-msgctxt "#31949"
-msgid "OSD look and feel"
-msgstr "OSD uiterlijk"
 
 msgctxt "#31950"
 msgid "WEATHER"
@@ -1969,8 +1909,8 @@ msgid "Reload"
 msgstr "Herlaad"
 
 msgctxt "#31980"
-msgid "Save settings and reload Xonfluence"
-msgstr "Sla settings op and herlaad Xonfluence"
+msgid "Save settings and reload Durexonfluence"
+msgstr "Sla settings op and herlaad Durexonfluence"
 
 msgctxt "#31981"
 msgid "Kodi intro movie path"

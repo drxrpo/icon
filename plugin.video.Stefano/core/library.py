@@ -30,9 +30,8 @@ import math
 import os
 import sys
 
-from core import config
+from core import config, logger
 from core import filetools
-from platformcode import logger
 from core import scraper
 from core import scrapertools
 from core.item import Item

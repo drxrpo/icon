@@ -8,13 +8,13 @@
     <language>it</language>
 
     <fanart></fanart>
-    <thumbnail>https://raw.githubusercontent.com/orione7/Pelis_images/master/bannermenu/saintseiya.png</thumbnail>
-    <bannermenu>https://raw.githubusercontent.com/orione7/Pelis_images/master/bannermenu/saintseiya.png</bannermenu>
+    <thumbnail>http://vignette2.wikia.nocookie.net/nonciclopedia/images/1/12/Logo_Cavalieri_dello_Zodiaco.png/revision/latest?cb=20140308215438</thumbnail>
+    <bannermenu>http://vignette2.wikia.nocookie.net/nonciclopedia/images/1/12/Logo_Cavalieri_dello_Zodiaco.png/revision/latest?cb=20140308215438</bannermenu>
 
-    <update_url>https://raw.githubusercontent.com/orione7/plugin.video.streamondemand-pureita/master/channels/</update_url>
+    <update_url>https://raw.githubusercontent.com/stesev1/channels/master/channels/</update_url>
     
-    <version>2</version>
-    <date>11/04/2018</date>
+    <version>1</version>
+    <date>22/06/2016</date>
     <changes>update</changes>
 
     <categories>

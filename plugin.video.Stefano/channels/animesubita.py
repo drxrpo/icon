@@ -1,9 +1,7 @@
 # -*- coding: utf-8 -*-
-# Icarus - Kodi Addon
 # ------------------------------------------------------------
-# Icarus - XBMC Plugin
+# Thegroove360 - XBMC Plugin
 # Canale per AnimeSubIta
-# http://www.mimediacenter.info/foro/viewforum.php?f=36
 # ------------------------------------------------------------
 
 import re, urllib, urlparse
@@ -14,9 +12,7 @@ from core.item import Item
 from core.tmdb import infoSod
 
 __channel__ = "animesubita"
-
 host = "http://www.animesubita.org"
-
 headers = [['Referer', host]]
 
 # ----------------------------------------------------------------------------------------------------------------
@@ -26,27 +22,27 @@ def mainlist(item):
                      action="lista_anime_completa",
                      title=color("Lista Anime (%s)" % color("Slow", "red"), "azure"),
                      url="%s/lista-anime/" % host,
-                     thumbnail="http://orig03.deviantart.net/6889/f/2014/079/7/b/movies_and_popcorn_folder_icon_by_matheusgrilo-d7ay4tw.png"),
+                     thumbnail="https://raw.githubusercontent.com/stesev1/channels/master/images/channels_icon/popcorn_cinema_movie_.png"),
                 Item(channel=__channel__,
                      action="ultimiep",
                      title=color("Ultimi Episodi", "azure"),
                      url="%s/category/ultimi-episodi/" % host,
-                     thumbnail="http://orig03.deviantart.net/6889/f/2014/079/7/b/movies_and_popcorn_folder_icon_by_matheusgrilo-d7ay4tw.png"),
+                     thumbnail="https://raw.githubusercontent.com/stesev1/channels/master/images/channels_icon/popcorn_cinema_movie_.png"),
                 Item(channel=__channel__,
                      action="lista_anime",
                      title=color("Anime in corso", "azure"),
                      url="%s/category/anime-in-corso/" % host,
-                     thumbnail="http://orig03.deviantart.net/6889/f/2014/079/7/b/movies_and_popcorn_folder_icon_by_matheusgrilo-d7ay4tw.png"),
+                     thumbnail="https://raw.githubusercontent.com/stesev1/channels/master/images/channels_icon/popcorn_cinema_movie_.png"),
                 Item(channel=__channel__,
                      action="categorie",
                      title=color("Categorie", "azure"),
                      url="%s/generi/" % host,
-                     thumbnail="http://orig03.deviantart.net/6889/f/2014/079/7/b/movies_and_popcorn_folder_icon_by_matheusgrilo-d7ay4tw.png"),
+                     thumbnail="https://raw.githubusercontent.com/stesev1/channels/master/images/channels_icon/popcorn_cinema_movie_.png"),
                 Item(channel=__channel__,
                      action="search",
                      title=color("Cerca anime ...", "yellow"),
                      extra="anime",
-                     thumbnail="http://dc467.4shared.com/img/fEbJqOum/s7/13feaf0c8c0/Search")
+                     thumbnail="https://raw.githubusercontent.com/stesev1/channels/master/images/channels_icon/search_P.png")
                 ]
 
     return itemlist
@@ -136,7 +132,7 @@ def ultimiep(item):
         if 'episodio' in eptype.lower():
             epnumber = scrapertools.find_single_match(title.lower(), r'episodio?\s*(\d+)')
             eptype += ":? " + epnumber
-                
+
         extra = "<tr>\s*<td[^>]+><strong>(?:[^>]+>|)%s(?:[^>]+>[^>]+>|[^<]*|[^>]+>)</strong>" % eptype
         itm.title = color(title, 'azure')
         itm.action = "findvideos"
@@ -180,7 +176,7 @@ def lista_anime(item, nextpage=True, show_lang=True):
     if nextpage:
         patronvideos = r'<link rel="next" href="([^"]+)"\s*/>'
         matches = re.compile(patronvideos, re.DOTALL).findall(data)
-        
+
         if len(matches) > 0:
             scrapedurl = matches[0]
             itemlist.append(
@@ -193,7 +189,7 @@ def lista_anime(item, nextpage=True, show_lang=True):
                     action="lista_anime",
                     title=color("Successivo >>", "orange"),
                     url=scrapedurl,
-                    thumbnail="http://2.bp.blogspot.com/-fE9tzwmjaeQ/UcM2apxDtjI/AAAAAAAAeeg/WKSGM2TADLM/s1600/pager+old.png",
+                    thumbnail="https://raw.githubusercontent.com/stesev1/channels/master/images/channels_icon/next_1.png",
                     folder=True))
 
     return itemlist
@@ -231,7 +227,7 @@ def lista_anime_completa(item):
 def episodi(item):
     logger.info()
     itemlist = []
-    
+
     data = httptools.downloadpage(item.url).data
 
     patron = '<td style="[^"]*?">\s*.*?<strong>(.*?)</strong>.*?\s*</td>\s*<td style="[^"]*?">\s*<a href="([^"]+?)"[^>]+>\s*<img.*?src="([^"]+?)".*?/>\s*</a>\s*</td>'
@@ -328,6 +324,6 @@ def color(text, color):
 
 def HomePage(item):
     import xbmc
-    xbmc.executebuiltin("ReplaceWindow(10024,plugin://plugin.video.Stefano)")
+    xbmc.executebuiltin("ReplaceWindow(10024,plugin://plugin.video.Stefano/?action=sod)")
 
 # ================================================================================================================

@@ -1,18 +1,17 @@
 ﻿<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<addon id="plugin.video.StarTec" name="[COLOR yellow]*Star-Tec*[/COLOR]" version="2.0.4" provider-name="*Star-Tec*">
+<addon id="plugin.video.StarTec" name=" [B][COLOR red]S[/COLOR][COLOR yellow]tar[/COLOR][COLOR red]T[/COLOR][COLOR yellow]ec AIO[/COLOR][/B]" version="3.0.7" provider-name="StarTec">
     <requires>
         <import addon="xbmc.python" version="2.19.0" />
-        <import addon="script.module.universalscrapers" version="0.5.5" />
+        <import addon="script.module.universalscrapers" version="1.0.0" />
         <import addon="script.module.python.koding.aio" version="0.9.6.6" />
         <import addon="script.module.beautifulsoup" version="3.2.1" />
         <import addon="script.module.requests" version="2.9.1" />
         <import addon="script.module.addon.common" version="2.0.0" />
         <import addon="script.module.xmltodict" version="0.9.0" />
         <!--<import addon="script.module.web-pdb" version="1.0"/>-->
-		<import addon="program.plexus" />
-		<import addon="script.module.httplib2" />
-        <import addon="script.module.simplejson" />
-		<import addon="script.module.dateutil" />
+        <import addon="script.module.resolveurl" />
+        <!--<import addon="script.module.urlresolver" />-->
+        <import addon="script.module.dateutil" />
         <import addon="script.module.liveresolver" version="0.1.50" />
          <import addon="script.module.urlresolver" version="2.1.0" />
         <import addon="script.video.F4mProxy" version="2.8.7" />
@@ -26,27 +25,25 @@
 		<import addon="script.module.startec-swiftstreamz" />
 		<import addon="script.module.startec.nettv" version="" />
 		<import addon="script.module.startecmob" version="" />
-    </requires>
-    <extension point="xbmc.python.pluginsource" library="Startec.py">
-        <provides>video</provides>
+        </requires>
+    <extension point="xbmc.python.pluginsource" library="default.py">
+        <provides>audio video</provides>
     </extension>
     <extension point="xbmc.service" library="service.py" start="[login|startup]" />
     <extension point="xbmc.addon.metadata">
-      <summary lang="en">The Star Tec Addon by *Star*-Tec</summary>
-        <description lang="en">The author does not host or distribute any of the content displayed by this addon. The author does not have any affiliation with the content provider.
-		  Addon has Movies Tv shows and lots more.</description>
-        <disclaimer lang="en">The author of this addon do not host any of the content which is found and have no affiliation with any of the content providers. This addon simply searches websites for content. Use at your own risk!</disclaimer>
-        <disclaimer lang="he">מחבר ההרחבה זה אינו מארח את התוכן שיתכן ויימצא ואין לו זיקה לאף אחד מספקי התוכן. הרחבה רק מחפשת תוכן שקיים באתרי אינטרנט. השימוש בהרחבה הוא על אחריותך בלבד!</disclaimer>
+        <summary lang="en">*Star-Tec AIO*</summary>
+        <description lang="en">The Star Tec Addon by *Star*-Tec</description>
+        <disclaimer lang="en">The author is not responsible for the use of this addon. The author is not responsible for the content found using this addon. The author does not host or own any content found within this addon.[CR]The author is in no way affiliated with Kodi, Team Kodi, or the XBMC Foundation.[CR]This is a Non-profit resource, organized solely for educational purposes which is protected under the Fair-Use doctrine of the Copyright Act, Specifically section 107, which does promote freedom of expression, by permitting the unlicensed use of copyright-protected works.</disclaimer>
         <platform>all</platform>
-        <website></website>
+        <website/>
         <video_guide></video_guide>
-	  <assets>
-        <icon>icon.png</icon>
-        <fanart>fanart.jpg</fanart>
-        <screenshot>resources/screenshot001.png</screenshot>
-        <screenshot>resources/screenshot002.png</screenshot>
-        <screenshot>resources/screenshot003.png</screenshot>
-	  </assets>
-	<news></news>
+        <reuselanguageinvoker>false</reuselanguageinvoker>
+        <assets>
+			<icon>icon.png</icon>
+			<fanart>fanart.jpg</fanart>
+			<screenshot>resources/media/screenshot-01.jpg</screenshot>
+			<screenshot>resources/media/screenshot-02.jpg</screenshot>
+			<screenshot>resources/media/screenshot-03.jpg</screenshot>
+		</assets>
     </extension>
 </addon>

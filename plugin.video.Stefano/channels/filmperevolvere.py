@@ -1,32 +1,26 @@
 # -*- coding: utf-8 -*-
 # ------------------------------------------------------------
-# streamondemand-PureITA / XBMC Plugin
+# TheGroove360 - XBMC Plugin
 # Canale filmperevolvere
-# http://www.mimediacenter.info/foro/viewforum.php?f=36
 # ------------------------------------------------------------
+
 import re
 import urlparse
 
 import lib.pyaes as aes
-from core import config
-from core import logger
+from core import httptools
+from platformcode import logger
 from core import scrapertools
 from core import servertools
 from core.item import Item
 from core.tmdb import infoSod
 
 __channel__ = "filmperevolvere"
-__category__ = "F,C"
-__type__ = "generic"
-__title__ = "filmperevolvere (IT)"
-__language__ = "IT"
 
-DEBUG = config.get_setting("debug")
-
-host = "https://filmperevolvere.it/"
+host = "https://filmperevolvere.it"
 
 headers = [
-    ['User-Agent', 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:51.0) Gecko/20100101 Firefox/54.0'],
+    ['User-Agent', 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:54.0) Gecko/20100101 Firefox/54.0'],
     ['Accept', 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8'],
     ['Accept-Encoding', 'gzip, deflate'],
     ['Accept-Language', 'en-US,en;q=0.5'],
@@ -37,36 +31,56 @@ headers = [
 ]
 
 
-def isGeneric():
-    return True
-
-
 def mainlist(item):
-    logger.info("streamondemand-pureita.filmperevolvere mainlist")
+    logger.info("[thegroove360.filmperevolvere] mainlist")
     itemlist = [Item(channel=__channel__,
                      title="[COLOR azure]Ultimi Film Inseriti[/COLOR]",
-                     action="peliculas_film",
+                     action="peliculas",
                      url=host,
-                     thumbnail="https://raw.githubusercontent.com/orione7/Pelis_images/master/channels_icon_pureita/movie_new_P.png"),
+                     thumbnail="https://raw.githubusercontent.com/stesev1/channels/master/images/channels_icon/popcorn_cinema_movie_.png"),
                 Item(channel=__channel__,
                      title="[COLOR azure]Categorie[/COLOR]",
                      action="categorie",
-                     url="%s/indexes/3651-2/" % host,
-                     thumbnail="https://raw.githubusercontent.com/orione7/Pelis_images/master/channels_icon_pureita/genres_P.png"),
+                     url=host,
+                     thumbnail="https://raw.githubusercontent.com/stesev1/channels/master/images/channels_icon/popcorn_cinema_movie_.png"),
                 Item(channel=__channel__,
                      title="[COLOR yellow]Cerca...[/COLOR]",
                      action="search",
                      extra="movie",
-                     thumbnail="https://raw.githubusercontent.com/orione7/Pelis_images/master/channels_icon_pureita/search_P.png")]
+                     thumbnail="https://raw.githubusercontent.com/stesev1/channels/master/images/channels_icon/search_P.png")]
 
     return itemlist
+
+
+def newest(categoria):
+    logger.info("[filmperevolvere.py] newest" + categoria)
+    itemlist = []
+    item = Item()
+    try:
+        if categoria == "peliculas":
+            item.url = host
+            item.action = "peliculas"
+            itemlist = peliculas(item)
+
+            if itemlist[-1].action == "peliculas":
+                itemlist.pop()
+
+    # Continua la ricerca in caso di errore 
+    except:
+        import sys
+        for line in sys.exc_info():
+            logger.error("{0}".format(line))
+        return []
+
+    return itemlist
+
 
 def search(item, texto):
     logger.info("[filmperevolvere.py] " + item.url + " search " + texto)
     item.url = host + "/?s=" + texto
 
     try:
-        return peliculas_film(item)
+        return peliculas(item)
 
     except:
         import sys
@@ -75,7 +89,6 @@ def search(item, texto):
 
     return []
 
-# ------------------------------------------------------------------------------------------------------------------------------------
 
 def categorie(item):
     itemlist = []
@@ -83,12 +96,12 @@ def categorie(item):
     c = get_test_cookie(item.url)
     if c: headers.append(['Cookie', c])
 
-    # Descarga la pagina
-    data = scrapertools.cache_page(item.url, headers=headers)
-    bloque = scrapertools.get_match(data, '<div class="page-title pad group">(.*?)</li> </div>')
+    # Carica la pagina 
+    data = httptools.downloadpage(item.url, headers=headers).data
+    bloque = scrapertools.get_match(data,'GENERI.*\s<ul class="mega-sub-menu">\s(.*?)<\/ul>')
 
-    # Extrae las entradas (carpetas)
-    patron = '<h3 class="ei-item-term"><a\s*href="([^"]+)">(.*?)<\/a><\/h3>'
+    # Estrae i contenuti 
+    patron = 'href="([^"]*)">([^<]*)<'
     matches = re.compile(patron, re.DOTALL).findall(bloque)
 
     for scrapedurl, scrapedtitle in matches:
@@ -100,41 +113,41 @@ def categorie(item):
         if scrapedtitle.startswith(("GENERI")):
             continue
 
-        if (DEBUG): logger.info("title=[" + scrapedtitle + "], url=[" + scrapedurl + "]")
         itemlist.append(
             Item(channel=__channel__,
-                 action="peliculas",
+                 action="peliculas2",
                  title=scrapedtitle,
                  url=scrapedurl,
-                 thumbnail="https://raw.githubusercontent.com/orione7/Pelis_images/master/channels_icon_pureita/genre_P.png",
+                 thumbnail="https://raw.githubusercontent.com/stesev1/channels/master/images/channels_icon/popcorn_cinema_movie_.png",
                  folder=True))
 
     return itemlist
 
-# ------------------------------------------------------------------------------------------------------------------------------------	
 
 def peliculas(item):
-    logger.info("streamondemand-pureita.filmperevolvere peliculas")
+    logger.info("[thegroove360.filmperevolvere] peliculas")
     itemlist = []
 
     c = get_test_cookie(item.url)
     if c: headers.append(['Cookie', c])
 
+    if item.url[1]=="|":
+        patron = 'class="ei-item-title"><a\s*href="([^"]*)">([^<]*)'
+        item.url=item.url[2:]
+    else:
+        patron = '<div class="post-thumbnail">\s*<a href="([^"]+)" title="Permalink a([^"]+)">\s.*?src="(.*?)"'
 
-    data = scrapertools.cache_page(item.url, headers=headers)
+    # Carica la pagina 
+    data = httptools.downloadpage(item.url, headers=headers).data
 
-
-    patron = '<h4 class="ei-item-title"><a href="([^"]+)">(.*?)</a></h4> '
+    # Estrae i contenuti 
     matches = re.compile(patron, re.DOTALL).findall(data)
 
-    for scrapedurl, scrapedtitle in matches:
+    for scrapedurl, scrapedtitle, scrapedthumbnail in matches:
         scrapedplot = ""
-        scrapedthumbnail = ""
         scrapedtitle = scrapedtitle.title()
         txt = "Serie Tv"
         if txt in scrapedtitle: continue
-        if DEBUG: logger.info(
-            "title=[" + scrapedtitle + "], url=[" + scrapedurl + "], thumbnail=[" + scrapedthumbnail + "]")
         itemlist.append(infoSod(
             Item(channel=__channel__,
                  action="findvideos",
@@ -146,8 +159,8 @@ def peliculas(item):
                  plot=scrapedplot,
                  folder=True), tipo='movie'))
 
-
-    patronvideos = '<li class="next right"><a href="([^"]+)"[^>]+>'
+    # Paginazione 
+    patronvideos = 'rel="next" href="(.*?)"'
     matches = re.compile(patronvideos, re.DOTALL).findall(data)
 
     if len(matches) > 0:
@@ -156,85 +169,26 @@ def peliculas(item):
             Item(channel=__channel__,
                  action="HomePage",
                  title="[COLOR yellow]Torna Home[/COLOR]",
-                 thumbnail="https://raw.githubusercontent.com/orione7/Pelis_images/master/vari/return_home2_P.png",
                  folder=True)),
         itemlist.append(
             Item(channel=__channel__,
                  action="peliculas",
                  title="[COLOR orange]Successivo >>[/COLOR]",
                  url=scrapedurl,
-                 thumbnail="https://raw.githubusercontent.com/orione7/Pelis_images/master/channels_icon_pureita/successivo_P.png",
+                 thumbnail="https://raw.githubusercontent.com/stesev1/channels/5abaf5c6bc9e50ca4595082c8956375fbc38d909/images/channels_icon/next_1.png",
                  folder=True))
 
     return itemlist
 
-# ------------------------------------------------------------------------------------------------------------------------------------	
-	
-def peliculas_film(item):
-    logger.info("streamondemand-pureita.filmperevolvere peliculas_film")
-    itemlist = []
-
-    c = get_test_cookie(item.url)
-    if c: headers.append(['Cookie', c])
-
-    # Descarga la pagina
-    data = scrapertools.cache_page(item.url, headers=headers)
-
-    # Extrae las entradas (carpetas)
-    patron = '<div class="post-thumbnail">\s*<a href="([^"]+)" title="([^"]+)">\s*<img width="520"'
-    matches = re.compile(patron, re.DOTALL).findall(data)
-
-    for scrapedurl, scrapedtitle in matches:
-        scrapedplot = ""
-        scrapedthumbnail = ""
-        scrapedtitle = scrapedtitle.title()
-        txt = "Serie Tv"
-        if txt in scrapedtitle: continue
-        if DEBUG: logger.info(
-            "title=[" + scrapedtitle + "], url=[" + scrapedurl + "], thumbnail=[" + scrapedthumbnail + "]")
-        itemlist.append(infoSod(
-            Item(channel=__channel__,
-                 action="findvideos",
-                 fulltitle=scrapedtitle,
-                 show=scrapedtitle,
-                 title="[COLOR azure]" + scrapedtitle + "[/COLOR]",
-                 url=scrapedurl,
-                 thumbnail=scrapedthumbnail,
-                 plot=scrapedplot,
-                 folder=True), tipo='movie'))
-
-    # Extrae el paginador
-    patronvideos = '<li class="next right"><a href="([^"]+)"[^>]+>'
-    matches = re.compile(patronvideos, re.DOTALL).findall(data)
-
-    if len(matches) > 0:
-        scrapedurl = urlparse.urljoin(item.url, matches[0])
-        itemlist.append(
-            Item(channel=__channel__,
-                 action="HomePage",
-                 title="[COLOR yellow]Torna Home[/COLOR]",
-                 thumbnail="https://raw.githubusercontent.com/orione7/Pelis_images/master/vari/return_home2_P.png",
-                 folder=True)),
-        itemlist.append(
-            Item(channel=__channel__,
-                 action="peliculas_film",
-                 title="[COLOR orange]Successivo >>[/COLOR]",
-                 url=scrapedurl,
-                 thumbnail="https://raw.githubusercontent.com/orione7/Pelis_images/master/channels_icon_pureita/successivo_P.png",
-                 folder=True))
-
-    return itemlist
-	
-# ------------------------------------------------------------------------------------------------------------------------------------
 
 def findvideos(item):
-    logger.info("streamondemand-pureita.filmperevolvere findvideos")
+    logger.info("[thegroove360.filmperevolvere] findvideos")
 
     c = get_test_cookie(item.url)
     if c: headers.append(['Cookie', c])
 
-    # Descarga la página
-    data = scrapertools.cache_page(item.url, headers=headers)
+    # Carica la pagina 
+    data = httptools.downloadpage(item.url, headers=headers).data
 
     itemlist = servertools.find_video_items(data=data)
 
@@ -247,16 +201,14 @@ def findvideos(item):
 
     return itemlist
 
-# ------------------------------------------------------------------------------------------------------------------------------------
 
 def HomePage(item):
     import xbmc
-    xbmc.executebuiltin("ReplaceWindow(10024,plugin://plugin.video.streamondemand-pureita-master)")
+    xbmc.executebuiltin("ReplaceWindow(10024,plugin://plugin.video.Stefano)")
 
-# ------------------------------------------------------------------------------------------------------------------------------------
 
 def get_test_cookie(url):
-    data = scrapertools.cache_page(url, headers=headers)
+    data = httptools.downloadpage(url, headers=headers).data
     a = scrapertools.find_single_match(data, 'a=toNumbers\("([^"]+)"\)')
     if a:
         b = scrapertools.find_single_match(data, 'b=toNumbers\("([^"]+)"\)')
@@ -266,3 +218,59 @@ def get_test_cookie(url):
                 cookie = aes.AESModeOfOperationCBC(a.decode('hex'), iv=b.decode('hex')).decrypt(c.decode('hex'))
                 return '__test=%s' % cookie.encode('hex')
     return ''
+
+def peliculas2(item):
+    logger.info("[thegroove360.filmperevolvere] peliculas2")
+    itemlist = []
+
+    c = get_test_cookie(item.url)
+    if c: headers.append(['Cookie', c])
+
+    if item.url[1]=="|":
+        patron = 'class="ei-item-title"><a\s*href="([^"]*)">([^<]*)'
+        item.url=item.url[2:]
+    else:
+        patron = '<div class="ei-item-image"><a href="(.*?)"><img src="(.*?)\?.*?href.*?>(.*?)<'
+
+    # Carica la pagina
+    data = httptools.downloadpage(item.url, headers=headers).data
+
+    # Estrae i contenuti
+    matches = re.compile(patron, re.IGNORECASE).findall(data)
+
+    for scrapedurl, scrapedthumbnail, scrapedtitle in matches:
+        scrapedplot = ""
+        #scrapedtitle = scrapedtitle.title()
+        #txt = "Serie Tv"
+        #if txt in scrapedtitle: continue
+        itemlist.append(infoSod(
+            Item(channel=__channel__,
+                 action="findvideos",
+                 fulltitle=scrapedtitle,
+                 show=scrapedtitle,
+                 title="[COLOR azure]" + scrapedtitle + "[/COLOR]",
+                 url=scrapedurl,
+                 thumbnail=scrapedthumbnail,
+                 plot=scrapedplot,
+                 folder=True), tipo='movie'))
+
+    # Paginazione
+    patronvideos = '<li class="next right"><a href="([^"]+)"[^>]+>'
+    matches = re.compile(patronvideos, re.DOTALL).findall(data)
+
+    if len(matches) > 0:
+        scrapedurl = urlparse.urljoin(item.url, matches[0])
+        itemlist.append(
+            Item(channel=__channel__,
+                 action="HomePage",
+                 title="[COLOR yellow]Torna Home[/COLOR]",
+                 folder=True)),
+        itemlist.append(
+            Item(channel=__channel__,
+                 action="peliculas",
+                 title="[COLOR orange]Successivo >>[/COLOR]",
+                 url=scrapedurl,
+                 thumbnail="https://raw.githubusercontent.com/stesev1/channels/5abaf5c6bc9e50ca4595082c8956375fbc38d909/images/channels_icon/next_1.png",
+                 folder=True))
+
+    return itemlist

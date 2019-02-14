@@ -34,8 +34,7 @@ import urlparse
 from StringIO import StringIO
 from threading import Lock
 
-from core import config
-from platformcode import logger
+from core import config, logger
 from core.cloudflare import Cloudflare
 
 cookies_lock = Lock()

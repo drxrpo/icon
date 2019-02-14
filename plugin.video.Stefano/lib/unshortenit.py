@@ -1,3 +1,30 @@
+# ------------------------------------------------------------
+# -*- coding: utf-8 -*-
+# ------------------------------------------------------------
+# Stefano Thegroove 360
+# Copyright 2018 https://stefanoaddon.info
+#
+# Distribuito sotto i termini di GNU General Public License v3 (GPLv3)
+# http://www.gnu.org/licenses/gpl-3.0.html
+# ------------------------------------------------- -----------
+# Questo file fa parte di Stefano Thegroove 360.
+#
+# Stefano Thegroove 360 ​​è un software gratuito: puoi ridistribuirlo e / o modificarlo
+# è sotto i termini della GNU General Public License come pubblicata da
+# la Free Software Foundation, o la versione 3 della licenza, o
+# (a tua scelta) qualsiasi versione successiva.
+#
+# Stefano Thegroove 360 ​​è distribuito nella speranza che possa essere utile,
+# ma SENZA ALCUNA GARANZIA; senza nemmeno la garanzia implicita di
+# COMMERCIABILITÀ o IDONEITÀ PER UN PARTICOLARE SCOPO. Vedere il
+# GNU General Public License per maggiori dettagli.
+#
+# Dovresti aver ricevuto una copia della GNU General Public License
+# insieme a Stefano Thegroove 360. In caso contrario, vedi <http://www.gnu.org/licenses/>.
+# ------------------------------------------------- -----------
+# Client for Stefano Thegroove 360
+#------------------------------------------------------------
+
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
@@ -16,6 +43,7 @@ from base64 import b64decode
 import xbmc
 
 from core import httptools
+from core import servertools
 
 
 def find_in_text(regex, text, flags=re.IGNORECASE | re.DOTALL):
@@ -36,6 +64,7 @@ class UnshortenIt(object):
     _anonymz_regex = r'anonymz\.com'
     _shrink_service_regex = r'shrink-service\.it'
     _rapidcrypt_regex = r'rapidcrypt\.net'
+    _vcrypt_regex = r'vcrypt\.net'
 
     _maxretries = 5
 
@@ -73,11 +102,11 @@ class UnshortenIt(object):
             return self._unshorten_anonymz(uri)
         if re.search(self._rapidcrypt_regex, domain, re.IGNORECASE):
             return self._unshorten_rapidcrypt(uri)
-
+        if re.search(self._vcrypt_regex, domain, re.IGNORECASE):
+            return self._unshorten_vcrypt(uri)
         return uri, 200
 
     def unwrap_30x(self, uri, timeout=10):
-
         domain = urlsplit(uri).netloc
         self._timeout = timeout
 
@@ -109,6 +138,7 @@ class UnshortenIt(object):
                     retries += 1
                 else:
                     return r.url, r.code
+
 
         except Exception as e:
             return uri, str(e)
@@ -412,13 +442,15 @@ class UnshortenIt(object):
         try:
             r = httptools.downloadpage(uri, timeout=self._timeout, cookies=False)
             html = r.data
-
-            uri = re.findall(r'<a class="button" href="([^"]+)">Click to continue</a>', html)[0]
+            uri = re.findall(r'<a class="push_button blue" href=([^>]+)>', html)[0]
 
             return uri, r.code
 
         except Exception as e:
             return uri, str(e)
+
+    def _unshorten_vcrypt(self, uri):
+        return uri, 200
 
 
 def unwrap_30x_only(uri, timeout=10):

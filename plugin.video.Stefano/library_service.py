@@ -1,7 +1,30 @@
-# -*- coding: utf-8 -*-
-#-------------------------------------------------------------
-# Service for updating new episodes on library series
 # ------------------------------------------------------------
+# -*- coding: utf-8 -*-
+# ------------------------------------------------------------
+# Stefano Thegroove 360
+# Copyright 2018 https://stefanoaddon.info
+#
+# Distribuito sotto i termini di GNU General Public License v3 (GPLv3)
+# http://www.gnu.org/licenses/gpl-3.0.html
+# ------------------------------------------------- -----------
+# Questo file fa parte di Stefano Thegroove 360.
+#
+# Stefano Thegroove 360 ​​è un software gratuito: puoi ridistribuirlo e / o modificarlo
+# è sotto i termini della GNU General Public License come pubblicata da
+# la Free Software Foundation, o la versione 3 della licenza, o
+# (a tua scelta) qualsiasi versione successiva.
+#
+# Stefano Thegroove 360 ​​è distribuito nella speranza che possa essere utile,
+# ma SENZA ALCUNA GARANZIA; senza nemmeno la garanzia implicita di
+# COMMERCIABILITÀ o IDONEITÀ PER UN PARTICOLARE SCOPO. Vedere il
+# GNU General Public License per maggiori dettagli.
+#
+# Dovresti aver ricevuto una copia della GNU General Public License
+# insieme a Stefano Thegroove 360. In caso contrario, vedi <http://www.gnu.org/licenses/>.
+# ------------------------------------------------- -----------
+# Client for Stefano Thegroove 360
+#------------------------------------------------------------
+
 
 import datetime
 import imp
@@ -9,11 +32,10 @@ import math
 import re
 import threading
 
-from core import config, scrapertools
+from core import config, scrapertools, logger
 from core import filetools
 from core import jsontools
 from core import library
-from platformcode import logger
 from core.item import Item
 from platformcode import platformtools
 
@@ -162,6 +184,7 @@ def convert_old_to_v4():
 
     return True
 
+
 def update(path, p_dialog, i, t, serie, overwrite):
     logger.info("Actualizando " + path)
     insertados_total = 0
@@ -190,7 +213,7 @@ def update(path, p_dialog, i, t, serie, overwrite):
             pass
         try:
             if itemlist == "":
-               itemlist = obj.serietv(serie)
+                itemlist = obj.serietv(serie)
 
             try:
                 if int(overwrite) == 3:
@@ -212,7 +235,8 @@ def update(path, p_dialog, i, t, serie, overwrite):
             pass
 
         if itemlist == "":
-            logger.error("Errore nel ricavare gli episodi di %s. Verificare il metodo utilizzato dal canale %s." % (serie.show, serie.channel))
+            logger.error("Errore nel ricavare gli episodi di %s. Verificare il metodo utilizzato dal canale %s." % (
+            serie.show, serie.channel))
 
     return insertados_total > 0
 
@@ -375,7 +399,7 @@ def start(thread=True):
 
 def monitor_update():
     update_setting = config.get_setting("updatelibrary", "biblioteca")
-    if update_setting == 2 or update_setting == 3:  
+    if update_setting == 2 or update_setting == 3:
         hoy = datetime.date.today()
         last_check = config.get_setting("updatelibrary_last_check", "biblioteca")
         if last_check:
@@ -397,8 +421,8 @@ if __name__ == "__main__":
     config.set_setting("plugin_version_tag", version)
 
     if scrapertools.wait_for_internet(retry=10):
-	'''
-	disable update channel/server
+
+        # disable update channel/server
         if config.get_setting("check_for_channel_updates") == "true":
             # -- Update channels from repository Stefano ------
             try:
@@ -464,4 +488,4 @@ if __name__ == "__main__":
         else:
             while not xbmc.abortRequested:
                 monitor_update()
-                xbmc.sleep(3600 * 1000)
+                xbmc.sleep(3600 * 1000)'''

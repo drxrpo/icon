@@ -265,8 +265,8 @@ def passpopup(url):
  kb.doModal()
  if (kb.isConfirmed()):
     text = kb.getText()
-    if 'blowjob' in text:
-       text = str(text).replace('blowjob','/tags')
+    if 'pula' in text:
+       text = str(text).replace('pula','/tags')
        return (str(xxxurl+text)).replace('%3a','').replace('%2f','')
     else:
         Msg="                                   Incorrect Password\n\n      Donate To john4551@hotmail.co.uk Using Paypal\n[COLOR dodgerblue]Email Or Message White Devil Group On Facebook After Donation For Password[/COLOR]"

@@ -2,15 +2,15 @@
 #######################################################################
  # ----------------------------------------------------------------------------
  # "THE BEER-WARE LICENSE" (Revision 42):
- # @Daddy_Blamo wrote this file.  As long as you retain this notice you
+ # @tantrumdev wrote this file.  As long as you retain this notice you
  # can do whatever you want with this stuff. If we meet some day, and you think
  # this stuff is worth it, you can buy me a beer in return. - Muad'Dib
  # ----------------------------------------------------------------------------
 #######################################################################
 
-# Addon Name: Placenta
-# Addon id: plugin.video.placenta
-# Addon Provider: Mr.Blamo
+# Addon Name: Exodus
+# Addon id: plugin.video.exodus
+# Addon Provider: Exodus
 
 # FIXME: Some titles, such as Thor Ragnarok, cause exceptions and not pulling URL correct. Need to investigate.
 
@@ -27,7 +27,7 @@ class source:
         self.priority = 1
         self.language = ['en']
         self.domains = ['watch32hd.co']
-        self.base_link = 'https://watch32hd.co/'
+        self.base_link = 'https://watch32hd.co'
         self.search_link = '/watch?v=%s_%s'
 
     def movie(self, imdb, title, localtitle, aliases, year):

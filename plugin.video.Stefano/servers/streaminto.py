@@ -1,10 +1,14 @@
 # -*- coding: utf-8 -*-
-# StreamOnDemand Community Edition - Kodi Addon
+# ------------------------------------------------------------
+# streamondemand - XBMC Plugin
+# Conector para streaminto
+# http://blog.tvalacarta.info/plugin-xbmc/pelisalacarta/
+# ------------------------------------------------------------
 
 import re
 
 from core import httptools
-from platformcode import logger
+from core import logger
 from core import scrapertools
 
 
@@ -49,6 +53,57 @@ def get_video_url(page_url, premium=False, user="", password="", video_password=
     return video_urls
 
 
+# Encuentra vídeos del servidor en el texto pasado
+def find_videos(data):
+    # Añade manualmente algunos erróneos para evitarlos
+    encontrados = set()
+    encontrados.add("http://streamin.to/embed-theme.html")
+    encontrados.add("http://streamin.to/embed-jquery.html")
+    encontrados.add("http://streamin.to/embed-s.html")
+    encontrados.add("http://streamin.to/embed-images.html")
+    encontrados.add("http://streamin.to/embed-faq.html")
+    encontrados.add("http://streamin.to/embed-embed.html")
+    encontrados.add("http://streamin.to/embed-ri.html")
+    encontrados.add("http://streamin.to/embed-d.html")
+    encontrados.add("http://streamin.to/embed-css.html")
+    encontrados.add("http://streamin.to/embed-js.html")
+    encontrados.add("http://streamin.to/embed-player.html")
+    encontrados.add("http://streamin.to/embed-cgi.html")
+    devuelve = []
+
+    # http://streamin.to/z3nnqbspjyne
+    patronvideos = 'streamin.to/([a-z0-9A-Z]+)'
+    logger.info(" #" + patronvideos + "#")
+    matches = re.compile(patronvideos, re.DOTALL).findall(data)
+
+    for match in matches:
+        titulo = "[streaminto]"
+        url = "http://streamin.to/embed-" + match + ".html"
+        if url not in encontrados:
+            logger.info("  url=" + url)
+            devuelve.append([titulo, url, 'streaminto'])
+            encontrados.add(url)
+        else:
+            logger.info("  url duplicada=" + url)
+
+    # http://streamin.to/embed-z3nnqbspjyne.html
+    patronvideos = 'streamin.to/embed-([a-z0-9A-Z]+)'
+    logger.info(" #" + patronvideos + "#")
+    matches = re.compile(patronvideos, re.DOTALL).findall(data)
+
+    for match in matches:
+        titulo = "[streaminto]"
+        url = "http://streamin.to/embed-" + match + ".html"
+        if url not in encontrados:
+            logger.info("  url=" + url)
+            devuelve.append([titulo, url, 'streaminto'])
+            encontrados.add(url)
+        else:
+            logger.info("  url duplicada=" + url)
+
+    return devuelve
+
+
 def unPack(packed):
     pattern = "}\('(.*)', *(\d+), *(\d+), *'(.*)'\.split\('([^']+)'\)"
     d = [d for d in re.search(pattern, packed, re.DOTALL).groups()]
@@ -76,3 +131,4 @@ def unPack(packed):
         p = re.sub(r"(\b%s\b)" % x, y, p)
 
     return p
+

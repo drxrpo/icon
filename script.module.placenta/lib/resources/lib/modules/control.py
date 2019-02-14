@@ -2,7 +2,7 @@
 #######################################################################
  # ----------------------------------------------------------------------------
  # "THE BEER-WARE LICENSE" (Revision 42):
- # @tantrumdev wrote this file.  As long as you retain this notice you
+ # @Daddy_Blamo wrote this file.  As long as you retain this notice you
  # can do whatever you want with this stuff. If we meet some day, and you think
  # this stuff is worth it, you can buy me a beer in return. - Muad'Dib
  # ----------------------------------------------------------------------------
@@ -214,13 +214,6 @@ def yesnoDialog(line1, line2, line3, heading=addonInfo('name'), nolabel='', yesl
 
 def selectDialog(list, heading=addonInfo('name')):
     return dialog.select(heading, list)
-
-def moderator():
-    netloc = [urlparse.urlparse(sys.argv[0]).netloc, '', 'script.extendedinfo', 'plugin.video.chappaai', 'plugin.program.super.favourites', 'plugin.video.live.streamspro', 'plugin.video.phstreams', 'plugin.video.cpstreams', 'plugin.video.tinklepad', 'script.tvguide.fullscreen', 'script.tvguide.assassins']
-
-    if not infoLabel('Container.PluginName') in netloc:
-        infoDialog('Placenta: Unknown screen or plugin', sound=False)
-        sys.exit()
 
 def metaFile():
     if condVisibility('System.HasAddon(script.placenta.metadata)'):

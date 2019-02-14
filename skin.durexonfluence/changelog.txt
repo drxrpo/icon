@@ -1,31 +1,3 @@
-[B]4.0.0[/B]
-- Changed skin resolution from 720 to 1080
-- Modded version by Durex
-
-[B]3.4.0[/B]
-- Updated 720p for Leia
-- Updated Xonfluence to latest confluence version (4.4.1)
-- Updated and cleanup of Textures for Leia
-- Updated and cleanup of Language files for Leia
-- Implemented skinning API changes for Leia
-- Fixed some color bugs
-- Fixed bug with displaying pictures as $INFO[ListItem.FilenameAndPath] doesn't work anymore
-- Added game icon to icons and game window option to main menu
-
-[B]3.3.19[/B]
-- Added pull request 'Conditional visibility of menu items on home screen based on master mode settings' from mbroemme
-
-[B]3.3.18[/B]
-- Fixed bug on non working 'Hide top left info on windows' and 'Topleft widget on all screens' setting
-- FileManager always shows floor return buttons. Fixed this.
-- Fixed Mute icon position (it overlapped the clock). #1960
-- Updated "What's New" list to display multiple lines in a textbox with scrollbar #1960
-- Fixed positioning for non original confluence seekbar when OSD is displayed
-- Show large seekbar during fast forward or skipping for non original confluence seekbar with OSD seekbar enabled #1960
-- Fixed scrolling through widgets with mouse/ touchscreen. Buttons now always show with mouse enabled, not only when focused on widgets #1960
-- Fixed background not showing up when loading widgets #1957
-- Fixed custom video info script button appearing on non movies or tvshows #1960
-
 [B]3.3.17[/B]
 - Updated language files to confluence 3.0.47
 - Added 'Get more' button on side blade for addons on MyVideoNav and MyPics (was alread available on MyMusicNax) #1796
@@ -149,7 +121,7 @@
 
 [B]3.3.0[/B]
 - Updated 720p for Krypton
-- Updated Xonfluence to latest confluence version
+- Updated Durexonfluence to latest confluence version
 - Updated and cleanup of Textures for Krypton
 - Updated and cleanup of Language files for Krypton
 - Implemented skinning API changes
@@ -199,7 +171,7 @@
 - Fixed default displayed meny item #651
 - Fixed default displayed menu item with TV/ radio enabled
 - Added arrows to main submenu items when scollable #623
-- Fixed extended info script for Xonfluence skin
+- Fixed extended info script for Durexonfluence skin
 - Removed extended info from TVshows info cause the contents doesn't make sense #622
 - Updated autocomplete with plugin.program.autocompletion instead of script.extendedinfo
 - Added transparency settings for homefloor (only 50%) #623
@@ -282,7 +254,7 @@
 - Updated picture OSD
 - Disappearing home screen arrow buttons when not focused for all home screen widgets #319
 - Added option to hide text label in Wide view #276
-- Added xonfluence skin for script.extendedinfo and added button to videoinfo
+- Added Durexonfluence skin for script.extendedinfo and added button to videoinfo
 - Open PVRSideBlade on guide grid view when pressing info button
 - Added possibility to add Custom widgets by entering the complete plugin item #339 (2nd emample)
   e.g. Skin settings/Home menu items/Widget set/Custom widgets/ enter the new label: plugin://plugin.video.genesis/?action=movies&url=popular

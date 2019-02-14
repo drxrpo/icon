@@ -317,6 +317,9 @@ def replaceHTMLCodes(txt):
     txt = txt.strip()
     return txt
 
+def replaceEscapeCodes(txt):
+    txt = HTMLParser.HTMLParser().unescape(txt)
+    return txt	   
 
 def randomagent():
     BR_VERS = [
@@ -505,7 +508,7 @@ class sucuri:
         except:
             pass
 
-"""Bennu Specific"""
+
 
 def _get_keyboard( default="", heading="", hidden=False ):
     """ shows a keyboard and returns a value """

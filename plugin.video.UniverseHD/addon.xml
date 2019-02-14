@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<addon id="plugin.video.UniverseHD" name="[COLOR red][B]Universe [/B][/COLOR][COLOR white][B]HD[/B][/COLOR]" version="2.0" provider-name="@Nemzzy668 // @_DevKong // @Universe">
+<addon id="plugin.video.universehd" name="[COLOR red][B]Universe [/B][/COLOR][COLOR white][B]HD[/B][/COLOR]" version="2.0" provider-name="@Nemzzy668 // @_DevKong // @Universe">
   <requires>
     <import addon="xbmc.python" version="2.1.0"/>
     <import addon="script.module.simplejson"/>

@@ -1,40 +1,40 @@
+# ------------------------------------------------------------
 # -*- coding: utf-8 -*-
 # ------------------------------------------------------------
-# streamondemand 5
-# Copyright 2015 tvalacarta@gmail.com
-# http://www.mimediacenter.info/foro/viewforum.php?f=36
+# Stefano Thegroove 360
+# Copyright 2018 https://stefanoaddon.info
 #
-# Distributed under the terms of GNU General Public License v3 (GPLv3)
+# Distribuito sotto i termini di GNU General Public License v3 (GPLv3)
 # http://www.gnu.org/licenses/gpl-3.0.html
-# ------------------------------------------------------------
-# This file is part of streamondemand 5.
+# ------------------------------------------------- -----------
+# Questo file fa parte di Stefano Thegroove 360.
 #
-# streamondemand 5 is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
+# Stefano Thegroove 360 ​​è un software gratuito: puoi ridistribuirlo e / o modificarlo
+# è sotto i termini della GNU General Public License come pubblicata da
+# la Free Software Foundation, o la versione 3 della licenza, o
+# (a tua scelta) qualsiasi versione successiva.
 #
-# streamondemand 5 is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
+# Stefano Thegroove 360 ​​è distribuito nella speranza che possa essere utile,
+# ma SENZA ALCUNA GARANZIA; senza nemmeno la garanzia implicita di
+# COMMERCIABILITÀ o IDONEITÀ PER UN PARTICOLARE SCOPO. Vedere il
+# GNU General Public License per maggiori dettagli.
 #
-# You should have received a copy of the GNU General Public License
-# along with streamondemand 5.  If not, see <http://www.gnu.org/licenses/>.
-# ------------------------------------------------------------
-# XBMC Launcher (xbmc / kodi / boxee)
-# ------------------------------------------------------------
+# Dovresti aver ricevuto una copia della GNU General Public License
+# insieme a Stefano Thegroove 360. In caso contrario, vedi <http://www.gnu.org/licenses/>.
+# ------------------------------------------------- -----------
+# Client for Stefano Thegroove 360
+#------------------------------------------------------------
+
 
 import os
-import re
+import pprint
 import sys
 import urllib2
 import urlparse
 
-from core import channeltools
+from core import channeltools, logger
 from core import config
 from core import library
-from platformcode import logger
 from core import scrapertools
 from core import servertools
 from core.item import Item
@@ -54,6 +54,10 @@ def start():
 
 def run(item=None):
     logger.info()
+
+
+    print "UUUUUUUUUUUUUUUUUUUUU"
+    print sys.argv
 
     params = dict(urlparse.parse_qsl(sys.argv[2].replace('?', '')))
     action = params.get('action')
@@ -80,39 +84,54 @@ def run(item=None):
             import channelselector
 
             # Check for updates only on first screen
-            if config.get_setting("check_for_plugin_updates") == True:
-                logger.info("Check for plugin updates enabled")
-                from core import updater
+            # if config.get_setting("check_for_plugin_updates") == True:
+            #     logger.info("Check for plugin updates enabled")
+            #     from core import updater
+            #
+            #     try:
+            #         config.set_setting("plugin_updates_available", 0)
+            #         version = updater.checkforupdates()
+            #         itemlist = channelselector.getmainlist()
+            #
+            #         if version:
+            #             config.set_setting("plugin_updates_available",1)
+            #
+            #             platformtools.dialog_ok("Versione "+version+" disponible",
+            #                                     "E' possibile fare il download della nuova versione\n"
+            #                                     "selezionare la relativa voce nel menu principale")
+            #
+            #             itemlist = channelselector.getmainlist()
+            #             itemlist.insert(0, Item(title="Download versione "+version, version=version, channel="updater",
+            #                                     action="update", thumbnail=os.path.join(config.get_runtime_path() , "resources" , "images", "service_update.png")))
+            #     except:
+            #         import traceback
+            #         logger.info(traceback.format_exc())
+            #         platformtools.dialog_ok("Impossibile connettersi", "Non è stato possibile verificare",
+            #                                 "aggiornamenti")
+            #         logger.info("Fallo al verificar la actualización")
+            #         config.set_setting("plugin_updates_available","0")
+            #         itemlist = channelselector.getmainlist()
+            #
+            # else:
+            #     logger.info("Check for plugin updates disabled")
+            #     config.set_setting("plugin_updates_available", 0)
+            #     itemlist = channelselector.getmainlist()
 
+            # Check for updates only on first screen
+            if config.get_setting("check_for_plugin_updates"):
                 try:
-                    config.set_setting("plugin_updates_available", 0)
-                    version = updater.checkforupdates()
-                    itemlist = channelselector.getmainlist()
-
-                    if version:
-                        config.set_setting("plugin_updates_available",1)
-
-                        platformtools.dialog_ok("Versione "+version+" disponible",
-                                                "E' possibile fare il download della nuova versione\n"
-                                                "selezionare la relativa voce nel menu principale")
-
-                        itemlist = channelselector.getmainlist()
-                        itemlist.insert(0, Item(title="Download versione "+version, version=version, channel="updater",
-                                                action="update", thumbnail=os.path.join(config.get_runtime_path() , "resources" , "images", "service_update.png")))
+                    from core import update_channels
                 except:
-                    import traceback
-                    logger.info(traceback.format_exc())
-                    platformtools.dialog_ok("Impossibile connettersi", "Non è stato possibile verificare",
-                                            "aggiornamenti")
-                    logger.info("Fallo al verificar la actualización")
-                    config.set_setting("plugin_updates_available","0")
-                    itemlist = channelselector.getmainlist()
+                    logger.info("Stefano.library_service Error in update_channels")
+                    # ----------------------------------------------------------------------
 
-            else:
-                logger.info("Check for plugin updates disabled")
-                config.set_setting("plugin_updates_available", 0)
-                itemlist = channelselector.getmainlist()
+                    # -- Update servertools and servers from repository Stefano ------
+                try:
+                    from core import update_servers
+                except:
+                    logger.info("Stefano.library_service Error in update_servers")
 
+            itemlist = channelselector.getmainlist()
             platformtools.render_items(itemlist, item)
 
         # Action for updating plugin
@@ -302,11 +321,11 @@ def run(item=None):
             platformtools.dialog_ok(
                 "Errore inaspettato in " + canal,
                 "Protrebbe essere un errore di connessione. Il canale web "
-                "potrebbe aver modificato la sua struttura oppure si è verificato un errore in Stefanondemand.",
+                "potrebbe aver modificato la sua struttura oppure si è verificato un errore in Stefano Thegroove 360.",
                 "Per dettagli consulta il log.", log_message)
         else:
             platformtools.dialog_ok(
-                "Si è verificato un errore su Stefanondemand",
+                "Si è verificato un errore su Stefano Thegroove 360",
                 "Per dettagli consulta il log.",
                 log_message)
 

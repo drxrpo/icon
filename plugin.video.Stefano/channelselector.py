@@ -1,13 +1,37 @@
+# ------------------------------------------------------------
 # -*- coding: utf-8 -*-
+# ------------------------------------------------------------
+# Stefano Thegroove 360
+# Copyright 2018 https://stefanoaddon.info
+#
+# Distribuito sotto i termini di GNU General Public License v3 (GPLv3)
+# http://www.gnu.org/licenses/gpl-3.0.html
+# ------------------------------------------------- -----------
+# Questo file fa parte di Stefano Thegroove 360.
+#
+# Stefano Thegroove 360 ​​è un software gratuito: puoi ridistribuirlo e / o modificarlo
+# è sotto i termini della GNU General Public License come pubblicata da
+# la Free Software Foundation, o la versione 3 della licenza, o
+# (a tua scelta) qualsiasi versione successiva.
+#
+# Stefano Thegroove 360 ​​è distribuito nella speranza che possa essere utile,
+# ma SENZA ALCUNA GARANZIA; senza nemmeno la garanzia implicita di
+# COMMERCIABILITÀ o IDONEITÀ PER UN PARTICOLARE SCOPO. Vedere il
+# GNU General Public License per maggiori dettagli.
+#
+# Dovresti aver ricevuto una copia della GNU General Public License
+# insieme a Stefano Thegroove 360. In caso contrario, vedi <http://www.gnu.org/licenses/>.
+# ------------------------------------------------- -----------
+# Client for Stefano Thegroove 360
+#------------------------------------------------------------
+
 
 import glob
 import os
-import traceback
 import urlparse
 
-from core import channeltools
+from core import channeltools, logger
 from core import config
-from platformcode import logger
 from core.item import Item
 
 
@@ -17,19 +41,19 @@ def getmainlist(preferred_thumb=""):
 
     # Menu principale
 
-    itemlist.append( Item(title=config.get_localized_string(30119) , channel="channelselector" , action="getchanneltypes", thumbnail = os.path.join(config.get_runtime_path() , "resources" , "images", "main_menu_category.png"),viewmode="movie") )
-    itemlist.append( Item(title=config.get_localized_string(30137) , channel="buscadorall" , action="mainlist" , thumbnail = os.path.join(config.get_runtime_path() , "resources" , "images", "main_menu_search.png"),viewmode="movie") )
-    itemlist.append( Item(title=config.get_localized_string(50002), channel="novedades" , action="mainlist", thumbnail = os.path.join(config.get_runtime_path() , "resources" , "images", "thumb_novedades.png"),viewmode="movie") )
-    itemlist.append( Item(title=config.get_localized_string(30102) , channel="favoritos" , action="mainlist" , thumbnail = os.path.join(config.get_runtime_path() , "resources" , "images", "main_menu_fav.png"),viewmode="movie") )
+    itemlist.append( Item(title=config.get_localized_string(30119) , channel="channelselector" , action="getchanneltypes", thumbnail = os.path.join(config.get_runtime_path() , "resources" , "images", "main_menu_category.png"),fanart = os.path.join(config.get_runtime_path() , "resources" , "images", "background.jpg"),viewmode="movie") )
+    itemlist.append( Item(title=config.get_localized_string(30137) , channel="buscadorall" , action="mainlist" , thumbnail = os.path.join(config.get_runtime_path() , "resources" , "images", "main_menu_search.png"),fanart = os.path.join(config.get_runtime_path() , "resources" , "images", "background.jpg"),viewmode="movie") )
+    itemlist.append( Item(title=config.get_localized_string(50002), channel="novedades" , action="mainlist", thumbnail = os.path.join(config.get_runtime_path() , "resources" , "images", "thumb_novedades.png"),fanart = os.path.join(config.get_runtime_path() , "resources" , "images", "background.jpg"),viewmode="movie") )
+    itemlist.append( Item(title=config.get_localized_string(30102) , channel="favoritos" , action="mainlist" , thumbnail = os.path.join(config.get_runtime_path() , "resources" , "images", "main_menu_fav.png"),fanart = os.path.join(config.get_runtime_path() , "resources" , "images", "background.jpg"),viewmode="movie") )
     if config.get_library_support():
-        itemlist.append( Item(title=config.get_localized_string(30131) , channel="biblioteca" , action="mainlist", thumbnail = os.path.join(config.get_runtime_path() , "resources" , "images", "main_menu_library.png"),viewmode="movie") )
+        itemlist.append( Item(title=config.get_localized_string(30131) , channel="biblioteca" , action="mainlist", thumbnail = os.path.join(config.get_runtime_path() , "resources" , "images", "main_menu_library.png"),fanart = os.path.join(config.get_runtime_path() , "resources" , "images", "background.jpg"),viewmode="movie") )
 
     if "xbmceden" in config.get_platform():
-        itemlist.append( Item(title=config.get_localized_string(30100) , channel="configuracion" , action="mainlist", thumbnail = os.path.join(config.get_runtime_path() , "resources" , "images", "main_menu_conf.png"), folder=False,viewmode="movie") )
+        itemlist.append( Item(title=config.get_localized_string(30100) , channel="configuracion" , action="mainlist", thumbnail = os.path.join(config.get_runtime_path() , "resources" , "images", "main_menu_conf.png"),fanart = os.path.join(config.get_runtime_path() , "resources" , "images", "background.jpg"), folder=False,viewmode="movie") )
     else:
-        itemlist.append( Item(title=config.get_localized_string(30100) , channel="configuracion" , action="mainlist", thumbnail = os.path.join(config.get_runtime_path() , "resources" , "images", "main_menu_conf.png"),viewmode="movie") )
+        itemlist.append( Item(title=config.get_localized_string(30100) , channel="configuracion" , action="mainlist", thumbnail = os.path.join(config.get_runtime_path() , "resources" , "images", "main_menu_conf.png"),fanart = os.path.join(config.get_runtime_path() , "resources" , "images", "background.jpg"),viewmode="movie") )
 
-    itemlist.append( Item(title=config.get_localized_string(30104) , channel="ayuda" , action="mainlist", thumbnail = os.path.join(config.get_runtime_path() , "resources" , "images", "main_menu_help.png"),viewmode="movie") )
+    itemlist.append( Item(title=config.get_localized_string(30104) , channel="ayuda" , action="mainlist", thumbnail = os.path.join(config.get_runtime_path() , "resources" , "images", "main_menu_help.png"),fanart = os.path.join(config.get_runtime_path() , "resources" , "images", "background.jpg"),viewmode="movie") )
     return itemlist
 
 def get_thumb(preferred_thumb, thumb_name):
@@ -42,25 +66,24 @@ def getchanneltypes(preferred_thumb=""):
     itemlist = list()
 
     itemlist.append(Item(title="Top Channels", channel="channelselector", action="filterchannels",
-                         category="top channels", channel_type="top channels", thumbnail= os.path.join(config.get_runtime_path() , "resources" , "images", "cat_menu_topchannels.png"),
-                         viewmode="movie"))
+                         category="top channels", channel_type="top channels", thumbnail= os.path.join(config.get_runtime_path() , "resources" , "images", "cat_menu_topchannels.png"), fanart = os.path.join(config.get_runtime_path() , "resources" , "images", "background.jpg"), viewmode="movie"))
     itemlist.append(Item(title=config.get_localized_string(30122), channel="channelselector", action="filterchannels",
-                         category="movie", channel_type="movie", thumbnail= os.path.join(config.get_runtime_path() , "resources" , "images", "cat_menu_film.png"), viewmode="movie"))
+                         category="movie", channel_type="movie", thumbnail= os.path.join(config.get_runtime_path() , "resources" , "images", "cat_menu_film.png"), fanart = os.path.join(config.get_runtime_path() , "resources" , "images", "background.jpg"), viewmode="movie"))
     itemlist.append(Item(title=config.get_localized_string(30123), channel="channelselector", action="filterchannels",
-                         category="serie", channel_type="serie", thumbnail= os.path.join(config.get_runtime_path() , "resources" , "images", "cat_menu_series.png"), viewmode="movie"))
+                         category="serie", channel_type="serie", thumbnail= os.path.join(config.get_runtime_path() , "resources" , "images", "cat_menu_series.png"), fanart = os.path.join(config.get_runtime_path() , "resources" , "images", "background.jpg"), viewmode="movie"))
     itemlist.append(Item(title=config.get_localized_string(30124), channel="channelselector", action="filterchannels",
-                         category="anime", channel_type="anime", thumbnail= os.path.join(config.get_runtime_path() , "resources" , "images", "cat_menu_anime.png"), viewmode="movie"))
+                         category="anime", channel_type="anime", thumbnail= os.path.join(config.get_runtime_path() , "resources" , "images", "cat_menu_anime.png"), fanart = os.path.join(config.get_runtime_path() , "resources" , "images", "background.jpg"), viewmode="movie"))
     itemlist.append(Item(title=config.get_localized_string(30125), channel="channelselector", action="filterchannels",
-                         category="documentary", channel_type="documentary", thumbnail= os.path.join(config.get_runtime_path() , "resources" , "images", "cat_menu_documentales.png"),
+                         category="documentary", channel_type="documentary", thumbnail= os.path.join(config.get_runtime_path() , "resources" , "images", "cat_menu_documentales.png"), fanart = os.path.join(config.get_runtime_path() , "resources" , "images", "background.jpg"),
                          viewmode="movie"))
     itemlist.append(Item(title="Cult", channel="channelselector", action="filterchannels",
-                         category="cult", channel_type="cult", thumbnail= os.path.join(config.get_runtime_path() , "resources" , "images", "main_menu_filmontv.png"),
+                         category="cult", channel_type="cult", thumbnail= os.path.join(config.get_runtime_path() , "resources" , "images", "main_menu_filmontv.png"), fanart = os.path.join(config.get_runtime_path() , "resources" , "images", "background.jpg"),
                          viewmode="movie"))
     itemlist.append(Item(title=config.get_localized_string(50000), channel="saghe", action="mainlist",
-                         category="saghe", channel_type="saghe", thumbnail = os.path.join(config.get_runtime_path() , "resources" , "images", "cat_menu_saghe.png")))
-    itemlist.append( Item(title=config.get_localized_string(50001) , channel="filmontv" , action="mainlist" , thumbnail = os.path.join(config.get_runtime_path() , "resources" , "images", "main_menu_filmontv.png"),viewmode="movie") )
-    itemlist.append( Item( title=config.get_localized_string(30136) , channel="channelselector" , action="filterchannels" , channel_type="vos", category="vos" , thumbnail= os.path.join(config.get_runtime_path() , "resources" , "images", "cat_menu_vos.png"),viewmode="movie") )
-    itemlist.append( Item( title="[COLOR yellow]" + config.get_localized_string(30121) + "[/COLOR]" , channel="channelselector" , action="filterchannels" , channel_type="all", category="all" , thumbnail= os.path.join(config.get_runtime_path() , "resources" , "images", "main_menu_all.png"),viewmode="movie") )
+                         category="saghe", channel_type="saghe", thumbnail = os.path.join(config.get_runtime_path() , "resources" , "images", "cat_menu_saghe.png"), fanart = os.path.join(config.get_runtime_path() , "resources" , "images", "background.jpg")))
+    itemlist.append( Item(title=config.get_localized_string(50001) , channel="filmontv" , action="mainlist" , thumbnail = os.path.join(config.get_runtime_path() , "resources" , "images", "main_menu_filmontv.png"),fanart = os.path.join(config.get_runtime_path() , "resources" , "images", "background.jpg"), viewmode="movie") )
+    itemlist.append( Item( title=config.get_localized_string(30136) , channel="channelselector" , action="filterchannels" , channel_type="vos", category="vos" , thumbnail= os.path.join(config.get_runtime_path() , "resources" , "images", "cat_menu_vos.png"), fanart = os.path.join(config.get_runtime_path() , "resources" , "images", "background.jpg"), viewmode="movie") )
+    itemlist.append( Item( title="[COLOR yellow]" + config.get_localized_string(30121) + "[/COLOR]" , channel="channelselector" , action="filterchannels" , channel_type="all", category="all" , thumbnail= os.path.join(config.get_runtime_path() , "resources" , "images", "main_menu_all.png"), fanart = os.path.join(config.get_runtime_path() , "resources" , "images", "background.jpg"), viewmode="movie") )
 
     return itemlist
 
@@ -78,19 +101,19 @@ def filterchannels(category, preferred_thumb=""):
 
     # Lista dei canali
     channel_path = os.path.join(config.get_runtime_path(), "channels", '*.xml')
-    logger.info("channel_path="+channel_path)
+    logger.info("channel_path=" + channel_path)
 
     channel_files = glob.glob(channel_path)
-    logger.info("channel_files encontrados "+str(len(channel_files)))
+    logger.info("channel_files encontrados " + str(len(channel_files)))
 
     channel_language = config.get_setting("channel_language")
-    logger.info("channel_language="+channel_language)
+    logger.info("channel_language=" + channel_language)
     if channel_language == "":
         channel_language = "all"
-        logger.info("channel_language="+channel_language)
+        logger.info("channel_language=" + channel_language)
 
     for channel in channel_files:
-        logger.info("channel="+channel)
+        logger.info("channel=" + channel)
 
         try:
             channel_parameters = channeltools.get_channel_parameters(channel[:-4])
@@ -102,7 +125,7 @@ def filterchannels(category, preferred_thumb=""):
             # Ignora se non è un canale
             if not channel_parameters["channel"]:
                 continue
-            logger.info("channel_parameters="+repr(channel_parameters))
+            logger.info("channel_parameters=" + repr(channel_parameters))
 
             # Si prefiere el bannermenu y el canal lo tiene, cambia ahora de idea
             if preferred_thumb == "bannermenu" and "bannermenu" in channel_parameters:

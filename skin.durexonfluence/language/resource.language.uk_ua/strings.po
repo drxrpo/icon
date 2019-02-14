@@ -1,6 +1,6 @@
 # Kodi Media Center language file
 # Addon Name: Xonfluence
-# Addon id: skin.xonfluence
+# Addon id: skin.durexonfluence
 # Addon Provider: Helly1206
 msgid ""
 msgstr ""
@@ -21,12 +21,12 @@ msgid "Change your"
 msgstr "Змініть"
 
 msgctxt "#31001"
-msgid "GAMES"
-msgstr "ІГРИ"
+msgid ":"
+msgstr ""
 
 msgctxt "#31002"
-msgid "[B]GAME SETTINGS[/B][CR][CR]Configure rewind support & options ·  Configure keyboard use and number of keyboard players"
-msgstr "[B]НАЛАШТУВАННЯ ІГОР[/B][CR][CR]Налаштування підтримку перемотування та інші параметри · Налаштування використання клавіатури та кількість клавіатурних гравців"
+msgid "Enable manual opening of media views slide menu"
+msgstr ""
 
 msgctxt "#31003"
 msgid "Power options"
@@ -46,7 +46,7 @@ msgstr "Налаштування перегляду"
 
 msgctxt "#31007"
 msgid "Video process information"
-msgstr "Відомості про відео процес"
+msgstr ""
 
 msgctxt "#31008"
 msgid "Full screen"
@@ -58,27 +58,31 @@ msgstr "Загальна тривалість"
 
 msgctxt "#31010"
 msgid "Hardware decoding"
-msgstr "Апаратне декодування"
+msgstr ""
 
 msgctxt "#31011"
 msgid "Inactive"
-msgstr "Неактивно"
+msgstr ""
 
 msgctxt "#31012"
 msgid "Decoder"
-msgstr "Декодер"
+msgstr ""
 
 msgctxt "#31013"
 msgid "Audio process information"
-msgstr "Відомості про аудіо процес"
+msgstr ""
 
 msgctxt "#31014"
 msgid "Memory used"
-msgstr "Використано пам'яті"
+msgstr ""
 
 msgctxt "#31015"
-msgid "Minute"
-msgstr "хв."
+msgid "Never"
+msgstr ""
+
+msgctxt "#31016"
+msgid "Permanently"
+msgstr ""
 
 msgctxt "#31017"
 msgid "Info button"
@@ -490,7 +494,7 @@ msgstr ""
 
 msgctxt "#31122"
 msgid "Hide EPG if RDS is present on channel window"
-msgstr "Сховати EPG, якщо RDS присутній у вікні каналу"
+msgstr ""
 
 msgctxt "#31123"
 msgid "Popup:"
@@ -614,54 +618,6 @@ msgstr ""
 
 msgctxt "#31155"
 msgid "Show global search button on bottom left"
-msgstr ""
-
-msgctxt "#31156"
-msgid ":"
-msgstr ""
-
-msgctxt "#31157"
-msgid "Enable manual opening of media views slide menu"
-msgstr ""
-
-msgctxt "#31158"
-msgid "Never"
-msgstr ""
-
-msgctxt "#31159"
-msgid "Permanently"
-msgstr ""
-
-msgctxt "#31160"
-msgid "Visualisation settings"
-msgstr ""
-
-msgctxt "#31161"
-msgid "Lyrics add-on settings"
-msgstr ""
-
-msgctxt "#31162"
-msgid " pack for "
-msgstr ""
-
-msgctxt "#31163"
-msgid "Update all backgrounds"
-msgstr ""
-
-msgctxt "#31164"
-msgid "Flags"
-msgstr ""
-
-msgctxt "#31165"
-msgid "Don't ask again"
-msgstr ""
-
-msgctxt "#31166"
-msgid "Setup default background"
-msgstr ""
-
-msgctxt "#31167"
-msgid "No backgrounds set, install and setup default backgrounds add-on?"
 msgstr ""
 
 msgctxt "#31188"
@@ -981,7 +937,7 @@ msgid "Enable visible horizontal submenu"
 msgstr ""
 
 msgctxt "#31276"
-msgid "Extra artwork options"
+msgid "Extra art work options"
 msgstr ""
 
 msgctxt "#31277"
@@ -1181,7 +1137,7 @@ msgid "Album details"
 msgstr "Відомості про альбом"
 
 msgctxt "#31332"
-msgid "Alternate fanart"
+msgid "Alternate fanArt"
 msgstr ""
 
 msgctxt "#31333"
@@ -1454,31 +1410,31 @@ msgstr ""
 
 msgctxt "#31430"
 msgid "[B]PLAYER SETTINGS[/B][CR][CR]Configure actions that can be used during playback · Configure how media content is played"
-msgstr "[B]НАЛАШТУВАННЯ ПРОГРАВАЧА[/B][CR][CR]Налаштування дій, які можна використовувати під час відтворення · Налаштування відтворення мультимедійного вмісту"
+msgstr ""
 
 msgctxt "#31431"
 msgid "[B]LIBRARY SETTINGS[/B][CR][CR]Configure how the library/file views display media content ·  Configure how library lists/views are navigated · Configure the media database options"
-msgstr "[B]НАЛАШТУВАННЯ БІБЛІОТЕКИ[/B][CR][CR]Налаштування способу перегляду медіа-вмісту у бібліотеці/файлі · Налаштування способу навігації списків/представлень бібліотеки · Налаштування параметрів бази даних медіа"
+msgstr ""
 
 msgctxt "#31432"
 msgid "[B]PVR SETTINGS[/B][CR][CR]Configure how the channels & guide are managed  · Configure how Live TV and recordings are managed"
-msgstr "[B]НАЛАШТУВАННЯ PVR [/B][CR][CR]Налаштування способу керування каналами та керівництвом · Налаштування способу керування телеканалами та записами в прямому ефірі"
+msgstr ""
 
 msgctxt "#31433"
 msgid "[B]ADD-ONS SETTINGS[/B][CR][CR]Configure your installed add-ons · Browse for and install add-ons from kodi.tv"
-msgstr "[B]НАЛАШТУВАННЯ ДОДАТКІВ[/B][CR][CR]Налаштування встановлених додатків · Огляд і встановлення додатків від kodi.tv"
+msgstr ""
 
 msgctxt "#31434"
 msgid "[B]SERVICES SETTINGS[/B][CR][CR]Configure & manage media sharing services · Configure web server · Configure & manage the weather service"
-msgstr "[B]НАЛАШТУВАННЯ СЕРВІСІВ[/B][CR][CR]Налаштування та керування службами обміну мультимедіа · Налаштування веб-сервера · Налаштування та управління службою погоди"
+msgstr ""
 
 msgctxt "#31435"
 msgid "[B]SYSTEM SETTINGS[/B][CR][CR]Configure display · Configure audio · Configure internet access · Configure power saving· Configure logging"
-msgstr "[B]СИСТЕМНІ НАЛАШТУВАННЯ[/B][CR][CR]Налаштування дисплею · Налаштування звуку · Налаштування доступу до Інтернету · Налаштування енергозбереження · Налаштування ведення журналу"
+msgstr ""
 
 msgctxt "#31436"
 msgid "[B]INTERFACE SETTINGS[/B][CR][CR]Configure skin · Configure region · Configure control · Configure screensaver · Configure master lock"
-msgstr "[B]НАЛАШТУВАННЯ ІНТЕРФЕЙСУ[/B][CR][CR]Налаштувати скінів · Налаштування регіону · Налаштування управління · Налаштування заставки · Налаштування блокування"
+msgstr ""
 
 msgctxt "#31437"
 msgid "[B]CONFIGURE SKIN SETTINGS[/B][CR][CR]Setup the Xonfluence skin · Add and remove home menu items · Change skin backgrounds"
@@ -1830,22 +1786,6 @@ msgstr ""
 
 msgctxt "#31943"
 msgid "Use default confluence favourites window look and feel"
-msgstr ""
-
-msgctxt "#31944"
-msgid "Visible in Master mode only"
-msgstr ""
-
-msgctxt "#31947"
-msgid "Button look and feel"
-msgstr ""
-
-msgctxt "#31948"
-msgid "Button layout look and feel"
-msgstr ""
-
-msgctxt "#31949"
-msgid "OSD look and feel"
 msgstr ""
 
 msgctxt "#31950"

@@ -1,32 +1,30 @@
+# ------------------------------------------------------------
 # -*- coding: utf-8 -*-
 # ------------------------------------------------------------
-# streamondemand 5
-# Copyright 2015 tvalacarta@gmail.com
-# http://www.mimediacenter.info/foro/viewforum.php?f=36
+# Stefano Thegroove 360
+# Copyright 2018 https://stefanoaddon.info
 #
-# Distributed under the terms of GNU General Public License v3 (GPLv3)
+# Distribuito sotto i termini di GNU General Public License v3 (GPLv3)
 # http://www.gnu.org/licenses/gpl-3.0.html
-# ------------------------------------------------------------
-# This file is part of streamondemand 5.
+# ------------------------------------------------- -----------
+# Questo file fa parte di Stefano Thegroove 360.
 #
-# streamondemand 5 is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
+# Stefano Thegroove 360 ​​è un software gratuito: puoi ridistribuirlo e / o modificarlo
+# è sotto i termini della GNU General Public License come pubblicata da
+# la Free Software Foundation, o la versione 3 della licenza, o
+# (a tua scelta) qualsiasi versione successiva.
 #
-# streamondemand 5 is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
+# Stefano Thegroove 360 ​​è distribuito nella speranza che possa essere utile,
+# ma SENZA ALCUNA GARANZIA; senza nemmeno la garanzia implicita di
+# COMMERCIABILITÀ o IDONEITÀ PER UN PARTICOLARE SCOPO. Vedere il
+# GNU General Public License per maggiori dettagli.
 #
-# You should have received a copy of the GNU General Public License
-# along with streamondemand 5.  If not, see <http://www.gnu.org/licenses/>.
-# ------------------------------------------------------------
-# Herramientas de integraci�n con xbmc subtitles
-# Autor: bandavi
-# Este archivo utiliza el Script XBMC SUBTITLES y el modulo "regex_tvshow()"
-# cuyos autores son: amet,mr_blobby
+# Dovresti aver ricevuto una copia della GNU General Public License
+# insieme a Stefano Thegroove 360. In caso contrario, vedi <http://www.gnu.org/licenses/>.
+# ------------------------------------------------- -----------
+# Client for Stefano Thegroove 360
 #------------------------------------------------------------
+
 
 import os
 import re
@@ -37,8 +35,7 @@ from unicodedata import normalize
 import xbmc
 import xbmcgui
 
-from core import config
-from platformcode import logger
+from core import config, logger
 
 allchars = string.maketrans('', '')
 deletechars = ',\\/:*"<>|?'
@@ -107,7 +104,7 @@ def set_Subtitle():
     
     if subtitle_type == "2":
         subtitle_path = config.get_setting("subtitlepath_file")
-        logger.info("Con subtitulo : "+subtitle_path)
+        logger.info("Con subtitulo : " + subtitle_path)
         xbmc.Player().setSubtitles(subtitle_path )
     else:
         if subtitle_type == "0":
@@ -120,7 +117,7 @@ def set_Subtitle():
             long = len(subtitle_path)
             if long>0:
                 if subtitle_path.startswith("http") or subtitle_path[long-4,long] in exts:
-                    logger.info("Con subtitulo : "+subtitle_path)
+                    logger.info("Con subtitulo : " + subtitle_path)
                     xbmc.Player().setSubtitles(subtitle_path )
                     return
             else:
@@ -138,7 +135,7 @@ def set_Subtitle():
                 Subnames = glob.glob(os.path.join( subtitle_path,"Movies",subtitle_name+"*.??.???"))
             for Subname in Subnames:
                 if os.path.splitext( Subname )[1] in exts:
-                    logger.info("Con subtitulo : "+os.path.split(Subname)[1])
+                    logger.info("Con subtitulo : " + os.path.split(Subname)[1])
                     xbmc.Player().setSubtitles(( Subname ) )
         except:
              logger.error("error al cargar subtitulos")
@@ -198,7 +195,7 @@ def searchSubtitle(item):
         try:
             os.mkdir(path_movie_subt)
         except:
-            logger.error( "error no se pudo crear el path Movies")
+            logger.error("error no se pudo crear el path Movies")
             return
     full_path_tvshow = ""
     path_tvshow_subt = xbmc.translatePath(os.path.join(subtitlepath,"Tvshows"))
@@ -206,7 +203,7 @@ def searchSubtitle(item):
         try:
             os.mkdir(path_tvshow_subt)
         except:
-            logger.error( "error no pudo crear el path Tvshows")
+            logger.error("error no pudo crear el path Tvshows")
             return
     if item.show in item.title:
         title_new=title = urllib.unquote_plus(item.title)
@@ -214,7 +211,7 @@ def searchSubtitle(item):
         title_new=title = urllib.unquote_plus(item.show + " - " + item.title)
     path_video_temp = xbmc.translatePath(os.path.join( config.get_runtime_path(),"resources","subtitle.mp4" ))
     if not os.path.exists(path_video_temp):
-        logger.error( "error : no existe el video temporal de subtitulos")
+        logger.error("error : no existe el video temporal de subtitulos")
         return
     #path_video_temp = xbmc.translatePath(os.path.join( ,video_temp + ".mp4" ))
 
@@ -225,7 +222,7 @@ def searchSubtitle(item):
         if not os.path.exists(full_path_tvshow):
             os.mkdir(full_path_tvshow)   #title_new + ".mp4"
         full_path_video_new = xbmc.translatePath(os.path.join(full_path_tvshow,"%s %sx%s.mp4" %(tvshow_title,season,episode) ))
-        logger.info( full_path_video_new)
+        logger.info(full_path_video_new)
         listitem = xbmcgui.ListItem( title_new, iconImage="DefaultVideo.png", thumbnailImage="")
         listitem.setInfo( "video", { "Title": title_new , "Genre" : "Tv shows" , "episode" : int(episode) , "season" : int(season) , "tvshowtitle" : tvshow_title } )
     
@@ -239,7 +236,7 @@ def searchSubtitle(item):
     try:
         shutil.copy(path_video_temp,full_path_video_new )
         copy = True
-        logger.info("nuevo path ="+full_path_video_new)
+        logger.info("nuevo path =" + full_path_video_new)
         xbmc.sleep(2 * 1000)
         playlist = xbmc.PlayList( xbmc.PLAYLIST_VIDEO )
         playlist.clear()

@@ -1,191 +1,189 @@
-import base64
-import re,time
-import urllib
-import urlparse
+# -*- coding: UTF-8 -*-
+#######################################################################
+ # ----------------------------------------------------------------------------
+ # "THE BEER-WARE LICENSE" (Revision 42):
+ # @tantrumdev wrote this file.  As long as you retain this notice you
+ # can do whatever you want with this stuff. If we meet some day, and you think
+ # this stuff is worth it, you can buy me a beer in return. - Muad'Dib
+ # ----------------------------------------------------------------------------
+#######################################################################
 
-from BeautifulSoup import BeautifulSoup
-from ..import proxy
-from ..common import replaceHTMLCodes, clean_title
-from ..scraper import Scraper
-import xbmcaddon
-import xbmc
+# Addon Name: Placenta
+# Addon id: plugin.video.placenta
+# Addon Provider: MuadDib
 
-class Watchfree(Scraper):
-    domains = ['watchfree.to']
-    name = "watchfree"
 
+import re,urllib,urlparse,base64
+
+from resources.lib.modules import cleantitle
+from resources.lib.modules import client
+from resources.lib.modules import proxy
+
+
+class source:
     def __init__(self):
-        self.base_link = self.base_link = xbmcaddon.Addon('script.module.universalscrapers').getSetting("%s_baseurl" % (self.name))
+        self.priority = 1
+        self.language = ['en']
+        self.domains = ['watchfree.to','watchfree.unblockall.org', 'itswatchseries.to']
+        self.base_link = 'http://itswatchseries.to'
         self.moviesearch_link = '/?keyword=%s&search_section=1'
         self.tvsearch_link = '/?keyword=%s&search_section=2'
 
-    def scrape_movie(self, title, year, imdb, debrid = False):
+    def movie(self, imdb, title, localtitle, aliases, year):
         try:
-            query = self.moviesearch_link % urllib.quote_plus(title.replace('\'', '').rsplit(':', 1)[0])
+            query = self.moviesearch_link % urllib.quote_plus(cleantitle.query(title))
             query = urlparse.urljoin(self.base_link, query)
 
-            html = proxy.get(query, 'item')
-            page = 1
-            while True:
-                sources = self.scrape_movie_page(html, title, year)
-                if sources is not None:
-                    return sources
-                else:
-                    page +=1
-                    if 'page=%s' % page in html or 'page%3D' + '%s' % page in html:
-                        html2 = proxy.get(query + '&page=%s' % page, 'item')
-                        html = html2
-                    else:
-                        break
+            result = str(proxy.request(query, 'free movies'))
+            if 'page=2' in result or 'page%3D2' in result: result += str(proxy.request(query + '&page=2', 'free movies'))
+
+            result = client.parseDOM(result, 'div', attrs = {'class': 'item'})
+
+            title = 'watch' + cleantitle.get(title)
+            years = ['(%s)' % str(year), '(%s)' % str(int(year)+1), '(%s)' % str(int(year)-1)]
+
+            result = [(client.parseDOM(i, 'a', ret='href'), client.parseDOM(i, 'a', ret='title')) for i in result]
+            result = [(i[0][0], i[1][0]) for i in result if len(i[0]) > 0 and len(i[1]) > 0]
+            result = [i for i in result if any(x in i[1] for x in years)]
+
+            r = [(proxy.parse(i[0]), i[1]) for i in result]
+
+            match = [i[0] for i in r if title == cleantitle.get(i[1]) and '(%s)' % str(year) in i[1]]
+
+            match2 = [i[0] for i in r]
+            match2 = [x for y,x in enumerate(match2) if x not in match2[:y]]
+            if match2 == []: return
+
+            for i in match2[:5]:
+                try:
+                    if len(match) > 0: url = match[0] ; break
+                    r = proxy.request(urlparse.urljoin(self.base_link, i), 'free movies')
+                    r = re.findall('(tt\d+)', r)
+                    if imdb in r: url = i ; break
+                except:
+                    pass
+
+            url = re.findall('(?://.+?|)(/.+)', url)[0]
+            url = client.replaceHTMLCodes(url)
+            url = url.encode('utf-8')
+            return url
         except:
-            pass
-        return []
+            return
 
-    def scrape_episode(self, title, show_year, year, season, episode, imdb, tvdb, debrid = False):
+
+    def tvshow(self, imdb, tvdb, tvshowtitle, localtvshowtitle, aliases, year):
         try:
-            query = urlparse.urljoin(self.base_link,
-                                     self.tvsearch_link % urllib.quote_plus(title.replace('\'', '').rsplit(':', 1)[0]))
+            query = self.tvsearch_link % urllib.quote_plus(cleantitle.query(tvshowtitle))
+            query = urlparse.urljoin(self.base_link, query)
 
-            html = proxy.get(query, 'item')
-            if 'page=2' in html or 'page%3D2' in html:
-                html2 = proxy.get(query + '&page=2', 'item')
-                html += html2
+            result = str(proxy.request(query, 'free movies'))
+            if 'page=2' in result or 'page%3D2' in result: result += str(proxy.request(query + '&page=2', 'free movies'))
 
-            html = BeautifulSoup(html)
+            result = client.parseDOM(result, 'div', attrs = {'class': 'item'})
 
-            cleaned_title = 'watchputlocker' + clean_title(title)
-            years = ['%s' % str(year), '%s' % str(int(year) + 1), '%s' % str(int(year) - 1)]
+            tvshowtitle = 'watch' + cleantitle.get(tvshowtitle)
+            years = ['(%s)' % str(year), '(%s)' % str(int(year)+1), '(%s)' % str(int(year)-1)]
 
-            items = html.findAll('div', attrs={'class': 'item'})
+            result = [(client.parseDOM(i, 'a', ret='href'), client.parseDOM(i, 'a', ret='title')) for i in result]
+            result = [(i[0][0], i[1][0]) for i in result if len(i[0]) > 0 and len(i[1]) > 0]
+            result = [i for i in result if any(x in i[1] for x in years)]
 
-            show_url = None
-            for item in items:
-                links = item.findAll('a')
-                for link in links:
-                    href = link['href']
-                    link_title = link['title']
-                    try:
-                        href = urlparse.parse_qs(urlparse.urlparse(href).query)['u'][0]
-                    except:
-                        pass
-                    try:
-                        href = urlparse.parse_qs(urlparse.urlparse(href).query)['q'][0]
-                    except:
-                        pass
-                    if cleaned_title == clean_title(link_title) and show_year in link_title:
-                        url = re.findall('(?://.+?|)(/.+)', href)[0]
-                        show_url = urlparse.urljoin(self.base_link, replaceHTMLCodes(url))
-                    else:
-                        continue
+            r = [(proxy.parse(i[0]), i[1]) for i in result]
 
-                    html = BeautifulSoup(proxy.get(show_url, 'tv_episode_item'))
-                    season_items = html.findAll('div', attrs={'class': 'show_season'})
-                    for season_item in season_items:
-                        if season_item["data-id"] != season:
-                            continue
-                        episode_items = season_item.findAll('div', attrs={'class': 'tv_episode_item'})
-                        for episode_item in episode_items:
-                            link = episode_item.findAll('a')[-1]
-                            href = link["href"]
-                            link_episode = link.contents[0].strip()
-                            if link_episode != "E%s" % (episode):
-                                continue
-                            link_airdate = link.findAll('span', attrs={'class': 'tv_num_versions'})[-1]  # WTF
-                            link_airdate = link_airdate.contents[0]
-                            if any(candidate_year in link_airdate for candidate_year in years):
-                                return self.sources(href)
+            match = [i[0] for i in r if tvshowtitle == cleantitle.get(i[1]) and '(%s)' % str(year) in i[1]]
 
+            match2 = [i[0] for i in r]
+            match2 = [x for y,x in enumerate(match2) if x not in match2[:y]]
+            if match2 == []: return
+
+            for i in match2[:5]:
+                try:
+                    if len(match) > 0: url = match[0] ; break
+                    r = proxy.request(urlparse.urljoin(self.base_link, i), 'free movies')
+                    r = re.findall('(tt\d+)', r)
+                    if imdb in r: url = i ; break
+                except:
+                    pass
+
+            url = re.findall('(?://.+?|)(/.+)', url)[0]
+            url = client.replaceHTMLCodes(url)
+            url = url.encode('utf-8')
+            return url
         except:
-            pass
-        return []
+            return
 
-    def sources(self, url):
-        sources = []
+
+    def episode(self, url, imdb, tvdb, title, premiered, season, episode):
         try:
+            if url == None: return
+
+            url = urlparse.urljoin(self.base_link, url)
+
+            result = proxy.request(url, 'tv_episode_item')
+            result = client.parseDOM(result, 'div', attrs = {'class': 'tv_episode_item'})
+
+            title = cleantitle.get(title)
+            premiered = re.compile('(\d{4})-(\d{2})-(\d{2})').findall(premiered)[0]
+            premiered = '%s %01d %s' % (premiered[1].replace('01','January').replace('02','February').replace('03','March').replace('04','April').replace('05','May').replace('06','June').replace('07','July').replace('08','August').replace('09','September').replace('10','October').replace('11','November').replace('12','December'), int(premiered[2]), premiered[0])
+
+            result = [(client.parseDOM(i, 'a', ret='href'), client.parseDOM(i, 'span', attrs = {'class': 'tv_episode_name'}), client.parseDOM(i, 'span', attrs = {'class': 'tv_num_versions'})) for i in result]
+            result = [(i[0], i[1][0], i[2]) for i in result if len(i[1]) > 0] + [(i[0], None, i[2]) for i in result if len(i[1]) == 0]
+            result = [(i[0], i[1], i[2][0]) for i in result if len(i[2]) > 0] + [(i[0], i[1], None) for i in result if len(i[2]) == 0]
+            result = [(i[0][0], i[1], i[2]) for i in result if len(i[0]) > 0]
+
+            url = [i for i in result if title == cleantitle.get(i[1]) and premiered == i[2]][:1]
+            if len(url) == 0: url = [i for i in result if premiered == i[2]]
+            if len(url) == 0 or len(url) > 1: url = [i for i in result if 'season-%01d-episode-%01d' % (int(season), int(episode)) in i[0]]
+
+            url = url[0][0]
+            url = proxy.parse(url)
+            url = re.findall('(?://.+?|)(/.+)', url)[0]
+            url = client.replaceHTMLCodes(url)
+            url = url.encode('utf-8')
+            return url
+        except:
+            return
+
+
+    def sources(self, url, hostDict, hostprDict):
+        try:
+            sources = []
+
             if url == None: return sources
-            absolute_url = urlparse.urljoin(self.base_link, url)
-            html = BeautifulSoup(proxy.get(absolute_url, 'link_ite'))
-            tables = html.findAll('table', attrs={'class': re.compile('link_ite.+?')})
-            for table in tables:
-                rows = table.findAll('tr')
-                for row in rows:
-                    link = row.findAll('a')[-1]
-                    href = link['href']
 
-                    if not 'gtfo' in href:
-                        continue
+            url = urlparse.urljoin(self.base_link, url)
 
-                    try:
-                        href = urlparse.parse_qs(urlparse.urlparse(href).query)['u'][0]
-                    except:
-                        pass
-                    try:
-                        href = urlparse.parse_qs(urlparse.urlparse(href).query)['q'][0]
-                    except:
-                        pass
+            result = proxy.request(url, 'link_ite')
 
-                    href = base64.b64decode(urlparse.parse_qs(urlparse.urlparse(href).query)['gtfo'][0])
-                    href = replaceHTMLCodes(href)
+            links = client.parseDOM(result, 'table', attrs = {'class': 'link_ite.+?'})
 
-                    host = re.findall('([\w]+[.][\w]+)$', urlparse.urlparse(href.strip().lower()).netloc)[0]
-                    host = replaceHTMLCodes(host)
+            for i in links:
+                try:
+                    url = client.parseDOM(i, 'a', ret='href')
+                    url = [x for x in url if 'gtfo' in x][-1]
+                    url = proxy.parse(url)
+                    url = urlparse.parse_qs(urlparse.urlparse(url).query)['gtfo'][0]
+                    url = base64.b64decode(url)
+                    url = client.replaceHTMLCodes(url)
+                    url = url.encode('utf-8')
+
+                    host = re.findall('([\w]+[.][\w]+)$', urlparse.urlparse(url.strip().lower()).netloc)[0]
+                    if not host in hostDict: raise Exception()
                     host = host.encode('utf-8')
 
-                    if "qertewrt" in host:
-                        continue
+                    quality = client.parseDOM(i, 'div', attrs = {'class': 'quality'})
+                    if any(x in ['[CAM]', '[TS]'] for x in quality): quality = 'CAM'
+                    else:  quality = 'SD'
+                    quality = quality.encode('utf-8')
 
-                    quality = row.findAll('div', attrs={'class': 'quality'})[0].text
-                    if "CAM" in quality or 'TS' in quality:
-                        quality = 'CAM'
-                    if 'HD' in quality:
-                        pass
-                    else:
-                        quality = 'SD'
+                    sources.append({'source': host, 'quality': quality, 'language': 'en', 'url': url, 'direct': False, 'debridonly': False})
+                except:
+                    pass
 
-                    sources.append(
-                        {'source': host, 'quality': quality, 'scraper': self.name, 'url': href, 'direct': False})
-            end_time = time.time()
-            total_time = end_time - self.start_time
-            print (repr(total_time))+"<<<<<<<<<<<<<<<<<<<<<<<<<"+self.name+">>>>>>>>>>>>>>>>>>>>>>>>>total_time"        
+            return sources
         except:
-            pass
+            return sources
 
-        return sources
 
-    def scrape_movie_page(self, html, title, year):
-        try:
-            html = BeautifulSoup(html)
-
-            cleaned_title = 'watchputlocker' + clean_title(title)
-            years = ['(%s)' % str(year), '(%s)' % str(int(year) + 1), '(%s)' % str(int(year) - 1)]
-
-            items = html.findAll('div', attrs={'class': 'item'})
-
-            for item in items:
-                links = item.findAll('a')
-                for link in links:
-                    href = link['href']
-                    link_title = link['title']
-                    if any(candidate_year in link_title for candidate_year in years):
-                        try:
-                            href = urlparse.parse_qs(urlparse.urlparse(href).query)['u'][0]
-                        except:
-                            pass
-                        try:
-                            href = urlparse.parse_qs(urlparse.urlparse(href).query)['q'][0]
-                        except:
-                            pass
-                        if cleaned_title == clean_title(link_title):
-                            url = re.findall('(?://.+?|)(/.+)', href)[0]
-                            url = replaceHTMLCodes(url)
-                            return self.sources(url)
-        except:
-            pass
-
-    @classmethod
-    def get_settings_xml(clas):
-        xml = [
-            '<setting id="%s_enabled" ''type="bool" label="Enabled" default="true"/>' % (clas.name),
-            '<setting id= "%s_baseurl" type="text" label="Base Url" default="http://www.gowatchfreemovies.to"/>' % (clas.name)
-        ]
-        return xml
+    def resolve(self, url):
+        return url

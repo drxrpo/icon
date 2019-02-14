@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 '''
-    Overeasy Add-on
+    Eggman Add-on
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -30,9 +30,6 @@ import sys,re,json,urllib,urlparse,datetime
 params = dict(urlparse.parse_qsl(sys.argv[2].replace('?',''))) if len(sys.argv) > 1 else dict()
 
 action = params.get('action')
-
-control.moderator()
-
 
 class channels:
     def __init__(self):

@@ -1,23 +1,18 @@
 # -*- coding: UTF-8 -*-
+#######################################################################
+ # ----------------------------------------------------------------------------
+ # "THE BEER-WARE LICENSE" (Revision 42):
+ # @tantrumdev wrote this file.  As long as you retain this notice you
+ # can do whatever you want with this stuff. If we meet some day, and you think
+ # this stuff is worth it, you can buy me a beer in return. - Muad'Dib
+ # ----------------------------------------------------------------------------
+#######################################################################
 
-'''
-    Numbers By Numbers Add-on
+# Addon Name: Numbers
+# Addon id: plugin.video.numbersbynumbers
+# Addon Provider: Numbers
 
-    This program is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
-
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>.
-'''
-
-import re,traceback,urllib,urlparse,json,base64
+import re,traceback,urllib,urlparse,json,base64,xbmcgui
 
 from resources.lib.modules import cleantitle
 from resources.lib.modules import client
@@ -25,13 +20,14 @@ from resources.lib.modules import directstream
 from resources.lib.modules import log_utils
 from resources.lib.modules import source_utils
 
+
 class source:
     def __init__(self):
         self.priority = 1
         self.language = ['en']
-        self.domains = ['1080pmovie.com']
-        self.base_link = 'https://1080pmovie.com'
-        self.search_link = '%s/wp-json/wp/v2/posts?search=%s'
+        self.domains = ['watchhdmovie.net']
+        self.base_link = 'https://watchhdmovie.net'
+        self.search_link = '/?s=%s'
 
     def movie(self, imdb, title, localtitle, aliases, year):
         try:
@@ -51,23 +47,21 @@ class source:
             urldata = dict((i, urldata[i][0]) for i in urldata)
             title = urldata['title'].replace(':', ' ').lower()
             year = urldata['year']
-
-            search_id = title.lower()
-            start_url = self.search_link % (self.base_link, search_id.replace(' ','%20'))
-
+            search_id = title.replace(':', '%3A').replace('&', '%26').replace("'", '%27')
+            start_url = urlparse.urljoin(self.base_link, self.search_link % (search_id.replace(' ','+') + '+' + year))
             headers={'User-Agent':'Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.36'}
             html = client.request(start_url,headers=headers)
-            Links = re.compile('"post","link":"(.+?)","title".+?"rendered":"(.+?)"',re.DOTALL).findall(html)
+            Links = re.compile('a href="(.+?)" title="(.+?)"',re.DOTALL).findall(html)
             for link,name in Links:
-                link = link.replace('\\','')
                 if title.lower() in name.lower(): 
                     if year in name:
                         holder = client.request(link,headers=headers)
-                        new = re.compile('<iframe src="(.+?)"',re.DOTALL).findall(holder)[0]
-                        end = client.request(new,headers=headers)
-                        final_url = re.compile('<iframe src="(.+?)"',re.DOTALL).findall(end)[0]
-                        valid, host = source_utils.is_host_valid(final_url, hostDict)
-                        sources.append({'source':host,'quality':'1080p','language': 'en','url':final_url,'info':[],'direct':False,'debridonly':False})
+                        Alternates = re.compile('<button class="text-capitalize dropdown-item" value="(.+?)"',re.DOTALL).findall(holder)
+                        for alt_link in Alternates:
+                            alt_url = alt_link.split ("e=")[1]
+                            valid, host = source_utils.is_host_valid(alt_url, hostDict)
+                            sources.append({'source':host,'quality':'1080p','language': 'en','url':alt_url,'info':[],'direct':False,'debridonly':False})
+                        
             return sources
         except:
             failure = traceback.format_exc()
@@ -76,5 +70,4 @@ class source:
 
     def resolve(self, url):
         return directstream.googlepass(url)
-
 

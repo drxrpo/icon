@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import base64
 import koding
 
 
@@ -18,7 +19,7 @@ def String_Color(string,color,Split=None,Spoint=None):
 	ColorString = ''
 	if not type(string) == str:
 		string = str(string)
-	if not any(x in string for x in tags):
+	if not any(x in string for x in tags) and len(string) > 1:
 		if Split == None and Spoint == None:
 			ColorString += '[COLOR '+str(color[0])+']'+str(string)+'[/COLOR]'
 		elif Split == 'space' and Spoint == None:
@@ -34,8 +35,10 @@ def String_Color(string,color,Split=None,Spoint=None):
 					SpointA = len(splitstring[0])-1
 				if Spoint >= len(splitstring[1]):
 					SpointB = len(splitstring[1])-1
-				Asplitpos = splitstring[0][SpointA]
-				Bsplitpos = splitstring[1][SpointB]
+				try:
+					Asplitpos = splitstring[0][SpointA]
+					Bsplitpos = splitstring[1][SpointB]
+				except:pass
 				try:
 					Astringsplit = splitstring[0].split(Asplitpos,1)
 					ColorString += '[COLOR '+str(color[0])+']'+str(Astringsplit[0])+'[/COLOR]'
@@ -87,6 +90,15 @@ def NumberIsInt(x):
 		Dolog(str(x)+'TypeError',line_info=True) 
 		return False
 
+
+def DecodeUrl(url):
+	try:
+		DecodedUrl = base64.urlsafe_b64decode(url)
+		return DecodedUrl
+	except TypeError:
+		koding.dolog('DecodeUrl url = {} TypeError = {}'.format(url,TypeError),line_info=True)
+	except:
+		koding.dolog('DecodeUrl url = {} Unknown Error'.format(url),line_info=True)
 
 
 

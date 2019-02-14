@@ -8,9 +8,9 @@
  # ----------------------------------------------------------------------------
 #######################################################################
 
-# Addon Name: Placenta
-# Addon id: plugin.video.placenta
-# Addon Provider: Mr.Blamo
+# Addon Name: Exodus
+# Addon id: plugin.video.exodus
+# Addon Provider: Exodus
 
 import re,base64,json,urlparse,urllib
 
@@ -25,7 +25,7 @@ class source:
         self.priority = 1
         self.language = ['en']
         self.domains = ['cutemovie.net']
-        self.base_link = 'http://cutemovie.net/'
+        self.base_link = 'http://www1.cutemovie.net/'
         self.movies_search_path = ('search-movies/%s.html')
         self.scraper = cfscrape.create_scraper()
 

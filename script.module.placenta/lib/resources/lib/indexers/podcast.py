@@ -2,7 +2,7 @@
 #######################################################################
  # ----------------------------------------------------------------------------
  # "THE BEER-WARE LICENSE" (Revision 42):
- # @tantrumdev wrote this file.  As long as you retain this notice you
+ # @Daddy_Blamo wrote this file.  As long as you retain this notice you
  # can do whatever you want with this stuff. If we meet some day, and you think
  # this stuff is worth it, you can buy me a beer in return. - Muad'Dib
  # ----------------------------------------------------------------------------
@@ -19,7 +19,7 @@ from resources.lib.modules import cache
 from resources.lib.modules import client
 from resources.lib.modules import control
 
-sysaddon = sys.argv[0] ; syshandle = int(sys.argv[1]) ; control.moderator()
+sysaddon = sys.argv[0] ; syshandle = int(sys.argv[1])
 artPath = control.artPath() ; addonFanart = control.addonFanart()
 
 class podcast:
@@ -211,7 +211,6 @@ class podcast:
             pass
 
     def podcast_play(self, action, url):
-        control.moderator()
         try:
             if 'podcastOne' in action:
                 ep_page = client.request(url)

@@ -1,15 +1,14 @@
 # -*- coding: utf-8 -*-
 # ------------------------------------------------------------
-# streamondemand-pureita / XBMC Plugin
+# TheGroove360 / XBMC Plugin
 # Canale seriehd
-# http://www.mimediacenter.info/foro/viewtopic.php?f=36&t=7808
 # ------------------------------------------------------------
 
 import base64
 import re
 import urlparse
 
-from core import config 
+from core import config
 from core import httptools
 from core import logger
 from core import scrapertools
@@ -18,44 +17,46 @@ from core.item import Item
 from core.tmdb import infoSod
 
 __channel__ = "seriehd"
-host = "http://www.seriehd.me"
+host = "https://www.seriehd.video"
 headers = [['Referer', host]]
 
+
 def mainlist(item):
-    logger.info("[seriehd.py] mainlist")
+    logger.info("[thegroove360.seriehd] mainlist")
 
     itemlist = [Item(channel=__channel__,
                      action="fichas",
                      title="[COLOR azure]Serie TV[COLOR orange] - Lista[/COLOR]",
                      url=host + "/serie-tv-streaming/",
-                     thumbnail="https://raw.githubusercontent.com/orione7/Pelis_images/master/channels_icon_pureita/new_tvshows_P.png"),
+                     thumbnail="https://raw.githubusercontent.com/stesev1/channels/master/images/channels_icon/new_tvshows_P.png"),
                 Item(channel=__channel__,
                      action="fichas",
                      title="[COLOR azure]Serie TV[COLOR orange] - Italiane[/COLOR]",
                      url=host + "/serie-tv-streaming/serie-tv-italiane/",
-                     thumbnail="https://raw.githubusercontent.com/orione7/Pelis_images/master/channels_icon_pureita/tv_series_P.png"),
+                     thumbnail="https://raw.githubusercontent.com/stesev1/channels/master/images/channels_icon/tv_series_P.png"),
                 Item(channel=__channel__,
                      action="fichas",
                      title="[COLOR azure]Serie TV[COLOR orange] - Americane[/COLOR]",
                      url=host + "/serie-tv-streaming/serie-tv-americane/",
-                     thumbnail="https://raw.githubusercontent.com/orione7/Pelis_images/master/channels_icon_pureita/tv_series_P.png"),
+                     thumbnail="https://raw.githubusercontent.com/stesev1/channels/master/images/channels_icon/tv_series_P.png"),
                 Item(channel=__channel__,
                      action="sottomenu",
                      title="[COLOR azure]Serie TV[COLOR orange]- Categorie[/COLOR]",
                      url=host,
-                     thumbnail="https://raw.githubusercontent.com/orione7/Pelis_images/master/channels_icon_pureita/genres_P.png"),
+                     thumbnail="https://raw.githubusercontent.com/stesev1/channels/master/images/channels_icon/genres_P.png"),
                 Item(channel=__channel__,
                      action="search",
                      extra="serie",
-                     title="[COLOR orange]Cerca...[/COLOR]",
-                     thumbnail="https://raw.githubusercontent.com/orione7/Pelis_images/master/channels_icon_pureita/search_P.png")]
+                     title="[COLOR orange]Cerca Serie TV...[/COLOR]",
+                     thumbnail="https://raw.githubusercontent.com/stesev1/channels/master/images/channels_icon/search_P.png")]
 
     return itemlist
+
 
 # ==============================================================================================================================================================================
 
 def search(item, texto):
-    logger.info("[seriehd.py] search")
+    logger.info("[thegroove360.seriehd] search")
 
     item.url = host + "/?s=" + texto
 
@@ -69,40 +70,42 @@ def search(item, texto):
             logger.error("%s" % line)
         return []
 
+
 # ==============================================================================================================================================================================
 
 def sottomenu(item):
-    logger.info("[seriehd.py] sottomenu")
+    logger.info("[thegroove360.seriehd] sottomenu")
     itemlist = []
 
-    data = httptools.downloadpage(item.url, headers=headers).data
+    data = scrapertools.cache_page(item.url)
 
     patron = '<a href="([^"]+)">([^<]+)</a>'
 
     matches = re.compile(patron, re.DOTALL).findall(data)
 
     for scrapedurl, scrapedtitle in matches:
-        if "altadefinizione" in scrapedtitle or "Italiane" in scrapedtitle or "Americane" in scrapedtitle:  
-		    continue
+        if "altadefinizione" in scrapedtitle or "Italiane" in scrapedtitle or "Americane" in scrapedtitle:
+            continue
         itemlist.append(
             Item(channel=__channel__,
                  action="fichas",
                  title=scrapedtitle,
                  url=scrapedurl,
-                 thumbnail="https://raw.githubusercontent.com/orione7/Pelis_images/master/channels_icon_pureita/genre_P.png"))
+                 thumbnail="https://raw.githubusercontent.com/stesev1/channels/master/images/channels_icon/genre_P.png"))
 
     # Elimina 'Serie TV' de la lista de 'sottomenu'
     itemlist.pop(0)
 
     return itemlist
 
+
 # ==============================================================================================================================================================================
 
 def fichas(item):
-    logger.info("[seriehd.py] fichas")
+    logger.info("[thegroove360.seriehd] fichas")
     itemlist = []
 
-    data = httptools.downloadpage(item.url, headers=headers).data
+    data = scrapertools.cache_page(item.url)
 
     patron = '<h2>(.*?)</h2>\s*'
     patron += '<img src="([^"]+)" alt="[^"]*" />\s*'
@@ -113,6 +116,7 @@ def fichas(item):
     for scrapedtitle, scrapedthumbnail, scrapedurl in matches:
         scrapedthumbnail = httptools.get_url_headers(scrapedthumbnail)
         scrapedtitle = scrapertools.decodeHtmlentities(scrapedtitle).strip()
+        scrapedplot = ""
         itemlist.append(infoSod(
             Item(channel=__channel__,
                  action="episodios",
@@ -120,6 +124,7 @@ def fichas(item):
                  fulltitle=scrapedtitle,
                  url=scrapedurl,
                  show=scrapedtitle,
+                 plot=scrapedplot,
                  thumbnail=scrapedthumbnail), tipo='tv'))
 
     patron = "<span class='current'>\d+</span><a rel='nofollow' class='page larger' href='([^']+)'>\d+</a>"
@@ -130,36 +135,34 @@ def fichas(item):
                  action="fichas",
                  title="[COLOR orange]Successivi >>[/COLOR]",
                  url=next_page,
-                 thumbnail="https://raw.githubusercontent.com/orione7/Pelis_images/master/channels_icon_pureita/next_1.png"))
+                 thumbnail="https://raw.githubusercontent.com/stesev1/channels/master/images/channels_icon/next_1.png"))
 
     return itemlist
 
-# ==============================================================================================================================================================================	
-	
+
+# ==============================================================================================================================================================================
+
 def episodios(item):
-    logger.info("[seriehd.py] episodios")
+    logger.info("[thegroove360.seriehd] episodios")
     itemlist = []
 
-    data = httptools.downloadpage(item.url, headers=headers).data
+    data = scrapertools.cache_page(item.url)
 
     patron = r'<iframe width=".+?" height=".+?" src="([^"]+)" allowfullscreen frameborder="0">'
     url = scrapertools.find_single_match(data, patron).replace("?seriehd", "")
 
-    data = httptools.downloadpage(url).data.replace('\n', '').replace(' class="active"', '')
+    data = httptools.downloadpage(url).data
 
-
-    section_stagione = scrapertools.find_single_match(data, '<h3>STAGIONE</h3><ul>(.*?)</ul>')
-    patron = '<li[^>]+><a href="([^"]+)">(\d+)<'
-    seasons = re.compile(patron, re.DOTALL).findall(section_stagione)
+    patron = r'<li.*?\s><a href=\"([^\"]+)\">(\d+)<'
+    seasons = re.compile(patron, re.MULTILINE).findall(data)
 
     for scrapedseason_url, scrapedseason in seasons:
 
         season_url = urlparse.urljoin(url, scrapedseason_url)
-        data = httptools.downloadpage(season_url).data.replace('\n', '').replace(' class="active"', '')
+        data = httptools.downloadpage(season_url).data
 
-        section_episodio = scrapertools.find_single_match(data, '<h3>EPISODIO</h3><ul>(.*?)</ul>')
-        patron = '<li><a href="([^"]+)">(\d+)<'
-        episodes = re.compile(patron, re.DOTALL).findall(section_episodio)
+        patron = r'<li.*?\s><a href="([^"]+)">(\d+)<'
+        episodes = re.compile(patron, re.MULTILINE).findall(data)
 
         for scrapedepisode_url, scrapedepisode in episodes:
             episode_url = urlparse.urljoin(url, scrapedepisode_url)
@@ -172,28 +175,28 @@ def episodios(item):
                      contentType="episode",
                      title=title + " - " + item.show,
                      url=episode_url,
-                     fulltitle=title,
-                     show=item.show,
-                     plot=item.plot,
+                     fulltitle=item.fulltitle + " - " + title,
+                     show=item.show + " - " + title,
+                     plot="[COLOR orange]" + item.fulltitle + "[/COLOR] " + item.plot,
                      thumbnail=item.thumbnail))
-
 
     return itemlist
 
+
 # ==============================================================================================================================================================================
-	
+
 def findvideos(item):
-    logger.info("[seriehd.py] findvideos")
+    logger.info("[thegroove360.seriehd] findvideos")
 
     itemlist = []
 
     # Descarga la página
-    data = httptools.downloadpage(item.url, headers=headers).data.replace('\n', '')
+    data = httptools.downloadpage(item.url).data.replace('\n', '')
 
     patron = r'<iframe id="iframeVid" width=".+?" height=".+?" src="([^"]+)" allowfullscreen'
     url = scrapertools.find_single_match(data, patron)
     if not url.startswith("https:"):
-      url = "https:" + url
+        url = "https:" + url
 
     if 'hdpass' in url:
         data = httptools.downloadpage(url, headers=headers).data
@@ -209,7 +212,8 @@ def findvideos(item):
         res = scrapertools.find_single_match(data, patron_res)
 
         urls = []
-        for res_url, res_video in scrapertools.find_multiple_matches(res, '<option.*?value="([^"]+?)">([^<]+?)</option>'):
+        for res_url, res_video in scrapertools.find_multiple_matches(res,
+                                                                     '<option.*?value="([^"]+?)">([^<]+?)</option>'):
 
             data = httptools.downloadpage(urlparse.urljoin(url, res_url), headers=headers).data.replace('\n', '')
 
@@ -224,7 +228,9 @@ def findvideos(item):
 
         itemlist = servertools.find_video_items(data='\n'.join(urls))
         for videoitem in itemlist:
-            videoitem.title = item.title + "[COLOR orange]" + videoitem.title + "[/COLOR]"
+            servername = re.sub(r'[-\[\]\s]+', '', videoitem.title)
+            videoitem.title = "".join(
+                ['[COLOR azure][[COLOR orange]' + servername.capitalize() + '[/COLOR]] - ', item.fulltitle])
             videoitem.fulltitle = item.fulltitle
             videoitem.thumbnail = item.thumbnail
             videoitem.show = item.show
@@ -232,6 +238,7 @@ def findvideos(item):
             videoitem.channel = __channel__
 
     return itemlist
+
 
 # ==============================================================================================================================================================================
 

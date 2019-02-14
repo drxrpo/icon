@@ -1,64 +1,63 @@
 # -*- coding: utf-8 -*-
 # ------------------------------------------------------------
-# StreamOnDemand-PureITA / XBMC Plugin
-# Canale  AnimeForce
-# http://www.mimediacenter.info/foro/viewtopic.php?f=36&t=7808
+# Thegroove360 - XBMC Plugin
+# Canale  per http://animeinstreaming.net/
 # ------------------------------------------------------------
+
 import re
 import urllib
 import urlparse
+
 import xbmc
 
-from core import config
-from core import httptools
-from core import logger
+from core import config, httptools
+from platformcode import logger
 from core import scrapertools
 from core import servertools
 from core.item import Item
 from core.tmdb import infoSod
-from servers import adfly
+from servers.decrypters import expurl
 
 __channel__ = "animeforce"
-host = "https://www.animeforce.org"
+
+host = "https://ww1.animeforce.org/"
+
 headers = [['Referer', host]]
 
 PERPAGE = 20
 
+# -----------------------------------------------------------------
 def mainlist(item):
     log("mainlist", "mainlist")
     itemlist = [Item(channel=__channel__,
                      action="lista_anime",
-                     title="[COLOR azure]Anime -[COLOR orange] Lista Completa[/COLOR]",
+                     title="[COLOR azure]Anime [/COLOR]- [COLOR lightsalmon]Lista Completa[/COLOR]",
                      url=host + "/lista-anime/",
-                     thumbnail=ThumbnailLista,
+                     thumbnail=CategoriaThumbnail,
                      fanart=CategoriaFanart),
                 Item(channel=__channel__,
                      action="animeaggiornati",
-                     title="[COLOR azure]Anime -[COLOR orange] Episodi Aggiornati[/COLOR]",
+                     title="[COLOR azure]Anime Aggiornati[/COLOR]",
                      url=host,
                      thumbnail=CategoriaThumbnail,
                      fanart=CategoriaFanart),
                 Item(channel=__channel__,
                      action="ultimiep",
-                     title="[COLOR azure]Anime -[COLOR orange] Ultimi Episodi[/COLOR]",
+                     title="[COLOR azure]Ultimi Episodi[/COLOR]",
                      url=host,
-                     thumbnail=ThumbnailNew,
-                     fanart=CategoriaFanart),
-                Item(channel=__channel__,
-                     action="animeaggiornati",
-                     title="[COLOR azure]Anime -[COLOR orange] Ultime Serie[/COLOR]",
-                     url=host + "/category/anime/articoli-principali/",
-                     thumbnail=ThumbnailNew,
+                     thumbnail=CategoriaThumbnail,
                      fanart=CategoriaFanart),
                 Item(channel=__channel__,
                      action="search",
                      title="[COLOR yellow]Cerca ...[/COLOR]",
-                     thumbnail=CercaThumbnail)]
+                     thumbnail="https://raw.githubusercontent.com/stesev1/channels/master/images/channels_icon/search_P.png")]
 
     return itemlist
 
-# ==============================================================================================================================================================================
 
+# =================================================================
+
+# -----------------------------------------------------------------
 def newest(categoria):
     log("newest", "newest" + categoria)
     itemlist = []
@@ -71,7 +70,7 @@ def newest(categoria):
 
             if itemlist[-1].action == "ultimiep":
                 itemlist.pop()
-    # Continua la ricerca in caso di errore 
+    # Continua la ricerca in caso di errore
     except:
         import sys
         for line in sys.exc_info():
@@ -80,22 +79,26 @@ def newest(categoria):
 
     return itemlist
 
-# ==============================================================================================================================================================================
 
+# =================================================================
+
+# -----------------------------------------------------------------
 def search(item, texto):
     log("search", "search")
     item.url = host + "/?s=" + texto
     try:
         return search_anime(item)
-    # Continua la ricerca in caso di errore 
+    # Continua la ricerca in caso di errore
     except:
         import sys
         for line in sys.exc_info():
             logger.error("%s" % line)
         return []
 
-# ==============================================================================================================================================================================
 
+# =================================================================
+
+# -----------------------------------------------------------------
 def search_anime(item):
     log("search_anime", "search_anime")
     itemlist = []
@@ -119,8 +122,10 @@ def search_anime(item):
 
     return itemlist
 
-# ==============================================================================================================================================================================
 
+# =================================================================
+
+# -----------------------------------------------------------------
 def animeaggiornati(item):
     log("animeaggiornati", "animeaggiornati")
     itemlist = []
@@ -140,6 +145,8 @@ def animeaggiornati(item):
             cleantitle = re.sub(r'Episodio?\s*\d+\s*(?:\(\d+\)|)\s*[\(OAV\)]*', '', cleantitle)
             # Creazione URL
             scrapedurl = re.sub(r'episodio?-?\d+-?(?:\d+-|)[oav]*', '', scrapedurl)
+            if 'download' not in scrapedurl:
+                scrapedurl = scrapedurl.replace('-streaming', '-download-streaming')
             itemlist.append(infoSod(
                 Item(channel=__channel__,
                      action="episodios",
@@ -148,22 +155,13 @@ def animeaggiornati(item):
                      fulltitle=cleantitle,
                      show=cleantitle,
                      thumbnail=scrapedthumbnail), tipo="tv"))
-					 
-
-    # Extrae el paginador
-    next_page = scrapertools.find_single_match(data, '<link rel="next" href="([^"]+)" />')
-    if next_page != "":
-        itemlist.append(
-            Item(channel=__channel__,
-                 action="animeaggiornati",
-                 title="[COLOR orange]Successivo >>[/COLOR]",
-                 url=next_page,
-                 thumbnail="https://raw.githubusercontent.com/orione7/Pelis_images/master/channels_icon_pureita/next_1.png"))
 
     return itemlist
 
-# ==============================================================================================================================================================================
 
+# =================================================================
+
+# -----------------------------------------------------------------
 def ultimiep(item):
     log("ultimiep", "ultimiep")
     itemlist = []
@@ -194,11 +192,11 @@ def ultimiep(item):
             if 'episodio' in eptype.lower():
                 epnumber = scrapertools.find_single_match(scrapedtitle.lower(), r'episodio?\s*(\d+)')
                 eptype += ":? " + epnumber
-                
+
             extra = "<tr>\s*<td[^>]+><strong>(?:[^>]+>|)%s(?:[^>]+>[^>]+>|[^<]*|[^>]+>)</strong>" % eptype
             itemlist.append(infoSod(
                 Item(channel=__channel__,
-                     action="episodios",
+                     action="findvideos",
                      title=scrapedtitle,
                      url=scrapedurl,
                      fulltitle=cleantitle,
@@ -208,8 +206,10 @@ def ultimiep(item):
 
     return itemlist
 
-# ==============================================================================================================================================================================
 
+# =================================================================
+
+# -----------------------------------------------------------------
 def lista_anime(item):
     log("lista_anime", "lista_anime")
 
@@ -220,10 +220,10 @@ def lista_anime(item):
         item.url, p = item.url.split('{}')
         p = int(p)
 
-    # Carica la pagina 
+    # Carica la pagina
     data = httptools.downloadpage(item.url).data
 
-    # Estrae i contenuti 
+    # Estrae i contenuti
     patron = r'<li>\s*<strong>\s*<a\s*href="([^"]+?)">([^<]+?)</a>\s*</strong>\s*</li>'
     matches = re.compile(patron, re.DOTALL).findall(data)
 
@@ -239,11 +239,18 @@ def lista_anime(item):
                  action="episodios",
                  title=title,
                  url=scrapedurl,
-                 thumbnail=AnimeThumbnail,
+                 thumbnail=scrapedthumbnail,
                  fulltitle=title,
                  show=title,
                  plot=scrapedplot,
                  folder=True), tipo='movie'))
+
+    if len(itemlist) > 0:
+        itemlist.append(
+            Item(channel=__channel__,
+                 action="HomePage",
+                 title="[COLOR yellow]Torna Home[/COLOR]",
+                 folder=True)),
 
     if len(matches) >= p * PERPAGE:
         scrapedurl = item.url + '{}' + str(p + 1)
@@ -253,13 +260,14 @@ def lista_anime(item):
                  action="lista_anime",
                  title="[COLOR orange]Successivo >>[/COLOR]",
                  url=scrapedurl,
-                 thumbnail=AvantiImg,
+                 thumbnail="http://2.bp.blogspot.com/-fE9tzwmjaeQ/UcM2apxDtjI/AAAAAAAAeeg/WKSGM2TADLM/s1600/pager+old.png",
                  folder=True))
 
     return itemlist
 
-# ==============================================================================================================================================================================
+# =================================================================
 
+# -----------------------------------------------------------------
 def episodios(item):
     itemlist = []
 
@@ -270,6 +278,9 @@ def episodios(item):
 
     for scrapedtitle, scrapedurl, scrapedimg in matches:
         if 'nodownload' in scrapedimg or 'nostreaming' in scrapedimg:
+            continue
+        if 'vvvvid' in scrapedurl.lower():
+            itemlist.append(Item(title='I Video VVVVID Non sono supportati'))
             continue
 
         scrapedtitle = scrapertools.decodeHtmlentities(scrapedtitle)
@@ -287,10 +298,22 @@ def episodios(item):
                  fanart=item.thumbnail,
                  thumbnail=item.thumbnail))
 
+    # Comandi di servizio
+    if config.get_library_support() and len(itemlist) != 0:
+        itemlist.append(
+            Item(channel=__channel__,
+                 title="Aggiungi alla libreria",
+                 url=item.url,
+                 action="add_serie_to_library",
+                 extra="episodios",
+                 show=item.show))
+
     return itemlist
 
-# ==============================================================================================================================================================================
 
+# ==================================================================
+
+# -----------------------------------------------------------------
 def findvideos(item):
     logger.info("streamondemand.animeforce findvideos")
 
@@ -306,7 +329,7 @@ def findvideos(item):
         url = item.url
 
     if 'adf.ly' in url:
-        url = adfly.get_long_url(url)
+        url = expurl.expand_url(url)
     elif 'bit.ly' in url:
         url = httptools.downloadpage(url, only_headers=True, follow_redirects=False).headers.get("location")
 
@@ -328,7 +351,7 @@ def findvideos(item):
         matches = re.compile(patron, re.DOTALL).findall(data)
         headers.append(['Referer', url])
         for video in matches:
-            itemlist.append(Item(channel=__channel__, action="play", title=item.title, thumbnail=item.thumbnail,
+            itemlist.append(Item(channel=__channel__, action="play", title=item.title,
                                  url=video + '|' + urllib.urlencode(dict(headers)), folder=False))
     else:
         itemlist.extend(servertools.find_video_items(data=url))
@@ -343,9 +366,11 @@ def findvideos(item):
     return itemlist
 
 
-# ==============================================================================================================================================================================
+# ==================================================================
+
+# =================================================================
 # Funzioni di servizio
-# ==============================================================================================================================================================================
+# -----------------------------------------------------------------
 def scrapedAll(url="", patron=""):
     data = httptools.downloadpage(url).data
     MyPatron = patron
@@ -355,8 +380,9 @@ def scrapedAll(url="", patron=""):
     return matches
 
 
-# ==============================================================================================================================================================================
+# =================================================================
 
+# -----------------------------------------------------------------
 def scrapedSingle(url="", single="", patron=""):
     data = httptools.downloadpage(url).data
     paginazione = scrapertools.find_single_match(data, single)
@@ -366,8 +392,9 @@ def scrapedSingle(url="", single="", patron=""):
     return matches
 
 
-# ==============================================================================================================================================================================
+# =================================================================
 
+# -----------------------------------------------------------------
 def Crea_Url(pagina="1", azione="ricerca", categoria="", nome=""):
     # esempio
     # chiamate.php?azione=ricerca&cat=&nome=&pag=
@@ -375,28 +402,32 @@ def Crea_Url(pagina="1", azione="ricerca", categoria="", nome=""):
     log("crea_Url", Stringa)
     return Stringa
 
-# ==============================================================================================================================================================================
 
+# =================================================================
+
+# -----------------------------------------------------------------
 def log(funzione="", stringa="", canale=__channel__):
     logger.debug("[" + canale + "].[" + funzione + "] " + stringa)
 
-# ==============================================================================================================================================================================
 
+# =================================================================
+
+# -----------------------------------------------------------------
 def HomePage(item):
-    xbmc.executebuiltin("ReplaceWindow(10024,plugin://plugin.video.streamondemand)")
+    xbmc.executebuiltin("ReplaceWindow(10024,plugin://plugin.video.Stefano/?action=sod)")
 
-# ==============================================================================================================================================================================
+
+# =================================================================
+
+# =================================================================
 # riferimenti di servizio
-# ==============================================================================================================================================================================
+# -----------------------------------------------------------------
 AnimeThumbnail = "http://img15.deviantart.net/f81c/i/2011/173/7/6/cursed_candies_anime_poster_by_careko-d3jnzg9.jpg"
 AnimeFanart = "https://i.ytimg.com/vi/IAlbvyBdYdY/maxresdefault.jpg"
-AnimeAz = "https://raw.githubusercontent.com/orione7/Pelis_images/master/channels_icon_pureita/a-z_P.png"
-ThumbnailNew = "https://raw.githubusercontent.com/orione7/Pelis_images/master/channels_icon_pureita/anime_new_P.png"
-ThumbnailLista = "https://raw.githubusercontent.com/orione7/Pelis_images/master/channels_icon_pureita/anime_lista_P.png"
-CategoriaThumbnail = "https://raw.githubusercontent.com/orione7/Pelis_images/master/channels_icon_pureita/anime_P.png"
+CategoriaThumbnail = "http://static.europosters.cz/image/750/poster/street-fighter-anime-i4817.jpg"
 CategoriaFanart = "https://i.ytimg.com/vi/IAlbvyBdYdY/maxresdefault.jpg"
-CercaThumbnail = "https://raw.githubusercontent.com/orione7/Pelis_images/master/channels_icon_pureita/search_P.png"
+CercaThumbnail = "http://dc467.4shared.com/img/fEbJqOum/s7/13feaf0c8c0/Search"
 CercaFanart = "https://i.ytimg.com/vi/IAlbvyBdYdY/maxresdefault.jpg"
 HomeTxt = "[COLOR yellow]Torna Home[/COLOR]"
-AvantiTxt = "[COLOR orange]Successivi >>[/COLOR]"
-AvantiImg = "https://raw.githubusercontent.com/orione7/Pelis_images/master/channels_icon_pureita/next_1.png"
+AvantiTxt = "[COLOR orange]Successivo>>[/COLOR]"
+AvantiImg = "http://2.bp.blogspot.com/-fE9tzwmjaeQ/UcM2apxDtjI/AAAAAAAAeeg/WKSGM2TADLM/s1600/pager+old.png"

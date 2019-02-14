@@ -2,6 +2,7 @@
 <settings>
 
     <category label="30715">
+		<setting id="skipintro" type="bool" label="Skip Intro" default="true"/>
 		<setting type="lsep" label="30716" />
 		<setting id="metadata" type="bool" label="30717" default="true" />
 		<setting type="lsep" label="32504" />

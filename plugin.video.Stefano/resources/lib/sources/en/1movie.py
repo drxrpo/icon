@@ -2,15 +2,15 @@
 #######################################################################
  # ----------------------------------------------------------------------------
  # "THE BEER-WARE LICENSE" (Revision 42):
- # @Daddy_Blamo wrote this file.  As long as you retain this notice you
+ # @tantrumdev wrote this file.  As long as you retain this notice you
  # can do whatever you want with this stuff. If we meet some day, and you think
  # this stuff is worth it, you can buy me a beer in return. - Muad'Dib
  # ----------------------------------------------------------------------------
 #######################################################################
 
-# Addon Name: Placenta
-# Addon id: plugin.video.placenta
-# Addon Provider: Mr.Blamo
+# Addon Name: Exodus
+# Addon id: plugin.video.exodus
+# Addon Provider: Exodus
 
 import json,re,urllib,urlparse
 
@@ -25,9 +25,9 @@ class source:
     def __init__(self):
         self.priority = 1
         self.language = ['en']
-        self.domains = ['1movies.se','1movies.to','1movies.se']
-        self.base_link = 'https://www2.1movies.se/'
-        self.search_link = '/new_search/%s/'
+        self.domains = ['1movies.se','1movies.to']
+        self.base_link = 'https://1movies.se'
+        self.search_link = '/search_all/%s'
         self.player_link = '/ajax/movie/load_player_v3'
 
     def movie(self, imdb, title, localtitle, aliases, year):

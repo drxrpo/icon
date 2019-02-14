@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
-# StreamOnDemand Community Edition - Kodi Addon
 # ------------------------------------------------------------
-# Stefano - XBMC Plugin
-# Ricerca "buscadorall"
-# http://www.mimediacenter.info/foro/viewforum.php?f=36
+# TheGroove360 / XBMC Plugin
+# Canale 
 # ------------------------------------------------------------
+
+
 import Queue
 import datetime
 import glob

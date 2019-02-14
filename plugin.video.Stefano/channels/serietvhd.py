@@ -1,10 +1,7 @@
 # -*- coding: utf-8 -*-
-# StreamOnDemand Community Edition - Kodi Addon
 # ------------------------------------------------------------
-# streamondemand.- XBMC Plugin
-# Canale serietvhd
-# http://www.mimediacenter.info/foro/viewforum.php?f=36
-# Version: 201802110900
+# TheGroove360 / XBMC Plugin
+# Canale 
 # ------------------------------------------------------------
 import re  
 import urlparse

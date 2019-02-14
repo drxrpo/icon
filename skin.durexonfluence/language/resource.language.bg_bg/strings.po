@@ -1,6 +1,6 @@
 # Kodi Media Center language file
-# Addon Name: Xonfluence
-# Addon id: skin.xonfluence
+# Addon Name: Durexonfluence
+# Addon id: skin.durexonfluence
 # Addon Provider: Helly1206
 msgid ""
 msgstr ""
@@ -21,24 +21,24 @@ msgid "Change your"
 msgstr "Променете вашите"
 
 msgctxt "#31001"
-msgid "GAMES"
-msgstr "ИГРИ"
+msgid ":"
+msgstr ""
 
 msgctxt "#31002"
-msgid "[B]GAME SETTINGS[/B][CR][CR]Configure rewind support & options ·  Configure keyboard use and number of keyboard players"
-msgstr "[B]ИГРАЛНИ НАСТРОЙКИ[/B][CR][CR]Настройки за превъртане назад и други ·  Настройки за клавиатура и брой играчи, използващи клавиатура"
+msgid "Enable manual opening of media views slide menu"
+msgstr ""
 
 msgctxt "#31003"
 msgid "Power options"
-msgstr "Захранване"
+msgstr "Настройки за захранване"
 
 msgctxt "#31004"
 msgid "Working..."
-msgstr "В процес на работа…"
+msgstr "Работи..."
 
 msgctxt "#31005"
 msgid "Hide information"
-msgstr "Скриване на информацията"
+msgstr "Скрий информацията"
 
 msgctxt "#31006"
 msgid "View options"
@@ -46,11 +46,11 @@ msgstr "Преглед на настройките"
 
 msgctxt "#31007"
 msgid "Video process information"
-msgstr "Инф. за процеса за видеото"
+msgstr ""
 
 msgctxt "#31008"
 msgid "Full screen"
-msgstr "На цял екран"
+msgstr "Цял екран"
 
 msgctxt "#31009"
 msgid "Total duration"
@@ -70,15 +70,19 @@ msgstr "Декодер"
 
 msgctxt "#31013"
 msgid "Audio process information"
-msgstr "Инф. за процеса за звука"
+msgstr ""
 
 msgctxt "#31014"
 msgid "Memory used"
-msgstr "Използвана памет"
+msgstr "Памет в употреба"
 
 msgctxt "#31015"
-msgid "Minute"
-msgstr "Минута"
+msgid "Never"
+msgstr ""
+
+msgctxt "#31016"
+msgid "Permanently"
+msgstr ""
 
 msgctxt "#31017"
 msgid "Info button"
@@ -114,7 +118,7 @@ msgstr "Страница"
 
 msgctxt "#31025"
 msgid "Items"
-msgstr "Елементи"
+msgstr "Елемента"
 
 msgctxt "#31026"
 msgid "Misc options"
@@ -122,7 +126,7 @@ msgstr "Разни настройки"
 
 msgctxt "#31027"
 msgid "Location"
-msgstr "Месположение"
+msgstr "Място"
 
 msgctxt "#31028"
 msgid "Poster wrap"
@@ -194,7 +198,7 @@ msgstr "ПРЕВЪРТАНЕ НАЗАД"
 
 msgctxt "#31046"
 msgid "SEEKING"
-msgstr "ПРЕВЪРТАНЕ"
+msgstr "Преход"
 
 msgctxt "#31047"
 msgid "PLAY SPEED"
@@ -226,15 +230,15 @@ msgstr ""
 
 msgctxt "#31055"
 msgid "Open playlist"
-msgstr "Отваряне на плейлист"
+msgstr "Отвори плейлист"
 
 msgctxt "#31056"
 msgid "Save playlist"
-msgstr "Записване на плейлиста"
+msgstr "Запиши плейлиста"
 
 msgctxt "#31057"
 msgid "Close playlist"
-msgstr "Затваряне на плейлиста"
+msgstr "Затвори плейлиста"
 
 msgctxt "#31058"
 msgid "System music files"
@@ -414,11 +418,11 @@ msgstr "Фон"
 
 msgctxt "#31103"
 msgid "Show \"Paused\" in picture slideshow"
-msgstr "При авт. превъртане на снимки да се показва „На пауза“"
+msgstr "Показвай \"На Пауза\" индикация при слайдшоу от снимки"
 
 msgctxt "#31104"
 msgid "Play trailers in a window [COLOR=grey3](Video information dialogue only)[/COLOR]"
-msgstr "Възпроизвеждане на трейлърите в прозорец [COLOR=grey3](Само прозорец с информация за видеото)[/COLOR]"
+msgstr "Възпроизвеждай трейлърите в прозореца [COLOR=grey3]Информация за видеото[/COLOR]"
 
 msgctxt "#31105"
 msgid "Artwork"
@@ -430,7 +434,7 @@ msgstr "Разни настройки"
 
 msgctxt "#31107"
 msgid "Hide flagging read from video filenames [COLOR=grey3](e.g. Blu-ray, HD-DVD)[/COLOR]"
-msgstr "Скриване на флаговете, прочеетни от имената на файлове [COLOR=grey3](напр. „Blu-ray“, „HD-DVD“)[/COLOR]"
+msgstr "Скривай флаговете от имената на файлове [COLOR=grey3](напр. Blu-ray, HD-DVD)[/COLOR]"
 
 msgctxt "#31108"
 msgid "Hide main menu buttons"
@@ -438,7 +442,7 @@ msgstr "Скриване на бутони от главното меню"
 
 msgctxt "#31109"
 msgid "Enable custom background"
-msgstr "Персонализиран фон"
+msgstr "Персонален фон"
 
 msgctxt "#31110"
 msgid "Background path:"
@@ -446,7 +450,7 @@ msgstr "Път до фона:"
 
 msgctxt "#31111"
 msgid "Hide"
-msgstr "Скриване"
+msgstr "Скрий"
 
 msgctxt "#31112"
 msgid "Options"
@@ -466,19 +470,19 @@ msgstr ""
 
 msgctxt "#31116"
 msgid "Show recently added albums"
-msgstr "Показване на последно добавените албуми"
+msgstr "Показвай последно добавените албуми"
 
 msgctxt "#31117"
 msgid "Show recently added videos"
-msgstr "Показване на последно добавените видеа"
+msgstr "Показвай последно добавените видео файлове"
 
 msgctxt "#31118"
 msgid "Home page programs submenu"
-msgstr "Подменю на елемента „Програми“ от началния екран"
+msgstr "Подменю на елемента \"Програми\", от началния екран"
 
 msgctxt "#31119"
 msgid "Hide background fanart"
-msgstr "Скриване на фоновия фен-арт"
+msgstr "Скривай фоновия фен-арт"
 
 msgctxt "#31120"
 msgid "Hide page count info"
@@ -534,15 +538,15 @@ msgstr ""
 
 msgctxt "#31134"
 msgid "Home page \"Videos\" submenu"
-msgstr "Подменю на елемента „Видео“ от началния екран"
+msgstr "Подменю на елемента \"Видео\", от началния екран"
 
 msgctxt "#31135"
 msgid "Home page \"Music\" submenu"
-msgstr "Подменю на елемента „Музика“ от началния екран"
+msgstr "Подменю на елемента \"Музика\", от началния екран"
 
 msgctxt "#31136"
 msgid "Home page \"Pictures\" submenu"
-msgstr "Подменю на елемента „Снимки“ от началния екран"
+msgstr "Подменю на елемента \"Снимки\", от началния екран"
 
 msgctxt "#31137"
 msgid "Enable low main menu bar"
@@ -614,54 +618,6 @@ msgstr ""
 
 msgctxt "#31155"
 msgid "Show global search button on bottom left"
-msgstr ""
-
-msgctxt "#31156"
-msgid ":"
-msgstr ""
-
-msgctxt "#31157"
-msgid "Enable manual opening of media views slide menu"
-msgstr ""
-
-msgctxt "#31158"
-msgid "Never"
-msgstr ""
-
-msgctxt "#31159"
-msgid "Permanently"
-msgstr ""
-
-msgctxt "#31160"
-msgid "Visualisation settings"
-msgstr ""
-
-msgctxt "#31161"
-msgid "Lyrics add-on settings"
-msgstr ""
-
-msgctxt "#31162"
-msgid " pack for "
-msgstr ""
-
-msgctxt "#31163"
-msgid "Update all backgrounds"
-msgstr ""
-
-msgctxt "#31164"
-msgid "Flags"
-msgstr ""
-
-msgctxt "#31165"
-msgid "Don't ask again"
-msgstr ""
-
-msgctxt "#31166"
-msgid "Setup default background"
-msgstr ""
-
-msgctxt "#31167"
-msgid "No backgrounds set, install and setup default backgrounds add-on?"
 msgstr ""
 
 msgctxt "#31188"
@@ -981,7 +937,7 @@ msgid "Enable visible horizontal submenu"
 msgstr ""
 
 msgctxt "#31276"
-msgid "Extra artwork options"
+msgid "Extra art work options"
 msgstr ""
 
 msgctxt "#31277"
@@ -1181,7 +1137,7 @@ msgid "Album details"
 msgstr "Детайли за албума"
 
 msgctxt "#31332"
-msgid "Alternate fanart"
+msgid "Alternate fanArt"
 msgstr ""
 
 msgctxt "#31333"
@@ -1414,7 +1370,7 @@ msgstr "Помощ при първо стартиране"
 
 msgctxt "#31412"
 msgid "This tab signifies that there is a menu off to the side of this window that contains extra options for this section. To access the menu, navigate to the left with your remote control or keyboard or place your mouse pointer over the tab. [CR][CR]Click \"OK\" to close this dialogue. It will not appear again."
-msgstr "Тази хватка обозначава наличието на меню, което е извън видимия екран, съдържащо опции за текущата секция. За достъп до него е необходим да се придвижите наляво, с помощта на дистанционното или клавиатурата, или да поставите курсора на мишката над хватката. [CR][CR]Натиснете „Добре“, за да затворите този прозорец. Той няма да се появи повече."
+msgstr "Табът отляво обозначава наличието на меню, което е извън видимия екран, съдържащо опции за текущата секция. За достъп до него е необходим да се придвижите наляво, с помощта на дистанционното, клавиатурата или да поставите курсора на мишката над таба. [CR][CR]Кликнете върху \"Добре\" за да затворите този прозорец, който няма да се появи повече."
 
 msgctxt "#31413"
 msgid "Local subtitle available"
@@ -1454,34 +1410,34 @@ msgstr ""
 
 msgctxt "#31430"
 msgid "[B]PLAYER SETTINGS[/B][CR][CR]Configure actions that can be used during playback · Configure how media content is played"
-msgstr "[B]НАСТРОЙКИ ЗА ВЪЗПРОИЗВЕЖДАНЕ[/B][CR][CR]Настройки за наличните действия по време на възпроизвеждане · Настройки за начина на възпроизвеждане на медийните файлове"
+msgstr "[B]КОНФИГУРИРАЙТЕ ПЛЕЙЪРА[/B][CR][CR]Настройте наличните действия по време на възпроизвеждане · Настройте начина на възпроизвеждане на медийните файлове"
 
 msgctxt "#31431"
 msgid "[B]LIBRARY SETTINGS[/B][CR][CR]Configure how the library/file views display media content ·  Configure how library lists/views are navigated · Configure the media database options"
-msgstr "[B]НАСТРОЙКИ НА БИБЛИОТЕКАТА[/B][CR][CR]Настройки на изгледите в библиотеката ·  Настройки за начина на придвижване в списъците/изгледите на библиотеката · Настройки за базата данни с медийни файлове"
+msgstr "[B]КОНФИГУРИРАЙТЕ БИБЛИОТЕКАТА[/B][CR][CR]Настройте изгледите в библиотеката ·  Настройте списъците в библиотеката · Настройте базите данни на библиотеките"
 
 msgctxt "#31432"
 msgid "[B]PVR SETTINGS[/B][CR][CR]Configure how the channels & guide are managed  · Configure how Live TV and recordings are managed"
-msgstr "[B]НАСТРОЙКИ НА ПВР[/B][CR][CR]Настройки за управлението на каналите и справочника  · Настройки за управлението на телевизията на живо и записите"
+msgstr ""
 
 msgctxt "#31433"
 msgid "[B]ADD-ONS SETTINGS[/B][CR][CR]Configure your installed add-ons · Browse for and install add-ons from kodi.tv"
-msgstr "[B]НАСТРОЙКИ НА ДОБАВКИТЕ[/B][CR][CR]Настройки на инсталираните добавки · Разглеждане и инсталира на добавки от kodi.tv"
+msgstr "[B]КОНФИГУРИРАЙТЕ ДОБАВКИТЕ[/B][CR][CR]Настройте инсталираните добавки · Разгледайте/Инсталирайте добавки от kodi.tv"
 
 msgctxt "#31434"
 msgid "[B]SERVICES SETTINGS[/B][CR][CR]Configure & manage media sharing services · Configure web server · Configure & manage the weather service"
-msgstr "[B]НАСТРОЙКИ НА УСЛУГИТЕ[/B][CR][CR]Настройки на услугите за споделяне · Настройки на уеб сървъра · Настройки на услугата за метеорологична прогноза"
+msgstr "[B]КОНФИГУРИРАЙТЕ УСЛУГИТЕ[/B][CR][CR]Настройте услугите за споделяне · Настройте уеб сървъра · Настройте услугата за метеорологична прогноза"
 
 msgctxt "#31435"
 msgid "[B]SYSTEM SETTINGS[/B][CR][CR]Configure display · Configure audio · Configure internet access · Configure power saving· Configure logging"
-msgstr "[B]НАСТРОЙКИ НА СИСТЕМАТА[/B][CR][CR]Настройки на екрана · Настройки на звука · Настройки на достъпа до Интернет · Настройки на режима за пестене на енергия · Настройки на журнала"
+msgstr "[B]КОНФИГУРИРАЙТЕ СИСТЕМАТА[/B][CR][CR]Настройте екрана · Настройте звука · Настройте достъпа до интернет · Настройте режима за пестене на енергия · Настройте дебъг режима"
 
 msgctxt "#31436"
 msgid "[B]INTERFACE SETTINGS[/B][CR][CR]Configure skin · Configure region · Configure control · Configure screensaver · Configure master lock"
-msgstr "[B]НАСТРОЙКИ НА ИНТЕРФЕЙСА[/B][CR][CR]Настройки на облика · Настройки за езика и региона · Настройки на управлението · Настройки на скрийнсейвъра · Настройки за заключване с код"
+msgstr "[B]КОНФИГУРИРАЙТЕ ИНТЕРФЕЙСА[/B][CR][CR]Настройте облика · Настройте района · Настройте управлението · Настройте скрийнсейвъра · Настройте заключване с код"
 
 msgctxt "#31437"
-msgid "[B]CONFIGURE SKIN SETTINGS[/B][CR][CR]Setup the Xonfluence skin · Add and remove home menu items · Change skin backgrounds"
+msgid "[B]CONFIGURE SKIN SETTINGS[/B][CR][CR]Setup the Durexonfluence skin · Add and remove home menu items · Change skin backgrounds"
 msgstr ""
 
 msgctxt "#31440"
@@ -1634,15 +1590,15 @@ msgstr "Телевизия"
 
 msgctxt "#31503"
 msgid "Add group"
-msgstr "Добавяне на група"
+msgstr "Добави група"
 
 msgctxt "#31504"
 msgid "Rename group"
-msgstr "Преименуване на групата"
+msgstr "Преименувай групата"
 
 msgctxt "#31505"
 msgid "Delete group"
-msgstr "Изтриване на групата"
+msgstr "Изтрий групата"
 
 msgctxt "#31506"
 msgid "Available[CR]Groups"
@@ -1722,7 +1678,7 @@ msgstr ""
 
 msgctxt "#31901"
 msgid "36-hour forecast"
-msgstr "36-часова прогноза"
+msgstr "36 часова прогноза"
 
 msgctxt "#31902"
 msgid "Hourly forecast"
@@ -1734,7 +1690,7 @@ msgstr "Прогноза за уикенда"
 
 msgctxt "#31904"
 msgid "Daily forecast"
-msgstr "Ежедневна прогноза"
+msgstr "Прогноза"
 
 msgctxt "#31905"
 msgid "Forecast"
@@ -1742,7 +1698,7 @@ msgstr "Прогноза"
 
 msgctxt "#31909"
 msgid "Fetching forecast info..."
-msgstr "Изтегляне на прогнозата…"
+msgstr "Изтегляне на прогнозата..."
 
 msgctxt "#31910"
 msgid "Maps"
@@ -1832,22 +1788,6 @@ msgctxt "#31943"
 msgid "Use default confluence favourites window look and feel"
 msgstr ""
 
-msgctxt "#31944"
-msgid "Visible in Master mode only"
-msgstr ""
-
-msgctxt "#31947"
-msgid "Button look and feel"
-msgstr ""
-
-msgctxt "#31948"
-msgid "Button layout look and feel"
-msgstr ""
-
-msgctxt "#31949"
-msgid "OSD look and feel"
-msgstr ""
-
 msgctxt "#31950"
 msgid "WEATHER"
 msgstr "ВРЕМЕТО"
@@ -1858,7 +1798,7 @@ msgstr "СНИМКИ"
 
 msgctxt "#31952"
 msgid "TV"
-msgstr "ТЕЛЕВИЗИЯ"
+msgstr "Телевизия"
 
 msgctxt "#31953"
 msgid "VIDEOS"
@@ -1969,7 +1909,7 @@ msgid "Reload"
 msgstr ""
 
 msgctxt "#31980"
-msgid "Save settings and reload Xonfluence"
+msgid "Save settings and reload Durexonfluence"
 msgstr ""
 
 msgctxt "#31981"

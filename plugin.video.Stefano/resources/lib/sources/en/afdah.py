@@ -1,26 +1,18 @@
-# NEEDS FIXING
+# -*- coding: UTF-8 -*-
+#######################################################################
+ # ----------------------------------------------------------------------------
+ # "THE BEER-WARE LICENSE" (Revision 42):
+ # @tantrumdev wrote this file.  As long as you retain this notice you
+ # can do whatever you want with this stuff. If we meet some day, and you think
+ # this stuff is worth it, you can buy me a beer in return. - Muad'Dib
+ # ----------------------------------------------------------------------------
+#######################################################################
 
-# -*- coding: utf-8 -*-
+# Addon Name: Exodus
+# Addon id: plugin.video.exodus
+# Addon Provider: Exodus
 
-'''
-    Covenant Add-on
-
-    This program is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
-
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>.
-'''
-
-
-import re, json, urllib, urlparse, base64
+import re,traceback,json,urllib,urlparse,base64
 
 from resources.lib.modules import cleantitle
 from resources.lib.modules import client
@@ -32,118 +24,60 @@ class source:
         self.priority = 1
         self.language = ['en']
         self.domains = ['afdah.to']
-        self.base_link = 'http://afdah.to'
-        self.search_link = '/wp-content/themes/afdah/ajax-search.php'
+        self.base_link = 'http://afdah.to/'
+        self.search_link = '%s/search?q=afdah.to+%s+%s'
+        self.goog = 'https://www.google.co.uk'
 
     def movie(self, imdb, title, localtitle, aliases, year):
         try:
-
-            query = urlparse.urljoin(self.base_link, self.search_link)
-            if ':' in title:
-                title2 = title.split(':')[0] + ':'
-                post = 'search=%s&what=title' % title2
-
-            else: post = 'search=%s&what=title' % cleantitle.getsearch(title)
-
-
-            t = cleantitle.get(title)
-
-            r = client.request(query, post=post)
-            r = client.parseDOM(r, 'li')
-            r = [(client.parseDOM(i, 'a', ret='href'), client.parseDOM(i, 'a',)) for i in r]
-            r = [(i[0][0], i[1][0]) for i in r if len(i[0]) > 0 and len(i[1]) > 0]
-            r = [(i[0], re.findall('(.+?) \((\d{4})', i[1])) for i in r]
-            r = [(i[0], i[1][0][0], i[1][0][1]) for i in r if len(i[1]) > 0]
-            r = [i[0] for i in r if t == cleantitle.get(i[1]) and year == i[2]][0]
-
-            url = urlparse.urljoin(self.base_link, re.findall('(?://.+?|)(/.+)', r)[0])
-            url = client.replaceHTMLCodes(url)
-            url = url.encode('utf-8')
-
+            url = {'imdb': imdb, 'title': title, 'year': year}
+            url = urllib.urlencode(url)
             return url
         except:
+            failure = traceback.format_exc()
+            log_utils.log('AFDAH - Exception: \n' + str(failure))
             return
-
 
     def sources(self, url, hostDict, hostprDict):
         sources = []
-
         try:
-            if not url:
-                return sources
-            surl = []
-            r = client.request(url, redirect=True)
-            data = client.parseDOM(r, 'div', attrs={'class': 'jw-player'}, ret='data-id')
-            data2 = client.parseDOM(r, 'tr')
-            data2 = [client.parseDOM(i, 'a', ret='href') for i in data2]
-            surl += [i[0] for i in data2 if i]
-            surl += [urlparse.urljoin(self.base_link,i) for i in data if not 'trailer' in i]
+            if url == None: return
 
-            for url in surl:
-                try:
-                    if self.base_link in url:
-                        txt = client.request(url)
+            urldata = urlparse.parse_qs(url)
+            urldata = dict((i, urldata[i][0]) for i in urldata)
+            title = urldata['title']
+            year = urldata['year']
+            
+            scrape = title.lower().replace(' ','+').replace(':', '')
 
-                        try:
-                            code = re.findall(r'decrypt\("([^"]+)', txt)[0]
-                            decode = base64.b64decode(tor(base64.b64decode(code)))
+            start_url = self.search_link %(self.goog,scrape,year)
+            headers = {'User-Agent':'Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.36'}
 
-                            urls = [(i[0], i[1]) for i in re.findall(
-                                '''file\s*:\s*["']([^"']+)['"].+?label\s*:\s*["'](\d+)p["']''', str(decode), re.DOTALL)
-                                    if int(i[1]) >= 720]
-                            for i in urls:
-                                url = i[0]
-                                quality = i[1] + 'p'
-                                sources.append(
-                                    {'source': 'GVIDEO', 'quality': quality, 'language': 'en', 'url': url,
-                                     'direct': True,
-                                     'debridonly': False})
-                        except:
-                            code = re.findall(r'salt\("([^"]+)', txt)[0]
-                            decode = tor(base64.b64decode(tor(code)))
-                            url = client.parseDOM(str(decode), 'iframe', ret='src')[0]
-                            sources.append(
-                                {'source': 'NETU', 'quality': '1080p', 'language': 'en', 'url': url, 'direct': False,
-                                 'debridonly': False})
+            html = client.request(start_url,headers=headers)
+            results = re.compile('href="(.+?)"',re.DOTALL).findall(html)
 
-                except:
-                    pass
-                try:
-                    valid, host = source_utils.is_host_valid(url, hostDict)
-                    if not valid: continue
-                    sources.append({'source': host, 'quality': 'SD', 'language': 'en', 'url': url, 'direct': False, 'debridonly': False})
-                except: pass
-
+            for url in results:
+                if self.base_link in url:
+                    if 'webcache' in url:
+                        continue
+                    headers={'User-Agent':'Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.36'}
+                    html = client.request(url,headers=headers)
+                    
+                    chktitle = re.compile('property="og:title" content="(.+?)" ',re.DOTALL).findall(html)[0]
+                    if cleantitle.get(title) in cleantitle.get(chktitle):
+                        # pulls all the links from Alternate Servers tab
+                        alt_server_cont = re.compile('<div id="cont_5" class="tabContent" style=".+?">(.+?)</div>',re.DOTALL).findall(html)[0]
+                        alt_links = re.compile('<a rel="nofollow" href="(.+?)"',re.DOTALL).findall(alt_server_cont)
+                        for vid_url in alt_links:
+                            host = vid_url.split('//')[1].replace('www.','')
+                            host = host.split('/')[0].lower()
+                            sources.append({'source': host, 'quality': 'HD', 'language': 'en', 'url': vid_url, 'info': [], 'direct': False, 'debridonly': False})
+                    return sources
             return sources
         except:
+            failure = traceback.format_exc()
+            log_utils.log('AFDAH - Exception: \n' + str(failure))
             return sources
 
     def resolve(self, url):
         return url
-
-
-def tor(txt):
-    try:
-        map = {}
-        tmp = "abcdefghijklmnopqrstuvwxyz"
-        buf = ""
-        j = 0;
-        for c in tmp:
-            x = tmp[j]
-            y = tmp[(j + 13) % 26]
-            map[x] = y;
-            map[x.upper()] = y.upper()
-            j += 1
-
-        j = 0
-        for c in txt:
-            c = txt[j]
-            if c >= 'A' and c <= 'Z' or c >= 'a' and c <= 'z':
-                buf += map[c]
-            else:
-                buf += c
-            j += 1
-
-        return buf
-    except:
-        return

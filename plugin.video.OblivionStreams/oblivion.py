@@ -2397,7 +2397,7 @@ if mode==None:
 	addon_log("getSources")
 	addDir('[COLORwhite][B]Welcome To Oblivion Streams We Hope You Enjoy[/COLOR][/B]','','',icon,fanart,'','','','','')
 	addDir('[COLOR green][B]ON LINE [COLORdeepskyblue]Shadow.Tv[/COLOR][/B]','http://www.sdw-net.me',100036,icon,fanart,'','','','','')
-	addDir('[COLOR green][B]ON LINE [COLORdeepskyblue]Auto.Tv[/COLOR][/B]','http://www.sdw-net.me',100039,icon,fanart,'','','','','')
+	#addDir('[COLOR green][B]ON LINE [COLORdeepskyblue]Auto.Tv[/COLOR][/B]','http://www.sdw-net.me',100039,icon,fanart,'','','','','')
 	getSources()
 	xbmcplugin.endOfDirectory(int(sys.argv[1]))
 

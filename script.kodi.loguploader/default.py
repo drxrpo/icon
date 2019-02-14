@@ -145,12 +145,11 @@ class Main:
 
     def readLog(self, path):
         try:
-            st = xbmcvfs.Stat(path)
-            sz = st.st_size()
+            lf = xbmcvfs.File(path)
+            sz = lf.size()
             if sz > 1000000:
                 log('file is too large')
                 return False, LANGUAGE(32005)
-            lf = xbmcvfs.File(path)
             content = lf.read()
             lf.close()
             if content:

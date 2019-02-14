@@ -3,8 +3,7 @@
 
 import xbmc
 
-from core import httptools, scrapertools
-from platformcode import logger
+from core import httptools, scrapertools, logger
 
 host = "http://vidtodo.com"
 id_server = "vidtodo"

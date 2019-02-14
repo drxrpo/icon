@@ -8,9 +8,7 @@
 # http://blog.tvalacarta.info/plugin-xbmc/pelisalacarta/
 # ------------------------------------------------------------
 import os
-import sys
-from core import config
-from platformcode import logger
+from core import logger
 from smb.SMBConnection import SMBConnection
 from nmb.NetBIOS import NetBIOS
 remote = None
@@ -37,7 +35,6 @@ def parse_url(url):
 
 def get_server_name_ip(server):
   import re
-  import socket
   if re.compile("^\d+.\d+.\d+.\d+$").findall(server):
     server_ip = server
     server_name = None

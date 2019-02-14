@@ -1,2 +1,0 @@
-v6.2
--3/19/2018 Advanced Setting fixed for Kodi 17 Krypton

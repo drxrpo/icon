@@ -3,7 +3,7 @@
 
 from core.scrapertools import get_match, find_multiple_matches
 from core.httptools import downloadpage
-from platformcode import logger
+from core import logger
 
 host = "http://vidabc.com"
 id_server = "vidabc"

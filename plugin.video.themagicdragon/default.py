@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # v1.07 With edits by Magic Dragon & Origin
 import urllib
-import urllib2
+import urllib2 
 import datetime
 import shutil
 import re
@@ -23,7 +23,7 @@ import time
 import requests
 import _Edit
 	
-resolve_url=['rapidvideo.com','idtbox.com','oboom.com','alldebrid.com', 'allmyvideos.net', 'estream.to', 'vidtodo.com',  'streamango.com','vidto.me',  '1fichier.com','allvid.ch', 'auengine.com', 'fmovies.se','beststreams.net', 'briskfile.com', 'castamp.com', 'clicknupload.com', 'clicknupload.me', 'clicknupload.link', 'cloudy.ec', 'cloudzilla.to', 'neodrive.co', 'crunchyroll.com', 'daclips.in', 'daclips.com', 'dailymotion.com', 'divxstage.eu', 'divxstage.net', 'divxstage.to', 'couldtime.to', 'ecostream.tv', 'exashare.com', 'facebook.com', 'fastplay.sx', 'filehoot.com', 'filenuke.com', 'filepup.net', 'filmshowonline.net', 'flashx.tv', 'plus.google.com', 'googlevideo.com', 'picasaweb.google.com', 'googleusercontent.com', 'googledrive.com', 'gorillavid.in', 'gorillavid.com', 'gorillavid.in', 'grifthost.com', 'hugefiles.net', 'idowatch.net', 'indavideo.hu', 'ishared.eu', 'jetload.tv', 'kingfiles.net', 'letwatch.us', 'letwatch.to', 'vidshare.us', 'mail.ru', 'my.mail.ru', 'videoapi.my.mail.ru', 'api.video.mail.ru', 'mega-debrid.eu', 'megamp4.net', 'mersalaayitten.com', 'movdivx.com', 'movpod.net', 'movpod.in', 'movshare.net', 'wholecloud.net', 'mp4engine.com', 'mp4stream.com', 'mp4upload.com', 'myvidstream.net', 'nosvideo.com', 'noslocker.com', 'auroravid.to', 'novamov.com', 'nowvideo.sx', 'nowvideo.eu', 'nowvideo.ch', 'nowvideo.sx', 'nowvideo.co', 'nowvideo.li', 'nowvideo.ec', 'nowvideo.at', 'nowvideo.fo', 'ok.ru', 'odnoklassniki.ru', 'openload.io', 'openload.co', 'play44.net', 'played.to', 'playhd.video', 'playhd.fo', 'playu.net', 'playu.me', 'playwire.com', 'Premiumize.me', 'primeshare.tv', 'promptfile.com', 'purevid.com', 'rapidvideo.ws', 'rapidvideo.com', 'api.real-debrid.com', 'premium.rpnet.biz', 'rutube.ru', 'shared2.me', 'shared.sx', 'sharerepo.com', 'sharesix.com', 'simply-debrid.com', 'speedplay.xyz', 'speedplay.us', 'speedplay3.pw', 'speedvideo.net', 'stagevu.com', 'streamcloud.eu', 'streamin.to', 'teramixer.com', 'thevideo.me', 'thevideos.tv', 'toltsd-fel.tk', 'trollvid.net', 'tune.pk', 'tusfiles.net', 'twitch.tv', 'up2stream.com', 'upload.af', 'uploadc.com', 'uploadc.ch', 'zalaa.com', 'uploadx.org', 'uptobox.com', 'uptostream.com', 'userfiles.com', 'userscloud.com', 'veehd.com', 'veoh.com', 'vid.ag', 'vidbull.com', 'vidcrazy.net', 'uploadcrazy.net', 'thevideobee.to', 'videoboxer.co', 'vidgg.to', 'vid.gg', 'videohut.to', 'videomega.tv', 'videoraj.to', 'videorev.cc', 'videosky.to', 'video.tt', 'videoweed.es', 'bitvid.sx', 'videoweed.com', 'videowood.tv', 'byzoo.org', 'playpanda.net', 'videozoo.me', 'videowing.me', 'videowing.me', 'easyvideo.me', 'play44.net', 'playbb.me', 'video44.net', 'vidio.sx', 'vid.me', 'vidspot.net', 'vidto.me', 'vidup.me', 'vidup.org', 'vidzi.tv', 'vimeo.com', 'vivo.sx', 'vk.com', 'vkpass.com', 'vodlocker.com', 'vshare.io', 'vshare.eu', 'watchers.to', 'watchonline.to', 'vidoza.net','watchvideo.us', 'watchvideo2.us', 'watchvideo3.us', 'watchvideo4.us', 'watchvideo5.us', 'watchvideo6.us', 'watchvideo7.us', 'watchvideo8.us', 'watchvideo9.us', 'weshare.me', 'xvidstage.com', 'youlol.biz', 'shitmovie.com', 'yourupload.com', 'youtube.com', 'youtu.be', 'youwatch.org', 'api.zevera.com', 'zettahost.tv', 'zstream.to']
+resolve_url=['rapidvideo.com','idtbox.com','vidlox.tv','vidtodo.pro','vshare.eu','oboom.com','alldebrid.com', 'allmyvideos.net', 'estream.to', 'vidtodo.com',  'streamango.com','vidto.me',  '1fichier.com','allvid.ch', 'auengine.com', 'fmovies.se','beststreams.net', 'briskfile.com', 'castamp.com', 'clicknupload.com', 'clicknupload.me', 'clicknupload.link', 'cloudy.ec', 'cloudzilla.to', 'neodrive.co', 'crunchyroll.com', 'daclips.in', 'daclips.com', 'dailymotion.com', 'divxstage.eu', 'divxstage.net', 'divxstage.to', 'couldtime.to', 'ecostream.tv', 'exashare.com', 'facebook.com', 'fastplay.sx', 'filehoot.com', 'filenuke.com', 'filepup.net', 'filmshowonline.net', 'flashx.tv', 'plus.google.com', 'googlevideo.com', 'picasaweb.google.com', 'googleusercontent.com', 'googledrive.com', 'gorillavid.in', 'gorillavid.com', 'gorillavid.in', 'grifthost.com', 'hugefiles.net', 'idowatch.net', 'indavideo.hu', 'ishared.eu', 'jetload.tv', 'kingfiles.net', 'letwatch.us', 'letwatch.to', 'vidshare.us', 'mail.ru', 'my.mail.ru', 'videoapi.my.mail.ru', 'api.video.mail.ru', 'mega-debrid.eu', 'megamp4.net', 'mersalaayitten.com', 'movdivx.com', 'movpod.net', 'movpod.in', 'movshare.net', 'wholecloud.net', 'mp4engine.com', 'mp4stream.com', 'mp4upload.com', 'myvidstream.net', 'nosvideo.com', 'noslocker.com', 'auroravid.to', 'novamov.com', 'nowvideo.sx', 'nowvideo.eu', 'nowvideo.ch', 'nowvideo.sx', 'nowvideo.co', 'nowvideo.li', 'nowvideo.ec', 'nowvideo.at', 'nowvideo.fo', 'ok.ru', 'odnoklassniki.ru', 'openload.io', 'openload.co', 'play44.net', 'played.to', 'playhd.video', 'playhd.fo', 'playu.net', 'playu.me', 'playwire.com', 'Premiumize.me', 'primeshare.tv', 'promptfile.com', 'purevid.com', 'rapidvideo.ws', 'rapidvideo.com', 'api.real-debrid.com', 'premium.rpnet.biz', 'rutube.ru', 'shared2.me', 'shared.sx', 'sharerepo.com', 'sharesix.com', 'simply-debrid.com', 'speedplay.xyz', 'speedplay.us', 'speedplay3.pw', 'speedvideo.net', 'stagevu.com', 'streamcloud.eu', 'streamin.to', 'teramixer.com', 'thevideo.me', 'thevideos.tv', 'toltsd-fel.tk', 'trollvid.net', 'tune.pk', 'tusfiles.net', 'twitch.tv', 'up2stream.com', 'upload.af', 'uploadc.com', 'uploadc.ch', 'zalaa.com', 'uploadx.org', 'uptobox.com', 'uptostream.com', 'userfiles.com', 'userscloud.com', 'veehd.com', 'veoh.com', 'vid.ag', 'vidbull.com', 'vidcrazy.net', 'uploadcrazy.net', 'thevideobee.to', 'videoboxer.co', 'vidgg.to', 'vid.gg', 'videohut.to', 'videomega.tv', 'videoraj.to', 'videorev.cc', 'videosky.to', 'video.tt', 'videoweed.es', 'bitvid.sx', 'videoweed.com', 'videowood.tv', 'byzoo.org', 'playpanda.net', 'videozoo.me', 'videowing.me', 'videowing.me', 'easyvideo.me', 'play44.net', 'playbb.me', 'video44.net', 'vidio.sx', 'vid.me', 'vidspot.net', 'vidto.me', 'vidup.me', 'vidup.org', 'vidzi.tv', 'vimeo.com', 'vivo.sx', 'vk.com', 'vkpass.com', 'vodlocker.com', 'vshare.io', 'vshare.eu', 'watchers.to', 'watchonline.to', 'vidoza.net','watchvideo.us', 'watchvideo2.us', 'watchvideo3.us', 'watchvideo4.us', 'watchvideo5.us', 'watchvideo6.us', 'watchvideo7.us', 'watchvideo8.us', 'watchvideo9.us', 'weshare.me', 'xvidstage.com', 'youlol.biz', 'shitmovie.com', 'yourupload.com', 'youtube.com','.youtube.com', 'youtu.be', 'youwatch.org', 'api.zevera.com', 'zettahost.tv', 'zstream.to']
 g_ignoreSetResolved=['plugin.video.dramasonline','plugin.video.f4mTester','plugin.video.shahidmbcnet','plugin.video.SportsDevil','plugin.stream.vaughnlive.tv','plugin.video.ZemTV-shani']
 
 class NoRedirection(urllib2.HTTPErrorProcessor):
@@ -55,7 +55,7 @@ else: SOURCES = []
 
 def addon_log(string):
     if debug == 'true':
-        xbmc.log("[addon.live.thedogsbollocks Lists-%s]: %s" %(addon_version, string))
+        xbmc.log("[addon.live.themagicdragon Lists-%s]: %s" %(addon_version, string))
 
 
 def makeRequest(url, headers=None):
@@ -81,7 +81,7 @@ def makeRequest(url, headers=None):
 def SKindex():
     addon_log("SKindex")
     addDir('[B][COLOR blue]FIND US ON TWITTER @magicdragon_ZT[/B][/COLOR]','[B][COLORblue]FIND US ON TWITTER @magicdragon_ZT[/B][/COLOR]',4,'https://cdn1.iconfinder.com/data/icons/logotypes/32/square-twitter-256.png' ,  FANART,'','','','')	
-    addDir('[B][I][COLORred]"MOVIE SEARCH"[/B][/I][/COLOR]','[B][I][COLORred]"MOVIE SEARCH"[/B][/I][/COLOR]',41,'https://freeiconshop.com/wp-content/uploads/edd/search-flat.png' ,  FANART,'','','','')
+    addDir('[B][I][COLORwhite]"MOVIE SEARCH"[/B][/I][/COLOR]','[B][I][COLORwhite]"MOVIE SEARCH"[/B][/I][/COLOR]',41,'https://freeiconshop.com/wp-content/uploads/edd/search-flat.png' ,  FANART,'','','','')
     #addDir('[B][I][COLORgold]New Catch Up TV[/B][/I][/COLOR]','[B][I][COLORgold]New Catch Up TV[/B][/I][/COLOR]',43,icon ,  FANART,'','','','')
     getData(_Edit.MainBase,'')
     xbmcplugin.endOfDirectory(int(sys.argv[1]))
@@ -243,6 +243,110 @@ def Search_loop():
 			else:
 				if Search_title in name2.lower().replace(' ',''):
 					addDir(name2,url2,1,image2,fanart2,'','','','')	
+		HTML8 = Open_Url('http://supremacy.org.uk/tombraider/dogsbollocks/A-D.txt')
+		match2 = re.compile('<title>(.+?)</title>.+?<link>(.+?)</link>.+?<thumbnail>(.+?)</thumbnail>.+?<fanart>(.+?)/fanart>',re.DOTALL).findall(HTML8)
+		for name2,url2,image2,fanart2 in match2:
+			if fanart2 == '<':
+				fanart2 = FANART
+			else:
+				fanart2 = fanart2.replace('<','')
+			if 'sublink' in url2:
+				if Search_title in name2.lower().replace(' ',''):
+					addDir(name2,url2,30,image2,fanart2,'','','','')
+			else:
+				if Search_title in name2.lower().replace(' ',''):
+					addDir(name2,url2,1,image2,fanart2,'','','','')	
+		HTML9 = Open_Url('http://supremacy.org.uk/tombraider/dogsbollocks/0-1000000.txt')
+		match2 = re.compile('<title>(.+?)</title>.+?<link>(.+?)</link>.+?<thumbnail>(.+?)</thumbnail>.+?<fanart>(.+?)/fanart>',re.DOTALL).findall(HTML9)
+		for name2,url2,image2,fanart2 in match2:
+			if fanart2 == '<':
+				fanart2 = FANART
+			else:
+				fanart2 = fanart2.replace('<','')
+			if 'sublink' in url2:
+				if Search_title in name2.lower().replace(' ',''):
+					addDir(name2,url2,30,image2,fanart2,'','','','')
+			else:
+				if Search_title in name2.lower().replace(' ',''):
+					addDir(name2,url2,1,image2,fanart2,'','','','')
+		HTML10 = Open_Url('http://supremacy.org.uk/tombraider/dogsbollocks/E-H.txt')
+		match2 = re.compile('<title>(.+?)</title>.+?<link>(.+?)</link>.+?<thumbnail>(.+?)</thumbnail>.+?<fanart>(.+?)/fanart>',re.DOTALL).findall(HTML10)
+		for name2,url2,image2,fanart2 in match2:
+			if fanart2 == '<':
+				fanart2 = FANART
+			else:
+				fanart2 = fanart2.replace('<','')
+			if 'sublink' in url2:
+				if Search_title in name2.lower().replace(' ',''):
+					addDir(name2,url2,30,image2,fanart2,'','','','')
+			else:
+				if Search_title in name2.lower().replace(' ',''):
+					addDir(name2,url2,1,image2,fanart2,'','','','')	
+		HTML11 = Open_Url('http://supremacy.org.uk/tombraider/dogsbollocks/I-L.txt')
+		match2 = re.compile('<title>(.+?)</title>.+?<link>(.+?)</link>.+?<thumbnail>(.+?)</thumbnail>.+?<fanart>(.+?)/fanart>',re.DOTALL).findall(HTML11)
+		for name2,url2,image2,fanart2 in match2:
+			if fanart2 == '<':
+				fanart2 = FANART
+			else:
+				fanart2 = fanart2.replace('<','')
+			if 'sublink' in url2:
+				if Search_title in name2.lower().replace(' ',''):
+					addDir(name2,url2,30,image2,fanart2,'','','','')
+			else:
+				if Search_title in name2.lower().replace(' ',''):
+					addDir(name2,url2,1,image2,fanart2,'','','','')	
+		HTML12 = Open_Url('http://supremacy.org.uk/tombraider/dogsbollocks/M-P.txt')
+		match2 = re.compile('<title>(.+?)</title>.+?<link>(.+?)</link>.+?<thumbnail>(.+?)</thumbnail>.+?<fanart>(.+?)/fanart>',re.DOTALL).findall(HTML12)
+		for name2,url2,image2,fanart2 in match2:
+			if fanart2 == '<':
+				fanart2 = FANART
+			else:
+				fanart2 = fanart2.replace('<','')
+			if 'sublink' in url2:
+				if Search_title in name2.lower().replace(' ',''):
+					addDir(name2,url2,30,image2,fanart2,'','','','')
+			else:
+				if Search_title in name2.lower().replace(' ',''):
+					addDir(name2,url2,1,image2,fanart2,'','','','')	
+		HTML13 = Open_Url('http://supremacy.org.uk/tombraider/dogsbollocks/Q-S.txt')
+		match2 = re.compile('<title>(.+?)</title>.+?<link>(.+?)</link>.+?<thumbnail>(.+?)</thumbnail>.+?<fanart>(.+?)/fanart>',re.DOTALL).findall(HTML13)
+		for name2,url2,image2,fanart2 in match2:
+			if fanart2 == '<':
+				fanart2 = FANART
+			else:
+				fanart2 = fanart2.replace('<','')
+			if 'sublink' in url2:
+				if Search_title in name2.lower().replace(' ',''):
+					addDir(name2,url2,30,image2,fanart2,'','','','')
+			else:
+				if Search_title in name2.lower().replace(' ',''):
+					addDir(name2,url2,1,image2,fanart2,'','','','')
+		HTML14 = Open_Url('http://supremacy.org.uk/tombraider/dogsbollocks/T.txt')
+		match2 = re.compile('<title>(.+?)</title>.+?<link>(.+?)</link>.+?<thumbnail>(.+?)</thumbnail>.+?<fanart>(.+?)/fanart>',re.DOTALL).findall(HTML14)
+		for name2,url2,image2,fanart2 in match2:
+			if fanart2 == '<':
+				fanart2 = FANART
+			else:
+				fanart2 = fanart2.replace('<','')
+			if 'sublink' in url2:
+				if Search_title in name2.lower().replace(' ',''):
+					addDir(name2,url2,30,image2,fanart2,'','','','')
+			else:
+				if Search_title in name2.lower().replace(' ',''):
+					addDir(name2,url2,1,image2,fanart2,'','','','')
+		HTML15 = Open_Url('http://supremacy.org.uk/tombraider/dogsbollocks/U-Z.txt')
+		match2 = re.compile('<title>(.+?)</title>.+?<link>(.+?)</link>.+?<thumbnail>(.+?)</thumbnail>.+?<fanart>(.+?)/fanart>',re.DOTALL).findall(HTML15)
+		for name2,url2,image2,fanart2 in match2:
+			if fanart2 == '<':
+				fanart2 = FANART
+			else:
+				fanart2 = fanart2.replace('<','')
+			if 'sublink' in url2:
+				if Search_title in name2.lower().replace(' ',''):
+					addDir(name2,url2,30,image2,fanart2,'','','','')
+			else:
+				if Search_title in name2.lower().replace(' ',''):
+					addDir(name2,url2,1,image2,fanart2,'','','','')						
 		HTML17 = Open_Url('http://supremacy.org.uk/tombraider/dogsbollocks/documentaries.txt')
 		match2 = re.compile('<title>(.+?)</title>.+?<link>(.+?)</link>.+?<thumbnail>(.+?)</thumbnail>.+?<fanart>(.+?)/fanart>',re.DOTALL).findall(HTML17)
 		for name2,url2,image2,fanart2 in match2:
@@ -528,6 +632,58 @@ def Search_loop():
 					addDir(name2,url2,30,image2,fanart2,'','','','')
 			else:
 				if Search_title in name2.lower().replace(' ',''):
+					addDir(name2,url2,1,image2,fanart2,'','','','')	
+		HTML50 = Open_Url('http://supremacy.org.uk/tombraider/dogsbollocks/oldepisodes.txt')
+		match2 = re.compile('<title>(.+?)</title>.+?<link>(.+?)</link>.+?<thumbnail>(.+?)</thumbnail>.+?<fanart>(.+?)/fanart>',re.DOTALL).findall(HTML50)
+		for name2,url2,image2,fanart2 in match2:
+			if fanart2 == '<':
+				fanart2 = FANART
+			else:
+				fanart2 = fanart2.replace('<','')
+			if 'sublink' in url2:
+				if Search_title in name2.lower().replace(' ',''):
+					addDir(name2,url2,30,image2,fanart2,'','','','')
+			else:
+				if Search_title in name2.lower().replace(' ',''):
+					addDir(name2,url2,1,image2,fanart2,'','','','')
+		HTML51 = Open_Url('http://supremacy.org.uk/tombraider/dogsbollocks/xmasmovies.txt')
+		match2 = re.compile('<title>(.+?)</title>.+?<link>(.+?)</link>.+?<thumbnail>(.+?)</thumbnail>.+?<fanart>(.+?)/fanart>',re.DOTALL).findall(HTML51)
+		for name2,url2,image2,fanart2 in match2:
+			if fanart2 == '<':
+				fanart2 = FANART
+			else:
+				fanart2 = fanart2.replace('<','')
+			if 'sublink' in url2:
+				if Search_title in name2.lower().replace(' ',''):
+					addDir(name2,url2,30,image2,fanart2,'','','','')
+			else:
+				if Search_title in name2.lower().replace(' ',''):
+					addDir(name2,url2,1,image2,fanart2,'','','','')	
+		HTML52 = Open_Url('http://supremacy.org.uk/tombraider/dogsbollocks/TorrentsHD.txt')
+		match2 = re.compile('<title>(.+?)</title>.+?<link>(.+?)</link>.+?<thumbnail>(.+?)</thumbnail>.+?<fanart>(.+?)/fanart>',re.DOTALL).findall(HTML52)
+		for name2,url2,image2,fanart2 in match2:
+			if fanart2 == '<':
+				fanart2 = FANART
+			else:
+				fanart2 = fanart2.replace('<','')
+			if 'sublink' in url2:
+				if Search_title in name2.lower().replace(' ',''):
+					addDir(name2,url2,30,image2,fanart2,'','','','')
+			else:
+				if Search_title in name2.lower().replace(' ',''):
+					addDir(name2,url2,1,image2,fanart2,'','','','')	
+		HTML53 = Open_Url('http://supremacy.org.uk/tombraider/dogsbollocks/nr3.txt')
+		match2 = re.compile('<title>(.+?)</title>.+?<link>(.+?)</link>.+?<thumbnail>(.+?)</thumbnail>.+?<fanart>(.+?)/fanart>',re.DOTALL).findall(HTML53)
+		for name2,url2,image2,fanart2 in match2:
+			if fanart2 == '<':
+				fanart2 = FANART
+			else:
+				fanart2 = fanart2.replace('<','')
+			if 'sublink' in url2:
+				if Search_title in name2.lower().replace(' ',''):
+					addDir(name2,url2,30,image2,fanart2,'','','','')
+			else:
+				if Search_title in name2.lower().replace(' ',''):
 					addDir(name2,url2,1,image2,fanart2,'','','','')					
 def getSources():
         if os.path.exists(favorites) == True:
@@ -662,7 +818,7 @@ def addSource(url=None):
 
 def MAMA_HD():
 	xbmc.log('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@')
-	mamahd = [['http://mamahd.com/sky-sports-main-event-live-free-stream-1.html','[COLORred]LINKS ARE UP AND DOWN. GVE THEM 30secs[/COLOR]'],
+	mamahd = [['http://mamahd.com/sky-sports-main-event-live-free-stream-1.html','[COLORwhite]LINKS ARE UP AND DOWN. GVE THEM 30secs[/COLOR]'],
 	    ['http://mamahd.com/sky-sports-main-event-live-free-stream-1.html','Sky Sports Main Event'],
 		['http://mamahd.com/sky-sports-premier-league-live-stream-1.html','Sky Sports Premier League'],
 		['http://mamahd.com/sky-sports-football-live-stream-1.html','Sky Sports Football'],
@@ -854,7 +1010,7 @@ def getData(url,fanart):
 					try:
 						if name == '[B][I][COLORgold]YOU ARE IN THE MOVIE ZONE[/B][/I][/COLOR]':
 							addDir(name.encode('utf-8', 'ignore'),url.encode('utf-8'),2,thumbnail,fanArt,desc,genre,date,credits,True)
-							addDir('[B][I][COLORred]"MOVIE SEARCH"[/B][/I][/COLOR]','[B][I][COLORred]"MOVIE SEARCH"[/B][/I][/COLOR]',41,'http://spiritualunitecdn-8df5.kxcdn.com/articles/wp-content/uploads/2016/06/pyramid-eye-third-eye1.jpg' ,  FANART,'','','','')
+							addDir('[B][I][COLORwhite]"MOVIE SEARCH"[/B][/I][/COLOR]','[B][I][COLORwhite]"MOVIE SEARCH"[/B][/I][/COLOR]',41,'http://spiritualunitecdn-8df5.kxcdn.com/articles/wp-content/uploads/2016/06/pyramid-eye-third-eye1.jpg' ,  FANART,'','','','')
 						elif linkedUrl=='':
 							addDir(name.encode('utf-8', 'ignore'),url.encode('utf-8'),2,thumbnail,fanArt,desc,genre,date,credits,True)
 						else:
@@ -1431,7 +1587,7 @@ def getItems(items,fanart):
                         addLink('', name.encode('utf-8', 'ignore'),thumbnail,fanArt,desc,genre,date,True,playlist,regexs,total)
                 else:
                     if isXMLSource:
-                    	if name == '[B][COLORred]***[COLORblue]MAMAHD LINKS CLICK HERE[/COLOR][COLORred]***[/COLOR][/B]':
+                    	if name == '[B][COLORwhite]***[COLORblue]MAMAHD LINKS CLICK HERE[/COLOR][COLORwhite]***[/COLOR][/B]':
                             addDir(name.encode('utf-8'),ext_url[0].encode('utf-8'),100,thumbnail,fanart,'','','','')
                     	else:
                     	    addDir(name.encode('utf-8'),ext_url[0].encode('utf-8'),1,thumbnail,fanart,desc,genre,date,None,'source')
@@ -2496,7 +2652,7 @@ def urlsolver(url):
     resolved=genesisresolvers.get(url).result
     if url == resolved or resolved is None:
         #import
-        xbmc.executebuiltin("XBMC.Notification([COLORgreen]The Magic Dragon[/COLOR] ,[COLORwhite]Enjoy Your Viewing On The Magic Dragon[/COLOR] ,5000)")
+        xbmc.executebuiltin("XBMC.Notification([COLORgreen]The Magic Dragon[/COLOR] ,[COLORyellow]Magic Dragon Is Conjuring Your Link[/COLOR] ,5000)")
         import resolveurl
         host = resolveurl.HostedMediaFile(url)
         if host:
@@ -2900,6 +3056,33 @@ def getepg(link):
         nowtitle = nowtitle.encode('utf-8')
         return "  - "+nowtitle+" - "+nowtime
 
+def CLEANUP(text):
+
+	text = str(text)
+	text = text.replace('\\r','')
+	text = text.replace('\\n','')
+	text = text.replace('\\t','')
+	text = text.replace('\\','')
+	text = text.replace('<br />','\n')
+	text = text.replace('<hr />','')
+	text = text.replace('&#039;',"'")
+	text = text.replace('&#39;',"'")
+	text = text.replace('&quot;','"')
+	text = text.replace('&rsquo;',"'")
+	text = text.replace('&amp;',"&")
+	text = text.replace('&#8211;',"&")
+	text = text.replace('&#8217;',"'")
+	text = text.replace('&#038;',"&")
+	text = text.replace('&#8211;',"-")
+	text = text.replace('&nbsp;',"")
+	text = text.replace('&hellip;',"...")
+	text = text.replace('&#8220;',"\"")
+	text = text.replace('&#8230;',"...")
+	text = text.replace('&#8221;',"\"")
+	text = text.lstrip(' ')
+	text = text.lstrip('	')
+
+	return text
 
 def get_epg(url, regex):
         data = makeRequest(url)
@@ -2912,23 +3095,26 @@ def get_epg(url, regex):
             return
 			
 def catchuptv():
-	url = 'https://ww1.watchseries-online.be/last-350-episodes'
+	url = 'https://www8.project-free-tv.ag/schedule-tv/'
 	link = requests.get(url).content
-	pattern = '''<li>(.*?)<a href="(.*?)"\s+target='.+?'>(.*?)</a>'''
-	contents = re.findall(pattern,link)
-	for date,url,title in contents:
-		date = date.replace(':', ' | ')
-		titles = date + title
-		icons = 'https://www.bitterwallet.com/media/images/2013/03/tvcatchup.png'
-		addDir(titles,url,44,icons,FANART,'','','','')
+	groups = re.findall('''<div class='day'><div id='titleh'.+?>(.*?)</div>(.*?)</ul>''',link,flags=re.DOTALL)
+	for day,data in groups:
+		day = day.upper()
+		addDir("[COLOR yellow][B]"+day+"[/B][/COLOR]",'url',9999,icon,FANART,'','','','')
+		pattern = r'''<li><a href='(.*?)'>(.*?)</a>'''
+		findshows = re.findall(pattern,data)
+		for link,title in findshows:
+			title = CLEANUP(title)
+			icons = 'https://www.bitterwallet.com/media/images/2013/03/tvcatchup.png'
+			addDir(title,link,44,icons,FANART,'','','','')
 
 def catchuptvlinks(url):
 	dialog = xbmcgui.Dialog()
 	link = requests.get(url).content
 	sources = []
 	titles = []
-	pattern = '''<a\s+target="_blank".+?href="(.*?)"'''
-	contents = re.findall(pattern,link)
+	pattern = r'''<a style=.+?['"](http[^'"]+)['"]'''
+	contents = re.findall(pattern,link,flags=re.DOTALL)
 	link = 0
 	for links in contents:
 		link += 1
@@ -2939,13 +3125,24 @@ def catchuptvlinks(url):
 	if select < 0:quit()
 	url = sources[select]
 	import resolveurl
-	if resolveurl.HostedMediaFile(url).valid_url(): 
+	if resolveurl.HostedMediaFile(url).valid_url():
 		stream_url = resolveurl.HostedMediaFile(url).resolve()
 		liz = xbmcgui.ListItem(name,iconImage=icon, thumbnailImage=icon)
 		stream_url = str(stream_url)
 		liz.setPath(stream_url)
 		xbmc.Player ().play(stream_url, liz, False)
 		quit()
+	else:
+		if not baselink in url: url = baselink + url
+		link2 = requests.get(url).content
+		url = re.findall('''<a\s*href=['"]([^'"]+)['"]\s*id=['"]linkOut['"]''',link2,flags=re.DOTALL)[0]
+		if resolveurl.HostedMediaFile(url).valid_url(): 
+			stream_url = resolveurl.HostedMediaFile(url).resolve()
+			liz = xbmcgui.ListItem(name,iconImage=icon, thumbnailImage=icon)
+			stream_url = str(stream_url)
+			liz.setPath(stream_url)
+			xbmc.Player ().play(stream_url, liz, False)
+			quit()
 
 
 xbmcplugin.setContent(int(sys.argv[1]), 'movies')

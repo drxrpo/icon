@@ -102,6 +102,8 @@ class source:
 
 			result = json.loads(client.request(url))
 			if 'item' in result:
+				if isinstance(result['item'], dict):
+					result['item'] = [result['item']]
 				for item in result['item']:
 					jsonName = item['title']
 					jsonLink = item['link']

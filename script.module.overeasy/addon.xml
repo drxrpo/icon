@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<addon id="script.module.overeasy" name="Overeasy Module" version="1.3.4" provider-name="Eggman">
+<addon id="script.module.overeasy" name="Overeasy Module" version="2.3.6" provider-name="Eggman">
 	<requires>
 		<import addon="xbmc.python" version="2.1.0" />
 	</requires>
@@ -7,5 +7,6 @@
 	<extension point="xbmc.addon.metadata">
 		<platform>all</platform>
 		<summary lang="en">Overeasy</summary>
+	<reuselanguageinvoker>false</reuselanguageinvoker>													  
 	</extension>
 </addon>

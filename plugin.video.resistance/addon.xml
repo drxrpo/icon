@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<addon id="plugin.video.resistance" version="6.5.5" name="resistance" provider-name="Scarecrow">
+<addon id="plugin.video.resistance" version="7.3.2" name="resistance" provider-name="solid snake">
 	<requires>
 		<import addon="xbmc.python" version="2.19.0" />
 		<import addon="script.module.resistance" />
@@ -8,6 +8,7 @@
 		<import addon="script.module.resolveurl" />
 		<import addon="script.module.requests" />
 		<import addon="script.module.metahandler" version="1.0.0" />
+		<import addon="script.module.globalscrapers"/>
 	</requires>
 	<extension point="xbmc.python.pluginsource" library="resistance.py">
 		<provides>video</provides>

@@ -1,6 +1,6 @@
 # Addon Name: Overeasy
-# Addon id: plugin.video.Overeasy
-# Addon Provider: Overeasy
+# Addon id: plugin.video.overeasy
+# Addon Provider: Eggman
 # Translators:
 # Translators:
 # Translators:
@@ -586,6 +586,7 @@ msgstr ""
 msgctxt "#32375"
 msgid "News and Updates"
 msgstr ""
+
 msgctxt "#32401"
 msgid "No stream available"
 msgstr ""
@@ -711,11 +712,11 @@ msgid "DEBRID-SERVICE"
 msgstr ""
 
 msgctxt "#32539"
-msgid "Configure Debrid Services in URLResolver Settings."
+msgid "Configure Debrid Services in ResolveURL Settings."
 msgstr ""
 
 msgctxt "#32540"
-msgid "URLResolver Settings"
+msgid "ResolveURL Settings"
 msgstr ""
 
 msgctxt "#32541"
@@ -911,7 +912,7 @@ msgid "Getting genre information from Trakt"
 msgstr ""
 
 msgctxt "#32600"
-msgid " Overeasy Finding sources"
+msgid "Overeasy Is Finding Your Links"
 msgstr ""
 
 msgctxt "#32601"
@@ -947,7 +948,7 @@ msgid "Unaired Season/Episode Color"
 msgstr ""
 
 msgctxt "#32609"
-msgid "UrlResolver Settings"
+msgid "ResolveURL Settings"
 msgstr ""
 
 msgctxt "#32613"
@@ -998,6 +999,30 @@ msgctxt "#32630"
 msgid "Show Season 0 in Browse Seasons"
 msgstr ""
 
+msgctxt "#32631"
+msgid "Boxsets"
+msgstr ""
 
-		 
-msgstr ""				
+msgctxt "#32634"
+msgid "Torrent Source Identifier Color"
+msgstr ""
+
+msgctxt "#32635"
+msgid "Torrent Support (Requires Real-Debrid)"
+msgstr ""
+
+msgctxt "#32636"
+msgid "Enable Torrent Scrapers"
+msgstr ""
+
+msgctxt "#32637"
+msgid "Real-Debrid Torrent Settings"
+msgstr ""
+
+msgctxt "#32638"
+msgid "Minimum Seeders"
+msgstr ""
+
+msgctxt "#32639"
+msgid "Sort By Torrent/Premium"
+msgstr ""

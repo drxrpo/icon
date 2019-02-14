@@ -1,8 +1,14 @@
 # -*- coding: utf-8 -*-
-# StreamOnDemand Community Edition - Kodi Addon
+# ------------------------------------------------------------
+# pelisalacarta - XBMC Plugin
+# Conector para watchers
+# http://blog.tvalacarta.info/plugin-xbmc/pelisalacarta/
+# ------------------------------------------------------------
+
+import re
 
 from core import httptools
-from platformcode import logger
+from core import logger
 from core import scrapertools
 from lib import jsunpack
 
@@ -31,7 +37,29 @@ def get_video_url(page_url, premium=False, user="", password="", video_password=
         ext = scrapertools.get_filename_from_url(media_url)[-4:]
         if calidad:
             ext += " " + calidad + "p"
-        media_url += "|Referer=%s" % page_url
         video_urls.append([ext + ' [watchers]', media_url])
 
     return video_urls
+
+
+# Encuentra vídeos de este servidor en el texto pasado
+def find_videos(text):
+    encontrados = set()
+    devuelve = []
+
+    # http://watchers.to/kgcldj6y8l8t.html
+    patronvideos = 'watchers.to/(?:embed-|)([A-z0-9]+)'
+    logger.info("#%s#" % patronvideos)
+    matches = re.compile(patronvideos, re.DOTALL).findall(text)
+
+    for match in matches:
+        titulo = "[watchers]"
+        url = "http://watchers.to/embed-%s.html" % match
+        if url not in encontrados:
+            logger.info("  url=" + url)
+            devuelve.append([titulo, url, 'watchers'])
+            encontrados.add(url)
+        else:
+            logger.info("  url duplicada=" + url)
+
+    return devuelve

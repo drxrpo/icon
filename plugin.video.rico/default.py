@@ -16,82 +16,215 @@
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
+
+
 import __builtin__
+import xbmcaddon
 
 # CONFIGURATION VARIABLES
 # -----------------------
-# change these to suit your addons
-root_xml_url = "http://entersandman.xyz/sm/plugin.video.rico/ricomain.xml"  # url of the root xml file
-__builtin__.tvdb_api_key = "964889ec7e90f675a7e67773748d18fd"  # tvdb api key
-__builtin__.tmdb_api_key = "964889ec7e90f675a7e67773748d18fd"  # tmdb api key
-__builtin__.trakt_client_id = "8c33c74e275303cad5369eb1db4bc6335dde696b80c377d31a4f6ba73c424651"  # trakt client id
-__builtin__.trakt_client_secret = "b6b18a7ed364a136ea7308032b965d4137104bd9f0a6f4fe3786b3bb7029508b"  # trakt client secret
-__builtin__.search_db_location = ""  # location of search db
+addon_id = xbmcaddon.Addon().getAddonInfo('id')
+ownAddon = xbmcaddon.Addon(id=addon_id)
+enable_installa = ownAddon.getSetting('dlimage')
+enable_newswin = ownAddon.getSetting('news_win')
+root_xml_url = ownAddon.getSetting('root_xml')
+if not 'file:' in root_xml_url and not 'http' in root_xml_url:
+    root_xml_url = root_xml_url.decode('base64')
+__builtin__.tvdb_api_key = ownAddon.getSetting('tvdb_api_key')
+__builtin__.tmdb_api_key = ownAddon.getSetting('tmdb_api_key')
+__builtin__.trakt_client_id = ownAddon.getSetting('trakt_api_client_id')
+__builtin__.trakt_client_secret = ownAddon.getSetting('trakt_api_client_secret')
+__builtin__.search_db_location = ownAddon.getSetting('search_db_location')
+
+__builtin__.login_url = ownAddon.getSetting('login_url')
+__builtin__.login_verified = ownAddon.getSetting('login_verified')
+__builtin__.user_var = ownAddon.getSetting('user_var')
+__builtin__.pwd_var = ownAddon.getSetting('pwd_var')
+__builtin__.session_length = ownAddon.getSetting('session_length')
 
 import os
 import sys
 
 import koding
 import koding.router as router
+import weblogin,time,traceback
 from resources.lib.installa import Dialog_specific
 from resources.lib.news_window import Dialog_Example
 import resources.lib.search
 import resources.lib.sources
 import resources.lib.testings
 import resources.lib.util.info
-import xbmc
-import xbmcaddon
-import xbmcplugin
+import xbmc,xbmcgui,xbmcplugin
 from koding import route
 from resources.lib.util.xml import JenList, display_list
 import resources.lib.util.views
 from resources.lib.plugins import *
 from language import get_string as _
 from resources.lib.plugin import run_hook
+import plugintools
+import base64
+import urllib
+import urllib2
+import xbmcplugin
+import xbmcgui
+import xbmcaddon
 
 
-addon_id = xbmcaddon.Addon().getAddonInfo('id')
 addon_name = xbmcaddon.Addon().getAddonInfo('name')
 home_folder = xbmc.translatePath('special://home/')
 addon_folder = os.path.join(home_folder, 'addons')
 art_path = os.path.join(addon_folder, addon_id)
 content_type = "files"
-ownAddon = xbmcaddon.Addon(id=addon_id)
-enable_installa = ownAddon.getSetting('dlimage')
-enable_newswin = ownAddon.getSetting('news_win')
+
 
 @route("main")
+
 def root():
+    try:
+        """ check if user has enabled user-login setting """
+        use_account = ownAddon.getSetting('use-account')
+        display_menu = False 
+
+        if use_account == 'true':
+            display_menu = handle_login()
+
+            if display_menu == None:
+                return
+        else:
+            display_menu = True
+    except:
+        failure = traceback.format_exc()
+        xbmcgui.Dialog().textviewer('Login Exception - Report this to the developer',str(failure))
+        pass
+
     """root menu of the addon"""
-    if enable_newswin == 'true':
-        koding.Add_Dir(name='Latest News And Updates', url='{"my_text":"Latest News[CR]!!!","my_desc":""}', mode='dialog_example', folder=False, icon=os.path.join(art_path,'icon.png'), fanart=os.path.join(art_path,'fanart.jpg'))
-    if not get_list(root_xml_url):
-        koding.Add_Dir(
-            name=_("Message"),
-            url=_("Sorry, server is down"),
-            mode="message",
-            folder=True,
-            icon=xbmcaddon.Addon().getAddonInfo("icon"),
-            fanart=xbmcaddon.Addon().getAddonInfo("fanart"),
-            content_type="")
-        koding.Add_Dir(
-            name=_("Search"),
-            url="",
-            mode="Search",
-            folder=True,
-            icon=xbmcaddon.Addon().getAddonInfo("icon"),
-            fanart=xbmcaddon.Addon().getAddonInfo("fanart"),
-            content_type="")
-        koding.Add_Dir(
-            name=_("Testings"),
-            url='{"file_name":"testings.xml"}',
-            mode="Testings",
-            folder=True,
-            icon=xbmcaddon.Addon().getAddonInfo("icon"),
-            fanart=xbmcaddon.Addon().getAddonInfo("fanart"),
-            content_type="")
-    if enable_installa =='true':
-        koding.Add_Dir(name='Download Backgrounds', url='{"my_text":"INSTALLA[CR]!!!","my_desc":""}', mode='dialog_specific', folder=False, icon=os.path.join(art_path,'icon.png'), fanart=os.path.join(art_path,'fanart.jpg'))
+    try:
+        AUTHENTICATE()
+        if display_menu == True:
+           # if enable_newswin == 'true':
+            #    koding.Add_Dir(name='Latest News And Updates', url='{"my_text":"Latest News[CR]!!!","my_desc":""}', mode='dialog_example', folder=False, icon=os.path.join(art_path,'icon.png'), fanart=os.path.join(art_path,'fanart.jpg'))
+            if not get_list(root_xml_url):
+                koding.Add_Dir(
+                    name=_("Message"),
+                    url=_("Sorry, server is down"),
+                    mode="message",
+                    folder=True,
+                    icon=xbmcaddon.Addon().getAddonInfo("icon"),
+                    fanart=xbmcaddon.Addon().getAddonInfo("fanart"),
+                    content_type="")
+                koding.Add_Dir(
+                    name=_("Search"),
+                    url="",
+                    mode="Search",
+                    folder=True,
+                    icon=xbmcaddon.Addon().getAddonInfo("icon"),
+                    fanart=xbmcaddon.Addon().getAddonInfo("fanart"),
+                    content_type="")
+                koding.Add_Dir(
+                    name=_("Testings"),
+                    url='{"file_name":"testings.xml"}',
+                    mode="Testings",
+                    folder=True,
+                    icon=xbmcaddon.Addon().getAddonInfo("icon"),
+                    fanart=xbmcaddon.Addon().getAddonInfo("fanart"),
+                    content_type="")
+            if enable_installa =='true':
+                koding.Add_Dir(name='Download Backgrounds', url='{"my_text":"INSTALLA[CR]!!!","my_desc":""}', mode='dialog_specific', folder=False, icon=os.path.join(art_path,'icon.png'), fanart=os.path.join(art_path,'fanart.jpg'))
+        else:
+            koding.Add_Dir(
+                name=_("You must be logged in"),
+                url=_("You are not logged in"),
+                mode="message",
+                folder=False,
+                icon=xbmcaddon.Addon().getAddonInfo("icon"),
+                fanart=xbmcaddon.Addon().getAddonInfo("fanart"),
+                content_type="")
+    except:
+        failure = traceback.format_exc()
+        xbmcgui.Dialog().textviewer('Main Menu Exception - Report this to the developer',str(failure))
+        pass
+
+def AUTHENTICATE():
+    DATA_SETTINGS_FILE   =  xbmc.translatePath(os.path.join('special://home/userdata/addon_data/plugin.video.rico/settings.xml'))
+	
+    if not os.path.exists(DATA_SETTINGS_FILE):
+        xbmcgui.Dialog().ok("[B][COLOR orangered]Rico[/COLOR][/B]", "You are required to login to use [B][COLOR orangered]Rico[/COLOR][/B]!", "Please enter your login details at the next prompt.","To sign up visit - [COLOR orangered]www.sandmanmedia.xyz/members[/COLOR] - You must be a member of our Telegram group and confirm your email with an admin!")
+        plugintools.open_settings_dialog()
+
+    if not os.path.exists(DATA_SETTINGS_FILE):
+        sys.exit(1)
+
+    email = plugintools.get_setting("Email")
+    passw = plugintools.get_setting("Password")
+
+    email=email.replace(' ','')
+    passw=passw.replace(' ','')
+
+    url = base64.b64decode('aHR0cHM6Ly93d3cuc2FuZG1hbm1lZGlhLnh5ei9tZW1iZXJzL2NoZWNrLnBocD9lbWFpbD0=') + email + '&pass=' + passw
+	
+    f = urllib.urlopen(url)
+    data = f.read()
+    f.close()
+
+    if not base64.b64decode('MQ==') in data:
+		dialog       =  xbmcgui.Dialog()
+		dialog.ok('[B][COLOR orangered]Rico[/COLOR][/B]', "[COLOR red][B]Error:[/B][/COLOR] You have not entered a valid E-Mail and Password.")
+		plugintools.open_settings_dialog()	
+		sys.exit(0)
+	
+		
+		
+def handle_login():
+    try:
+        """ get username and password and do login with them """
+        """ also get whether to hide successful login notification """
+        username = ownAddon.getSetting('username')
+        password = ownAddon.getSetting('password')
+
+        login_message_style = ownAddon.getSetting('login_message_style')
+        login_welcome_msg = ownAddon.getSetting('login_welcome_msg')
+        login_failed_msg = ownAddon.getSetting('login_failed_msg')
+        login_required_msg = ownAddon.getSetting('login_required_msg')
+
+        if username == '' or password == '':
+            koding.Add_Dir(
+                name=_(login_required_msg),
+                url=_(login_required_msg),
+                mode="message",
+                folder=False,
+                icon=xbmcaddon.Addon().getAddonInfo("icon"),
+                fanart=xbmcaddon.Addon().getAddonInfo("fanart"),
+                content_type="") 
+            return None
+
+        true_path = koding.Physical_Path(('special://home/addons/%s/' % (addon_id)))
+        expiration = ownAddon.getSetting('WEBLOGIN_EXPIRES_AT')
+        if time.time() > expiration or expiration == '':
+            logged_in = weblogin.verify_login(true_path,username,password)
+            if logged_in == True:
+                login_message = login_welcome_msg
+                expires_at = time.time() + 60 * 60 * int(session_length)
+                expiration = expires_at
+                ownAddon.setSetting("WEBLOGIN_EXPIRES_AT", str(expires_at))
+                display_menu = True
+            else:
+                login_message = login_failed_msg
+                display_menu = False
+
+            if '%s' in login_message:
+                login_message = login_message % (username)
+
+            if 'notification' in login_message_style:
+                xbmcgui.Dialog().notification('Login Update', login_message,xbmcaddon.Addon().getAddonInfo("icon"), 4000)
+            elif 'popup' in login_message_style:
+                xbmcgui.Dialog().ok('Login Update', login_message)
+        else:
+            display_menu = True
+    except:
+        failure = traceback.format_exc()
+        xbmcgui.Dialog().textviewer('Handle Login Exception - Report this to the developer',str(failure))
+        display_menu = False
+    return display_menu
 
 
 @route(mode='get_list_uncached', args=["url"])
@@ -126,6 +259,7 @@ def get_list(url):
         content_type = content
     display_list(items, content_type)
     return True
+
 
 
 @route(mode="all_episodes", args=["url"])
@@ -164,8 +298,12 @@ def scraper_settings():
 
 @route(mode="ResolverSettings")
 def resolver_settings():
-    xbmcaddon.Addon('script.module.resolveurl').openSettings()
-
+    try:
+        import resolveurl
+        xbmcaddon.Addon('script.module.resolveurl').openSettings()
+    except:
+        import urlresolver
+        xbmcaddon.Addon('script.module.urlresolver').openSettings()
 
 @route(mode="ClearTraktAccount")
 def clear_trakt_account():
@@ -188,20 +326,33 @@ def show_message(message):
 @route('clearCache')
 def clear_cache():
     import xbmcgui
+    skip_prompt = xbmcaddon.Addon().getSetting("quiet_cache")
     dialog = xbmcgui.Dialog()
-    if dialog.yesno(addon_name, _("Clear Metadata?")):
+    if skip_prompt == 'false':
+        if dialog.yesno(addon_name, _("Clear Metadata?")):
+            koding.Remove_Table("meta")
+            koding.Remove_Table("episode_meta")
+        if dialog.yesno(addon_name, _("Clear Scraper Cache?")):
+            import universalscrapers
+            universalscrapers.clear_cache()
+        if dialog.yesno(addon_name, _("Clear GIF Cache?")):
+            dest_folder = os.path.join(
+                xbmc.translatePath(xbmcaddon.Addon().getSetting("cache_folder")),
+                "artcache")
+            koding.Delete_Folders(dest_folder)
+    else:
         koding.Remove_Table("meta")
         koding.Remove_Table("episode_meta")
-    if dialog.yesno(addon_name, _("Clear Scraper Cache?")):
         import universalscrapers
         universalscrapers.clear_cache()
-    if dialog.yesno(addon_name, _("Clear GIF Cache?")):
         dest_folder = os.path.join(
             xbmc.translatePath(xbmcaddon.Addon().getSetting("cache_folder")),
             "artcache")
         koding.Delete_Folders(dest_folder)
-    xbmc.log("running hook:", xbmc.LOGNOTICE)
+
+    xbmc.log("running hook: clear cache", xbmc.LOGNOTICE)
     run_hook("clear_cache")
+    xbmcgui.Dialog().notification('Clear Cache', 'Cache has been cleared',xbmcaddon.Addon().getAddonInfo("icon"), 4000)
 
 
 def get_addon_url(mode, url=""):

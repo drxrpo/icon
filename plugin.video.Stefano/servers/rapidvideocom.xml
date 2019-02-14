@@ -45,6 +45,6 @@
 		<visible>false</visible>
 	</settings>
 	<thumbnail>http://media.tvalacarta.info/servers/server_rapidvideocom.png</thumbnail>
-	<update_url>https://raw.githubusercontent.com/streamondemand/plugin.video.streamondemand/master/servers/</update_url>
+	<update_url>https://raw.githubusercontent.com/stesev1/channels/master/servers/</update_url>
 	<version>6</version>
 </server>

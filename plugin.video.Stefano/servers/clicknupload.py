@@ -3,8 +3,7 @@
 
 import urllib
 
-from core import httptools
-from platformcode import logger
+from core import httptools, logger
 from core import scrapertools
 
 token = ""

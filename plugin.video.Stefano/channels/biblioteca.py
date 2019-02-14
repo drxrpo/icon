@@ -1,713 +1,788 @@
 # -*- coding: utf-8 -*-
 # ------------------------------------------------------------
-# streamondemand-pureita - XBMC Plugin
-# Ricerca  "Biblioteca" - Fix by Orione7
-# http://www.mimediacenter.info/foro/viewforum.php?f=36
+# TheGroove360 / XBMC Plugin
+# Canale 
 # ------------------------------------------------------------
 
-import Queue
-import datetime
-import glob
-import imp
 import os
-import re
-import threading
-import time
-import urllib
-from unicodedata import normalize
-
 import xbmc
-
-from core import channeltools
-from core import scrapertools
-from lib.fuzzywuzzy import fuzz
-
-try:
-    import json
-except:
-    import simplejson as json
-
 from core import config
-from core import logger
+from core import filetools
+from core import library
+from platformcode import logger
+from core import scrapertools
 from core.item import Item
+from platformcode import platformtools
 
-__channel__ = "biblioteca"
-__category__ = "F"
-__type__ = "generic"
-__title__ = "biblioteca"
-__language__ = "IT"
+def check_for_library_format():
+    logger.info()
 
-host = "http://www.ibs.it"
+    if config.get_setting("library_version") == 'v4':
 
-DEBUG = config.get_setting("debug")
+        p_dialog = platformtools.dialog_progress_bg("Stefano On Demand", "Conversione della libreria al nuovo formato...")
+        p_dialog.update(0)
 
-TMDB_KEY = '99ceb6cfe8e4ee644dc3b4d2ca2b2044'
-#try:
-#    TMDBaddon = xbmcaddon.Addon('metadata.themoviedb.org')
-#    TMDBpath = TMDBaddon.getAddonInfo('path')
-#    with open('%s/tmdb.xml'%TMDBpath, 'r') as tmdbfile:
-#        tmdbxml = tmdbfile.read()
-#    api_key_match = re.search('\?api_key=([\da-fA-F]+)\&amp;', tmdbxml)
-#    if api_key_match:
-#        TMDB_KEY = api_key_match.group(1)
-#        logger.info('streamondemand-pureita-master.biblioteca use metadata.themoviedb.org api_key')
-#except Exception, e:
-#    pass
+        import glob
+        for filename in glob.glob(filetools.join(library.MOVIES_PATH, u'/*/*')):
+            os.rename(filename, filename.replace('.nfo', '.sod'))
 
-TMDB_URL_BASE = 'http://api.themoviedb.org/3/'
-TMDB_IMAGES_BASEURL = 'http://image.tmdb.org/t/p/'
-INCLUDE_ADULT = 'true' if config.get_setting("enableadultmode") else 'false'
-LANGUAGE_ID = 'it'
+        p_dialog.update(50)
 
-DTTIME = (datetime.datetime.utcnow() - datetime.timedelta(hours=5))
-SYSTIME = DTTIME.strftime('%Y%m%d%H%M%S%f')
-TODAY_TIME = DTTIME.strftime('%Y-%m-%d')
-MONTH_TIME = (DTTIME - datetime.timedelta(days=30)).strftime('%Y-%m-%d')
-MONTH2_TIME = (DTTIME - datetime.timedelta(days=60)).strftime('%Y-%m-%d')
-YEAR_DATE = (DTTIME - datetime.timedelta(days=365)).strftime('%Y-%m-%d')
+        for filename in glob.glob(filetools.join(library.TVSHOWS_PATH, u'/*/*')):
+            os.rename(filename, filename.replace('.nfo', '.sod'))
 
-TIMEOUT_TOTAL = 60
+        p_dialog.update(100)
+        xbmc.sleep(2000)
+        p_dialog.close()
 
-NLS_Search_by_Title = config.get_localized_string(30980)
-NLS_Search_by_Person = config.get_localized_string(30981)
-NLS_Search_by_Company = config.get_localized_string(30982)
-NLS_Now_Playing = config.get_localized_string(30983)
-NLS_Popular = config.get_localized_string(30984)
-NLS_Top_Rated = config.get_localized_string(30985)
-NLS_Search_by_Collection = config.get_localized_string(30986)
-NLS_List_by_Genre = config.get_localized_string(30987)
-NLS_Search_by_Year = config.get_localized_string(30988)
-NLS_Search_Similar_by_Title = config.get_localized_string(30989)
-NLS_Search_Tvshow_by_Title = config.get_localized_string(30990)
-NLS_Most_Voted = config.get_localized_string(30996)
-NLS_Oscar = config.get_localized_string(30997)
-NLS_Last_2_months = config.get_localized_string(30998)
-NLS_Library = config.get_localized_string(30991)
-NLS_Next_Page = config.get_localized_string(30992)
-NLS_Looking_For = config.get_localized_string(30993)
-NLS_Searching_In = config.get_localized_string(30994)
-NLS_Found_So_Far = config.get_localized_string(30995)
-NLS_Info_Title = config.get_localized_string(30999)
-NLS_Info_Person = config.get_localized_string(30979)
+    config.set_setting("library_version", "v5")
 
-TMDb_genres = {}
-
-
-def isGeneric():
-    return True
-
+    return
 
 def mainlist(item):
-    logger.info("streamondemand-pureita.biblioteca mainlist")
-    itemlist = [Item(channel="buscador",
-                     title="[COLOR lightgreen]Cerca nei Canali...[/COLOR]",
-                     action="mainlist",
-                     thumbnail="https://raw.githubusercontent.com/orione7/Pelis_images/master/Menu/Menu_ricerca_pureita/cercaneicanali_P.png"),
-                Item(channel=__channel__,
-                     title="[COLOR yellow]%s...[/COLOR]" % NLS_Search_by_Title,
-                     action="search",
-                     url="search_movie_by_title",
-                     thumbnail="https://raw.githubusercontent.com/orione7/Pelis_images/master/Menu/Menu_ricerca_pureita/icoP_tvdb.png"),
-                Item(channel=__channel__,
-                     title="[COLOR yellow]%s...[/COLOR]" % NLS_Search_by_Person,
-                     action="search",
-                     url="search_person_by_name",
-                     thumbnail="https://raw.githubusercontent.com/orione7/Pelis_images/master/Menu/Menu_ricerca_pureita/icoP_oscar.png"),
-                Item(channel=__channel__,
-                     title="[COLOR yellow]%s...[/COLOR]" % NLS_Search_by_Year,
-                     action="search",
-                     url="search_movie_by_year",
-                     thumbnail="https://raw.githubusercontent.com/orione7/Pelis_images/master/Menu/Menu_ricerca_pureita/icoP_movie_year.png"),
-                Item(channel=__channel__,
-                     title="[COLOR yellow]%s...[/COLOR]" % NLS_Search_by_Collection,
-                     action="search",
-                     url="search_collection_by_name",
-                     thumbnail="https://raw.githubusercontent.com/orione7/Pelis_images/master/Menu/Menu_ricerca_pureita/icoP_balance.png"),
-                Item(channel=__channel__,
-                     title="[COLOR yellow]%s...[/COLOR]" % NLS_Search_Similar_by_Title,
-                     action="search",
-                     url="search_similar_movie_by_title",
-                     thumbnail="https://raw.githubusercontent.com/orione7/Pelis_images/master/Menu/Menu_ricerca_pureita/icoP_balance.png"),
-                Item(channel=__channel__,
-                     title="[COLOR lime]%s...[/COLOR]" % NLS_Search_Tvshow_by_Title,
-                     action="search",
-                     url="search_tvshow_by_title",
-                     thumbnail="https://raw.githubusercontent.com/orione7/Pelis_images/master/vari/tv-search.png"),
-                Item(channel=__channel__,
-                     title="(TV Shows) [COLOR lime]Ultimi Episodi - On-Air[/COLOR]",
-                     action="list_tvshow",
-                     url="tv/on_the_air?",
-                     plot="1",
-                     type="serie",
-                     thumbnail="https://raw.githubusercontent.com/orione7/Pelis_images/master/vari/tv_show.png"),
+    logger.info()
 
-                Item(channel=__channel__,
-                     title="(TV Shows) [COLOR lime]Populars[/COLOR]",
-                     action="list_tvshow",
-                     url="tv/popular?",
-                     plot="1",
-                     type="serie",
-                     thumbnail="https://raw.githubusercontent.com/orione7/Pelis_images/master/vari/tv_show.png"),
+    check_for_library_format()
 
-                Item(channel=__channel__,
-                     title="(TV Shows) [COLOR lime]Top Rated[/COLOR]",
-                     action="list_tvshow",
-                     url="tv/top_rated?",
-                     plot="1",
-                     type="serie",
-                     thumbnail="https://raw.githubusercontent.com/orione7/Pelis_images/master/vari/tv_show.png"),
-                Item(channel=__channel__,
-                     title="(TV Shows) [COLOR lime]Airing Today[/COLOR]",
-                     action="list_tvshow",
-                     url="tv/airing_today?",
-                     plot="1",
-                     type="serie",
-                     thumbnail="https://raw.githubusercontent.com/orione7/Pelis_images/master/vari/tv_show.png"),
-                Item(channel=__channel__,
-                     title="(Movies) [COLOR yellow]%s[/COLOR]" % NLS_Now_Playing,
-                     action="list_movie",
-                     url="movie/now_playing?",
-                     plot="1",
-                     type="movie",
-                     thumbnail="https://raw.githubusercontent.com/orione7/Pelis_images/master/Menu/Menu_ricerca_pureita/icoP_ticket.png"),
-                Item(channel=__channel__,
-                     title="(Movies) [COLOR yellow]%s[/COLOR]" % NLS_Popular,
-                     action="list_movie",
-                     url="movie/popular?",
-                     plot="1",
-                     type="movie",
-                     thumbnail="https://raw.githubusercontent.com/orione7/Pelis_images/master/Menu/Menu_ricerca_pureita/icoP_wanted.png"),
-                Item(channel=__channel__,
-                     title="(Movies) [COLOR yellow]%s[/COLOR]" % NLS_Top_Rated,
-                     action="list_movie",
-                     url="movie/top_rated?",
-                     plot="1",
-                     type="movie",
-                     thumbnail="https://raw.githubusercontent.com/orione7/Pelis_images/master/Menu/Menu_ricerca_pureita/icoP_bestseller.png"),
-                Item(channel=__channel__,
-                     title="(Movies) [COLOR yellow]%s[/COLOR]" % NLS_Most_Voted,
-                     action="list_movie",
-                     url='discover/movie?certification_country=US&sort_by=vote_count.desc&',
-                     plot="1",
-                     type="movie",
-                     thumbnail="https://raw.githubusercontent.com/orione7/Pelis_images/master/Menu/Menu_ricerca_pureita/icoP_favorite.png"),
-                Item(channel=__channel__,
-                     title="(Movies) [COLOR yellow]%s[/COLOR]" % NLS_Oscar,
-                     action="list_movie",
-                     url='list/509ec17b19c2950a0600050d?',
-                     plot="1",
-                     type="movie",
-                     thumbnail="https://raw.githubusercontent.com/orione7/Pelis_images/master/Menu/Menu_ricerca_pureita/icoP_favorite.png"),
-                Item(channel=__channel__,
-                     title="(Movies) [COLOR yellow]%s[/COLOR]" % NLS_Last_2_months,
-                     action="list_movie",
-                     url='discover/movie?primary_release_date.gte=%s&primary_release_date.lte=%s&' % (
-                         YEAR_DATE, MONTH2_TIME),
-                     plot="1",
-                     type="movie",
-                     thumbnail="https://raw.githubusercontent.com/orione7/Pelis_images/master/Menu/Menu_ricerca_pureita/icoP_last2month.png"),
-                Item(channel=__channel__,
-                     title="(Movies) [COLOR yellow]%s[/COLOR]" % NLS_List_by_Genre,
-                     action="list_genres",
-                     type="movie",
-                     thumbnail="https://raw.githubusercontent.com/orione7/Pelis_images/master/Menu/Menu_ricerca_pureita/icoP_movie_genre.png")]
+    itemlist = list()
+    itemlist.append(Item(channel=item.channel, action="peliculas", title="Film",
+                         category="Libreria film",
+                         thumbnail="http://media.tvalacarta.info/pelisalacarta/squares/thumb_biblioteca_peliculas.png"))
+    itemlist.append(Item(channel=item.channel, action="series", title="Serie TV",
+                         category="Libreria serie",
+                         thumbnail="http://media.tvalacarta.info/pelisalacarta/squares/thumb_biblioteca_series.png"))
+    #itemlist.append(Item(channel=item.channel, action="elenco_file", title="Visualizza download terminati",
+    #                     category="Libreria",
+    #                     thumbnail="https://www.mirrorservice.org/sites/mirrors.xbmc.org/addons/isengard/service.nextup.notification/icon.png"))
+
+    return itemlist
+
+def elenco_file(item):
+    logger.info("[biblioteca.py] elenco_file")
+    itemlist=[]
+
+    lista=filetools.listdir(config.get_library_path())
+
+    for list in lista:
+        if list.endswith(tuple(['.flv','.mp4','.avi','.mkv'])):
+            itemlist.append(Item(channel=item.channel,
+                                 action="file",
+                                 title="[COLOR azure]" + list + "[/COLOR]",
+                                 url=filetools.join(config.get_library_path(), list),
+                                 thumbnail="",
+                                 fanart="",
+                                 fulltitle=list,
+                                 show="",
+                                 folder=False
+                                 ))
 
     return itemlist
 
 
-def list_movie(item):
-    logger.info("streamondemand-pureita.channels.database list_movie '%s/%s'" % (item.url, item.plot))
-
-    results = [0, 0]
-    page = int(item.plot)
-    itemlist = build_movie_list(item, tmdb_get_data('%spage=%d&' % (item.url, page), results=results))
-    if page < results[0]:
-        itemlist.append(Item(
-                channel=item.channel,
-                title="[COLOR orange]%s (%d/%d)[/COLOR]" % (NLS_Next_Page, page * len(itemlist), results[1]),
-                action="list_movie",
-                url=item.url,
-                plot="%d" % (page + 1),
-                type=item.type,
-                viewmode="" if page <= 1 else "paged_list"))
-
-    return itemlist
-
-def list_tvshow(item):
-    logger.info("streamondemand-pureita.channels.database list_tvshow '%s/%s'" % (item.url, item.plot))
-
-    results = [0, 0]
-    page = int(item.plot)
-    itemlist = build_movie_list(item, tmdb_get_data('%spage=%d&' % (item.url, page), results=results))
-    if page < results[0]:
-        itemlist.append(Item(
-                channel=item.channel,
-                title="[COLOR orange]%s (%d/%d)[/COLOR]" % (NLS_Next_Page, page * len(itemlist), results[1]),
-                action="list_tvshow",
-                url=item.url,
-                plot="%d" % (page + 1),
-                type=item.type,
-                viewmode="" if page <= 1 else "paged_list"))
-
-    return itemlist
-
-def list_genres(item):
-    logger.info("streamondemand-pureita.channels.database list_genres")
-
-    tmdb_genre(1)
+def file(item):
     itemlist = []
-    for genre_id, genre_name in TMDb_genres.iteritems():
-        itemlist.append(
-                Item(channel=item.channel,
-                     title=genre_name,
-                     action="list_movie",
-                     url='genre/%d/movies?primary_release_date.gte=%s&primary_release_date.lte=%s&' % (
-                         genre_id, YEAR_DATE, TODAY_TIME),
-                     plot="1"))
+    logger.info("[bibiolteca.py] file")
+    logger.info("[biblioteca.py] urlfile--->>>" + item.url)
 
-    return itemlist
-
-
-# Do not change the name of this function otherwise launcher.py won't create the keyboard dialog required to enter the search terms
-def search(item, search_terms):
-    if item.url == '': return []
-
-    return globals()[item.url](item, search_terms) if item.url in globals() else []
-
-
-def search_tvshow_by_title(item, search_terms):
-    logger.info("streamondemand-pureita.channels.database search_tvshow_by_title '%s'" % (search_terms))
-
-    return list_movie(
-        Item(channel=item.channel,
-             url='search/tv?query=%s&' % url_quote_plus(search_terms),
-             plot="1",
-             type="serie"))
-
-
-def search_movie_by_title(item, search_terms):
-    logger.info("streamondemand-pureita.channels.database search_movie_by_title '%s'" % (search_terms))
-
-    return list_movie(
-        Item(channel=item.channel,
-             url='search/movie?query=%s&' % url_quote_plus(search_terms),
-             plot="1",
-             type="movie"))
-
-
-def search_similar_movie_by_title(item, search_terms):
-    logger.info("streamondemand-pureita.channels.database search_movie_by_title '%s'" % (search_terms))
-
-    return list_movie(
-        Item(channel=item.channel,
-             url='search/movie?append_to_response=similar_movies,alternative_title&query=%s&' % url_quote_plus(search_terms),
-             plot="1",
-             type='movie'))
-
-
-def search_movie_by_year(item, search_terms):
-    logger.info("streamondemand-pureita.channels.database search_movie_by_year '%s'" % (search_terms))
-
-    year = url_quote_plus(search_terms)
-    result = []
-    if len(year) == 4:
-        result.extend(
-            list_movie(
-                Item(channel=item.channel,
-                     url='discover/movie?primary_release_year=%s&' % year,
-                     plot="1",
-                     type="movie")))
-    return result
-
-
-def search_person_by_name(item, search_terms):
-    logger.info("streamondemand-pureita.channels.database search_person_by_name '%s'" % (search_terms))
-
-    persons = tmdb_get_data("search/person?query=%s&" % url_quote_plus(search_terms))
-
-    itemlist = []
-    for person in persons:
-        name = normalize_unicode(tmdb_tag(person, 'name'))
-        poster = tmdb_image(person, 'profile_path')
-        fanart = ''
-        for movie in tmdb_tag(person, 'known_for', []):
-            if tmdb_tag_exists(movie, 'backdrop_path'):
-                fanart = tmdb_image(movie, 'backdrop_path', 'w1280')
-                break
-
-        # extracmds = [
-        #     (NLS_Info_Person, "RunScript(script.extendedinfo,info=extendedactorinfo,id=%s)" % str(tmdb_tag(person, 'id')))] \
-        #     if xbmc.getCondVisibility('System.HasAddon(script.extendedinfo)') else []
-
-        itemlist.append(Item(
-                channel=item.channel,
-                action='search_movie_by_person',
-                extra=str(tmdb_tag(person, 'id')),
-                title=name,
-                thumbnail=poster,
-                viewmode='list',
-                fanart=fanart,
-                type='movie'
-                # extracmds=extracmds
-        ))
-
-    return itemlist
-
-
-def search_movie_by_person(item):
-    logger.info("streamondemand-pureita.channels.database search_movie_by_person '%s'" % (item.extra))
-
-    # return list_movie(
-    #     Item(channel=item.channel,
-    #          url="discover/movie?with_people=%s&primary_release_date.lte=%s&sort_by=primary_release_date.desc&" % (
-    #              item.extra, TODAY_TIME),
-    #          plot="1"))
-
-    person_movie_credits = tmdb_get_data(
-            "person/%s/movie_credits?primary_release_date.lte=%s&sort_by=primary_release_date.desc&" % (
-                item.extra, TODAY_TIME))
-    movies = []
-    if person_movie_credits:
-        movies.extend(tmdb_tag(person_movie_credits, 'cast', []))
-        movies.extend(tmdb_tag(person_movie_credits, 'crew', []))
-
-    # Movie person list is not paged
-    return build_movie_list(item, movies)
-
-
-def search_collection_by_name(item, search_terms):
-    logger.info("streamondemand-pureita.channels.database search_collection_by_name '%s'" % (search_terms))
-
-    collections = tmdb_get_data("search/collection?query=%s&" % url_quote_plus(search_terms))
-
-    itemlist = []
-    for collection in collections:
-        name = normalize_unicode(tmdb_tag(collection, 'name'))
-        poster = tmdb_image(collection, 'poster_path')
-        fanart = tmdb_image(collection, 'backdrop_path', 'w1280')
-
-        itemlist.append(Item(
-                channel=item.channel,
-                action='search_movie_by_collection',
-                extra=str(tmdb_tag(collection, 'id')),
-                title=name,
-                thumbnail=poster,
-                viewmode='list',
-                fanart=fanart,
-                type='movie'
-        ))
-
-    return itemlist
-
-
-def search_movie_by_collection(item):
-    logger.info("streamondemand-pureita.channels.database search_movie_by_collection '%s'" % (item.extra))
-
-    collection = tmdb_get_data("collection/%s?" % item.extra)
-
-    # Movie collection list is not paged
-    return build_movie_list(item, collection['parts']) if 'parts' in collection else []
-
-
-def build_movie_list(item, movies):
-    if movies is None: return []
-
-    itemlist = []
-    for movie in movies:
-        t = tmdb_tag(movie, 'title')
-        if t == '':
-            t = re.sub('\s(|[(])(UK|US|AU|\d{4})(|[)])$', '', tmdb_tag(movie, 'name'))
-        title = normalize_unicode(t)
-        title_search = normalize_unicode(t, encoding='ascii')
-        poster = tmdb_image(movie, 'poster_path')
-        fanart = tmdb_image(movie, 'backdrop_path', 'w1280')
-        jobrole = normalize_unicode(
-                ' [COLOR yellow][' + tmdb_tag(movie, 'job') + '][/COLOR]' if tmdb_tag_exists(movie, 'job') else '')
-        genres = normalize_unicode(
-            ' / '.join([tmdb_genre(genre).upper() for genre in tmdb_tag(movie, 'genre_ids', [])]))
-        year = tmdb_tag(movie, 'release_date')[0:4] if tmdb_tag_exists(movie, 'release_date') else ''
-        plot = normalize_unicode(tmdb_tag(movie, 'overview'))
-        rating = tmdb_tag(movie, 'vote_average')
-        votes = tmdb_tag(movie, 'vote_count')
-
-        extrameta = {'plot': plot}
-        if year != "": extrameta["Year"] = year
-        if genres != "": extrameta["Genre"] = genres
-        if votes:
-            extrameta["Rating"] = rating
-            extrameta["Votes"] = "%d" % votes
-
-        # extracmds = [(NLS_Info_Title, "RunScript(script.extendedinfo,info=extendedinfo,id=%s)" % str(tmdb_tag(movie, 'id')))] \
-        #     if xbmc.getCondVisibility('System.HasAddon(script.extendedinfo)') else [('Movie/Show Info', 'XBMC.Action(Info)')]
-
-        found = False
-        kodi_db_movies = kodi_database_movies(title)
-        for kodi_db_movie in kodi_db_movies:
-            logger.info('streamondemand-pureita.database set for local playing(%s):\n%s' % (title, str(kodi_db_movie)))
-            if year == str(kodi_db_movie["year"]):
-                found = True
-
-                # If some, less relevant, keys are missing locally
-                # try to get them through TMDB anyway.
-                try:
-                    poster = kodi_db_movie["art"]["poster"]
-                    fanart = kodi_db_movie["art"]["fanart"]
-                except KeyError:
-                    poster = poster
-                    fanart = fanart
-
-                itemlist.append(Item(
-                        channel=item.channel,
-                        action='play',
-                        url=kodi_db_movie["file"],
-                        title='[COLOR orange][%s][/COLOR] ' % NLS_Library + kodi_db_movie["title"] + jobrole,
-                        thumbnail=poster,
-                        category=genres,
-                        plot=str({"infoLabels": extrameta}),
-                        viewmode='movie_with_plot',
-                        fanart=fanart,
-                        # extrameta=extrameta,
-                        # extracmds=extracmds,
-                        folder=False,
-                ))
-
-        if not found:
-            logger.info('streamondemand-pureita.database set for channels search(%s)' % title)
-            itemlist.append(Item(
-                    channel=item.channel,
-                    action='do_channels_search',
-                    extra=("%4s" % year) + title_search,
-                    title=title + jobrole,
-                    thumbnail=poster,
-                    category=genres,
-                    plot=str({"infoLabels": extrameta}),
-                    viewmode='movie_with_plot',
-                    fanart=fanart,
-                    # extrameta=extrameta,
-                    # extracmds=extracmds,
-                    url=item.type
-            ))
-
-    return itemlist
-
-
-def normalize_unicode(string, encoding='utf-8'):
-    if string is None: string = ''
-    return normalize('NFKD', string if isinstance(string, unicode) else unicode(string, encoding, 'ignore')).encode(
-            encoding, 'ignore')
-
-
-def tmdb_get_data(url="", results=[0, 0], language=True):
-    url = TMDB_URL_BASE + "%sinclude_adult=%s&api_key=%s" % (url, INCLUDE_ADULT, TMDB_KEY)
-    # Temporary fix until tmdb fixes the issue with getting the genres by language!
-    if language: url += "&language=%s" % LANGUAGE_ID
-    response = get_json_response(url)
-    results[0] = response['total_pages'] if 'total_pages' in response else 0
-    results[1] = response['total_results'] if 'total_results' in response else 0
-
-    if response:
-        if "results" in response:
-            return response["results"]
-        elif "items" in response:
-            return response["items"]
-        elif "tv_credits" in response:
-            return response["tv_credits"]["cast"]
-        else:
-            return response
-
-
-def tmdb_tag_exists(entry, tag):
-    return tag in entry and entry[tag] is not None
-
-
-def tmdb_tag(entry, tag, default=""):
-    return entry[tag] if isinstance(entry, dict) and tag in entry else default
-
-
-def tmdb_image(entry, tag, width='original'):
-    return TMDB_IMAGES_BASEURL + width + '/' + tmdb_tag(entry, tag) if tmdb_tag_exists(entry, tag) else ''
-
-
-def tmdb_genre(id):
-    if id not in TMDb_genres:
-        genres = tmdb_get_data("genre/list?", language=False)
-        for genre in tmdb_tag(genres, 'genres', []):
-            TMDb_genres[tmdb_tag(genre, 'id')] = tmdb_tag(genre, 'name')
-
-    return TMDb_genres[id] if id in TMDb_genres and TMDb_genres[id] != None else str(id)
-
-
-def kodi_database_movies(title):
-    json_query = \
-        '{"jsonrpc": "2.0",\
-            "params": {\
-               "sort": {"order": "ascending", "method": "title"},\
-               "filter": {"operator": "is", "field": "title", "value": "%s"},\
-               "properties": ["title", "art", "file", "year"]\
-            },\
-            "method": "VideoLibrary.GetMovies",\
-            "id": "libMovies"\
-        }' % title
-    response = get_xbmc_jsonrpc_response(json_query)
-    return response["result"]["movies"] if response and "result" in response and "movies" in response["result"] else []
-
-
-def get_xbmc_jsonrpc_response(json_query=""):
+    risp = platformtools.dialog_select('Stefano On Demand play video', ['Guarda', 'Rinomina', 'Elimina'])
     try:
-        response = xbmc.executeJSONRPC(json_query)
-        response = unicode(response, 'utf-8', errors='ignore')
-        response = json.loads(response)
-        logger.info("streamondemand-pureita.channels.database jsonrpc %s" % response)
-    except Exception, e:
-        logger.info("streamondemand-pureita.channels.database jsonrpc error: %s" % str(e))
-        response = None
-    return response
 
+        if risp == 0:
+            xbmc.Player().play(item.url)
 
-def url_quote_plus(input_string):
-    try:
-        return urllib.quote_plus(input_string.encode('utf8', 'ignore'))
+        elif risp == 1:
+            nome = platformtools.dialog_input(item.fulltitle)
+            os.renames(item.url, filetools.join(config.get_library_path(), nome))
+            xbmc.executebuiltin("Container.Refresh")
+
+        elif risp == 2:
+            if elimina_file(item):
+                filetools.remove(item.url)
+                xbmc.executebuiltin("Container.Refresh")
     except:
-        return urllib.quote_plus(unicode(input_string, "utf-8").encode("utf-8"))
+        pass
+
+    return itemlist
 
 
-def get_json_response(url=""):
-    response = scrapertools.cache_page(url)
-    try:
-        results = json.loads(response)
-    except:
-        logger.info("streamondemand-pureita.channels.database Exception: Could not get new JSON data from %s" % url)
-        results = []
-    return results
+def elimina_file(item):
+    logger.info("[bibiolteca.py] elimina_file")
+    linea1 = '[COLOR azure]Confermi eliminazione di:[/COLOR]'
+    linea2 = item.title + ' ?'
+    linea3 = ''
+    risposta = platformtools.dialog_yesno('Conferma eliminazione:', linea1, linea2, linea3)
+
+    return risposta
 
 
-def do_channels_search(item):
-    logger.info("streamondemand-pureita.channels.biblioteca do_channels_search")
+def channel_config(item):
+    return platformtools.show_channel_settings(channelpath=os.path.join(config.get_runtime_path(),
+                                                                        "channels", item.channel))
 
-    try:
-        title_year = int(item.extra[0:4])
-    except:
-        title_year = 0
-    mostra = item.extra[4:]
-    tecleado = urllib.quote_plus(mostra)
-
+def peliculas(item):
+    logger.info()
     itemlist = []
 
-    channels_path = os.path.join(config.get_runtime_path(), "channels", '*.xml')
-    logger.info("streamondemand-pureita.channels.buscador channels_path=" + channels_path)
+    for raiz, subcarpetas, ficheros in filetools.walk(library.MOVIES_PATH):
+        for f in ficheros:
+            if f.endswith(".sod"):
+                nfo_path = filetools.join(raiz, f)
+                head_nfo, new_item = library.read_nfo(nfo_path)
 
-    channel_language = config.get_setting("channel_language")
-    logger.info("streamondemand-pureita.channels.buscador channel_language=" + channel_language)
-    if channel_language == "":
-        channel_language = "all"
-        logger.info("streamondemand-pureita.channels.buscador channel_language=" + channel_language)
+                new_item.nfo = nfo_path
+                new_item.path = raiz
+                new_item.thumbnail = new_item.contentThumbnail
+                new_item.text_color = "blue"
 
-    if config.is_xbmc():
-        show_dialog = True
-
-    try:
-        import xbmcgui
-        progreso = xbmcgui.DialogProgressBG()
-        progreso.create(NLS_Looking_For % mostra)
-    except:
-        show_dialog = False
-
-    def worker(infile, queue):
-        channel_result_itemlist = []
-        try:
-            basename_without_extension = os.path.basename(infile)[:-4]
-            # http://docs.python.org/library/imp.html?highlight=imp#module-imp
-            obj = imp.load_source(basename_without_extension, infile[:-4]+".py")
-            logger.info("streamondemand-pureita.channels.buscador cargado " + basename_without_extension + " de " + infile)
-            # item.url contains search type: serie, anime, etc...
-            channel_result_itemlist.extend(obj.search(Item(extra=item.url), tecleado))
-            for local_item in channel_result_itemlist:
-                local_item.title = " [COLOR azure] " + local_item.title + " [/COLOR] [COLOR orange]su[/COLOR] [COLOR orange]" + basename_without_extension + "[/COLOR]"
-                local_item.viewmode = "list"
-        except:
-            import traceback
-            logger.error(traceback.format_exc())
-        queue.put(channel_result_itemlist)
-
-    channel_files = glob.glob(channels_path)
-
-    channel_files_tmp = []
-    for infile in channel_files:
-
-        basename_without_extension = os.path.basename(infile)[:-4]
-
-        channel_parameters = channeltools.get_channel_parameters(basename_without_extension)
-
-        # Non cercare se il canale e inattivo
-        if channel_parameters["active"] != "true":
-            continue
-
-        # Non cercare se un canale e escluso dalla ricerca globale
-        if channel_parameters["include_in_global_search"] != "true":
-            continue
-
-        # Non cercare se un canale e per adulti e la modalita adulta disabilitata
-        if channel_parameters["adult"] == "true" and config.get_setting("adult_mode") == "false":
-            continue
-
-        # Non cercare se un canale ha il filtro lingua
-        if channel_language != "all" and channel_parameters["language"] != channel_language:
-            continue
-
-        channel_files_tmp.append(infile)
-
-    channel_files = channel_files_tmp
-
-    result = Queue.Queue()
-    threads = [threading.Thread(target=worker, args=(infile, result)) for infile in channel_files]
-
-    start_time = int(time.time())
-
-    for t in threads:
-        t.daemon = True  # NOTE: setting dameon to True allows the main thread to exit even if there are threads still running
-        t.start()
-
-    number_of_channels = len(channel_files)
-    completed_channels = 0
-    while completed_channels < number_of_channels:
-
-        delta_time = int(time.time()) - start_time
-        if len(itemlist) <= 0:
-            timeout = None  # No result so far,lets the thread to continue working until a result is returned
-        elif delta_time >= TIMEOUT_TOTAL:
-            break  # At least a result matching the searched title has been found, lets stop the search
-        else:
-            timeout = TIMEOUT_TOTAL - delta_time  # Still time to gather other results
-
-        if show_dialog:
-            progreso.update(completed_channels * 100 / number_of_channels)
-
-        try:
-            result_itemlist = result.get(timeout=timeout)
-            completed_channels += 1
-        except:
-            # Expired timeout raise an exception
-            break
-
-        for item in result_itemlist:
-            title = item.fulltitle
-
-            # If the release year is known, check if it matches the year found in the title
-            if title_year > 0:
-                year_match = re.search('\(.*(\d{4}).*\)', title)
-                if year_match and abs(int(year_match.group(1)) - title_year) > 1:
+                if not filetools.exists(filetools.join(new_item.path, filetools.basename(new_item.strm_path))):
+                    # Si se ha eliminado el strm desde la bilbioteca de kodi, no mostrarlo
                     continue
 
-            # Clean up a bit the returned title to improve the fuzzy matching
-            title = re.sub(r'\(.*\)', '', title)  # Anything within ()
-            title = re.sub(r'\[.*\]', '', title)  # Anything within []
+                # Menu contextual: Marcar como visto/no visto
+                visto = new_item.library_playcounts.get(os.path.splitext(f)[0], 0)
+                new_item.infoLabels["playcount"] = visto
+                if visto > 0:
+                    texto_visto = "Segna film come non visto"
+                    contador = 0
+                else:
+                    texto_visto = "Segna film come visto"
+                    contador = 1
 
-            # Check if the found title fuzzy matches the searched one
-            if fuzz.token_sort_ratio(mostra, title) > 85: itemlist.append(item)
+                # Menu contextual: Eliminar serie/canal
+                num_canales = len(new_item.library_urls)
+                if "descargas" in new_item.library_urls:
+                    num_canales -= 1
+                if num_canales > 1:
+                    texto_eliminar = "Elimina film/canale"
+                    multicanal = True
+                else:
+                    texto_eliminar = "Elimina questo film"
+                    multicanal = False
 
-    if show_dialog:
-        progreso.close()
 
-    itemlist = sorted(itemlist, key=lambda item: item.fulltitle)
+                new_item.context = [{"title": texto_visto,
+                                     "action": "mark_content_as_watched",
+                                     "channel": "biblioteca",
+                                     "playcount": contador},
+                                    {"title": texto_eliminar,
+                                     "action": "eliminar",
+                                     "channel": "biblioteca",
+                                     "multicanal": multicanal}]
+                # ,{"title": "Cambiar contenido (PENDIENTE)",
+                # "action": "",
+                # "channel": "biblioteca"}]
+                # logger.debug("new_item: " + new_item.tostring('\n'))
+                itemlist.append(new_item)
+
+    return sorted(itemlist, key=lambda it: it.title.lower())
+
+
+def series(item):
+    logger.info()
+    itemlist = []
+
+    # Obtenemos todos los tvshow.nfo de la biblioteca de SERIES recursivamente
+    for raiz, subcarpetas, ficheros in filetools.walk(library.TVSHOWS_PATH):
+        for f in ficheros:
+            if f == "tvshow.sod":
+                tvshow_path = filetools.join(raiz, f)
+                # logger.debug(tvshow_path)
+                head_nfo, item_tvshow = library.read_nfo(tvshow_path)
+                item_tvshow.title = item_tvshow.contentTitle
+                item_tvshow.path = raiz
+                item_tvshow.nfo = tvshow_path
+
+                # Menu contextual: Marcar como visto/no visto
+                visto = item_tvshow.library_playcounts.get(item_tvshow.contentTitle, 0)
+                item_tvshow.infoLabels["playcount"] = visto
+                if visto > 0:
+                    texto_visto = "Segna serie come non vista"
+                    contador = 0
+                else:
+                    texto_visto = "Segna serie come vista"
+                    contador = 1
+
+                # Menu contextual: Buscar automáticamente nuevos episodios o no
+                if item_tvshow.active and int(item_tvshow.active) > 0:
+                    texto_update = "Trova automaticamente nuovi episodi: Disattiva"
+                    value = 0
+                    item_tvshow.text_color = "green"
+                else:
+                    texto_update = "Trova automaticamente nuovi episodi: Attiva"
+                    value = 1
+                    item_tvshow.text_color = "0xFFDF7401"
+
+
+                # Menu contextual: Eliminar serie/canal
+                num_canales = len(item_tvshow.library_urls)
+                if "descargas" in item_tvshow.library_urls:
+                    num_canales -= 1
+                if num_canales > 1:
+                    texto_eliminar = "Eliminare serie/canale"
+                    multicanal = True
+                else:
+                    texto_eliminar = "Elimina serie"
+                    multicanal = False
+
+                item_tvshow.context = [{"title": texto_visto,
+                                        "action": "mark_content_as_watched",
+                                        "channel": "biblioteca",
+                                        "playcount": contador},
+                                       {"title": texto_update,
+                                        "action": "mark_tvshow_as_updatable",
+                                        "channel": "biblioteca",
+                                        "active": value},
+                                       {"title": texto_eliminar,
+                                        "action": "eliminar",
+                                        "channel": "biblioteca",
+                                        "multicanal": multicanal},
+                                       {"title": "Download nuovi episodi adesso",
+                                        "action": "update_serie",
+                                        "channel":"biblioteca"}]
+                # ,{"title": "Cambiar contenido (PENDIENTE)",
+                # "action": "",
+                # "channel": "biblioteca"}]
+
+                # logger.debug("item_tvshow:\n" + item_tvshow.tostring('\n'))
+                itemlist.append(item_tvshow)
+
+    if itemlist:
+        itemlist = sorted(itemlist, key=lambda it: it.title.lower())
+
+        itemlist.append(Item(channel=item.channel, action="update_biblio", thumbnail=item.thumbnail,
+                             title="Cerca nuovi episodi e aggiorna ", folder=False))
+    return itemlist
+
+
+def get_temporadas(item):
+    logger.info()
+    # logger.debug("item:\n" + item.tostring('\n'))
+    itemlist = []
+    dict_temp = {}
+
+    raiz, carpetas_series, ficheros = filetools.walk(item.path).next()
+
+    # Menu contextual: Releer tvshow.nfo
+    head_nfo, item_nfo = library.read_nfo(item.nfo)
+
+    if config.get_setting("no_pile_on_seasons", "biblioteca") == 2:  # Siempre
+        return get_episodios(item)
+
+    for f in ficheros:
+        if f.endswith('.json'):
+            season = f.split('x')[0]
+            dict_temp[season] = "Stagione %s" % season
+
+    if config.get_setting("no_pile_on_seasons", "biblioteca") == 1 and len(dict_temp) == 1:  # Sólo si hay una temporada
+        return get_episodios(item)
+    else:
+        # Creamos un item por cada temporada
+        for season, title in dict_temp.items():
+            new_item = item.clone(action="get_episodios", title=title, contentSeason=season,
+                                  filtrar_season=True)
+
+            # Menu contextual: Marcar la temporada como vista o no
+            visto = item_nfo.library_playcounts.get("season %s" % season, 0)
+            new_item.infoLabels["playcount"] = visto
+            if visto > 0:
+                texto = "Segna stagione come non vista"
+                value = 0
+            else:
+                texto = "Segna stagione come vista"
+                value = 1
+            new_item.context = [{"title": texto,
+                                 "action": "mark_season_as_watched",
+                                 "channel": "biblioteca",
+                                 "playcount": value}]
+
+            # logger.debug("new_item:\n" + new_item.tostring('\n'))
+            itemlist.append(new_item)
+
+        if len(itemlist) > 1:
+            itemlist = sorted(itemlist, key=lambda it: int(it.contentSeason))
+
+        if config.get_setting("show_all_seasons", "biblioteca"):
+            new_item = item.clone(action="get_episodios", title="*Tutte le stagioni")
+            new_item.infoLabels["playcount"] = 0
+            itemlist.insert(0, new_item)
 
     return itemlist
+
+
+def get_episodios(item):
+    logger.info()
+    # logger.debug("item:\n" + item.tostring('\n'))
+    itemlist = []
+
+    # Obtenemos los archivos de los episodios
+    raiz, carpetas_series, ficheros = filetools.walk(item.path).next()
+
+    # Menu contextual: Releer tvshow.nfo
+    head_nfo, item_nfo = library.read_nfo(item.nfo)
+
+    # Crear un item en la lista para cada strm encontrado
+    for i in ficheros:
+        if i.endswith('.strm'):
+            season_episode = scrapertools.get_season_and_episode(i)
+            if not season_episode:
+                # El fichero no incluye el numero de temporada y episodio
+                continue
+            season, episode = season_episode.split("x")
+            # Si hay q filtrar por temporada, ignoramos los capitulos de otras temporadas
+            if item.filtrar_season and int(season) != int(item.contentSeason):
+                continue
+
+            # Obtener los datos del season_episode.nfo
+            nfo_path = filetools.join(raiz, i).replace('.strm', '.sod')
+            head_nfo, epi = library.read_nfo(nfo_path)
+
+            # Fijar el titulo del capitulo si es posible
+            if epi.contentTitle:
+                title_episodie = epi.contentTitle.strip()
+            else:
+                title_episodie = "Stagione %s Episodio %s" % \
+                                 (epi.contentSeason, str(epi.contentEpisodeNumber).zfill(2))
+
+            epi.contentTitle = "%sx%s" % (epi.contentSeason, str(epi.contentEpisodeNumber).zfill(2))
+            epi.title = "%sx%s - %s" % (epi.contentSeason, str(epi.contentEpisodeNumber).zfill(2), title_episodie)
+
+
+            if item_nfo.library_filter_show:
+                epi.library_filter_show = item_nfo.library_filter_show
+
+            # Menu contextual: Marcar episodio como visto o no
+            visto = item_nfo.library_playcounts.get(season_episode, 0)
+            epi.infoLabels["playcount"] = visto
+            if visto > 0:
+                texto = "Segna episodio come non visto"
+                value = 0
+            else:
+                texto = "Segna episodio come visto"
+                value = 1
+            epi.context = [{"title": texto,
+                            "action": "mark_content_as_watched",
+                            "channel": "biblioteca",
+                            "playcount": value,
+                            "nfo": item.nfo}]
+
+            # logger.debug("epi:\n" + epi.tostring('\n'))
+            itemlist.append(epi)
+
+    return sorted(itemlist, key=lambda it: (int(it.contentSeason), int(it.contentEpisodeNumber)))
+
+
+def findvideos(item):
+    logger.info()
+    # logger.debug("item:\n" + item.tostring('\n'))
+
+    itemlist = []
+    list_canales = {}
+    item_local = None
+
+    if not item.contentTitle or not item.strm_path:
+        logger.debug("No se pueden buscar videos por falta de parametros")
+        return []
+
+    content_title = filter(lambda c: c not in ":*?<>|\/", item.contentTitle).strip().lower()
+
+    if item.contentType == 'movie':
+        item.strm_path = filetools.join(library.MOVIES_PATH, item.strm_path)
+        path_dir = os.path.dirname(item.strm_path)
+        item.nfo = filetools.join(path_dir, os.path.basename(path_dir) + ".sod")
+    else:
+        item.strm_path = filetools.join(library.TVSHOWS_PATH, item.strm_path)
+        path_dir = os.path.dirname(item.strm_path)
+        item.nfo = filetools.join(path_dir, 'tvshow.sod')
+
+
+    for fd in filetools.listdir(path_dir):
+        if fd.endswith('.json'):
+            contenido, nom_canal = fd[:-6].split('[')
+            if (contenido.startswith(content_title) or item.contentType == 'movie') and nom_canal not in \
+                    list_canales.keys():
+                list_canales[nom_canal] = filetools.join(path_dir, fd)
+
+    num_canales = len(list_canales)
+    # logger.debug(str(list_canales))
+    if 'descargas' in list_canales:
+        json_path = list_canales['descargas']
+        item_json = Item().fromjson(filetools.read(json_path))
+        item_json.contentChannel = "local"
+        # Soporte para rutas relativas en descargas
+        if filetools.is_relative(item_json.url):
+            item_json.url = filetools.join(library.LIBRARY_PATH, item_json.url)
+
+        del list_canales['descargas']
+
+        # Comprobar q el video no haya sido borrado
+        if filetools.exists(item_json.url):
+            item_local = item_json.clone(action='play')
+            itemlist.append(item_local)
+        else:
+            num_canales -= 1
+
+    filtro_canal = ''
+    if num_canales > 1 and config.get_setting("ask_channel", "biblioteca") == True:
+        opciones = ["Mostra solo link %s" % k.capitalize() for k in list_canales.keys()]
+        opciones.insert(0, "Mosta tutti i collegamenti")
+        if item_local:
+            opciones.append(item_local.title)
+
+        from platformcode import platformtools
+        index = platformtools.dialog_select(config.get_localized_string(30163), opciones)
+        if index < 0:
+            return []
+
+        elif item_local and index == len(opciones) - 1:
+            filtro_canal = 'descargas'
+            platformtools.play_video(item_local)
+
+        elif index > 0:
+            filtro_canal = opciones[index].replace("Mostra solo link ", "")
+            itemlist = []
+
+    for nom_canal, json_path in list_canales.items():
+        if filtro_canal and filtro_canal != nom_canal.capitalize():
+            continue
+
+        # Importamos el canal de la parte seleccionada
+        try:
+            channel = __import__('channels.%s' % nom_canal, fromlist=["channels.%s" % nom_canal])
+        except ImportError:
+            exec "import channels." + nom_canal + " as channel"
+
+        item_json = Item().fromjson(filetools.read(json_path))
+        list_servers = []
+
+        try:
+            # FILTERTOOLS
+            # si el canal tiene filtro se le pasa el nombre que tiene guardado para que filtre correctamente.
+            if "list_idiomas" in item_json:
+                # si se viene desde la biblioteca de pelisalacarta
+                if "library_filter_show" in item:
+                    item_json.show = item.library_filter_show.get(nom_canal, "")
+
+            # Ejecutamos find_videos, del canal o común
+            if hasattr(channel, 'findvideos'):
+                list_servers = getattr(channel, 'findvideos')(item_json)
+            else:
+                from core import servertools
+                list_servers = servertools.find_video_items(item_json)
+        except Exception as ex:
+            logger.error("Ha fallado la funcion findvideos para el canal %s" % nom_canal)
+            template = "An exception of type {0} occured. Arguments:\n{1!r}"
+            message = template.format(type(ex).__name__, ex.args)
+            logger.error(message)
+
+        # Cambiarle el titulo a los servers añadiendoles el nombre del canal delante y
+        # las infoLabels y las imagenes del item si el server no tiene
+        for server in list_servers:
+            if not server.action:  # Ignorar las etiquetas
+                continue
+
+            server.contentChannel = server.channel
+            server.channel = "biblioteca"
+            server.nfo = item.nfo
+            server.strm_path = item.strm_path
+
+            # Se añade el nombre del canal si se desea
+            if config.get_setting("quit_channel_name", "biblioteca") == 0:
+                server.title = "%s: %s" % (nom_canal.capitalize(), server.title)
+
+            server.infoLabels = item_json.infoLabels
+
+            if not server.thumbnail:
+                server.thumbnail = item.thumbnail
+
+            # logger.debug("server:\n%s" % server.tostring('\n'))
+            itemlist.append(server)
+
+    # return sorted(itemlist, key=lambda it: it.title.lower())
+    return itemlist
+
+
+def play(item):
+    logger.info()
+    # logger.debug("item:\n" + item.tostring('\n'))
+
+    if not item.contentChannel == "local":
+        channel = __import__('channels.%s' % item.contentChannel, fromlist=["channels.%s" % item.contentChannel])
+        if hasattr(channel, "play"):
+            itemlist = getattr(channel, "play")(item)
+
+        else:
+            itemlist = [item.clone()]
+    else:
+        itemlist = [item.clone(url=item.url, server="local")]
+
+    # Para enlaces directo en formato lista
+    if isinstance(itemlist[0], list):
+        item.video_urls = itemlist
+        itemlist = [item]
+
+    # Esto es necesario por si el play del canal elimina los datos
+    for v in itemlist:
+        if isinstance(v, Item):
+            v.nfo = item.nfo
+            v.strm_path = item.strm_path
+            v.infoLabels = item.infoLabels
+            if item.contentTitle:
+                v.title = item.contentTitle
+            else:
+                if item.contentType == "episode":
+                    v.title = "Episodio %s" % item.contentEpisodeNumber
+            v.thumbnail = item.thumbnail
+            v.contentThumbnail = item.thumbnail
+
+    return itemlist
+
+def update_biblio(item):
+    logger.info()
+
+    # Actualizar las series activas sobreescribiendo
+    import library_service
+
+    library_service.check_for_update(overwrite=True)
+
+    # Eliminar las carpetas de peliculas que no contengan archivo strm
+    for raiz, subcarpetas, ficheros in filetools.walk(library.MOVIES_PATH):
+        strm = False
+        for f in ficheros:
+            if f.endswith(".strm"):
+                strm = True
+                break
+
+        if ficheros and not strm:
+            logger.debug("Borrando carpeta de pelicula eliminada: %s" % raiz)
+            filetools.rmdirtree(raiz)
+
+
+# metodos de menu contextual
+def update_serie(item):
+    logger.info()
+    # logger.debug("item:\n" + item.tostring('\n'))
+
+    heading = 'Aggiornamento serie....'
+    p_dialog = platformtools.dialog_progress_bg('Stefano', heading)
+    p_dialog.update(0, heading, item.contentSerieName)
+
+    import library_service
+    if library_service.update(item.path, p_dialog, 1, 1, item, False) and config.is_xbmc():
+        from platformcode import xbmc_library
+        xbmc_library.update(folder=filetools.basename(item.path))
+
+    p_dialog.close()
+
+def mark_content_as_watched(item):
+    logger.info()
+    # logger.debug("item:\n" + item.tostring('\n'))
+
+    if filetools.exists(item.nfo):
+        head_nfo, it = library.read_nfo(item.nfo)
+
+        if item.contentType == 'movie':
+            name_file = os.path.splitext(os.path.basename(item.nfo))[0]
+        elif item.contentType == 'episode':
+            name_file = "%sx%s" % (item.contentSeason, str(item.contentEpisodeNumber).zfill(2))
+        else:
+            name_file = item.contentTitle
+        
+        if not hasattr(it, 'library_playcounts'):
+            it.library_playcounts = {}
+        it.library_playcounts.update({name_file: item.playcount})
+
+        # se comprueba que si todos los episodios de una temporada están marcados, se marque tb la temporada
+        if item.contentType != 'movie':
+            it = check_season_playcount(it, item.contentSeason)
+
+        # Guardamos los cambios en item.nfo
+        if filetools.write(item.nfo, head_nfo + it.tojson()):
+            item.infoLabels['playcount'] = item.playcount
+
+            if item.contentType == 'tvshow':
+                # Actualizar toda la serie
+                new_item = item.clone(contentSeason=-1)
+                mark_season_as_watched(new_item)
+
+            if config.is_xbmc() and item.contentType == 'episode':
+                from platformcode import xbmc_library
+                xbmc_library.mark_content_as_watched_on_kodi(item, item.playcount)
+
+            platformtools.itemlist_refresh()
+
+
+def mark_season_as_watched(item):
+    logger.info()
+    # logger.debug("item:\n" + item.tostring('\n'))
+
+    # Obtener el diccionario de episodios marcados
+    f = filetools.join(item.path, 'tvshow.sod')
+    head_nfo, it = library.read_nfo(f)
+    if not hasattr(it, 'library_playcounts'):
+        it.library_playcounts = {}
+
+    # Obtenemos los archivos de los episodios
+    raiz, carpetas_series, ficheros = filetools.walk(item.path).next()
+
+    # Marcamos cada uno de los episodios encontrados de esta temporada
+    episodios_marcados = 0
+    for i in ficheros:
+        if i.endswith(".strm"):
+            season_episode = scrapertools.get_season_and_episode(i)
+            if not season_episode:
+                # El fichero no incluye el numero de temporada y episodio
+                continue
+            season, episode = season_episode.split("x")
+
+            if int(item.contentSeason) == -1 or int(season) == int(item.contentSeason):
+                name_file = os.path.splitext(os.path.basename(i))[0]
+                it.library_playcounts[name_file] = item.playcount
+                episodios_marcados += 1
+
+    if episodios_marcados:
+        if int(item.contentSeason) == -1:
+            # Añadimos todas las temporadas al diccionario item.library_playcounts
+            for k in it.library_playcounts.keys():
+                if k.startswith("season"):
+                    it.library_playcounts[k] = item.playcount
+        else:
+            # Añadimos la temporada al diccionario item.library_playcounts
+            it.library_playcounts["season %s" % item.contentSeason] = item.playcount
+
+            # se comprueba que si todas las temporadas están vistas, se marque la serie como vista
+            it = check_tvshow_playcount(it, item.contentSeason)
+
+        # Guardamos los cambios en tvshow.nfo
+        filetools.write(f, head_nfo + it.tojson())
+        item.infoLabels['playcount'] = item.playcount
+
+        if config.is_xbmc():
+            # Actualizamos la BBDD de Kodi
+            from platformcode import xbmc_library
+            xbmc_library.mark_season_as_watched_on_kodi(item, item.playcount)
+
+    platformtools.itemlist_refresh()
+
+
+def mark_tvshow_as_updatable(item):
+    logger.info()
+    head_nfo, it = library.read_nfo(item.nfo)
+    it.active = item.active
+    filetools.write(item.nfo, head_nfo + it.tojson())
+
+    platformtools.itemlist_refresh()
+
+
+def eliminar(item):
+
+    def eliminar_todo(_item):
+        path = (_item.path).decode("utf8")
+        ficheros = os.listdir(path)
+        for file in ficheros:
+            if file.endswith(".strm") or file.endswith(".sod") or file.endswith(".json"):
+                os.remove(filetools.join(path, file))
+        if not os.listdir(path):
+            filetools.rmdirtree(path)
+
+        if config.is_xbmc():
+            import xbmc
+            # esperamos 3 segundos para dar tiempo a borrar los ficheros
+            xbmc.sleep(3000)
+            # TODO mirar por qué no funciona al limpiar en la biblioteca de Kodi al añadirle un path
+            # limpiamos la biblioteca de Kodi
+            from platformcode import xbmc_library
+            xbmc_library.clean()
+
+        logger.info("Eliminados todos los enlaces")
+        platformtools.itemlist_refresh()
+
+
+    # logger.info(item.contentTitle)
+    # logger.debug(item.tostring('\n'))
+
+    if item.contentType == 'movie':
+        heading = "Rimuovere film"
+    else:
+        heading = "Rimuovere serie"
+
+    if item.multicanal:
+        # Obtener listado de canales
+        opciones = ["Rimuovere solo i link dei %s" % k.capitalize() for k in item.library_urls.keys() if k !="descargas"]
+        opciones.insert(0, heading)
+
+        index = platformtools.dialog_select(config.get_localized_string(30163), opciones)
+
+        if index == 0:
+            # Seleccionado Eliminar pelicula/serie
+            eliminar_todo(item)
+
+        elif index > 0:
+            # Seleccionado Eliminar canal X
+            canal = opciones[index].replace("Rimuovere solo i link dei ", "").lower()
+
+            num_enlaces = 0
+            for fd in filetools.listdir(item.path):
+                if fd.endswith(canal + '].json'):
+                    if filetools.remove(filetools.join(item.path, fd)):
+                        num_enlaces += 1
+
+            if num_enlaces > 0:
+                # Actualizar .nfo
+                head_nfo, item_nfo = library.read_nfo(item.nfo)
+                del item_nfo.library_urls[canal]
+                filetools.write(item.nfo, head_nfo + item_nfo.tojson())
+
+            msg_txt = "Cancellati %s collegamenti del canale %s" % (num_enlaces, canal)
+            logger.info(msg_txt)
+            platformtools.dialog_notification(heading, msg_txt)
+            platformtools.itemlist_refresh()
+
+    else:
+        if platformtools.dialog_yesno(heading,
+                                      "Vuoi davvero eliminare '%s' dalla tua libreria?" % item.infoLabels['title']):
+            eliminar_todo(item)
+
+
+def check_season_playcount(item, season):
+    logger.info()
+
+    if season:
+        episodios_temporada = 0
+        episodios_vistos_temporada = 0
+        for key, value in item.library_playcounts.iteritems():
+            if key.startswith("%sx" % season):
+                episodios_temporada += 1
+                if value > 0:
+                    episodios_vistos_temporada += 1
+
+        if episodios_temporada == episodios_vistos_temporada:
+            # se comprueba que si todas las temporadas están vistas, se marque la serie como vista
+            item.library_playcounts.update({"season %s" % season: 1})
+        else:
+            # se comprueba que si todas las temporadas están vistas, se marque la serie como vista
+            item.library_playcounts.update({"season %s" % season: 0})
+
+    return check_tvshow_playcount(item, season)
+
+
+def check_tvshow_playcount(item, season):
+    logger.info()
+    if season:
+        temporadas_serie = 0
+        temporadas_vistas_serie = 0
+        for key, value in item.library_playcounts.iteritems():
+            if key == ("season %s" % season):
+                temporadas_serie += 1
+                if value > 0:
+                    temporadas_vistas_serie += 1
+
+        if temporadas_serie == temporadas_vistas_serie:
+            item.library_playcounts.update({item.title: 1})
+        else:
+            item.library_playcounts.update({item.title: 0})
+
+    else:
+        playcount = item.library_playcounts.get(item.title, 0)
+        item.library_playcounts.update({item.title: playcount})
+
+    return item

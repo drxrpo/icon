@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<addon id="script.module.uktvnow" name="UK TV NOW" version="1.0" provider-name="RACC">
+<addon id="script.module.uktvnow" name="TvTap" version="1.1" provider-name="RACC/ Digital">
   <requires>
     <import addon="xbmc.python" version="2.1.0"/>
     <import addon="script.module.livestreamer" />
@@ -10,8 +10,8 @@
     <provides>all</provides>
   </extension>
   <extension point="xbmc.addon.metadata">
-    <summary lang="en_gb"></summary>
-    <description lang="en_gb"></description>
+    <summary lang="en_gb">RACC TvTap Module. All credit must go to anyone involved in the Original Code</summary>
+    <description lang="en_gb">Module for TvTap APK</description>
     <disclaimer lang="en_gb"></disclaimer>
     <language></language>
     <platform>all</platform>

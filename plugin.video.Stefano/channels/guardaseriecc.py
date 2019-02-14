@@ -1,9 +1,8 @@
 # -*- coding: utf-8 -*-
-# StreamOnDemand Community Edition - Kodi Addon
 # ------------------------------------------------------------
-# Stefano.- XBMC Plugin
-#  By Costaplus
+# TheGroove360 - XBMC Plugin
 # ------------------------------------------------------------
+
 import re
 
 import xbmc
@@ -22,7 +21,7 @@ headers = [['Referer', host]]
 
 # -----------------------------------------------------------------
 def mainlist(item):
-    logger.info("Stefano.leserietv mainlist")
+    logger.info("[thegroove360.guardaseriecc] mainlist")
     itemlist = [Item(channel=__channel__,
                      action="lista_serie",
                      title="[COLOR azure]Tutte le serie[/COLOR]",
@@ -47,7 +46,7 @@ def mainlist(item):
 
 # -----------------------------------------------------------------
 def categoria(item):
-    logger.info("[Stefano].[guardareseriecc] [categoria]")
+    logger.info("[thegroove360.guardaseriecc] [categoria]")
     itemlist = []
 
     patron = '<li class="cat-item cat-item.*?"><a href="(.*?)".*?>(.*?)</a>'
@@ -70,7 +69,7 @@ def categoria(item):
 
 # -----------------------------------------------------------------
 def lista_serie(item):
-    logger.info("[Stefano].[guardareseriecc] [lista_serie]")
+    logger.info("[thegroove360.guardaseriecc] [lista_serie]")
     itemlist = []
     patron = '<div.*?class="poster">[^<]+<img.*?src="(.*?)".*?alt="(.*?)"[^<]+<[^<]+<[^<]+<[^<]+<[^<]+<[^<]+<[^<]+<a.*?href="(.*?)">'
     data = httptools.downloadpage(item.url, headers=headers).data
@@ -110,7 +109,7 @@ def lista_serie(item):
 
 # -----------------------------------------------------------------
 def episodios(item):
-    logger.info("[Stefano].[guardareseriecc] [stagione]")
+    logger.info("[thegroove360.guardaseriecc] [stagione]")
     itemlist = []
 
     patron = '<iframe.*class="metaframe rptss".*?src="(.*?)".*?frameborder=".*?".*?scrolling=".*?".*?allowfullscreen>.*?</iframe>'
@@ -162,7 +161,7 @@ def episodios(item):
 
 # -----------------------------------------------------------------
 def findvideos(item):
-    logger.info("[Stefano].[guardareseriecc] [findvideos]")
+    logger.info("[thegroove360.guardaseriecc] [findvideos]")
     itemlist = []
     listurl = set()
 
@@ -197,7 +196,7 @@ def findvideos(item):
 # =================================================================
 
 def search(item, texto):
-    logger.info("[Stefano].[guardareseriecc][search] " + texto)
+    logger.info("[thegroove360.guardaseriecc][search] " + texto)
 
     item.url = host + "/?s=" + texto
 
@@ -213,7 +212,7 @@ def search(item, texto):
 
 
 def ricerca(item):
-    logger.info("[Stefano].[guardareseriecc][ricerca] ")
+    logger.info("[thegroove360.guardaseriecc][ricerca] ")
     itemlist = []
 
     patron = '<div class="result-item">[^>]+>[^>]+>[^>]+>[^<]+<a href="(.*?)">[^<]+<img src="(.*?)" alt="(.*?)" '
@@ -237,7 +236,7 @@ def ricerca(item):
 
 # -----------------------------------------------------------------
 def HomePage(item):
-    xbmc.executebuiltin("ReplaceWindow(10024,plugin://plugin.video.Stefano)")
+    xbmc.executebuiltin("ReplaceWindow(10024,plugin://plugin.video.stefano)")
 
 
 # =================================================================
@@ -257,7 +256,7 @@ thumbnail_successivo = "http://2.bp.blogspot.com/-fE9tzwmjaeQ/UcM2apxDtjI/AAAAAA
 
 # -----------------------------------------------------------------
 def search(item, texto):
-    logger.info("[Stefano].[guardareseriecc][search] " + texto)
+    logger.info("[thegroove360.guardaseriecc][search] " + texto)
     itemlist = []
 
     item.url = host + "/?s=" + texto

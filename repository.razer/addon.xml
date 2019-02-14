@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-    <addon id="repository.razer" name="[COLOR lime]Razer Repository[/COLOR]" version="1.0.27" provider-name="Razer">
+    <addon id="repository.razer" name="[COLOR blue]Razer Repository[/COLOR]" version="4.0.12" provider-name="Razer">
         <requires>
             <import addon="xbmc.addon" version="12.0.0"/>
         </requires>
@@ -42,8 +42,8 @@
 			</dir>	
         </extension>
         <extension point="xbmc.addon.metadata">
-            <summary>[COLOR lime]This is Razer's repository[/COLOR]</summary>
-            <description>[COLOR lime]Razer's repository for add-ons and builds[/COLOR]</description>
+            <summary>[COLOR blue]Razer Repository[/COLOR]</summary>
+            <description>[COLOR blue]Razer Repository for my add-ons and builds[/COLOR]</description>
             <platform>all</platform>
             <genre></genre>
         </extension>

@@ -1,7 +1,7 @@
-<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+﻿<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <addon id="plugin.video.Stefano" 
 name="Stefano Thegroove 360" 
-version="8.0.5" 
+version="8.3.4" 
 provider-name="Stefano Thepasto">
 
 	<requires>
@@ -16,10 +16,9 @@ provider-name="Stefano Thepasto">
 		<import addon="script.module.urlresolver" version="3.0.0"/>
 		<import addon="script.module.liveresolver" version="0.1.24"/>
 		<import addon="script.video.F4mProxy"/>
-		<import addon="plugin.module.Stesport" version="1.0.0"/>
-		<import addon="script.module.steplus" version="1.0.0" optional="true"/>
 		<import addon="script.Stefano.artwork" version="1.0.7"/>
 		<import addon="script.Stefano.metadata" version="1.0.1"/>
+		<import addon="script.module.steplus" version="1.0.6"/>
 	</requires>
 	<extension point="xbmc.python.pluginsource" library="default.py">
 		<provides>video</provides>
@@ -37,7 +36,65 @@ provider-name="Stefano Thepasto">
 			<screenshot>resources/screenshots/screenshot-02.jpg</screenshot>
 			<screenshot>resources/screenshots/screenshot-03.jpg</screenshot>
 		</assets>
-		<news>Version 8.0.5
+		<news>Version 8.3.4
+-[COLOR red][B](NEW)[/B][/COLOR] Fix problema caricamento doppio Fm4test o chiusura kodi per alcuni dispositivi
+Version 8.3.3
+-[COLOR red][B](NEW)[/B][/COLOR] Fix Server e Canali parte sod
+Version 8.3.2
+-[COLOR red][B](NEW)[/B][/COLOR] Fix Ricerca film stop 97%
+Version 8.3.1
+-[COLOR red][B](NEW)[/B][/COLOR] Aggiornamento parte Exodus sources e moduli data Film
+Version 8.3.0
+-[COLOR red][B](NEW)[/B][/COLOR] Fix Cineblog
+Version 8.2.9
+-[COLOR red][B](NEW)[/B][/COLOR] Retro compatibilità per Kodi 16  e derivate
+Version 8.2.8
+-[COLOR red][B](NEW)[/B][/COLOR] Modifiche strutturali base addon tag info, librerie film  e funzionaltà aggiuntive per nuove regex
+Version 8.2.7
+-[COLOR red][B](NEW)[/B][/COLOR] Upgrade Canali Film
+Version 8.2.6
+-[COLOR red][B](NEW)[/B][/COLOR] Upgrade Canali Film
+Version 8.2.5
+-[COLOR red][B](NEW)[/B][/COLOR] Modifiche librerie Rapidcrypt By Dave
+	Version 8.2.4
+-[COLOR red][B](NEW)[/B][/COLOR] ritocchi sezione Novità  sezione film 
+Version 8.2.3
+-[COLOR red][B](NEW)[/B][/COLOR] Disattivazione video intro 
+Version 8.2.2
+-[COLOR red][B](NEW)[/B][/COLOR] Fix loop video
+Version 8.2.1
+-[COLOR red][B](NEW)[/B][/COLOR] Aggiornamento di Natale
+Version 8.2.0
+-[COLOR red][B](NEW)[/B][/COLOR] Ritocchi per future realesi
+Version 8.1.9
+-[COLOR red][B](NEW)[/B][/COLOR] Migliorata esperianza di navigazione sezioni addon per kodi 18
+Version 8.1.8
+-[COLOR red][B](NEW)[/B][/COLOR] Fix server Aggiustamenti vari
+Version 8.1.7
+-[COLOR red][B](NEW)[/B][/COLOR] Ripristino 365
+Version 8.1.6
+-[COLOR red][B](NEW)[/B][/COLOR] Fix TvTap Fix Server
+Version 8.1.5
+-[COLOR red][B](NEW)[/B][/COLOR] Fix update channels
+Version 8.1.4
+-[COLOR red][B](NEW)[/B][/COLOR] Ripristino aggiornamento risolti Bug  
+Version 8.1.3
+-[COLOR red][B](NEW)[/B][/COLOR] annullamento rilascio  per bug alcuni dispositivi  
+Version 8.1.2
+-[COLOR red][B](NEW)[/B][/COLOR] aggiornamento film riabilitata sezione oggi in tv corrette bug ricerca globale aggiornati alcuni canali  
+Version 8.1.1
+-[COLOR red][B](NEW)[/B][/COLOR] Aggiornamento  dipendenze
+Version 8.1.0
+-[COLOR red][B](NEW)[/B][/COLOR] Aggiustamenti Ace play 
+Version 8.0.9
+-[COLOR red][B](NEW)[/B][/COLOR] Ulteriori Fix script 
+Version 8.0.8
+-[COLOR red][B](NEW)[/B][/COLOR] Aggiornamento funzioni script 
+Version 8.0.7
+-[COLOR red][B](NEW)[/B][/COLOR] Fix Dazn
+Version 8.0.6
+-[COLOR red][B](NEW)[/B][/COLOR] Fix sezione web cam
+Version 8.0.5
 -[COLOR red][B](NEW)[/B][/COLOR] Fix errore nuove installazioni per alcuni dispositivi
 Version 8.0.4
 -[COLOR red][B](NEW)[/B][/COLOR] Nuove criptazioni addon aggiornati film correzzioni varie
@@ -50,7 +107,7 @@ Version 8.0.1
 Version 8.0.0
 -[COLOR red][B](NEW)[/B][/COLOR] Fix.
 Version 7.1.5
--[COLOR red][B](NEW)[/B][/COLOR] Integrazione Danz ecc.
+-[COLOR red][B](NEW)[/B][/COLOR] Integrazione Dazn ecc.
 Version 7.1.4
 -[COLOR red][B](NEW)[/B][/COLOR] Fix Api
 Version 7.1.3
@@ -119,6 +176,4 @@ Versione Test  </news>
 	<disclaimer>Questo addon contiene link di contenuti in streaming di terze parti non affiliati e/o associati in alcun modo ad Stefano Addon. Tutti i link all'interno sono già facilmente reperibili su internet. Proseguendo con la visione dei contenuti, accetti di fare un buon uso di Stefano Addon.</disclaimer>
 	<language>it</language>
 	</extension>
-	<extension point="xbmc.service" library="library_service.py" start="login|startup">
-    </extension>
 </addon>

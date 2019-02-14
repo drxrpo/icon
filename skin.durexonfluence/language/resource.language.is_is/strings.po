@@ -1,6 +1,6 @@
 # Kodi Media Center language file
-# Addon Name: Xonfluence
-# Addon id: skin.xonfluence
+# Addon Name: Durexonfluence
+# Addon id: skin.durexonfluence
 # Addon Provider: Helly1206
 msgid ""
 msgstr ""
@@ -18,19 +18,19 @@ msgstr ""
 
 msgctxt "#31000"
 msgid "Change your"
-msgstr "Breyta flokknum"
+msgstr "Breyta þínu"
 
 msgctxt "#31001"
-msgid "GAMES"
-msgstr "LEIKIR"
+msgid ":"
+msgstr ""
 
 msgctxt "#31002"
-msgid "[B]GAME SETTINGS[/B][CR][CR]Configure rewind support & options ·  Configure keyboard use and number of keyboard players"
-msgstr "[B]LEIKJASTILLINGAR[/B][CR][CR]Stilla stuðning við hraðspólun og valkosti · Stilla notkun lyklaborðs og fjölda leikmanna á lyklaborði"
+msgid "Enable manual opening of media views slide menu"
+msgstr ""
 
 msgctxt "#31003"
 msgid "Power options"
-msgstr "Orkustýringarkostir"
+msgstr "Orkukostir"
 
 msgctxt "#31004"
 msgid "Working..."
@@ -46,7 +46,7 @@ msgstr "Stillingar sjónarhorns"
 
 msgctxt "#31007"
 msgid "Video process information"
-msgstr "Upplýsingar um vinnslu myndskeiða"
+msgstr ""
 
 msgctxt "#31008"
 msgid "Full screen"
@@ -58,27 +58,31 @@ msgstr "Heildar tímalengd"
 
 msgctxt "#31010"
 msgid "Hardware decoding"
-msgstr "Afkóðun í vélbúnaði"
+msgstr ""
 
 msgctxt "#31011"
 msgid "Inactive"
-msgstr "Óvirkt"
+msgstr ""
 
 msgctxt "#31012"
 msgid "Decoder"
-msgstr "Afkóðari"
+msgstr ""
 
 msgctxt "#31013"
 msgid "Audio process information"
-msgstr "Upplýsingar um vinnslu hljóðs"
+msgstr ""
 
 msgctxt "#31014"
 msgid "Memory used"
-msgstr "Minni í notkun"
+msgstr ""
 
 msgctxt "#31015"
-msgid "Minute"
-msgstr "mínúta"
+msgid "Never"
+msgstr ""
+
+msgctxt "#31016"
+msgid "Permanently"
+msgstr ""
 
 msgctxt "#31017"
 msgid "Info button"
@@ -202,7 +206,7 @@ msgstr ""
 
 msgctxt "#31048"
 msgid "Visualisation presets"
-msgstr "Forstillingar sjónhrifa"
+msgstr "Forstillingar myndskreytinga"
 
 msgctxt "#31049"
 msgid "End time"
@@ -226,15 +230,15 @@ msgstr ""
 
 msgctxt "#31055"
 msgid "Open playlist"
-msgstr "Opna spilunarlista"
+msgstr "Opna lagalista"
 
 msgctxt "#31056"
 msgid "Save playlist"
-msgstr "Vista spilunarlista"
+msgstr "Vista lagalista"
 
 msgctxt "#31057"
 msgid "Close playlist"
-msgstr "Loka spilunarlista"
+msgstr "Loka lagalista"
 
 msgctxt "#31058"
 msgid "System music files"
@@ -242,7 +246,7 @@ msgstr "Tónlistarskrár kerfis"
 
 msgctxt "#31059"
 msgid "Current playlist"
-msgstr "Núverandi spilunarlisti"
+msgstr "Núgildandi lagalisti"
 
 msgctxt "#31061"
 msgid "Current selected"
@@ -414,11 +418,11 @@ msgstr "Bakgrunnur"
 
 msgctxt "#31103"
 msgid "Show \"Paused\" in picture slideshow"
-msgstr "Sýna \"Í bið\" í mynda-skyggnusýningu"
+msgstr "Sýna \"Í bið\" í mynda-glærusýningu"
 
 msgctxt "#31104"
 msgid "Play trailers in a window [COLOR=grey3](Video information dialogue only)[/COLOR]"
-msgstr "Spila kvikmyndastiklur í glugga [COLOR=grey3](Aðeins í glugga með upplýsingum um myndskeið)[/COLOR]"
+msgstr "Spila kvikmyndasýnishorn í glugga [COLOR=grey3](Aðeins myndbandaupplýsingarglugga)[/COLOR]"
 
 msgctxt "#31105"
 msgid "Artwork"
@@ -430,7 +434,7 @@ msgstr "Ýmsir valkostir"
 
 msgctxt "#31107"
 msgid "Hide flagging read from video filenames [COLOR=grey3](e.g. Blu-ray, HD-DVD)[/COLOR]"
-msgstr "Fela flögg lesin úr skráarheitum [COLOR=grey3](t.d Blu-ray, HD-DVD)[/COLOR]"
+msgstr "Fela flagg lesið frá skráarnöfnum [COLOR=grey3](t.d Blu-ray, HD-DVD)[/COLOR]"
 
 msgctxt "#31108"
 msgid "Hide main menu buttons"
@@ -442,7 +446,7 @@ msgstr "Virkja sérsniðinn bakgrunn"
 
 msgctxt "#31110"
 msgid "Background path:"
-msgstr "Slóð á bakgrunnsmynd:"
+msgstr "Bakgrunnsslóð"
 
 msgctxt "#31111"
 msgid "Hide"
@@ -470,11 +474,11 @@ msgstr "Sýna hljómplötur sem hefur nýlega verið bætt við"
 
 msgctxt "#31117"
 msgid "Show recently added videos"
-msgstr "Sýna myndskeið sem var nýlega bætt við"
+msgstr "Sýna myndbönd sem var nýlega bætt við"
 
 msgctxt "#31118"
 msgid "Home page programs submenu"
-msgstr "Undirvalmynd dagskrársíðu"
+msgstr "Undirvalmynd forrita-heimasíðu"
 
 msgctxt "#31119"
 msgid "Hide background fanart"
@@ -490,7 +494,7 @@ msgstr ""
 
 msgctxt "#31122"
 msgid "Hide EPG if RDS is present on channel window"
-msgstr "Fela EPG ef RDS er til staðar í rásaglugga"
+msgstr ""
 
 msgctxt "#31123"
 msgid "Popup:"
@@ -498,11 +502,11 @@ msgstr ""
 
 msgctxt "#31124"
 msgid "Show background \"Now playing\" video"
-msgstr "Sýna \"Í spilun\" myndskeið í bakgrunni"
+msgstr "Sýna \"Í spilun\" myndband í bakgrunni"
 
 msgctxt "#31125"
 msgid "Show background \"Now playing\" visualisation"
-msgstr "Sýna \"Í spilun\" sjónhrif í bakgrunni"
+msgstr "Sýna \"Í spilun\" myndskreytingu í bakgrunni"
 
 msgctxt "#31127"
 msgid "TvTunes"
@@ -514,7 +518,7 @@ msgstr "Lagatextar"
 
 msgctxt "#31129"
 msgid "Hide fanart in full screen visualisation"
-msgstr "Fela aðdáendamyndir í sjónhrifum í heilskjá"
+msgstr "Fela aðdáendamyndir í myndhrifum fyrir allan skjá"
 
 msgctxt "#31130"
 msgid "Hide favorites button"
@@ -534,7 +538,7 @@ msgstr ""
 
 msgctxt "#31134"
 msgid "Home page \"Videos\" submenu"
-msgstr "Undirvalmynd myndskeiðasíðu"
+msgstr "Undirvalmynd myndbandasíðu"
 
 msgctxt "#31135"
 msgid "Home page \"Music\" submenu"
@@ -614,54 +618,6 @@ msgstr ""
 
 msgctxt "#31155"
 msgid "Show global search button on bottom left"
-msgstr ""
-
-msgctxt "#31156"
-msgid ":"
-msgstr ""
-
-msgctxt "#31157"
-msgid "Enable manual opening of media views slide menu"
-msgstr ""
-
-msgctxt "#31158"
-msgid "Never"
-msgstr ""
-
-msgctxt "#31159"
-msgid "Permanently"
-msgstr ""
-
-msgctxt "#31160"
-msgid "Visualisation settings"
-msgstr ""
-
-msgctxt "#31161"
-msgid "Lyrics add-on settings"
-msgstr ""
-
-msgctxt "#31162"
-msgid " pack for "
-msgstr ""
-
-msgctxt "#31163"
-msgid "Update all backgrounds"
-msgstr ""
-
-msgctxt "#31164"
-msgid "Flags"
-msgstr ""
-
-msgctxt "#31165"
-msgid "Don't ask again"
-msgstr ""
-
-msgctxt "#31166"
-msgid "Setup default background"
-msgstr ""
-
-msgctxt "#31167"
-msgid "No backgrounds set, install and setup default backgrounds add-on?"
 msgstr ""
 
 msgctxt "#31188"
@@ -981,7 +937,7 @@ msgid "Enable visible horizontal submenu"
 msgstr ""
 
 msgctxt "#31276"
-msgid "Extra artwork options"
+msgid "Extra art work options"
 msgstr ""
 
 msgctxt "#31277"
@@ -1106,7 +1062,7 @@ msgstr "Kvikmyndaupplýsingar"
 
 msgctxt "#31309"
 msgid "Memory used:"
-msgstr "Minni í notkun:"
+msgstr "Minni notað:"
 
 msgctxt "#31310"
 msgid "Track number"
@@ -1154,7 +1110,7 @@ msgstr ""
 
 msgctxt "#31325"
 msgid "Playlist options"
-msgstr "Valkostir spilunarlista"
+msgstr "Valkostir lagalista"
 
 msgctxt "#31326"
 msgid "Created"
@@ -1170,18 +1126,18 @@ msgstr "Nýlega bætt við"
 
 msgctxt "#31329"
 msgid "[B]Timer set![/B] [COLOR=grey2] - System auto shutdown in[/COLOR]"
-msgstr "[B]Tímataka virk![/B] [COLOR=grey2] - Sjálfvirkt slökkt eftir[/COLOR]"
+msgstr "[B]Tímamælir virkur![/B] [COLOR=grey2] - Sjálfvirkt Slökkt eftir[/COLOR]"
 
 msgctxt "#31330"
 msgid "Click button to play[CR][CR]movie trailer"
-msgstr "Smelltu á hnapp til að spila[CR][CR]kvikmyndastiklu"
+msgstr "Smelltu á takka til að spila[CR][CR]Kvikmyndasýnishorn"
 
 msgctxt "#31331"
 msgid "Album details"
 msgstr "Hljómplötuupplýsingar"
 
 msgctxt "#31332"
-msgid "Alternate fanart"
+msgid "Alternate fanArt"
 msgstr ""
 
 msgctxt "#31333"
@@ -1258,7 +1214,7 @@ msgstr "Kvikmyndavalmynd"
 
 msgctxt "#31356"
 msgid "Download subtitles"
-msgstr "Sækja skjátexta"
+msgstr "Sækja þýðingartexta"
 
 msgctxt "#31359"
 msgid "User video OSD button"
@@ -1418,7 +1374,7 @@ msgstr "Þessi flipi þýðir að það er valblað við hliðina á þessum glu
 
 msgctxt "#31413"
 msgid "Local subtitle available"
-msgstr "Staðvær skjátexti tiltækur"
+msgstr "Staðvær þýðingartexti tiltækur"
 
 msgctxt "#31420"
 msgid "Login"
@@ -1454,34 +1410,34 @@ msgstr ""
 
 msgctxt "#31430"
 msgid "[B]PLAYER SETTINGS[/B][CR][CR]Configure actions that can be used during playback · Configure how media content is played"
-msgstr "[B]SPILARASTILLINGAR[/B][CR][CR]Stilla aðgerðir sem hægt er að nota á meðan afspilun stendur · Stilla hvernig margmiðlunarefni er spilað"
+msgstr ""
 
 msgctxt "#31431"
 msgid "[B]LIBRARY SETTINGS[/B][CR][CR]Configure how the library/file views display media content ·  Configure how library lists/views are navigated · Configure the media database options"
-msgstr "[B]STILLINGAR SAFNS[/B][CR][CR]Stilla hvernig safn/skráavafri birtir efni · Stilla hvernig flakkað er um safnalista/skráasýnir · Stilla valkosti margmiðlunargagnagrunns"
+msgstr ""
 
 msgctxt "#31432"
 msgid "[B]PVR SETTINGS[/B][CR][CR]Configure how the channels & guide are managed  · Configure how Live TV and recordings are managed"
-msgstr "[B]UPPTÖKUSTILLINGAR[/B][CR][CR]Stilla hvernig sjónvarpsrásir og sjónvarpsdagskrá eru meðhöndlaðar - Stilla hvernig farið er með beinar útsendingar og upptökur"
+msgstr ""
 
 msgctxt "#31433"
 msgid "[B]ADD-ONS SETTINGS[/B][CR][CR]Configure your installed add-ons · Browse for and install add-ons from kodi.tv"
-msgstr "[B]STILLINGAR VIÐBÓTA[/B][CR][CR]Stilla uppsettar viðbætur · Leita að og setja upp viðbætur frá kodi.tv"
+msgstr ""
 
 msgctxt "#31434"
 msgid "[B]SERVICES SETTINGS[/B][CR][CR]Configure & manage media sharing services · Configure web server · Configure & manage the weather service"
-msgstr "[B]STILLINGAR Á ÞJÓNUSTUM[/B][CR][CR]Stilla og sýsla með margmiðlunarþjónustur · Stilla vefþjón · Stilla og sýsla með veðurþjónustu"
+msgstr ""
 
 msgctxt "#31435"
 msgid "[B]SYSTEM SETTINGS[/B][CR][CR]Configure display · Configure audio · Configure internet access · Configure power saving· Configure logging"
-msgstr "[B]KERFISSTILLINGAR[/B][CR][CR]Stilla skjá · Stilla hljóð · Stilla internetaðgang · Stilla orkusparnað · Stilla atvikaskráningu"
+msgstr ""
 
 msgctxt "#31436"
 msgid "[B]INTERFACE SETTINGS[/B][CR][CR]Configure skin · Configure region · Configure control · Configure screensaver · Configure master lock"
-msgstr "[B]VIÐMÓTSSTILLINGAR[/B][CR][CR]Stilla skinn · Stilla landsvæði · Stilla stýringar · Stilla skjáhvílu · Stilla aðallás"
+msgstr ""
 
 msgctxt "#31437"
-msgid "[B]CONFIGURE SKIN SETTINGS[/B][CR][CR]Setup the Xonfluence skin · Add and remove home menu items · Change skin backgrounds"
+msgid "[B]CONFIGURE SKIN SETTINGS[/B][CR][CR]Setup the Durexonfluence skin · Add and remove home menu items · Change skin backgrounds"
 msgstr ""
 
 msgctxt "#31440"
@@ -1626,7 +1582,7 @@ msgstr ""
 
 msgctxt "#31501"
 msgid "Scheduled time"
-msgstr "Áætlaður tími"
+msgstr "Uppsettur tími"
 
 msgctxt "#31502"
 msgid "TV"
@@ -1634,7 +1590,7 @@ msgstr "Sjónvarp"
 
 msgctxt "#31503"
 msgid "Add group"
-msgstr "Bæta við hópi"
+msgstr "Bæta við hóp"
 
 msgctxt "#31504"
 msgid "Rename group"
@@ -1642,7 +1598,7 @@ msgstr "Endurnefna hóp"
 
 msgctxt "#31505"
 msgid "Delete group"
-msgstr "Eyða hópi"
+msgstr "Eyða hóp"
 
 msgctxt "#31506"
 msgid "Available[CR]Groups"
@@ -1650,11 +1606,11 @@ msgstr "Tiltækir[CR]Hópar"
 
 msgctxt "#31509"
 msgid "Channel group"
-msgstr "Rásahópur"
+msgstr "Rásarhópur"
 
 msgctxt "#31510"
 msgid "Timer set"
-msgstr "Tímataka virk"
+msgstr "Stilling teljara"
 
 msgctxt "#31511"
 msgid "Channel options"
@@ -1726,7 +1682,7 @@ msgstr "36 klst veðurspá"
 
 msgctxt "#31902"
 msgid "Hourly forecast"
-msgstr "Veðurspá fyrir klukkustundir"
+msgstr "Klukkustunda veðurspá"
 
 msgctxt "#31903"
 msgid "Weekend forecast"
@@ -1734,7 +1690,7 @@ msgstr "Veðurspá helgarinnar"
 
 msgctxt "#31904"
 msgid "Daily forecast"
-msgstr "Veðurspá fyrir daga"
+msgstr "Dagleg veðurspá"
 
 msgctxt "#31905"
 msgid "Forecast"
@@ -1830,22 +1786,6 @@ msgstr ""
 
 msgctxt "#31943"
 msgid "Use default confluence favourites window look and feel"
-msgstr ""
-
-msgctxt "#31944"
-msgid "Visible in Master mode only"
-msgstr ""
-
-msgctxt "#31947"
-msgid "Button look and feel"
-msgstr ""
-
-msgctxt "#31948"
-msgid "Button layout look and feel"
-msgstr ""
-
-msgctxt "#31949"
-msgid "OSD look and feel"
 msgstr ""
 
 msgctxt "#31950"
@@ -1969,7 +1909,7 @@ msgid "Reload"
 msgstr ""
 
 msgctxt "#31980"
-msgid "Save settings and reload Xonfluence"
+msgid "Save settings and reload Durexonfluence"
 msgstr ""
 
 msgctxt "#31981"

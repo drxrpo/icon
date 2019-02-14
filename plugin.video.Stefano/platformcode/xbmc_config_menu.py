@@ -1,38 +1,38 @@
+# ------------------------------------------------------------
 # -*- coding: utf-8 -*-
 # ------------------------------------------------------------
-# streamondemand 5
-# Copyright 2015 tvalacarta@gmail.com
-# http://www.mimediacenter.info/foro/viewforum.php?f=36
+# Stefano Thegroove 360
+# Copyright 2018 https://stefanoaddon.info
 #
-# Distributed under the terms of GNU General Public License v3 (GPLv3)
+# Distribuito sotto i termini di GNU General Public License v3 (GPLv3)
 # http://www.gnu.org/licenses/gpl-3.0.html
-# ------------------------------------------------------------
-# This file is part of streamondemand 5.
+# ------------------------------------------------- -----------
+# Questo file fa parte di Stefano Thegroove 360.
 #
-# streamondemand 5 is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
+# Stefano Thegroove 360 ​​è un software gratuito: puoi ridistribuirlo e / o modificarlo
+# è sotto i termini della GNU General Public License come pubblicata da
+# la Free Software Foundation, o la versione 3 della licenza, o
+# (a tua scelta) qualsiasi versione successiva.
 #
-# streamondemand 5 is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
+# Stefano Thegroove 360 ​​è distribuito nella speranza che possa essere utile,
+# ma SENZA ALCUNA GARANZIA; senza nemmeno la garanzia implicita di
+# COMMERCIABILITÀ o IDONEITÀ PER UN PARTICOLARE SCOPO. Vedere il
+# GNU General Public License per maggiori dettagli.
 #
-# You should have received a copy of the GNU General Public License
-# along with streamondemand 5.  If not, see <http://www.gnu.org/licenses/>.
-# ------------------------------------------------------------
-# XBMC Config Menu
-# ------------------------------------------------------------
+# Dovresti aver ricevuto una copia della GNU General Public License
+# insieme a Stefano Thegroove 360. In caso contrario, vedi <http://www.gnu.org/licenses/>.
+# ------------------------------------------------- -----------
+# Client for Stefano Thegroove 360
+#------------------------------------------------------------
+
 
 import inspect
 import os
 
 import xbmcgui
-from core import channeltools
+from core import channeltools, logger
 from core import servertools
 from core import config
-from platformcode import logger
 
 
 class SettingsWindow(xbmcgui.WindowXMLDialog):
@@ -484,7 +484,7 @@ class SettingsWindow(xbmcgui.WindowXMLDialog):
 
         if xbmcgui.__version__ == "1.2":
             self.setCoordinateResolution(1)
-        else:
+        elif xbmcgui.__version__ < "2.25":
             self.setCoordinateResolution(5)
 
         # Ponemos el título

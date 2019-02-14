@@ -1,8 +1,7 @@
 # -*- coding: utf-8 -*-
 # StreamOnDemand Community Edition - Kodi Addon
 
-from platformcode import logger
-from core import scrapertools
+from core import scrapertools, logger
 
 
 def test_video_exists(page_url):

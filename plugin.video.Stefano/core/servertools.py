@@ -1,29 +1,30 @@
-﻿# -*- coding: utf-8 -*-
+﻿# ------------------------------------------------------------
+# -*- coding: utf-8 -*-
 # ------------------------------------------------------------
-# Stefano 5
-# Copyright 2015 tvalacarta@gmail.com
-# http://www.mimediacenter.info/foro/viewforum.php?f=36
+# Stefano Thegroove 360
+# Copyright 2018 https://stefanoaddon.info
 #
-# Distributed under the terms of GNU General Public License v3 (GPLv3)
+# Distribuito sotto i termini di GNU General Public License v3 (GPLv3)
 # http://www.gnu.org/licenses/gpl-3.0.html
+# ------------------------------------------------- -----------
+# Questo file fa parte di Stefano Thegroove 360.
+#
+# Stefano Thegroove 360 ​​è un software gratuito: puoi ridistribuirlo e / o modificarlo
+# è sotto i termini della GNU General Public License come pubblicata da
+# la Free Software Foundation, o la versione 3 della licenza, o
+# (a tua scelta) qualsiasi versione successiva.
+#
+# Stefano Thegroove 360 ​​è distribuito nella speranza che possa essere utile,
+# ma SENZA ALCUNA GARANZIA; senza nemmeno la garanzia implicita di
+# COMMERCIABILITÀ o IDONEITÀ PER UN PARTICOLARE SCOPO. Vedere il
+# GNU General Public License per maggiori dettagli.
+#
+# Dovresti aver ricevuto una copia della GNU General Public License
+# insieme a Stefano Thegroove 360. In caso contrario, vedi <http://www.gnu.org/licenses/>.
+# ------------------------------------------------- -----------
+# Client for Stefano Thegroove 360
 # ------------------------------------------------------------
-# This file is part of Stefano 5.
-#
-# Stefano 5 is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# Stefano 5 is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with Stefano 5.  If not, see <http://www.gnu.org/licenses/>.
-# --------------------------------------------------------------------------------
-# Server management
-# ------------------------------------------------------------
+
 
 import datetime
 import os
@@ -31,9 +32,8 @@ import re
 import time
 import urlparse
 
-from core import config, httptools, jsontools
+from core import config, httptools, jsontools, logger
 from core.item import Item
-from platformcode import logger
 from platformcode import platformtools
 
 dict_servers_parameters = {}
@@ -61,9 +61,6 @@ def find_video_items(item=None, data=None):
     # Descarga la página
     if data is None:
         data = httptools.downloadpage(item.url).data
-
-    print("PESCIA")
-    print(data)
 
     # Crea un item si no hay item
     if item is None:
@@ -857,7 +854,6 @@ def connection_speedup():
     import xbmc
     import re
     import base64
-    import hashlib
 
     addon = xbmcaddon.Addon('plugin.video.Stefano')
     home = xbmc.translatePath(addon.getAddonInfo('path').decode('utf-8'))

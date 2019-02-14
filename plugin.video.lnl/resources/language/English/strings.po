@@ -1,9 +1,9 @@
-# Addon Name: Jen
+# Addon Name: LOCK N LOAD
 # Addon id: plugin.video.lnl
 # Addon Provider: BBB
 msgid ""
 msgstr ""
-"Project-Id-Version: Jen\n"
+"Project-Id-Version: BBB\n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Language-Team: English\n"
@@ -12,6 +12,58 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+msgctxt "#30200"
+msgid "User Account"
+msgstr ""
+
+msgctxt "#30201"
+msgid "Username"
+msgstr ""
+
+msgctxt "#30202"
+msgid "Password"
+msgstr ""
+
+msgctxt "#30203"
+msgid "Hide Successful Login Messages"
+msgstr ""
+
+msgctxt "#30204"
+msgid "Login URL"
+msgstr ""
+
+msgctxt "#30205"
+msgid "Login Verified Message"
+msgstr ""
+
+msgctxt "#30206"
+msgid "Username Form Name"
+msgstr ""
+
+msgctxt "#30207"
+msgid "Password Form Name"
+msgstr ""
+
+msgctxt "#30208"
+msgid "Session Length (in hours)"
+msgstr ""
+
+msgctxt "#30209"
+msgid "Login Notification Style"
+msgstr ""
+
+msgctxt "#30210"
+msgid "Text to display on successful login"
+msgstr ""
+
+msgctxt "#30211"
+msgid "Text to display on failed login"
+msgstr ""
+
+msgctxt "#30212"
+msgid "Text to display if no login provided"
+msgstr ""
 
 msgctxt "#30401"
 msgid "[COLOR teal]Are You Sure?[/COLOR]"
@@ -230,7 +282,7 @@ msgid "Offer to install required 3rd party repositories"
 msgstr ""
 
 msgctxt "#30758"
-msgid "Enable debugging mode"
+msgid "Enable Debugging Mode"
 msgstr ""
 
 msgctxt "#30760"
@@ -316,6 +368,8 @@ msgstr ""
 
 msgctxt "#30832"
 msgid ""
+"You need to re-activate your account on the new forum. Simply visit the "
+"forum at www.noobsandnerds.com and login with your existing credentials."
 msgstr ""
 
 msgctxt "#30833"
@@ -401,6 +455,10 @@ msgstr ""
 
 msgctxt "#30962"
 msgid ""
+"You need to enable the login option to use the test version. This feature is"
+" only available to members who have donated towards the noobsandnerds "
+"development fund. You can disable this option to continue using the standard"
+" version."
 msgstr ""
 
 msgctxt "#30963"
@@ -455,7 +513,7 @@ msgstr ""
 msgctxt "#30974"
 msgid ""
 "Sorry there was an error trying to install this repository, please let the "
-"team at BBB know so they can update the Add-on Portal. Thank "
+"team at noobsandnerds.com know so they can update the Add-on Portal. Thank "
 "you."
 msgstr ""
 
@@ -526,7 +584,7 @@ msgid "Choose Default Link"
 msgstr ""
 
 msgctxt "#32511"
-msgid "Select A Gun And Start Shooting!"
+msgid "Select Link"
 msgstr ""
 
 msgctxt "#32512"
@@ -578,7 +636,7 @@ msgid "choose Selector type"
 msgstr ""
 
 msgctxt "#30008"
-msgid "Sorry, outta bullets!"
+msgid "Sorry, server is down"
 msgstr ""
 
 msgctxt "#30009"
@@ -678,7 +736,7 @@ msgid "Please Wait"
 msgstr ""
 
 msgctxt "#30033"
-msgid "Re-Loading...Get Ready!!!"
+msgid "Processing Link"
 msgstr ""
 
 msgctxt "#30034"
@@ -783,4 +841,12 @@ msgstr ""
 
 msgctxt "#30059"
 msgid "All Episodes"
+msgstr ""
+
+msgctxt "#30060"
+msgid "Root XML Location"
+msgstr ""
+
+msgctxt "#30061"
+msgid "Search DB Location"
 msgstr ""

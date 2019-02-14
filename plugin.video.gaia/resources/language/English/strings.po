@@ -6053,6 +6053,18 @@ msgctxt "#34350"
 msgid "Retrieves the torrent hash which allows debrid cache inspection. If this option is enabled, scraping will take longer because hashes have to be retrieved individually."
 msgstr ""
 
+msgctxt "#34351"
+msgid "Enables the use of external hoster providers using the LambdaScrapers addon."
+msgstr ""
+
+msgctxt "#34352"
+msgid "Installs the LambdaScrapers addon."
+msgstr ""
+
+msgctxt "#34353"
+msgid "Launches the LambdaScrapers settings."
+msgstr ""
+
 # [/GAIACODE]
 
 msgctxt "#35000"
@@ -7332,11 +7344,11 @@ msgid "The Elementum addon is not installed."
 msgstr ""
 
 msgctxt "#35319"
-msgid "Sending Torrent To Elementum Addon"
+msgid "Sending Torrent To Elementum"
 msgstr ""
 
 msgctxt "#35320"
-msgid "Sending Torrent To Quasar Addon"
+msgid "Sending Torrent To Quasar"
 msgstr ""
 
 msgctxt "#35321"
@@ -7777,4 +7789,12 @@ msgstr ""
 
 msgctxt "#35430"
 msgid "Adding Torrent Failed"
+msgstr ""
+
+msgctxt "#35431"
+msgid "LambdaScrapers"
+msgstr ""
+
+msgctxt "#35432"
+msgid "Lambda Scrapers"
 msgstr ""

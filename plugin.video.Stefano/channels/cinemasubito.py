@@ -1,162 +1,127 @@
 # -*- coding: utf-8 -*-
 # ------------------------------------------------------------
-# StreamOnDemand-PureITA / XBMC Plugin
+# Thegroove360 - XBMC Plugin
 # Canale cinemasubito
-# http://www.mimediacenter.info/foro/viewtopic.php?f=36&t=7808
 # ------------------------------------------------------------
+
+import binascii
 import re
 import urlparse
 
-from core import httptools
-from core import config
-from core import logger
-from core import scrapertools
-from core import servertools
+from core import httptools, scrapertools, servertools
 from core.item import Item
 from core.tmdb import infoSod
+from lib import jscrypto
+from platformcode import logger
 
 __channel__ = "cinemasubito"
-host = "https://www.cinemasubito.tv"
-headers = [['Referer', host]]
 
-def isGeneric():
-    return True
+host = "https://www.cinemasubito.club"
 
+headers = [
+    ['User-Agent', 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:58.0) Gecko/20100101 Firefox/58.0'],
+    ['Accept', 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8'],
+    ['Accept-Encoding', 'gzip, deflate'],
+    ['Accept-Language', 'en-US,en;q=0.5'],
+    ['Host', 'www.cinemasubito.club'],
+    ['DNT', '1'],
+    ['Upgrade-Insecure-Requests', '1'],
+    ['Connection', 'keep-alive'],
+    ['Referer', host],
+    ['Cache-Control', 'max-age=0']
+]
 
 def mainlist(item):
-    logger.info("streamondemand-pureita.cinemasubito mainlist")
+    logger.info("[thegroove360.cinemasubito] mainlist")
     itemlist = [Item(channel=__channel__,
-                     title="[COLOR azure]Film[COLOR orange]  - Aggiornamenti[/COLOR]",
+                     title="[COLOR azure]Film[/COLOR]",
                      action="peliculas",
-                     url=host,
+                     url="%s/film/pagina/1" % host,
                      extra="movie",
-                     thumbnail="https://raw.githubusercontent.com/orione7/Pelis_images/master/channels_icon_pureita/popcorn_cinema_P.png"),
+                     thumbnail="https://raw.githubusercontent.com/stesev1/channels/master/images/channels_icon/popcorn_cinema_movie_.png"),
                 Item(channel=__channel__,
-                     title="[COLOR azure]Film[COLOR orange]  - Categorie[/COLOR]",
+                     title="[COLOR azure]Film Per Categoria[/COLOR]",
                      action="categorias",
                      url=host,
-                     thumbnail="https://raw.githubusercontent.com/orione7/Pelis_images/master/channels_icon_pureita/genres_P.png"),
+                     thumbnail="https://raw.githubusercontent.com/stesev1/channels/master/images/channels_icon/popcorn_cinema_movie_.png"),
                 Item(channel=__channel__,
-                     title="[COLOR azure]Film[COLOR orange]  - Anno[/COLOR]",
-                     action="categorias_years",
-                     url=host,
-                     thumbnail="https://raw.githubusercontent.com/orione7/Pelis_images/master/channels_icon_pureita/movie_year_P.png"),
-                Item(channel=__channel__,
-                     title="[COLOR yellow]Cerca Film...[/COLOR]",
+                     title="[COLOR yellow]Cerca...[/COLOR]",
                      action="search",
                      extra="movie",
-                     thumbnail="https://raw.githubusercontent.com/orione7/Pelis_images/master/channels_icon_pureita/search_P.png"),
+                     thumbnail="https://raw.githubusercontent.com/stesev1/channels/master/images/channels_icon/search_P.png"),
                 Item(channel=__channel__,
-                     title="[COLOR azure]Serie TV[COLOR orange]  - Lista[/COLOR]",
+                     title="[COLOR azure]Serie TV[/COLOR]",
                      action="peliculas_tv",
                      url="%s/serie" % host,
                      extra="serie",
-                     thumbnail="https://raw.githubusercontent.com/orione7/Pelis_images/master/channels_icon_pureita/tv_series_P.png"),
-                Item(channel=__channel__,
-                     title="[COLOR azure]Serie TV[COLOR orange]  - Aggiornate[/COLOR]",
-                     action="peliculas_tv_new",
-                     url=host,
-                     extra="serie",
-                     thumbnail="https://raw.githubusercontent.com/orione7/Pelis_images/master/channels_icon_pureita/tv_series_P.png"),
-                Item(channel=__channel__,
-                     title="[COLOR azure]Serie TV[COLOR orange]  - Nuovi Episodi[/COLOR]",
-                     action="peliculas_tv_update",
-                     url=host,
-                     extra="serie",
-                     thumbnail="https://raw.githubusercontent.com/orione7/Pelis_images/master/channels_icon_pureita/tv_series_P.png"),
+                     thumbnail="https://raw.githubusercontent.com/stesev1/channels/master/images/channels_icon/popcorn_cinema_movie_.png"),
                 Item(channel=__channel__,
                      title="[COLOR yellow]Cerca Serie TV...[/COLOR]",
                      action="search",
                      extra="serie",
-                     thumbnail="https://raw.githubusercontent.com/orione7/Pelis_images/master/channels_icon_pureita/search_P.png")]
+                     thumbnail="https://raw.githubusercontent.com/stesev1/channels/master/images/channels_icon/search_P.png")]
 
     return itemlist
-
-# ==============================================================================================================================================================================
-
-def categorias(item):
-    itemlist = []
-
-    # Carica la pagina 
-    data = httptools.downloadpage(item.url, headers=headers).data
-    bloque = scrapertools.get_match(data, '<h4>Genere</h4>(.*?)</span>Ultime serie tv aggiornate</li>')
-
-    # Estrae i contenuti 
-    patron = '<a href="([^"]+)" title=".*?">\s*<li><span class="glyphicon glyphicon-zoom-in"></span>([^<]+)</li>'
-    matches = re.compile(patron, re.DOTALL).findall(bloque)
-
-    for scrapedurl, scrapedtitle in matches:
-        itemlist.append(
-            Item(channel=__channel__,
-                 action="peliculas",
-                 title="[COLOR azure]" + scrapedtitle + "[/COLOR]",
-                 url=scrapedurl,
-                 thumbnail="https://raw.githubusercontent.com/orione7/Pelis_images/master/channels_icon_pureita/genre_P.png",
-                 folder=True))
-
-    return itemlist
-	
-# ==============================================================================================================================================================================
-
-def categorias_years(item):
-    itemlist = []
-
-    # Descarga la pagina
-    data = httptools.downloadpage(item.url, headers=headers).data
-    bloque = scrapertools.get_match(data, 'Ultimi film usciti">(.*?)<h4>Genere</h4>')
-
-    # Extrae las entradas (carpetas)
-    patron = '<a href="([^"]+)"\s*title="[^>]+">\s*<li><span class="glyphicon glyphicon-menu-right"></span>([^<]+)</li>'
-    matches = re.compile(patron, re.DOTALL).findall(bloque)
-    
-
-    for scrapedurl, scrapedtitle in matches:
-        scrapedtitle = scrapedtitle.replace("streaming", "")
-        itemlist.append(
-            Item(channel=__channel__,
-                 action="peliculas",
-                 title="[COLOR azure]" + scrapedtitle + "[/COLOR]",
-                 url=scrapedurl,
-                 thumbnail="https://raw.githubusercontent.com/orione7/Pelis_images/master/channels_icon_pureita/movie_year_P.png",
-                 folder=True))
-
-    return itemlist
-
-# ==============================================================================================================================================================================
 
 def search(item, texto):
-    logger.info("streamondemand-pureita cinemasubito " + item.url + " search " + texto)
+    logger.info("[thegroove360.cinemasubito] " + item.url + " search " + texto)
     item.url = host + "/cerca/" + texto
     try:
         if item.extra == "movie":
             return peliculas(item)
         if item.extra == "serie":
             return peliculas_tv(item)
-    # Se captura la excepción, para no interrumpir al buscador global si un canal falla
+    # Continua la ricerca in caso di errore
     except:
         import sys
         for line in sys.exc_info():
             logger.error("%s" % line)
         return []
 
-# ==============================================================================================================================================================================		
-
-def peliculas(item):
-    logger.info("streamondemand-pureita cinemasubito peliculas")
+def categorias(item):
     itemlist = []
 
-    # Descarga la pagina
+    # Carica la pagina
+    data = httptools.downloadpage(item.url, headers=headers).data
+    bloque = scrapertools.get_match(data, '<h4>Genere</h4>(.*?)<li class="genre">')
+
+    # Estrae i contenuti
+    patron = '<a href="([^"]+)" title="([^"]+)">'
+    matches = re.compile(patron, re.DOTALL).findall(bloque)
+
+    for scrapedurl, scrapedtitle in matches:
+        scrapedtitle = scrapedtitle.replace("Film genere ", "")
+        itemlist.append(
+            Item(
+                channel=__channel__,
+                action="peliculas",
+                title=scrapedtitle,
+                url=scrapedurl,
+                thumbnail=
+                "https://farm8.staticflickr.com/7562/15516589868_13689936d0_o.png",
+                folder=True))
+
+    return itemlist
+
+def peliculas(item):
+    logger.info("[thegroove360.cinemasubito] peliculas")
+    itemlist = []
+
+    # Carica la pagina
     data = httptools.downloadpage(item.url, headers=headers).data
 
-    # Extrae las entradas (carpetas)
-    patron = '<a href="([^"]+)">\s*<div class=".*?">\s*<img[^>]+src="([^"]+)"[^>]+alt="([^<]+)" title[^>]+>'
-    matches = re.compile(patron, re.DOTALL).finditer(data)
+    # Estrae i contenuti
+    patron = '<a href="([^"]+)" title="([^"]+)">\s*<div class="wrt">'
+    matches = re.compile(patron, re.DOTALL).findall(data)
 
-    for match in matches:
+    for scrapedurl, scrapedtitle in matches:
         scrapedplot = ""
-        scrapedthumbnail = urlparse.urljoin(item.url, match.group(2))
-        scrapedtitle = scrapertools.unescape(match.group(3))
-        scrapedurl = urlparse.urljoin(item.url, match.group(1))
+        scrapedthumbnail = ""
+        #if host not in scrapedurl:
+            #scrapedurl = host + scrapedurl
+        #else:
+            #scrapedurl = scrapedurl
+
         itemlist.append(infoSod(
             Item(channel=__channel__,
                  action="findvideos",
@@ -168,149 +133,95 @@ def peliculas(item):
                  plot=scrapedplot,
                  folder=True), tipo='movie'))
 
-    # Extrae el paginador
-    patronvideos = '</span></li> <li><a href="([^"]+)" data-ci-pagination-page=".*?">'
+    # Paginazione
+    patronvideos = '<a href="[^"]+"[^d]+data-ci-pagination-page[^>]+>[^<]+<\/a><\/span>[^=]+="([^"]+)"'
     matches = re.compile(patronvideos, re.DOTALL).findall(data)
 
     if len(matches) > 0:
         scrapedurl = urlparse.urljoin(item.url, matches[0])
         itemlist.append(
             Item(channel=__channel__,
-                 action="peliculas",
-                 title="[COLOR orange]Successivi >>[/COLOR]",
-                 url=scrapedurl,
-                 thumbnail="https://raw.githubusercontent.com/orione7/Pelis_images/master/channels_icon_pureita/next_1.png",
-                 folder=True))
- 
-    return itemlist
-
-# ==============================================================================================================================================================================
-	
-def peliculas_tv(item):
-    logger.info("streamondemand-pureita cinemasubito peliculas_tv")
-    itemlist = []
-
-    # Descarga la pagina
-    data = httptools.downloadpage(item.url, headers=headers).data
-
-    # Extrae las entradas (carpetas)
-    patron = '<a href="([^"]+)">\s*<div class="tut">\s*' \
-	         '<img src="([^"]+)" class="er" alt=".*?" title="([^<]+)">\s*</div>'
-    matches = re.compile(patron, re.DOTALL).finditer(data)
-
-    for match in matches:
-        scrapedplot = ""
-        scrapedthumbnail = urlparse.urljoin(item.url, match.group(2))
-        scrapedtitle = scrapertools.unescape(match.group(3))
-        scrapedurl = urlparse.urljoin(item.url, match.group(1))
-
-        itemlist.append(infoSod(
-            Item(channel=__channel__,
-                 action="episodios",
-                 fulltitle=scrapedtitle,
-                 show=scrapedtitle,
-                 title="[COLOR azure]" + scrapedtitle + "[/COLOR]",
-                 url=scrapedurl,
-                 thumbnail=scrapedthumbnail,
-                 plot=scrapedplot,
-                 folder=True), tipo='tv'))
-
-    # Extrae el paginador
-    url_pagina = scrapertools.find_single_match(data, '</span></li> <li><a href="([^"]+)" data-ci-pagination-page=".*?">')
-    if url_pagina != "":
-        pagina = "[COLOR orange]"+"Pagina: "+ scrapertools.find_single_match(url_pagina, "pagina/([0-9]+)") + "[/COLOR]"
+                 action="HomePage",
+                 title="[COLOR yellow]Torna Home[/COLOR]",
+                 folder=True)),
         itemlist.append(
-            Item(channel = item.channel, 
-                 action = "peliculas_tv", 
-                 title = pagina,
-                 thumbnail="https://raw.githubusercontent.com/orione7/Pelis_images/master/channels_icon_pureita/next_1.png",				 
-                 url = url_pagina))
-    return itemlist
-
-# ==============================================================================================================================================================================
-
-def peliculas_tv_update(item):
-    logger.info("streamondemand-pureita cinemasubito peliculas_tv_update")
-    itemlist = []
-
-    # Descarga la pagina
-    data = httptools.downloadpage(item.url, headers=headers).data
-    bloque = scrapertools.get_match(data, '<li class="table1">(.*?)<h2 class="movies">Film Streaming</h2>')
-	
-    # Extrae las entradas (carpetas)
-    patron = '<a href="([^"]+)">\s<li>\s*<p class="tohide">([^"]+)\s*-([^<]+)</p>'
-    matches = re.compile(patron, re.DOTALL).finditer(bloque)
-
-    for match in matches:
-        scrapedplot = ""
-        scrapedthumbnail = ""
-        scrapedepisode = scrapertools.unescape(match.group(3))
-        scrapedtitle = scrapertools.unescape(match.group(2))
-        scrapedurl = scrapertools.unescape(match.group(1))
-
-        itemlist.append(infoSod(
             Item(channel=__channel__,
-                 action="findvideos",
-                 fulltitle=scrapedtitle,
-                 show=scrapedtitle,
-                 title="[COLOR azure]" + scrapedtitle + "[COLOR orange] -" + scrapedepisode + "[/COLOR]",
+                 action="peliculas",
+                 title="[COLOR orange]Successivo >>[/COLOR]",
                  url=scrapedurl,
-                 thumbnail=scrapedthumbnail,
-                 plot=scrapedplot,
-                 folder=True), tipo='tv'))
+                 thumbnail="https://raw.githubusercontent.com/stesev1/channels/master/images/channels_icon/next_1.png",
+                 folder=True))
 
     return itemlist
 
-# ==============================================================================================================================================================================
-
-def peliculas_tv_new(item):
-    logger.info("streamondemand-pureita cinemasubito peliculas_tv")
+def peliculas_tv(item):
+    logger.info("[thegroove360.cinemasubito] peliculas")
     itemlist = []
 
-    # Descarga la pagina
+    # Carica la pagina
     data = httptools.downloadpage(item.url, headers=headers).data
-    bloque = scrapertools.get_match(data, '</span>Ultime serie tv aggiornate</li>(.*?)</ul>')
-	
-    # Extrae las entradas (carpetas)
-    patron = '<a href="([^"]+)">\s<li class=".*?"><img class="mini-thumb" src="([^"]+)" title="[^>]+" alt="([^<]+)"><span>'
-    matches = re.compile(patron, re.DOTALL).finditer(bloque)
 
-    for match in matches:
-        scrapedplot = ""
-        scrapedthumbnail = urlparse.urljoin(item.url, match.group(2))
-        scrapedtitle = scrapertools.unescape(match.group(3))
-        scrapedurl = urlparse.urljoin(item.url, match.group(1))
-        scrapedthumbnail = scrapedthumbnail.replace("_mini", "")
-
-        itemlist.append(infoSod(
-            Item(channel=__channel__,
-                 action="episodios",
-                 fulltitle=scrapedtitle,
-                 show=scrapedtitle,
-                 title="[COLOR azure]" + scrapedtitle + "[/COLOR]",
-                 url=scrapedurl,
-                 thumbnail=scrapedthumbnail,
-                 plot=scrapedplot,
-                 folder=True), tipo='tv'))
-
-    return itemlist
-
-# ==============================================================================================================================================================================
-	
-def episodios(item):
-    logger.info("streamondemand.channels cinemasubito episodios")
-
-    itemlist = []
-
-    data = httptools.downloadpage(item.url, headers=headers).data
-    bloque = scrapertools.get_match(data, '<div style="display:none" id="accord">(.*?)</div>\s*</div>')
-
-    patron = '<a style="font[^>]+" href="([^"]+)"><span class="glyphicon[^>]+"></span>([^<]+)</a>'
-    matches = re.compile(patron, re.DOTALL).findall(bloque)
+    # Estrae i contenuti
+    patron = '<a href="([^"]+)" title="([^"]+)">\s*<div class="wrt">'
+    matches = re.compile(patron, re.DOTALL).findall(data)
 
     for scrapedurl, scrapedtitle in matches:
         scrapedplot = ""
         scrapedthumbnail = ""
+        if host not in scrapedurl:
+            scrapedurl = host + scrapedurl
+        else:
+            scrapedurl = scrapedurl
+
+        itemlist.append(infoSod(
+            Item(channel=__channel__,
+                 action="episodios",
+                 fulltitle=scrapedtitle,
+                 show=scrapedtitle,
+                 title="[COLOR azure]" + scrapedtitle + "[/COLOR]",
+                 url=scrapedurl,
+                 thumbnail=scrapedthumbnail,
+                 plot=scrapedplot,
+                 folder=True), tipo='tv'))
+
+    # Paginazione
+    patronvideos = '<a href="[^"]+"[^d]+data-ci-pagination-page[^>]+>[^<]+<\/a><\/span>[^=]+="([^"]+)"'
+    matches = re.compile(patronvideos, re.DOTALL).findall(data)
+
+    if len(matches) > 0:
+        scrapedurl = urlparse.urljoin(item.url, matches[0])
+        itemlist.append(
+            Item(channel=__channel__,
+                 action="HomePage",
+                 title="[COLOR yellow]Torna Home[/COLOR]",
+                 folder=True)),
+        itemlist.append(
+            Item(channel=__channel__,
+                 action="peliculas_tv",
+                 title="[COLOR orange]Successivo >>[/COLOR]",
+                 url=scrapedurl,
+                 thumbnail="https://raw.githubusercontent.com/stesev1/channels/master/images/channels_icon/next_1.png",
+                 folder=True))
+
+    return itemlist
+
+def episodios(item):
+    logger.info("streamondemand.channels.cinemasubito episodios")
+
+    itemlist = []
+
+    data = httptools.downloadpage(item.url, headers=headers).data
+
+    patron = 'href="([^"]+)"><span class="glyphicon glyphicon-triangle-right"></span>(.*?)</a>'
+    matches = re.compile(patron, re.DOTALL).findall(data)
+
+    for scrapedurl, scrapedtitle in matches:
+        scrapedplot = ""
+        scrapedthumbnail = ""
+        if host not in scrapedurl:
+            scrapedurl = host + scrapedurl
+        else:
+            scrapedurl = scrapedurl
 
         itemlist.append(infoSod(
             Item(channel=__channel__,
@@ -318,21 +229,29 @@ def episodios(item):
                  fulltitle=scrapedtitle,
                  show=scrapedtitle,
                  title="[COLOR azure]" + scrapedtitle + "[/COLOR]",
-                 url=host+scrapedurl,
-                 thumbnail=item.thumbnail,
-                 plot=item.plot,
+                 url=scrapedurl,
+                 thumbnail=scrapedthumbnail,
+                 plot=scrapedplot,
                  folder=True), tipo='tv'))
 
     return itemlist
-	
-# ==============================================================================================================================================================================
-	
+
+
 def findvideos(item):
-    logger.info("streamondemand-pureita cinemasubito findvideos")
+    logger.info("[thegroove360.cinemasubito] findvideos_tv")
 
+    links = set()
     data = httptools.downloadpage(item.url, headers=headers).data
+    p = scrapertools.find_single_match(data, r'var decrypted = CryptoJS\.AES\.decrypt\(vlinkCrypted, "([^"]+)",')
+    urls = scrapertools.find_multiple_matches(data, r"<li><a rel=[^t]+target=[^c]+class=[^=]+=[^:]+:'(.*?)'[^:]+:'(.*?)'[^:]+:'(.*?)'")
+    for url, iv, salt in urls:
+        salt = binascii.unhexlify(salt)
+        iv = binascii.unhexlify(iv)
+        url = jscrypto.decode(url, p, iv=iv, salt=salt)
+        url = url.replace('\/', '/')
+        links.add(url)
 
-    itemlist = servertools.find_video_items(data=data)
+    itemlist = servertools.find_video_items(data=str(links) + data)
     for videoitem in itemlist:
         videoitem.title = item.title + videoitem.title
         videoitem.fulltitle = item.fulltitle
@@ -344,4 +263,6 @@ def findvideos(item):
     return itemlist
 
 
-
+def HomePage(item):
+    import xbmc
+    xbmc.executebuiltin("ReplaceWindow(10024,plugin://plugin.video.Stefano)")

@@ -23,10 +23,10 @@ from resources.lib.modules import source_utils
 
 class source:
     def __init__(self):
-        self.priority = 1
+        self.priority = 0
         self.language = ['en']
-        self.domains = ['primewire.life']
-        self.base_link = 'https://www.primewire.life/'
+        self.domains = ['primewire.stream-ing.xyz']
+        self.base_link = 'https://primewire.stream-ing.xyz'
         self.key_link = '/index.php?search'
         self.moviesearch_link = '/index.php?search_keywords=%s&key=%s&search_section=1'
         self.tvsearch_link = '/index.php?search_keywords=%s&key=%s&search_section=2'

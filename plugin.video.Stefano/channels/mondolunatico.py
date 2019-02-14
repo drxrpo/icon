@@ -1,8 +1,7 @@
 # -*- coding: utf-8 -*-
 # ------------------------------------------------------------
-# streamondemand.- XBMC Plugin
-# Canale mondolunatico
-# http://blog.tvalacarta.info/plugin-xbmc/streamondemand.
+# TheGroove360 / XBMC Plugin
+# Canale 
 # ------------------------------------------------------------
 import os
 import re
@@ -27,7 +26,7 @@ PERPAGE = 25
 
 
 def mainlist(item):
-    logger.info("streamondemand.mondolunatico mainlist")
+    logger.info("[mondolunatico] mainlist")
     itemlist = [Item(channel=__channel__,
                      title="[COLOR azure]Novità[/COLOR]",
                      extra="movie",
@@ -56,8 +55,7 @@ def mainlist(item):
                      title="[COLOR yellow]Cerca Serie TV...[/COLOR]",
                      extra="serie",
                      action="search",
-                     thumbnail="https://raw.githubusercontent.com/orione7/Pelis_images/master/channels_icon_pureita/search_P.png"),
-                ]
+                     thumbnail="https://raw.githubusercontent.com/orione7/Pelis_images/master/channels_icon_pureita/search_P.png")]
     return itemlist
 
 
@@ -263,7 +261,7 @@ def search_serietv(item, texto):
 
 
 def episodios(item):
-    logger.info("streamondemand.mondolunatico episodios")
+    logger.info("[mondolunatico] episodios")
 
     itemlist = []
 
@@ -352,7 +350,7 @@ def episodios(item):
 
 
 def findvideos(item):
-    logger.info("streamondemand.mondolunatico findvideos")
+    logger.info("[mondolunatico] findvideos")
 
     itemlist = []
 

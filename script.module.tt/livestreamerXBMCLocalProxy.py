@@ -2,7 +2,7 @@
 XBMCLocalProxy 0.1
 Copyright 2011 Torben Gerkensmeyer
 
-Modified for Livestreamer by your mom 2k15
+Modified for Livestreamer by your mom 2k 4 1-N
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by

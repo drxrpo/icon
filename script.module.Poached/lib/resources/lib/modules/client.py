@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
-
 '''
-    Poached Add-on
+    Eggman Add-on
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -12,7 +11,6 @@
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
     GNU General Public License for more details.
-
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 '''
@@ -46,7 +44,14 @@ def request(url, close=True, redirect=True, error=False, proxy=None, post=None, 
             opener = urllib2.build_opener(*handlers)
             opener = urllib2.install_opener(opener)
 
-        if (2, 7, 8) < sys.version_info < (2, 7, 12):
+        try:
+            import platform
+            node = platform.node().lower()
+        except:
+            node = ''
+
+
+        if (2, 7, 8) < sys.version_info < (2, 7, 12) or node == 'xboxone':
             try:
                 import ssl; ssl_context = ssl.create_default_context()
                 ssl_context.check_hostname = False

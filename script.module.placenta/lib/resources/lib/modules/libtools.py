@@ -2,7 +2,7 @@
 #######################################################################
  # ----------------------------------------------------------------------------
  # "THE BEER-WARE LICENSE" (Revision 42):
- # @tantrumdev wrote this file.  As long as you retain this notice you
+ # @Daddy_Blamo wrote this file.  As long as you retain this notice you
  # can do whatever you want with this stuff. If we meet some day, and you think
  # this stuff is worth it, you can buy me a beer in return. - Muad'Dib
  # ----------------------------------------------------------------------------
@@ -117,12 +117,13 @@ class libmovies:
         self.check_setting = control.setting('library.check_movie') or 'false'
         self.library_setting = control.setting('library.update') or 'true'
         self.dupe_setting = control.setting('library.check') or 'true'
-
+        self.silentDialog = False
         self.infoDialog = False
 
 
     def add(self, name, title, year, imdb, tmdb, range=False):
-        if not control.condVisibility('Window.IsVisible(infodialog)') and not control.condVisibility('Player.HasVideo'):
+        if not control.condVisibility('Window.IsVisible(infodialog)') and not control.condVisibility('Player.HasVideo')\
+                and self.silentDialog is False:
             control.infoDialog(control.lang(32552).encode('utf-8'), time=10000000)
             self.infoDialog = True
 
@@ -285,6 +286,29 @@ class libtvshows:
 
         if self.library_setting == 'true' and not control.condVisibility('Library.IsScanningVideo') and files_added > 0:
             control.execute('UpdateLibrary(video)')
+
+    def silent(self, url):
+        control.idle()
+
+        if not control.condVisibility('Window.IsVisible(infodialog)') and not control.condVisibility('Player.HasVideo'):
+            control.infoDialog(control.lang(32552).encode('utf-8'), time=10000000)
+            self.infoDialog = True
+            self.silentDialog = True
+
+        from resources.lib.indexers import movies
+        items = movies.movies().get(url, idx=False)
+        if items == None: items = []
+
+        for i in items:
+            try:
+                if xbmc.abortRequested == True: return sys.exit()
+                self.add('%s (%s)' % (i['title'], i['year']), i['title'], i['year'], i['imdb'], i['tmdb'], range=True)
+            except:
+                pass
+
+        if self.infoDialog == True:
+            self.silentDialog = False
+            control.infoDialog("Trakt Movies Sync Complete", time=1)
 
 
     def range(self, url):
