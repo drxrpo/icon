@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<settings>
+    <category label="General">
+        <setting type="lsep" label="API Keys" default="" />
+        <setting id="tmdb_api" type="text" label="TMDb API Key" default="1b0d3c6ac6a6c0fa87b55a1069d6c9c8" />
+        <setting id="fanart_client_key" type="text" label="Fanart API Key" default="fe073550acf157bdb8a4217f215c0882" />
+        <setting type="sep" />
+        <setting type="lsep" label="Extra Art (Become a VIP member at fanart.tv for many benefits)" default="" />
+        <setting id="get_fanart_data" label="Include Extra Art" type="bool" default="false" />
+    </category>
+    <category label="Cache">
+        <setting type="lsep" label="Clear Meta Cache" default="" />
+        <setting id="clear_meta_cache" type="action" label="Clear Cached Data" option="close" action="RunPlugin(plugin://script.module.tikimeta/?mode=clear_cache)" />
+    </category>
+</settings>

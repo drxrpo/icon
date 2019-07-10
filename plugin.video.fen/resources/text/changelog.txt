@@ -1,0 +1,415 @@
+[COLOR dodgerblue][B]Version 1.5.21[/B][/COLOR]
+- Added extra art to season and episode containers.
+- Added 'Recently Added Movies' and 'Recently Added Episodes' to Kodi Library menu.
+- Added more 'Tips for Fen Use'.
+
+[COLOR dodgerblue][B]Version 1.5.20[/B][/COLOR]
+- Added 'No Color' option when choosing highlight colors in some settings.
+- Added different dialogs for scraping progress display depending on Furk/Easynews being active in addon.
+- Added settings to choose color highlights for 'Internal' and 'External' scraping progress display.
+- Incorporated multi years into search query for Easynews.
+- Added context menu item to 'Jump To...' listing to switch action between Page/Alphabet from within lists.
+- Remade some of the 'Jump To...' code.
+- Remade some of the 'Edit Menu' code.
+
+[COLOR dodgerblue][B]Version 1.5.19[/B][/COLOR]
+- Repository now has an address: https://Tikipeter.github.io
+- Added Easynews root menu item. When in the root menu bring up context menu->Edit Menu and then select 'Check if Root Menu has New Menu Items' to add the Easynews menu item.
+- Coded Easynews Account Info dialog (some code from Gaia). Found in new Easynews menu.
+- Added more 'Tips for Fen Use'.
+
+[COLOR dodgerblue][B]Version 1.5.18[/B][/COLOR]
+- Improvements/fixes to Furk and Easynews scrapers. Now returns many more results.
+- Fixed Searching Trakt User Lists.
+- Moved trakt cache info to it's own database.
+- You can now enter either Furk login and password OR Furk API key in settings.
+- Reworked Trakt functions.
+- Added more 'Tips for Fen Use'.
+- Other small fixes.
+
+[COLOR dodgerblue][B]Version 1.5.17[/B][/COLOR]
+- Fix 'Jump To...' for letter 'T'.
+- Other fixes.
+
+[COLOR dodgerblue][B]Version 1.5.16[/B][/COLOR]
+- Added Trakt Collections, Watchlists, and Personal/Liked Lists to Trakt Cache. The contents of these lists and the lists themselves are now cached for the duration of your Trakt Cache setting, or if the list contents are changed in Fen. If the list is changed on the Trakt website, or through another add-on, then clear the Trakt Cache for immediate update of info in Fen.
+- Added 'Tips for Fen Use' to the Tools section. Go there to read up on tips for certain features of Fen that you may not know about, or don't understand. I'll add more tips as I get time.
+- Added one time view of log when add-on updates. Can be disabled in settings.
+
+[COLOR dodgerblue][B]Version 1.5.15[/B][/COLOR]
+- Moved Auto Resume setting to playback tab. Changed setting to "Never, Always, Autoplay Only".
+- Other small settings changes.
+- settings.py cleanup.
+- Still trying to fix playback from Fen library items.
+
+[COLOR dodgerblue][B]Version 1.5.14[/B][/COLOR]
+- Fixed occasional show not marking as watched through Trakt.
+
+[COLOR dodgerblue][B]Version 1.5.13[/B][/COLOR]
+- Some Trakt caching optimizations.
+- New Setting "Trakt Cache Duration". Found under the General tab of add-on settings. Options are 1 Hour, 1 Day, 1 Week. Defaults to "1 Hour". Set to a high duration (1 Week) if you use only Fen for media viewing and rarely make changes on the Trakt website. Set to low duration (1 Hour) if you often use other add-ons for media viewing or often make changes on the Trakt website.
+- New Tool "Clear Trakt Cache". Found in Tools==>Clear List and Data Info==>Clear Trakt Cache. Also found in "Next Episode Manager". This will clear the Trakt cache if needed.
+
+[COLOR dodgerblue][B]Version 1.5.12[/B][/COLOR]
+- Fixed some playback issues.
+- Remade and re-added Autoplay Next Episode. Setting appears in the 'Playback' tab once Autoplay has been enabled.
+- Removed setting for Kodi cacheToDisc. Defaults to True always now. Caused more issues than it solved.
+
+[COLOR dodgerblue][B]Version 1.5.11[/B][/COLOR]
+- Improved caching of TV Shows. Clear cache by navigating 'Tools->Clear List and Data Info->Clear Meta Cache' if you are having problems with new episodes not showing.
+- Fixed some sqlite unicode errors.
+- Changed Download Notifications format. Less cluttered now.
+
+[COLOR dodgerblue][B]Version 1.5.10[/B][/COLOR]
+- Improved accuracy of Downloads Folder Scraper.
+
+[COLOR dodgerblue][B]Version 1.5.09[/B][/COLOR]
+- Episode duration format fixed. (Clear Meta Cache to start seeing correctly formatted durations)
+- Added setting for Next Episodes to attempt to force skins to honor full Next Episode labels. Only enable if your skin does not show the Next Ep labels correctly.
+- Added [B]"Downloads Folder Scraper"[/B]. Enable in "Search" settings.
+- [B]INFO FOR Downloads Folder Scraper...:[/B]
+This scraper will search your Fen Movie Downloads folder or Fen TV Show Downloads folder for content, so if you download something through Fen then it will be scraped as a result if the scraper is enabled.
+
+[COLOR dodgerblue][B]Version 1.5.08[/B][/COLOR]
+- Fixed adding menu items to a different menu.
+- Changed scraper progress dialog to purely timer based.
+- Added setting 'Stop Search Early if Most Sources Finished' to External Providers.
+
+[COLOR dodgerblue][B]Version 1.5.07[/B][/COLOR]
+- Code changes to navigator to use faster window properties when possible and limit database reads.
+- Fix to music player.
+- Added version numbers to Changelog menu items.
+- Removed add-on icon refresh tool (no longer needed).
+- Other fixes.
+
+[COLOR dodgerblue][B]Version 1.5.06[/B][/COLOR]
+- Hopefully fixed Next Episodes random failure behaviour.
+- Fixed not returning to settings after choosing Next Episode highlight colors.
+- Auto Resume setting re-added.
+- Removed Autoplay Next Episode feature. I will remake it when I can, but ATM it is not working correctly.
+- Removed different settings for add-on playback and library playback. Didn't really make sense to have both.
+- Removed migration code.
+- More changes to try and fix videos replaying when finished. Geez.
+- Settings clean up.
+
+[COLOR dodgerblue][B]Version 1.5.05[/B][/COLOR]
+- [B]TRAKT:[/B] Fixed (finally) problem with hidden shows and hiding/unhiding shows with Next Episode Manager.
+- Still investigating other Trakt issues...
+
+[COLOR dodgerblue][B]Version 1.5.04[/B][/COLOR]
+- Removed migration notification code. (I'll keep the Migration Tool in Tools for a while longer.)
+- More changes to try and fix re-playing of videos.
+- Removed Resume Notification settings. (No Auto Resume anymore, just context menu choice.)
+
+[COLOR dodgerblue][B]Version 1.5.03[/B][/COLOR]
+- Changes to source results display code and playback code in an attempt to solve re-playing issue.
+- Changes to items in 'Options' context menu item.
+- Other small code changes.
+
+[COLOR dodgerblue][B]Version 1.5.02[/B][/COLOR]
+- Fix background fanart in some menus not showing.
+- Add Extended Info context menu for 'Popular People'.
+- NOTE: There is a bug wherein a video will automatically replay once it is stopped. I am looking for the cause of this, but have had no luck so far. I will continue investigating.
+
+[COLOR dodgerblue][B]Version 1.5.01[/B][/COLOR]
+- New Icon for add-on after well justified complaints about the original ghastly looking icon.
+- Added 'Refresh Add-on Icon' to Tools Menu. If I change the icon for the add-on, you can press this to load the new icon. If the new icon doesn't show after, then restart Kodi.
+- Some changes to Migration Tool. I will keep the tool around a little longer due to problems with Trakt API on day of performing the rename.
+- There will be at least one more update to Furk It (1.2.36), to fix a couple of problems so a stable version is on the github. All future development will be through Fen.
+- Old module dependencies will be removed from github when stable Furk It is updated.
+
+[COLOR dodgerblue][B]Version 1.5.00[/B][/COLOR]
+- Name change to Fen.
+
+[COLOR dodgerblue][B]Version 1.2.35[/B][/COLOR]
+- Changed dependencies and code for renamed modules:
+* script.furkit.artwork ---> script.tiki.artwork (Tiki Artwork)
+* script.module.furkitmeta ---> script.module.tikimeta (Tiki Meta)
+* script.module.furkitscrapers ---> script.module.tikiscrapers (Tiki Scrapers)
+
+[COLOR dodgerblue][B]Version 1.2.33[/B][/COLOR]
+- Made Easynews API module.
+- Changed Easynews scraper to use Easynews API module.
+- Added Easynews to Search menu so you can search Easynews directly.
+- Added Easynews download folder for direct searches.
+- Added Easynews icon to script.furkit.artwork
+- Added set view option for Easynews direct results.
+
+[COLOR dodgerblue][B]Version 1.2.32[/B][/COLOR]
+- More changes to external sources filtering code.
+
+[COLOR dodgerblue][B]Version 1.2.31[/B][/COLOR]
+- Changes to external sources filtering and label making to hopefully make displaying results faster.
+- NOTE: If you are using Furkit Scrapers, and results will not show after scraping, disable 'WSUNBLOCK' in furkitscrapers' settings. The problem with this scraper is hopefully fixed with this Furk It update, though.
+
+[COLOR dodgerblue][B]Version 1.2.30[/B][/COLOR]
+- Small changes to Furk resolving.
+
+[COLOR dodgerblue][B]Version 1.2.29[/B][/COLOR]
+- The progress dialog for when only internal scrapers are selected now shows the names of remaining scrapers. 
+- Changes to search results url duplicate implementation.
+- Added setting to set the heading of the dialog box when scraping. Can be set to the scraper module or name of the media being searched for. Setting found in Search-->Search Dialog Heading.
+- Fixed download notifications not honoring settings.
+- Added changelog access for furkitmeta and furkitscrapers in main addon (done last update).
+- Code cleanup.
+
+[COLOR dodgerblue][B]Version 1.2.28[/B][/COLOR]
+- More changes to Playback and Sources that will hopefully fix problems with playing library items created by Furk It.
+- Added 'Remove Duplicate Links' to External Scraper settings. Will slow down showing of search results (shouldn't be too bad on faster devices). [Code is by doko-desuka].
+- Some cleaning of code.
+- Stopped adding latest changes to addon.xml changelog (news).
+
+
+[COLOR dodgerblue][B]Version 1.2.27[/B][/COLOR]
+- Fix Trakt Watchlist items not showing in Next Episodes when set to do so.
+- Did some code changes to playback and sources in preparation for more changes. Playback and Downloading may be affected. I have tested the changes but there are always problems I don't see myself. Roll back to 1.2.26 if facing issues.
+- Other code cleanup.
+
+[COLOR dodgerblue][B]Version 1.2.26[/B][/COLOR]
+- 'Dialog' results display now shows simple results pop-up, instead of extra info like poster etc to speed up the showing of results when 'Dialog' chosen.
+- New setting in General/Navigation to enable/disable Kodi's built-in 'cacheToDisc' function. (Enabled by default)
+- [B]###INFO FOR cacheToDisc...:###[/B]
+    - cacheToDisc is a Kodi setting that makes Kodi cache the directory you are viewing. If you then hit 'next page', and load the next page of entries, then Kodi has the previous page cached so if you hit 'back' it won't need to remake the list items again. It makes backing out of a list of pages quicker.
+    - A bug in Kodi 18 means that the cacheToDisc of previous pages don't keep their watched status, meaning any watched media will all of a sudden not display the watched indicator when navigating back to them. Disabling 'cacheToDisc' will fix that, with the trade-off that backing out of pages of media will be slower.
+    - This setting does not affect Furk It's caching of information, it just stops Kodi caching pages as you browse. 
+
+[COLOR dodgerblue][B]Version 1.2.25[/B][/COLOR]
+- Added option for using season titles when available. Now defaults to classic 'Season X' naming.
+- Re-added threading to main menu lists.
+- Quick clean up of settings.
+- Fixed setting episode runtime listitem property.
+
+[COLOR dodgerblue][B]Version 1.2.24[/B][/COLOR]
+- Added total seasons, total episodes, total watched, total unwatched to TV Show listings.
+- Added total watched, total unwatched to Seasons listings.
+- Fixed meta showing for movie results and playback.
+- Quick clean up of settings.
+- Cleanup of settings.py
+
+[COLOR dodgerblue][B]Version 1.2.23[/B][/COLOR]
+- Hopefully fixed errors to do with getting TMDb numbers from Trakt items.
+
+[COLOR dodgerblue][B]Version 1.2.21[/B][/COLOR]
+- Changed 'PREM' to 'PM' for results display.
+- Fixed wrong plot showing when playing episodes. Don't know when that started to happen?
+- Fixed Auto Next Ep playback and In Progress Eps after meta module change.
+- Adjusted code to accept new fanart.tv art from furkitmeta, and added item in Settings to open furkitmeta settings.
+- Reverted some threading for lists and change in setView as it seemed to make things worse.
+
+[COLOR dodgerblue][B]Version 1.2.20[/B][/COLOR]
+- Moved external provider database to Furkitscrapers Module.
+- Moved 'Ororo' account settings to Furkitscrapers Module.
+- Removed 'Gostream' account settings (no working scraper).
+- Changed 'PREMIUMIZE.ME' result display to 'PREM'
+
+
+[COLOR dodgerblue][B]Version 1.2.19[/B][/COLOR]
+- Moved Metadata handling to seperate module.
+
+[COLOR dodgerblue][B]Version 1.2.18[/B][/COLOR]
+- Small fixes.
+
+[COLOR dodgerblue][B]Version 1.2.17[/B][/COLOR]
+- Fixed Error when no view mode set.
+- Tweaked setView.
+
+[COLOR dodgerblue][B]Version 1.2.16[/B][/COLOR]
+- Added furk max filesize for results (excludes PACK results). Furk and Easynews now have max filesize settings.
+- Actor/Actress search results now sorted Alphabetically.
+- Added "Jump To..." for all Trakt Lists (Personal, Liked, Watchlist, Collection), Actor Search results, Kodi Library, Favourites, Subscriptions, Watched. Replaces 'Go To Page...'.
+- [B]###INFO FOR JUMP TO...:###[/B]
+    - 'Jump to List Navigation' setting added to General tab. Choice is 'Page' or 'Alphabet'.
+    - 'Page Numbers' allows you to Jump To a specific page in the list.
+    - 'Letters' allow you to jump to the first instance of a listing beginning with that letter.
+    - 'Jump To...' only appears if more than 1 page present in list. It does not appear for regular browsing lists like Trending/Popular etc.
+
+[COLOR dodgerblue][B]Version 1.2.15[/B][/COLOR]
+- Added some more threading to possibly speed up Kodi list generation.
+- Small fixes.
+- Changelog from skin menu will now have info for latest updates only.
+
+[COLOR dodgerblue][B]Version 1.2.14[/B][/COLOR]
+- Added some more fallback release details to Furk results.
+- Changed 'Local' to 'Int' (Internal) for Furk/Easynews/Library results progress dialog.
+- Added changelog into 'news' section of addon.xml so changelog can now be read through the regular Kodi process.
+- [B]EXTERNAL SCRAPERS[/B] now has it's own changelog.
+
+[COLOR dodgerblue][B]Version 1.2.13[/B][/COLOR]
+- Fixed (hopefully) final couple of 'Unknown Video Info Key' errors in log from playback.
+- Added [B]bold[/B] to remaining Furk It context menu items throughout add-on.
+- Tweaked Context Menu.
+- Moved Edit options for menus to seperate dialog. Context menu now only shows 'Edit Menu'.
+- Removed 'Menu Favourites' feature and menu.
+
+[COLOR dodgerblue][B]Version 1.2.12[/B][/COLOR]
+- Added 'Exit Movie List' and 'Exit TV Show List' to context menu. Useful if you are 10 pages deep into a list, and don't want to back out of all pages. This will take you back to the Movies or TV Shows root menu.
+- Added [B]bold[/B] to all Furk It context menu items when browsing movies and TV Shows/Seasons/Episodes to better distinguish them from the largely useless regular Kodi context menu items that can no longer be removed by add-ons.
+- Changed Extended Info context menu item call to always use tmdb_id to assure accurate results.
+
+[COLOR dodgerblue][B]Version 1.2.11[/B][/COLOR]
+- Fixed final couple of 'Unknown Video Info Key' errors in log from browsing into season.
+
+[COLOR dodgerblue][B]Version 1.2.09[/B][/COLOR]
+- Sources Progress Dialog changed to display current scraper module.
+
+[COLOR dodgerblue][B]Version 1.2.08[/B][/COLOR]
+- Added progress dialog when only local scrapers selected.
+
+[COLOR dodgerblue][B]Version 1.2.07[/B][/COLOR]
+- Converted Movie and TV Show Language menus to use tmdb api instead of imdb search.
+- Unfortunately no fix for hiding/unhiding Trakt Shows. :(
+
+[COLOR dodgerblue][B]Version 1.2.06[/B][/COLOR]
+- Fixed bug in Next Episode Manager.
+
+[COLOR dodgerblue][B]Version 1.2.05[/B][/COLOR]
+- Changed search dialog to display 'quality' totals for local scrapers.
+
+[COLOR dodgerblue][B]Version 1.2.04[/B][/COLOR]
+- Cleanup external sources code.
+
+[COLOR dodgerblue][B]Version 1.2.03[/B][/COLOR]
+- Changed source search dialog. I can revert if not popular; not sure if I like it myself. But it does simplify the code a bit so hopefully is faster.
+
+[COLOR dodgerblue][B]Version 1.2.02[/B][/COLOR]
+- Some fixes.
+
+[COLOR dodgerblue][B]Version 1.2.01[/B][/COLOR]
+- Tried to fix play from library. Hopefully working.
+- [B]FURKIT CONTEXTMENU[/B]
+    [B]Version 1.0.01[/B]
+    - Fixed marking Watched/Unwatched from Furk It widgets.
+    - Added 'Browse Series' when brought up from a Furk It widgets episode object.
+
+[COLOR dodgerblue][B]Version 1.2.00[/B][/COLOR]
+- Fixed marking episode watched from playback.
+- Coded big rework of Download feature.
+[B]###INFO FOR DOWNLOADS:###[/B]
+    - You can now download Easynews and External source results.
+    - For FURK results, you can now download the video file straight from the results page (no need to click through to the t_file page to download the single file.)
+    - If FURK result is a PACK, both 'Download Archive' and 'Download File' is available. Choosing Archive will download the entire archive file into the Furk Downloads folder. Selecting File will download the appropriate single file from that PACK. i.e. If you scraped The Walking Dead S01E01, and you select 'Download File' for a PACK result, it will only download the S01E01 file from within the PACK into the 'TV Downloads' folder. Selecting 'Download Archive' will download the entire archive into the 'Furk Downloads' folder.
+    - Other fixes.
+
+[COLOR dodgerblue][B]Version 1.1.99[/B][/COLOR]
+- Added automatic activation of new scrapers, or all scrapers on first run.
+- Added Trailer to Context Menu for Movies/TV Shows when available.
+- Added ability to Choose trailer to play for Movies/TV Shows.
+[B]###INFO FOR TRAILERS:###[/B]
+    - Turn on 'Show Choice for all Trailer Videos' in General settings of add-on to enable choosing which Trailer you wish to watch. Trailers are supplied by TMdB, from Youtube videos. I can't get Trailers from an alternate source, for now at least.
+    - To get this new feature to work, you must clear the Metadata for movies/shows. Go to Tools-->Clear List and Data Info-->Clear Meta Cache to reset the metadata for all movies/shows.
+- Fixed no name showing when adding an uncached Furk file.
+
+[COLOR dodgerblue][B]Version 1.1.98[/B][/COLOR]
+- Improved handling of sources dialog. Should put less strain on CPU.
+- Added fallbacks for getting tmdb id from trakt items.
+- Converted Trakt Info sending and receiving to imdb id for TV Shows and tmdb id for movies.
+- Fixed Sort ordering of Results (External was showing before Easynews).
+
+[COLOR dodgerblue][B]Version 1.1.97[/B][/COLOR]
+- Added scrapers from Tempest.
+- Furk It fixes.
+
+[COLOR dodgerblue][B]Version 1.1.95[/B][/COLOR]
+- Removed Civitas Scrapers.
+- Added Furk It Scrapers (shown as 'External' in sources).
+
+[COLOR dodgerblue][B]Version 1.1.91[/B][/COLOR]
+- Fixed suppressing scraper pop up when scraping for autoplay next episode.
+- Added 'Re-import Civitas Scrapers' to Tools Menu.
+- Added 'Civitas Scrapers Settings' and 'Resolve URL Settings' to Settings Menu.
+
+[COLOR dodgerblue][B]Version 1.1.90[/B][/COLOR]
+- Added Civitas Scraper integration.
+- Rewrote sources class.
+- Rewrote furk media sources.
+- Removed Universal Scrapers dependency and functionality.
+- Fixed incorrect marking of watched episodes when using autoplay next episode.
+- Other fixes.
+
+[COLOR dodgerblue][B]Version 1.1.88[/B][/COLOR]
+- Partial rewrite of sources.py.
+- Simplified Universal Scrapers implementation. (Really, this is a regression. Furk It now uses Universal Scrapers own dialog for searching, meaning any autoplay features set won't work with Universal Scrapers i.e. Autoplay, Autoplay Next Episode etc.)
+- Some Trakt Error handling improvements.
+
+[COLOR dodgerblue][B]Version 1.1.87[/B][/COLOR]
+- Improved Easynews quality detection.
+- Fixed Easynews Max Gig Size filtering.
+
+[COLOR dodgerblue][B]Version 1.1.86[/B][/COLOR]
+- Fixed results not auto scrolling on Kodi 17.
+- Fixed next episode during playback 'still watching?' notification.
+- Fixed 'Go to Page' feature as it broke with cacheToDisc change to movies and tvshows (stupid Kodi 18).
+- Remade context menu Next Episode Manager.
+- Added pagination to People Search results.
+
+[COLOR dodgerblue][B]Version 1.1.85.a[/B][/COLOR]
+- Prevented 'Add to My Files' and 'Download Archive' showing when result is from EasyNews
+- Changed Login label to 'Username' instead of 'Email'.
+- Unhid settings passwords.
+- Added setting to display/hide filenames in results.
+
+[COLOR dodgerblue][B]Version 1.1.85[/B][/COLOR]
+- Added EasyNews scraper. Set user email and password in Accounts settings.
+- Reorganized Search settings. (Hopefully not, but you may have to delete the settings.xml file in userdata if add-on behaves unexpectedly)
+- Added color highlight settings for Furk It Scrapers. Choose colors for all three Furk It Scrapers (Local, Furk and EasyNews).
+- Changed 'DOWNLOADING' label to 'ACTIVE' when an uncached torrent is being downloaded by Furk. (Missed that request before.)
+
+[COLOR dodgerblue][B]Version 1.1.84[/B][/COLOR]
+- Fixed resume selection if auto resolve or autoplay set (Kodi 18 bug).
+- Removed Universal Scrapers Fallback Search option.
+
+[COLOR dodgerblue][B]Version 1.1.83[/B][/COLOR]
+- Added 'DOWNLOADING' flag to uncached results that are being downloaded by Furk. Downloading info is cached for 1 hour, but is reset when you add a new file for Furk download, or open My Furk Active Downloads. It is designed to be a visual representation of what Furk is currently downloading for you, rather than necessarily a to the minute representation.
+- Fixed number of files display for My Furk Files.
+
+[COLOR dodgerblue][B]Version 1.1.82[/B][/COLOR]
+- Added remove download from list (select file when in My Furk Active Downloads to delete the download).
+- Fixed Uncached results showing despite off setting for direct Furk results.
+- Fixed local result showing twice in results.
+
+[COLOR dodgerblue][B]Version 1.1.81[/B][/COLOR]
+- Added Furk Active and Failed folders.
+- Added Uncached results to direct Furk search.
+- Rework of display and order of Uncached files.
+- NOTE: Some problems with Universal Scrapers at the moment. Will look into it sometime later.
+
+[COLOR dodgerblue][B]Version 1.1.80[/B][/COLOR]
+- Preliminary support for Uncached Torrents added. (Uncached currently only available from media search results i.e. through Movie or TV Show menus, not directly through Furk Menus. This will change but I was short of time.)
+
+[COLOR dodgerblue][B]Version 1.1.79[/B][/COLOR]
+- Added airdate format setting choice (Day-Month-Year, Year-Month_Day, Month-Day-Year). Thanks tknorris, wherever you are.
+- POSSIBLY fixed Manage In Progress Shows.
+- Fixed 'Include Airdate in Title' from Tools.
+- PROBABLY fixed color issues with Next Episode.
+- HOPEFULLY FINALLY Fixed Furk API issues on first use.
+
+[COLOR dodgerblue][B]Version 1.1.78[/B][/COLOR]
+- Fixed search history. (Moved history to database storage from settings storage. Still don't know why it stopped working.)
+- Remade Next Episodes. (Could be buggy, but I hope not.)
+- ABOUT NEXT EPISODES:
+**It is made to work with either Trakt watched history or watched history coming directly from the add-on. Whichever source you have set up for your watched indicators (Trakt or Furk It), that is the source Next Episodes will use.
+** Select 'Include Trakt Watchlist / Next Episode Unwatched' to include the first episode of every show you have in your watchlist.If you're not using Trakt, you can add unwatched shows to Next Episodes via the Add/Remove context menu item that appears for Movies and TV Shows.
+** Settings for Next Episodes can be accessed through the normal settings, through Tools==>Manage Next Episode Options or through the Context Menu when inside Next Episodes. I always like to have quick ways of getting to relevant settings. These settings include a 'Manage In Progress Shows'. If you are using Trakt for your watched indicators, then this screen allows you to 'Hide' shows directly through the add-on, without having to go to the trakt site to do it. Shows in the 'Manage In Progress Shows' menu will have [EXCLUDED] in front of them if they are hidden in Trakt, and [INCLUDED] if they are not. Simply selecting a show will toggle it's hidden setting; click a hidden show to unhide it, click an unhidden show to hide it. You can also browse into the show through the context menu if you want to see what episodes you've watched etc. All these options are available if you do not have a Trakt account, Furk It keeps local databases of watched media and hidden statuses etc for people without a Trakt account.
+
+[COLOR dodgerblue][B]Version 1.1.77[/B][/COLOR]
+- Playback changes for proper subtitle support.
+- Added multi-year search term for movies.
+- Download changes to settings and notification behaviour.
+- Settings menus options when navigating through add-on simplified as Kodi 18 does not navigate to a specific setting correctly.
+- Reorder settings slightly.
+- NOTE: Movie and TV Show search history broken. I have no idea why as Furk Video and Audio history still works and uses exactly the same function. I've given up for today and will fix it tomorrow!
+
+[COLOR dodgerblue][B]Version 1.1.76[/B][/COLOR]
+- Trimmed Download settings titles, fixed Download folder icons.
+- Added Notification options for Downloads (Every 10%, Constant, Off).
+- Added Hide Option for Download Notifications when playing video.
+- Couple of other minor fixes.
+
+[COLOR dodgerblue][B]Version 1.1.75[/B][/COLOR]
+- Added changelog info (found in Tools-->Show Latest Info).
+- Moved Clearing Tools to Submenu of Tools.
+- Added half second delay when opening settings from within add-on (Might fix settings.xml reset problem).
+- Change single Download folder to Movie Downloads, TV Show Downloads and Furk Downloads. Each needs to be assigned their own folder in settings.
+- ABOUT DOWNLOADS: When getting results from the Movie or TV Show menus, you must navigate down to the final file within any package so as the file saves in the correct folder. i.e. You need the Context Menu to display 'Download File' and not 'Download Archive' so as to save in the correct Movie or TV Show folder. Any file downloaded from within the Furk menus (My Furk Files, Furk Searches etc) will save straight to the Furk Downloads folder, as will any Archive files (season packs or archives from Furk search results).
+- Added Download Submenus for browsing new Download Folders.
+- Added default tmdb api key. Please replace in settings if you have your own.

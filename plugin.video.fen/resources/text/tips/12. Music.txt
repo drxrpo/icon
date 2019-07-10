@@ -1,0 +1,2 @@
+[COLOR dodgerblue][B]Music[/B][/COLOR]
+[I]The music feature in Fen is very limited, and relies purely on having a Furk account. If you do not have a Furk account, you may as well remove the Music menu from your Fen root menu. Otherwise, you can search on Furk for music to listen to. There is no metadata (album covers etc) for the music found, but you can add a music result to your 'Music Favorites' so you can come back to it later.[/I]

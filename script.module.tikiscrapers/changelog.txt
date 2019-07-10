@@ -1,0 +1,102 @@
+[B]****************************************************
+Practically all scrapers and fixes come from others.
+Thanks to them for their efforts.
+****************************************************[/B]
+
+[COLOR dodgerblue][B]Version 1.1.04[/B][/COLOR]
+- Scraper fixes etc thanks to others.
+- cfscrape tweak.
+
+[COLOR dodgerblue][B]Version 1.1.03[/B][/COLOR]
+- Added 'Clear Settings' to settings.
+- cfscrape update.
+
+[COLOR dodgerblue][B]Version 1.1.02[/B][/COLOR]
+- Scraper fixes etc thanks to others.
+
+[COLOR dodgerblue][B]Version 1.1.01[/B][/COLOR]
+- Scraper fixes etc thanks to others.
+
+[COLOR dodgerblue][B]Version 1.1.00[/B][/COLOR]
+- Name change to Tikiscrapers.
+- Fixes to external module imports.
+
+[COLOR dodgerblue][B]Version 1.0.30[/B][/COLOR]
+- Scrapers check.
+
+[COLOR dodgerblue][B]Version 1.0.29[/B][/COLOR]
+- Fixed first run problems for new install.
+
+[COLOR dodgerblue][B]Version 1.0.28[/B][/COLOR]
+- Scraper Updates
+- Added 'Clear Furkitscrapers Results' to a new 'Cache' settings tab.
+
+[COLOR dodgerblue][B]Version 1.0.27a[/B][/COLOR]
+- Quarantined freefmovies.
+
+[COLOR dodgerblue][B]Version 1.0.27[/B][/COLOR]
+- Scraper updates.
+
+[COLOR dodgerblue][B]Version 1.0.26[/B][/COLOR]
+- Scraper updates.
+
+[COLOR dodgerblue][B]Version 1.0.25[/B][/COLOR]
+- Scraper updates.
+
+[COLOR dodgerblue][B]Version 1.0.22[/B][/COLOR]
+- Fixed Ororo scraper.
+- Quarantined Vidics scraper.
+
+[COLOR dodgerblue][B]Version 1.0.21[/B][/COLOR]
+- Scraper update.
+
+[COLOR dodgerblue][B]Version 1.0.20[/B][/COLOR]
+- Added this changelog.
+- Added new/fixed scrapers.
+
+[COLOR dodgerblue][B]Version 1.0.17[/B][/COLOR]
+- Updated cfscrape
+- Added scrapers (from others. Thanks to those people.)
+- Fixed scrapers (well, someone else fixed them and I copied the code. Thanks to those people.)
+
+[COLOR dodgerblue][B]Version 1.0.16[/B][/COLOR]
+- Scraper Update.
+
+[COLOR dodgerblue][B]Version 1.0.12[/B][/COLOR]
+- Added setting to import scraper modules. Any modules from exodus based video add-ons installed on your system can be added (e.g. Exodus Redux, 13 Clowns etc).
+- Added setting to remove an imported scraper module.
+
+[COLOR dodgerblue][B]Version 1.0.08[/B][/COLOR]
+- Scraper Update.
+
+[COLOR dodgerblue][B]Version 1.0.07[/B][/COLOR]
+- Scraper Update.
+
+[COLOR dodgerblue][B]Version 1.0.06[/B][/COLOR]
+- Scraper Update.
+
+[COLOR dodgerblue][B]Version 1.0.05[/B][/COLOR]
+- Updated cfscrape to hopefully fix stalling sources and memory leak.
+- Re-added quarantined scrapers.
+
+[COLOR dodgerblue][B]Version 1.0.04[/B][/COLOR]
+- Problem with scraper/s causing memory leak. I have quarantined 43 scrapers to try to fix this. Can't say for certain whether it has or not. As I have more time I will add scrapers back individually and test.
+- Temporarily added other scraper modules to choose from in scraper settings. (eggscrapers, openscrapers, tempest, scrubs). I added these while testing to see if other add-on's scrapers had the same memory leak problem, which unfortunately they do. These extra source modules will be removed in an upcoming update.
+- I'm keeping an eye on Openscrapers so when I think they are ready, I will switch Furk It over to using them instead of maintaining my own.
+
+[COLOR dodgerblue][B]Version 1.0.03[/B][/COLOR]
+- Added couple of scrapers.
+
+[COLOR dodgerblue][B]Version 1.0.02[/B][/COLOR]
+- Added couple of scrapers.
+- Limited result numbers for a couple of scrapers.
+- Cleaned up settings.
+
+[COLOR dodgerblue][B]Version 1.0.01[/B][/COLOR]
+- Added scrapers
+- Limited scnsrc scraper to 20 links per quality.
+
+[COLOR dodgerblue][B]Version 1.0.00[/B][/COLOR]
+- Updated cfscrape.py.
+- Added scrapers.
+- Removed scrapers.

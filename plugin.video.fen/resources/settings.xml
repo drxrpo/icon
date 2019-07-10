@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<settings>
+    <!-- General Settings -->
+    <category label="General">
+        <setting label="Appearance" type="lsep" />
+        <setting type="sep" />
+        <setting id="theme_installed" type="bool" label="" default="false" visible="false" />
+        <setting id="fen.theme" label="Fen Icon Type" type="labelenum" default="Light" values="Light|Heavy" visible="eq(-1,true)" />
+        <setting id="theme_amble" label="Download Tiki Artwork for Icons" type="text" default="" visible="!eq(-2,true)" enable="false" />
+        <setting id="unaired_episode_colour" type="action" label="Choose Unaired Episodes Highlight Color" default="red" action="RunPlugin(plugin://plugin.video.fen/?mode=unaired_episode_color_choice)" option="close" />
+        <setting id="show_specials" type="bool" label="Show TV Show Specials When Available" default="false" />
+        <setting id="use_season_title" type="bool" label="Use Season Titles When Available" default="true" />
+        <setting id="disable_changelog_popup" type="bool" label="Disable Auto View of Changelog When Add-on Updates" default="false" />
+        <setting label="Navigation" type="lsep" />
+        <setting type="sep" />
+        <setting id="nav_jump" label="Jump To... List Navigation" type="enum" default="0" values="Page|Alphabet" />
+        <setting id="recent_added_limit" label="Choose Max Kodi Recently Added items" type="slider" default="20" range="5,1,20" option="int" />
+        <setting label="Trailers" type="lsep" />
+        <setting type="sep" />
+        <setting id="all_trailers" type="bool" label="Show Choice for All Trailer Videos" default="false" />
+        <setting label="Trakt Cache" type="lsep" />
+        <setting type="sep" />
+        <setting id="trakt_cache_duration" label="Trakt Cache Duration" type="enum" default="0" values="1 Hour|1 Day|1 Week" />
+        <setting label="Change Time Offset" type="lsep" />
+        <setting type="sep" />
+        <setting id="datetime.offset" label="UTC (+/-)" type="slider" default="0" range="-15,1,15" option="int" />
+    </category>
+    <!-- Accounts Settings -->
+    <category label="Accounts">
+        <setting label="Furk" type="lsep" />
+        <setting type="sep" />
+        <setting id="furk_login" type="text" label="Login" default="" />
+        <setting id="furk_password" type="text" label="Password" default="" />
+        <setting id="furk_api_key" type="text" label="Furk API Key (optional)" default="" />
+        <setting label="EasyNews" type="lsep" />
+        <setting type="sep" />
+        <setting id="easynews_user" type="text" label="Username" default="" />
+        <setting id="easynews_password" type="text" label="Password" default="" />
+        <setting label="TMDb" type="lsep" />
+        <setting type="sep" />
+        <setting id="tmdb_api" type="text" label="TMDb API Key" default="1b0d3c6ac6a6c0fa87b55a1069d6c9c8" />
+        <setting label="Trakt" type="lsep" />
+        <setting type="sep" />
+        <setting label="trakt access token" id="trakt_access_token" type="text" default="" visible="hidden" />
+        <setting id="trakt_user" label="Trakt Username" type="text" default="" visible="!eq(-1,)" enable="false" />
+        <setting id="open_trakt_authenticate" type="action" label="Authorize Trakt" visible="eq(-2,)" option="close" action="RunPlugin(plugin://plugin.video.fen/?mode=trakt_authenticate)" />
+        <setting id="open_trakt_de-authenticate" type="action" label="Revoke Trakt Authentication" visible="!eq(-3,)" option="close" action="RunPlugin(plugin://plugin.video.fen/?mode=trakt_remove_authentication)" />
+        <setting label="Resolve URL" type="lsep" />
+        <setting type="sep" />
+        <setting id="settings_resolveurl" type="action" label="Open Resolve URL Settings" option="close" action="RunPlugin(plugin://plugin.video.fen/?mode=resolveurl_settings)" />
+        <setting label="trakt refresh token" id="trakt_refresh_token" type="text" visible="false" />
+        <setting label="trakt expires at" id="trakt_expires_at" type = "text" visible="false" />
+        <setting id="service_time" type="text" label="Service Time" default="2000-01-01 00:00:00" visible="false" />
+    </category>
+    <!-- Next Episodes -->
+    <category label="Next Episodes">
+        <setting label="Content and Sorting" type="lsep" />
+        <setting type="sep" />
+        <setting id="nextep.sort_type" label="Sort Type" type="enum" default="0" values="Recently Watched|Airdate|Title" />
+        <setting id="nextep.sort_order" label="Sort Order" type="enum" default="0" values="Descending|Ascending" />
+        <setting id="nextep.include_unaired" label="Include Unaired Episodes" type="bool" default="true" />
+        <setting id="nextep.include_unwatched" label="Include Trakt Watchlist / TV Show Unwatched" type="bool" default="true" />
+        <setting label="Appearance" type="lsep" />
+        <setting type="sep" />
+        <setting id="nextep.force_display" label="Attempt to Make Skin Honor Full Next Ep Labels" type="bool" default="false" />
+        <setting id="nextep.include_airdate" label="Include Airdate in Title" type="bool" default="true" />
+        <setting id="nextep.airdate_format" label="Choose Airdate Format" visible="!eq(-1,false)" type="enum" default="0" values="Day-Month-Year|Year-Month-Day|Month-Day-Year" subsetting="true" />
+        <setting id="nextep.airdate_colour" type="action" visible="!eq(-2,false)" label="Choose Airdate Color" default="magenta" action="RunPlugin(plugin://plugin.video.fen/?mode=next_episode_color_choice&amp;setting=Airdate&amp;from_settings=true)" option="close" subsetting="true" />
+        <setting id="nextep.unaired_colour" type="action" label="Choose Unaired Color" default="red" action="RunPlugin(plugin://plugin.video.fen/?mode=next_episode_color_choice&amp;setting=Unaired&amp;from_settings=true)" option="close" />
+        <setting id="nextep.unwatched_colour" type="action" label="Choose Unwatched Color" default="darkgoldenrod" action="RunPlugin(plugin://plugin.video.fen/?mode=next_episode_color_choice&amp;setting=Unwatched&amp;from_settings=true)" option="close" />
+    </category>
+    <!-- Search Settings -->
+    <category label="Search">
+        <setting label="Results Display" type="lsep" />
+        <setting type="sep" />
+        <setting id="use_dialog" label="Results Display" type="enum" default="0" values="Directory|Dialog" />
+        <setting id="results.sort_order" label="Results Sort Order" type="enum" default="0" values="Quality, Provider, Size|Provider, Quality, Size" />
+        <setting id="progress.heading" label="Search Dialog Heading" type="enum" default="0" values="Scraper Module|Media Title" />
+        <setting id="include_prerelease_results" type="bool" label="Include Pre-Release Results (CAM/SCR/TELE)" default="true" />
+        <setting id="results.show_filenames" type="bool" label="Show Filename/Extra Info in Results" default="true" />
+        <setting id="int_dialog_highlight" type="action" label="Internal Scrapers Progress Dialog Highlight Color" default="darkgoldenrod" action="RunPlugin(plugin://plugin.video.fen/?mode=scraper_dialog_color_choice&amp;setting=internal)" option="close" />
+        <setting id="ext_dialog_highlight" type="action" label="External Scrapers Progress Dialog Highlight Color" default="dodgerblue" action="RunPlugin(plugin://plugin.video.fen/?mode=scraper_dialog_color_choice&amp;setting=external)" option="close" />
+        <setting type="sep" />
+        <!-- FURK SCRAPER SETTINGS -->
+        <setting label="Furk Scraper" type="lsep" />
+        <setting id="provider.furk" type="bool" label="Enable Furk Source" default="false" />
+        <setting id="furk.limit" label="Limit Number of Results" type="slider" default="100" range="1,1,100" option="int" visible="eq(-1,true)" />
+        <setting id="furk_maxgb" label="Limit Size of Results (GB)" type="slider" default="100" range="1,1,100" option="int" visible="eq(-2,true)" />
+        <setting id="furk.mod.level" label="Search Moderation Level" type="labelenum" default="No" values="No|Yes|Full" visible="eq(-3,true)" />
+        <setting id="include_uncached_results" type="bool" label="Include Uncached Results"  default="false" visible="eq(-4,true)" />
+        <setting id="provider.furk_colour" type="action" label="Choose Furk Scraper Highlight Color" default="firebrick" action="RunPlugin(plugin://plugin.video.fen/?mode=scraper_color_choice&amp;setting=furk)" option="close" visible="eq(-5,true)" />
+        <setting type="sep" />
+        <!-- EASYNEWS SCRAPER SETTINGS -->
+        <setting label="EasyNews Scraper" type="lsep" />
+        <setting id="provider.easynews" type="bool" label="Enable EasyNews Source" default="false" />
+        <setting id="easynews_limit" label="Limit Number of Results" type="slider" default="100" range="1,1,100" option="int" visible="eq(-1,true)" />
+        <setting id="easynews_maxgb" label="Limit Size of Results (GB)" type="slider" default="100" range="1,1,100" option="int" visible="eq(-2,true)" />
+        <setting id="provider.easynews_colour" type="action" label="Choose EasyNews Scraper Highlight Color" default="green" action="RunPlugin(plugin://plugin.video.fen/?mode=scraper_color_choice&amp;setting=easynews)" option="close" visible="eq(-3,true)" />
+        <setting type="sep" />
+        <!-- LOCAL SCRAPER SETTINGS -->
+        <setting label="Local Scraper" type="lsep" />
+        <setting id="provider.local" type="bool" label="Enable Local Source" default="true" />
+        <setting id="check_library" type="bool" label="Check Local Before Search" visible="eq(-1,true)" default="false" />
+        <setting id="include_local_in_filter" type="bool" label="Apply Quality Limit to Local Files" visible="eq(-2,true)" default="false" />
+        <setting id="results.sort_local_first" type="bool" label="Show Local Result at Top" visible="eq(-3,true)" default="true" />
+        <setting id="provider.local_colour" type="action" label="Choose Local Scraper Highlight Color" default="yellow" action="RunPlugin(plugin://plugin.video.fen/?mode=scraper_color_choice&amp;setting=local)" option="close" visible="eq(-4,true)" />
+        <setting type="sep" />
+        <!-- DOWNLOADS FOLDER SCRAPER SETTINGS -->
+        <setting label="Downloads Folder Scraper" type="lsep" />
+        <setting id="provider.downloads" type="bool" label="Enable Downloads Folder Source" default="true" />
+        <setting id="check_downloads" type="bool" label="Check Downloads Folder Before Search" visible="eq(-1,true)" default="false" />
+        <setting id="include_downloads_in_filter" type="bool" label="Apply Quality Limit to Downloads Folder Files" visible="eq(-2,true)" default="false" />
+        <setting id="results.sort_downloads_first" type="bool" label="Show Downloads Folder Result at Top" visible="eq(-3,true)" default="true" />
+        <setting id="provider.downloads_colour" type="action" label="Choose Downloads Folder Scraper Highlight Color" default="red" action="RunPlugin(plugin://plugin.video.fen/?mode=scraper_color_choice&amp;setting=downloads)" option="close" visible="eq(-4,true)" />
+        <setting type="sep" />
+        <!-- EXTERNAL PROVIDER SETTINGS -->
+        <setting label="External Scraper" type="lsep" />
+        <setting id="provider.external" type="bool" label="Enable External Scrapers Source"  default="true" />
+        <setting id="settings_external" type="action" label="Open External Scraper Settings" visible="eq(-1,true)" option="close" action="RunPlugin(plugin://script.module.tikiscrapers/?mode=TikiScraperSettings)" />
+        <setting id="scrapers.timeout.1" type="slider" label="Scraper Timeout" default="30" range="10,60" option="int" visible="eq(-2,true)" />
+        <setting id="preemptive.termination" type="bool" label="Pre-emptive Termination" default="false" visible="eq(-3,true)" />
+        <setting id="preemptive.limit" type="slider" label="Pre-emptive Limit" default="10" range="1,50" option="int" subsetting="true" visible="eq(-4,true) + eq(-1,true)" />
+        <setting id="search.finish.early" type="bool" label="Stop Search Early if Most Sources Finished" visible="eq(-5,true)" default="true" />
+        <setting id="remove.duplicates" type="bool" label="Remove Duplicate Links" default="false" visible="eq(-6,true)" />
+        <setting id="debrid.only" type="bool" label="[B]HOSTERS:[/B] Debrid Only" default="false" visible="eq(-7,true)" />
+        <setting id="hosts.captcha" type="bool" label="[B]HOSTERS:[/B] Include Hosters with Captchas" default="true" visible="eq(-8,true)" />
+        <setting id="hosts.sort.provider" type="bool" label="[B]HOSTERS:[/B] Sort by Provider" default="true" visible="eq(-9,true)" />
+        <setting id="torrent.enabled" type="bool" label="[B]TORRENTS:[/B] Enable Torrent Scrapers (Debrid Required)" default="true" visible="eq(-10,true)" />
+        <setting id="torrent.min.seeders" type="slider" label="[B]TORRENTS:[/B] Minimum Seeders" default="10" range="1,50" option="int" visible="eq(-11,true) + eq(-1,true)" subsetting="true" />
+        <setting id="torrent.sort.them.up" type="bool" label="[B]TORRENTS:[/B] Sort Torrents to Top of External Results" visible="eq(-12,true) + eq(-2,true)" default="false" subsetting="true" />
+        <setting id="prem.identify" type="action" label="Choose Premium Sources Highlight Color" default="dodgerblue" action="RunPlugin(plugin://plugin.video.fen/?mode=scraper_color_choice&amp;setting=premium)" option="close" visible="eq(-13,true)" />
+        <setting id="torrent.identify" type="action" label="Choose Torrent Sources Highlight Color" default="magenta" action="RunPlugin(plugin://plugin.video.fen/?mode=scraper_color_choice&amp;setting=torrent)" option="close" visible="eq(-14,true)" />
+    </category>
+    <!-- Playback Settings -->
+    <category label="Playback">
+        <setting label="Playback" type="lsep" />
+        <setting type="sep" />
+        <setting id="auto_play" type="bool" label="Auto Play First Relevant Result" default="false" />
+        <setting id="autoplay_quality" type="action" label="Limit Quality" default="SD, 720p, 1080p, 4K" action="RunPlugin(plugin://plugin.video.fen/?mode=set_autoplay_quality)" visible="!eq(-1,false)" option="close" subsetting="true" />
+        <setting id="prefer_hevc" type="bool" label="Prefer HEVC Files" visible="!eq(-2,false)" default="false" subsetting="true" />
+        <setting id="autoplay_next_episode" type="bool" label="Autoplay Next Episode" visible="!eq(-3,false)" default="false" subsetting="true" />
+        <setting id="autoplay_next_check_threshold" type="slider" default="3" range="0,1,10" option="int" visible="!eq(-1,false) + !eq(-4,false)" label="Episodes Watched Before Still Watching Check (0=Off)" subsetting="true" />
+        <setting id="results_quality" type="action" label="Limit Quality" visible="eq(-5,false)" default="SD, 720p, 1080p, 4K" action="RunPlugin(plugin://plugin.video.fen/?mode=set_results_quality)" option="close" />
+        <setting id="auto_resolve" type="bool" label="Auto Resolve Furk Season/Movie Packs" visible="eq(-6,false)" default="false" />
+        <setting id="auto_resume" type="enum" values="Never|Always|Autoplay Only" label="Automatically Resume Playback" default="0" />
+    </category>
+    <!-- Indicators Settings -->
+    <category label="Indicators">
+        <setting label="Watched Indicators" type="lsep" />
+        <setting type="sep" />
+        <setting id="trakt_indicators_active" type="text" label="trakt_indicators_active" default="false" visible="false" />
+        <setting id="watched_indicators" type="enum" visible="!eq(-1,false)" values="Fen|Trakt" label="Watched Status Provider" default="0" />
+        <setting id="sync_fen_watchstatus" type="bool" label="Sync Fen Watched Info with Trakt Watched Info" default="false" subsetting="true" visible="!eq(-2,false) + eq(-1,1)" />
+        <setting id="indicators_amble" label="Authorize Trakt for More options" type="text" default="" visible="!eq(-3,true)" enable="false" />
+        <setting id="sync_kodi_library_watchstatus" type="bool" label="Set Resume/Watched in Kodi Library when Watched in Fen" default="false" />
+        <setting label="Watched Percentage Settings" type="lsep" />
+        <setting type="sep" />
+        <setting id="resume.threshold" label="Set Minimum % Watched to Set [B]Resume Point[/B]" type="slider" default="2" range="1,1,50" option="int" visible="true" />
+        <setting id="watched.threshold" label="Set Minimum % Watched to [B]Mark As Watched[/B]" type="slider" default="90" range="50,1,99" option="int" visible="true" />
+        <setting id="nextep.threshold" label="Set Minimum % Watched to [B]Activate Next Episode[/B]" type="slider" default="90" range="50,1,99" option="int" visible="true" />
+    </category>
+    <!-- Library Settings -->
+    <category label="Library">
+        <setting label="Library Directories" type="lsep" />
+        <setting type="sep" />
+        <setting id="movies_directory" type="folder" label="Movies Directory" default="special://userdata/addon_data/plugin.video.fen/Movies/" />
+        <setting id="tv_shows_directory" type="folder" label="TV Shows Directory" default="special://userdata/addon_data/plugin.video.fen/TVShows/" />
+        <setting label="Library Update" type="lsep" />
+        <setting type="sep" />
+        <setting id="subscription_update" type="bool" label="Automatically Update Subscriptions" default="false" />
+        <setting id="subscription_timer" type="enum" values="1 hour|2 hours|4 hours|6 hours|8 hours|10 hours|12 hours|14 hours|15 hours|18 hours|24 hours" label="Period between Updates" default="6" visible="!eq(-1,false)" subsetting="true" />
+        <setting id="update_library_after_service" type="bool" label="Update Kodi Library after Subscription Update" default="false" />
+        <setting id="skip_duplicates" type="bool" label="Avoid Creating Duplicate Content" default="false" />
+    </category>
+    <!-- Download Settings -->
+    <category label="Downloads">
+        <setting label="Download Directories" type="lsep" />
+        <setting type="sep" />
+        <setting id="movie_download_directory" type="folder" label="Movies Directory" default="special://userdata/addon_data/plugin.video.fen/Movies Downloads/" />
+        <setting id="tvshow_download_directory" type="folder" label="TV Shows Directory" default="special://userdata/addon_data/plugin.video.fen/TV Show Downloads/" />
+        <setting id="furk_file_download_directory" type="folder" label="Furk Files Directory" default="special://userdata/addon_data/plugin.video.fen/Furk Downloads/" />
+        <setting id="easynews_file_download_directory" type="folder" label="Easynews Files Directory" default="special://userdata/addon_data/plugin.video.fen/Easynews Downloads/" />
+        <setting label="Download Notification" type="lsep" />
+        <setting type="sep" />
+        <setting id="download.notification" label="Show Download Notification" type="enum" default="0" values="On|Off" />
+        <setting id="download.frequency" label="Percentage Progress for Notifications" type="slider" default="10" range="2,1,50" option="int" visible="!eq(-1,1)" subsetting="true" />
+        <setting id="download.suppress" type="bool" label="Hide Notification During Playback" default="false" visible="!eq(-2,1)" subsetting="true" />
+    </category>
+</settings>
+

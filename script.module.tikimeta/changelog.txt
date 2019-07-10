@@ -1,0 +1,28 @@
+[COLOR dodgerblue][B]Version 1.1.02[/B][/COLOR]
+- Fixed episode duration formatting.
+
+[COLOR dodgerblue][B]Version 1.1.01[/B][/COLOR]
+- Removed migration code.
+
+[COLOR dodgerblue][B]Version 1.1.00[/B][/COLOR]
+- Change of name to 'script.module.tikimeta'
+
+[COLOR dodgerblue][B]Version 1.0.06[/B][/COLOR]
+- Small code changes to caching.
+
+[COLOR dodgerblue][B]Version 1.0.05[/B][/COLOR]
+- Small code changes.
+
+[COLOR dodgerblue][B]Version 1.0.04[/B][/COLOR]
+- Hopefully fixed issues to do with getting meta from external id numbers.
+- Other code changes.
+
+[COLOR dodgerblue][B]Version 1.0.02[/B][/COLOR]
+- Added fanart.tv support (off by default). Enable 'Extra Art' in settings. Provides Banners, Landscapes and Cleararts for skins that support extra artwork.
+- Can add own fanart.tv API in settings to help support them.
+
+[COLOR dodgerblue][B]Version 1.0.01[/B][/COLOR]
+- Slight code cleanup.
+
+[COLOR dodgerblue][B]Version 1.0.0[/B][/COLOR]
+- Initial Version.

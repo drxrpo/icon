@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<settings>
+    <category label="Module">
+        <setting label="Module Choice" type="lsep" />
+        <setting id="module.provider" label="Choose Module Scraper" type="action" action="RunPlugin(plugin://script.module.tikiscrapers/?mode=ModuleChoice)" default="Tikiscrapers" option="close" />
+        <setting label="Import/Remove External Modules" type="lsep" />
+        <setting id="external_amble1" label="CAUTION!!! Use at own risk!!!" type="text" default="" enable="false" />
+        <setting id="external_amble2" label="This function copies and deletes files on your system." type="text" default="" enable="false" />
+        <setting id="external_amble3" label="It is possible this function may, by mistake, erase important files." type="text" default="" enable="false" />
+        <setting label="- Import an External Module Scraper" type="action" action="RunPlugin(plugin://script.module.tikiscrapers/?mode=activateExternalscrapers)" option="close" />
+        <setting label="- Remove an External Module Scraper" type="action" action="RunPlugin(plugin://script.module.tikiscrapers/?mode=removeExternalscrapers)" option="close" />
+    </category>
+    <category label="All Providers">
+        <setting label="Enable/Disable All" type="lsep" />
+        <setting label="Enable All Providers" type="action" action="RunPlugin(plugin://script.module.tikiscrapers/?mode=toggleAll&amp;folder=all&amp;setting=true&amp;open_id=1.1)" option="close" />
+        <setting label="Disable All Providers" type="action" action="RunPlugin(plugin://script.module.tikiscrapers/?mode=toggleAll&amp;folder=all&amp;setting=false&amp;open_id=1.2)" option="close" />
+        <setting type="sep" />
+        <setting label="Enable/Disable Specific" type="lsep" />
+        <setting label="Enable/Disable Specific Providers" type="action" action="RunPlugin(plugin://script.module.tikiscrapers/?mode=enableDisableScrapers&amp;folder=all&amp;open_id=1.5)" option="close" />
+    </category>
+    <category label="Debrid Only">
+        <setting label="Enable/Disable All" type="lsep" />
+        <setting label="Enable All Debrid Providers" type="action" action="RunPlugin(plugin://script.module.tikiscrapers/?mode=toggleAll&amp;folder=en_DebridOnly&amp;setting=true&amp;open_id=2.1)" option="close"/>
+        <setting label="Disable All Debrid Providers" type="action" action="RunPlugin(plugin://script.module.tikiscrapers/?mode=toggleAll&amp;folder=en_DebridOnly&amp;setting=false&amp;open_id=2.2)" option="close" />
+        <setting type="sep" />
+        <setting label="Enable/Disable Specific" type="lsep" />
+        <setting label="Enable/Disable Specific Debrid Providers" type="action" action="RunPlugin(plugin://script.module.tikiscrapers/?mode=enableDisableScrapers&amp;folder=en_DebridOnly&amp;open_id=2.5)" option="close" />
+    </category>
+    <category label="Torrent Only">
+        <setting label="Enable/Disable All" type="lsep" />
+        <setting label="Enable All Torrent Providers" type="action" action="RunPlugin(plugin://script.module.tikiscrapers/?mode=toggleAll&amp;folder=en_Torrent&amp;setting=true&amp;open_id=3.1)" option="close" />
+        <setting label="Disable All Torrent Providers" type="action" action="RunPlugin(plugin://script.module.tikiscrapers/?mode=toggleAll&amp;folder=en_Torrent&amp;setting=false&amp;open_id=3.2)" option="close" />
+        <setting type="sep" />
+        <setting label="Enable/Disable Specific" type="lsep" />
+        <setting label="Enable/Disable Specific Torrent Providers" type="action" action="RunPlugin(plugin://script.module.tikiscrapers/?mode=enableDisableScrapers&amp;folder=en_Torrent&amp;open_id=3.5)" option="close" />
+    </category>
+    <category label="Accounts">
+        <setting label="Ororo" type="lsep" />
+        <setting type="sep" />
+        <setting id="ororo.user" type="text" label="User" default="" />
+        <setting id="ororo.pass" type="text" option="hidden" label="Password" default="" />
+    </category>
+    <category label="Clear Info">
+        <setting label="Cache" type="lsep" />
+        <setting label="Clear Results Cache" type="action" action="RunPlugin(plugin://script.module.tikiscrapers/?mode=clearProviderCache)" option="close" />
+        <setting label="Settings" type="lsep" />
+        <setting label="Clear Settings" type="action" action="RunPlugin(plugin://script.module.tikiscrapers/?mode=clearSettings)" option="close" />
+    </category>
+</settings>

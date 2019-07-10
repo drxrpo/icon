@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+    <addon id="repository.capebretonandroidboxes" name="[COLOR green][B]Cape Breton [/B][/COLOR] [COLOR gold]Android Boxes[/COLOR][COLOR cyan]Repositry[/COLOR]" version="1.3" provider-name="[COLOR blue][B]cape[/B][/COLOR][COLOR green]breton[/COLOR]">
+        <requires>
+            <import addon="xbmc.addon" version="12.0.0"/>
+        </requires>
+        <extension point="xbmc.addon.repository" name="capebretonandroidboxes Repository">
+            <info compressed="false">http://builds.kodiuk.tv/development/cbreponew/_zips/addons.xml</info>
+		<checksum>http://builds.kodiuk.tv/development/cbreponew/_zips/addons.xml.md5</checksum>
+		<datadir zip="true">http://builds.kodiuk.tv/development/cbreponew/_zips</datadir>
+        </extension>
+        <extension point="xbmc.addon.metadata">
+            <summary>[COLOR green][B]Cape Breton[/B][/COLOR][COLOR gold]Android Boxes[/COLOR] Repository</summary>
+            <description>[COLOR green][B]Cape Breton[/B][/COLOR][COLOR gold]Android Boxes[/COLOR] Repository [COLOR green][B]Cape[/B] Breton[/COLOR] Builds and Various [B]Maintenance[/B] and [B]Development[/B] functions</description>
+            <platform>all</platform>
+        </extension>
+    </addon>

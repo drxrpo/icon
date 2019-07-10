@@ -1,0 +1,2 @@
+[COLOR dodgerblue][B]FilePursuit Scraper[/B][/COLOR]
+[I]Tikiscrapers (External Scraper) includes a 'FilePursuit' scraper. This scraper is unlike others, as you need to pair your IP address on the website, and then FilePursuit will open their API for queries from your IP address. This is good for 3 hours, with each search reducing that by an additional 10 minutes. This scraper might be worth activating and pairing if you don't have a Premium service, as it gives direct results. Pair your IP address here: [B]https://api.filepursuit.com/pair.[/B][/I]
